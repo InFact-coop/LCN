@@ -11,7 +11,7 @@ workerView model =
     let
         currentView =
             case model.formView of
-                Just Success ->
+                Success ->
                     buildForm <| BuildFormInputs "HEY" "How are you?" ChangeSuccessHeading ChangeSuccessBody model.successInput.title model.successInput.body
 
                 --
