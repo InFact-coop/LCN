@@ -50,7 +50,7 @@ update msg model =
                 newSuccess =
                     { oldSuccess | title = newHeading }
             in
-                ( { model | successInput = newSuccess }, Cmd.none )
+            ( { model | successInput = newSuccess }, Cmd.none )
 
         ChangeSuccessBody newBody ->
             let
@@ -60,7 +60,14 @@ update msg model =
                 newSuccess =
                     { oldSuccess | body = newBody }
             in
-                ( { model | successInput = newSuccess }, Cmd.none )
+            ( { model | successInput = newSuccess }, Cmd.none )
 
         UrlChange location ->
-            ( { model | route = (getRoute location.hash) }, Cmd.none )
+            ( { model | route = getRoute location.hash }, Cmd.none )
+
+        --
+        -- Aisha's changes
+        --
+        -- Mavis' changes
+        _ ->
+            ( model, Cmd.none )

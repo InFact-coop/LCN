@@ -60,6 +60,10 @@ type alias BuildFormInputs =
 
 
 
+--
+-- Aisha's changes
+--
+-- Mavis' changes
 -- Update
 
 
@@ -67,3 +71,17 @@ type Msg
     = UrlChange Navigation.Location
     | ChangeSuccessHeading String
     | ChangeSuccessBody String
+    | ChangeBugHeading String
+    | ChangeBugBody String
+    | ChangeHelpHeading String
+    | ChangeHelpBody String
+    | ChangeSuggestHeading String
+    | ChangeSuggestBody String
+    | UpdateStories Story
+
+
+
+--
+-- Aisha's changes
+--
+-- Mavis' changes
