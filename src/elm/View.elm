@@ -7,7 +7,7 @@ import Html exposing (..)
 
 import Types exposing (..)
 import Routes.Home exposing (..)
-import Routes.PageOne exposing (..)
+import Routes.WorkerView exposing (..)
 import Routes.PageTwo exposing (..)
 import Routes.Navbar exposing (..)
 
@@ -20,8 +20,8 @@ view model =
                 HomeRoute ->
                     home model
 
-                PageOneRoute ->
-                    pageOne model
+                WorkerView ->
+                    workerView model
 
                 PageTwoRoute ->
                     pageTwo model
