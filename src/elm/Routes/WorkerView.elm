@@ -43,11 +43,11 @@ workerView model =
                 --             Nothing ->
                 --                 questionsPage model
                 _ ->
-                    buildForm <| BuildFormInputs "DEFAULT" "Shhhhh" ChangeSuccessHeading ChangeSuccessBody model.successInput.title model.successInput.body
+                    h1 [] [ text "No view" ]
     in
-        div [ class "w-60-ns center" ]
-            [ currentView
-            ]
+    div [ class "w-60-ns center" ]
+        [ currentView
+        ]
 
 
 successPage : Model -> Html Msg

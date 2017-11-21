@@ -8,9 +8,9 @@ import Types exposing (..)
 
 initModel : Model
 initModel =
-    { route = WorkerView
+    { route = HomeRoute
     , areaOfCare = Nothing
-    , formView = Nothing
+    , formView = Just Overview
     , successInput = Story Success "" "" False 0 Nothing
     , bugInput = Story Bug "" "" False 0 Nothing
     , helpInput = Story Help "" "" False 0 Nothing
@@ -128,9 +128,6 @@ update msg model =
                     { oldSuggest | body = newBody }
             in
             ( { model | suggestInput = newSuggest }, Cmd.none )
-
-        ChangeFormView newView ->
-            ( { model | formView = Just newView }, Cmd.none )
 
         _ ->
             ( model, Cmd.none )
