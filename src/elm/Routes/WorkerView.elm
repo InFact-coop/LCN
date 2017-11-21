@@ -1,5 +1,6 @@
 module Routes.WorkerView exposing (..)
 
+import Components.Overview exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -32,8 +33,9 @@ workerView model =
                 --             Just Suggest ->
                 --                 suggestPage model
                 --
-                --             Just Overview ->
-                --                 overviewPage model
+                Just Overview ->
+                    overviewPage model
+
                 --
                 --             Just ViewStories ->
                 --                 viewStoriesPage model

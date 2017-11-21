@@ -78,10 +78,9 @@ type Msg
     | ChangeSuggestHeading String
     | ChangeSuggestBody String
     | UpdateStories Story
-
-
-
---
--- Aisha's changes
---
--- Mavis' changes
+      --
+      -- Aisha's changes
+      -- |
+      -- Mavis' changes
+    | UpdateAllStories (List Story)
+    | ChangeFormView FormView
