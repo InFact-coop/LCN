@@ -8,8 +8,8 @@ import Navigation
 
 type Route
     = HomeRoute
-    | WorkerView
-    | PageTwoRoute
+    | WorkerViewRoute
+    | RepViewRoute
 
 
 type alias Model =

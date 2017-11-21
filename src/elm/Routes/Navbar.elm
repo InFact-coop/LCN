@@ -9,7 +9,7 @@ import Types exposing (..)
 navbar : Model -> Html Msg
 navbar model =
     case model.route of
-        WorkerView ->
+        WorkerViewRoute ->
             ul [ class "dib ma0 bg-green w-100 pa2" ] <|
                 [ navbarLink <| ( "home", "Home" ) ]
                     ++ navbarMsgContent
