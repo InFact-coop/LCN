@@ -30,10 +30,10 @@ getRoute hash =
             HomeRoute
 
         "#workerview" ->
-            WorkerView
+            WorkerViewRoute
 
-        "#pagetwo" ->
-            PageTwoRoute
+        "#repview" ->
+            RepViewRoute
 
         _ ->
             HomeRoute
