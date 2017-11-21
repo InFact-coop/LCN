@@ -10,7 +10,7 @@ initModel : Model
 initModel =
     { route = HomeRoute
     , areaOfCare = Nothing
-    , formView = Just Overview
+    , formView = Success
     , successInput = Story Success "" "" False 0 Nothing
     , bugInput = Story Bug "" "" False 0 Nothing
     , helpInput = Story Help "" "" False 0 Nothing
@@ -67,6 +67,9 @@ update msg model =
 
         --
         -- Aisha's changes
+        UpdateFormView newView ->
+            ( { model | formView = newView }, Cmd.none )
+
         --
         -- Mavis' changes
         ChangeBugHeading newHeading ->

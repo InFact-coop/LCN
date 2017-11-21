@@ -15,7 +15,7 @@ type Route
 type alias Model =
     { route : Route
     , areaOfCare : Maybe AreaOfCare
-    , formView : Maybe FormView
+    , formView : FormView
     , successInput : Story
     , bugInput : Story
     , helpInput : Story
@@ -35,7 +35,8 @@ type alias Story =
 
 
 type FormView
-    = Success
+    = Dashboard
+    | Success
     | Bug
     | Help
     | Suggest
@@ -80,7 +81,7 @@ type Msg
     | UpdateStories Story
       --
       -- Aisha's changes
-      -- |
+    | UpdateFormView FormView
       -- Mavis' changes
     | UpdateAllStories (List Story)
     | ChangeFormView FormView

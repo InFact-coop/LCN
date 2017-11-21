@@ -12,16 +12,16 @@ workerView model =
     let
         currentView =
             case model.formView of
-                Just Success ->
+                Success ->
                     buildForm <| BuildFormInputs "Success Story!" "What's your story?" ChangeSuccessHeading ChangeSuccessBody model.successInput.title model.successInput.body
 
-                Just Bug ->
+                Bug ->
                     buildForm <| BuildFormInputs "Bug bear!" "What's your bug bear of the week" ChangeBugHeading ChangeBugBody model.bugInput.title model.bugInput.body
 
-                Just Help ->
+                Help ->
                     buildForm <| BuildFormInputs "Help me!" "How can we help?" ChangeHelpHeading ChangeHelpBody model.helpInput.title model.helpInput.body
 
-                Just Suggest ->
+                Suggest ->
                     buildForm <| BuildFormInputs "I've got a suggestion" "What's your suggestion?" ChangeSuggestHeading ChangeSuggestBody model.suggestInput.title model.suggestInput.body
 
                 --
@@ -33,7 +33,7 @@ workerView model =
                 --             Just Suggest ->
                 --                 suggestPage model
                 --
-                Just Overview ->
+                Overview ->
                     overviewPage model
 
                 --
