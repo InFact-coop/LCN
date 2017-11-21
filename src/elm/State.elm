@@ -8,9 +8,9 @@ import Types exposing (..)
 
 initModel : Model
 initModel =
-    { route = HomeRoute
+    { route = WorkerView
     , areaOfCare = Nothing
-    , formView = Just Success
+    , formView = Nothing
     , successInput = Story Success "" "" False 0 Nothing
     , bugInput = Story Bug "" "" False 0 Nothing
     , helpInput = Story Help "" "" False 0 Nothing
@@ -69,5 +69,68 @@ update msg model =
         -- Aisha's changes
         --
         -- Mavis' changes
+        ChangeBugHeading newHeading ->
+            let
+                oldBug =
+                    model.bugInput
+
+                newBug =
+                    { oldBug | title = newHeading }
+            in
+            ( { model | bugInput = newBug }, Cmd.none )
+
+        ChangeBugBody newBody ->
+            let
+                oldBug =
+                    model.bugInput
+
+                newBug =
+                    { oldBug | body = newBody }
+            in
+            ( { model | bugInput = newBug }, Cmd.none )
+
+        ChangeHelpHeading newHeading ->
+            let
+                oldHelp =
+                    model.helpInput
+
+                newHelp =
+                    { oldHelp | title = newHeading }
+            in
+            ( { model | helpInput = newHelp }, Cmd.none )
+
+        ChangeHelpBody newBody ->
+            let
+                oldHelp =
+                    model.helpInput
+
+                newHelp =
+                    { oldHelp | body = newBody }
+            in
+            ( { model | helpInput = newHelp }, Cmd.none )
+
+        ChangeSuggestHeading newHeading ->
+            let
+                oldSuggest =
+                    model.suggestInput
+
+                newSuggest =
+                    { oldSuggest | title = newHeading }
+            in
+            ( { model | suggestInput = newSuggest }, Cmd.none )
+
+        ChangeSuggestBody newBody ->
+            let
+                oldSuggest =
+                    model.suggestInput
+
+                newSuggest =
+                    { oldSuggest | body = newBody }
+            in
+            ( { model | suggestInput = newSuggest }, Cmd.none )
+
+        ChangeFormView newView ->
+            ( { model | formView = Just newView }, Cmd.none )
+
         _ ->
             ( model, Cmd.none )
