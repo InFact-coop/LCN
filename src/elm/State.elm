@@ -10,7 +10,7 @@ initModel : Model
 initModel =
     { route = HomeRoute
     , areaOfCare = Nothing
-    , formView = Just Success
+    , formView = Success
     , successInput = Story Success "" "" False 0 Nothing
     , bugInput = Story Bug "" "" False 0 Nothing
     , helpInput = Story Help "" "" False 0 Nothing
@@ -50,7 +50,7 @@ update msg model =
                 newSuccess =
                     { oldSuccess | title = newHeading }
             in
-            ( { model | successInput = newSuccess }, Cmd.none )
+                ( { model | successInput = newSuccess }, Cmd.none )
 
         ChangeSuccessBody newBody ->
             let
@@ -60,13 +60,16 @@ update msg model =
                 newSuccess =
                     { oldSuccess | body = newBody }
             in
-            ( { model | successInput = newSuccess }, Cmd.none )
+                ( { model | successInput = newSuccess }, Cmd.none )
 
         UrlChange location ->
             ( { model | route = getRoute location.hash }, Cmd.none )
 
         --
         -- Aisha's changes
+        UpdateFormView newView ->
+            ( { model | formView = newView }, Cmd.none )
+
         --
         -- Mavis' changes
         _ ->
