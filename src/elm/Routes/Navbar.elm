@@ -34,4 +34,4 @@ navbarMsg ( name, updateMsg ) =
 
 navbarMsgContent : List (Html Msg)
 navbarMsgContent =
-    List.map navbarMsg [ ( "Dashboard", UpdateFormView Dashboard ), ( "Success", UpdateFormView Success ), ( "Bug", UpdateFormView Bug ), ( "Help", UpdateFormView Help ) ]
+    List.map navbarMsg [ ( "Dashboard", UpdateFormView Dashboard ), ( "Success", UpdateFormView Success ), ( "Bug", UpdateFormView Bug ), ( "Help", UpdateFormView Help ), ( "Suggest", UpdateFormView Suggest ), ( "Overview", UpdateFormView Overview ) ]

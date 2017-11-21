@@ -50,7 +50,7 @@ update msg model =
                 newSuccess =
                     { oldSuccess | title = newHeading }
             in
-                ( { model | successInput = newSuccess }, Cmd.none )
+            ( { model | successInput = newSuccess }, Cmd.none )
 
         ChangeSuccessBody newBody ->
             let
@@ -60,7 +60,7 @@ update msg model =
                 newSuccess =
                     { oldSuccess | body = newBody }
             in
-                ( { model | successInput = newSuccess }, Cmd.none )
+            ( { model | successInput = newSuccess }, Cmd.none )
 
         UrlChange location ->
             ( { model | route = getRoute location.hash }, Cmd.none )
@@ -72,5 +72,65 @@ update msg model =
 
         --
         -- Mavis' changes
+        ChangeBugHeading newHeading ->
+            let
+                oldBug =
+                    model.bugInput
+
+                newBug =
+                    { oldBug | title = newHeading }
+            in
+            ( { model | bugInput = newBug }, Cmd.none )
+
+        ChangeBugBody newBody ->
+            let
+                oldBug =
+                    model.bugInput
+
+                newBug =
+                    { oldBug | body = newBody }
+            in
+            ( { model | bugInput = newBug }, Cmd.none )
+
+        ChangeHelpHeading newHeading ->
+            let
+                oldHelp =
+                    model.helpInput
+
+                newHelp =
+                    { oldHelp | title = newHeading }
+            in
+            ( { model | helpInput = newHelp }, Cmd.none )
+
+        ChangeHelpBody newBody ->
+            let
+                oldHelp =
+                    model.helpInput
+
+                newHelp =
+                    { oldHelp | body = newBody }
+            in
+            ( { model | helpInput = newHelp }, Cmd.none )
+
+        ChangeSuggestHeading newHeading ->
+            let
+                oldSuggest =
+                    model.suggestInput
+
+                newSuggest =
+                    { oldSuggest | title = newHeading }
+            in
+            ( { model | suggestInput = newSuggest }, Cmd.none )
+
+        ChangeSuggestBody newBody ->
+            let
+                oldSuggest =
+                    model.suggestInput
+
+                newSuggest =
+                    { oldSuggest | body = newBody }
+            in
+            ( { model | suggestInput = newSuggest }, Cmd.none )
+
         _ ->
             ( model, Cmd.none )

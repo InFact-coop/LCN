@@ -1,5 +1,6 @@
 module Routes.WorkerView exposing (..)
 
+import Components.Overview exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -12,7 +13,16 @@ workerView model =
         currentView =
             case model.formView of
                 Success ->
-                    buildForm <| BuildFormInputs "HEY" "How are you?" ChangeSuccessHeading ChangeSuccessBody model.successInput.title model.successInput.body
+                    buildForm <| BuildFormInputs "Success Story!" "What's your story?" ChangeSuccessHeading ChangeSuccessBody model.successInput.title model.successInput.body
+
+                Bug ->
+                    buildForm <| BuildFormInputs "Bug bear!" "What's your bug bear of the week" ChangeBugHeading ChangeBugBody model.bugInput.title model.bugInput.body
+
+                Help ->
+                    buildForm <| BuildFormInputs "Help me!" "How can we help?" ChangeHelpHeading ChangeHelpBody model.helpInput.title model.helpInput.body
+
+                Suggest ->
+                    buildForm <| BuildFormInputs "I've got a suggestion" "What's your suggestion?" ChangeSuggestHeading ChangeSuggestBody model.suggestInput.title model.suggestInput.body
 
                 --
                 --             Just Bug ->
@@ -23,8 +33,9 @@ workerView model =
                 --             Just Suggest ->
                 --                 suggestPage model
                 --
-                --             Just Overview ->
-                --                 overviewPage model
+                Overview ->
+                    overviewPage model
+
                 --
                 --             Just ViewStories ->
                 --                 viewStoriesPage model
@@ -32,11 +43,11 @@ workerView model =
                 --             Nothing ->
                 --                 questionsPage model
                 _ ->
-                    buildForm <| BuildFormInputs "DEFAULT" "Shhhhh" ChangeSuccessHeading ChangeSuccessBody model.successInput.title model.successInput.body
+                    h1 [] [ text "No view" ]
     in
-        div [ class "w-60-ns center" ]
-            [ currentView
-            ]
+    div [ class "w-60-ns center" ]
+        [ currentView
+        ]
 
 
 successPage : Model -> Html Msg

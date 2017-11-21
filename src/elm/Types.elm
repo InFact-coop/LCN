@@ -82,8 +82,6 @@ type Msg
       --
       -- Aisha's changes
     | UpdateFormView FormView
-
-
-
---
--- Mavis' changes
+      -- Mavis' changes
+    | UpdateAllStories (List Story)
+    | ChangeFormView FormView
