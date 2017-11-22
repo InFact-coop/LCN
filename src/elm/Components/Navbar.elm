@@ -1,4 +1,4 @@
-module Routes.Navbar exposing (..)
+module Components.Navbar exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -6,11 +6,15 @@ import Html.Events exposing (..)
 import Types exposing (..)
 
 
-navbar : Model -> Html Msg
-navbar model =
+navbar : Model -> FormView -> Html Msg
+navbar model location =
+    let
+        bgColour =
+            navBarColour location
+    in
     case model.route of
         WorkerViewRoute ->
-            ul [ class "dib ma0 bg-green w-100 pa2" ] <|
+            ul [ class ("dib ma0 w-100 pa2 " ++ bgColour) ] <|
                 [ navbarLink <| ( "home", "Home" ) ]
                     ++ navbarMsgContent
                     ++ [ li [ class "list dib ma3 f3 link dim white b" ] [ text <| toString model.formView ] ]
@@ -27,11 +31,30 @@ navbarLink ( linkStr, name ) =
     li [ class "list dib ma3" ] [ a [ class "link dim white b", href ("/#" ++ linkStr) ] [ text name ] ]
 
 
-navbarMsg : ( String, Msg ) -> Html Msg
-navbarMsg ( name, updateMsg ) =
-    li [ class "list dib ma3 link dim white b", onClick updateMsg ] [ text name ]
+navbarMsg : ( String, FormView ) -> Html Msg
+navbarMsg ( name, newView ) =
+    li [ class "list dib ma3 link pointer dim white b", onClick <| UpdateFormView newView ] [ text name ]
 
 
 navbarMsgContent : List (Html Msg)
 navbarMsgContent =
-    List.map navbarMsg [ ( "Dashboard", UpdateFormView Dashboard ), ( "Success", UpdateFormView Success ), ( "Bug", UpdateFormView Bug ), ( "Help", UpdateFormView Help ), ( "Suggest", UpdateFormView Suggest ), ( "Overview", UpdateFormView Overview ) ]
+    List.map navbarMsg [ ( "Dashboard", Dashboard ), ( "Success", Success ), ( "Bug", Bug ), ( "Help", Help ), ( "Suggest", Suggest ) ]
+
+
+navBarColour : FormView -> String
+navBarColour location =
+    case location of
+        Success ->
+            "bg-green"
+
+        Bug ->
+            "bg-blue"
+
+        Help ->
+            "bg-red"
+
+        Suggest ->
+            "bg-yellow"
+
+        _ ->
+            "bg-black"

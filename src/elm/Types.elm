@@ -14,23 +14,21 @@ type Route
 
 type alias Model =
     { route : Route
-    , areaOfCare : Maybe AreaOfCare
+    , areaOfCare : AreaOfCare
     , formView : FormView
-    , successInput : Story
-    , bugInput : Story
-    , helpInput : Story
-    , suggestInput : Story
+    , successInput : String
+    , bugInput : String
+    , helpInput : String
+    , suggestInput : String
     , stories : List Story
     }
 
 
 type alias Story =
     { storyType : FormView
-    , title : String
     , body : String
-    , isPublic : Bool
     , votes : Int
-    , areaOfCare : Maybe AreaOfCare
+    , areaOfCare : AreaOfCare
     }
 
 
@@ -41,7 +39,7 @@ type FormView
     | Help
     | Suggest
     | Overview
-    | ViewStories
+    | ViewStories (Maybe FormView)
 
 
 type AreaOfCare
@@ -53,10 +51,9 @@ type AreaOfCare
 type alias BuildFormInputs =
     { heading : String
     , question : String
-    , titleUpdateMsg : String -> Msg
     , bodyUpdateMsg : String -> Msg
-    , modelTitleValue : String
     , modelBodyValue : String
+    , formType : FormView
     }
 
 
@@ -79,9 +76,11 @@ type Msg
     | ChangeSuggestHeading String
     | ChangeSuggestBody String
     | UpdateStories Story
+    | IncVote Story
       --
       -- Aisha's changes
     | UpdateFormView FormView
       -- Mavis' changes
     | UpdateAllStories (List Story)
     | ChangeFormView FormView
+    | AddStory FormView
