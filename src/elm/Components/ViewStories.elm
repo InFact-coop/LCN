@@ -22,8 +22,7 @@ viewStoriesPage model filter =
                     LT
     in
     div []
-        [ navbar model filter
-        , ul []
+        [ ul []
             (model.stories
                 |> List.filter (\story -> story.storyType == filter)
                 |> List.sortWith descendingVotes
