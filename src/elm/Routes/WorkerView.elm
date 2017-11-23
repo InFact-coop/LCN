@@ -20,7 +20,7 @@ workerView model =
             case model.formView of
                 MadeMyDay ->
                     [ navbar model
-                    , buildForm <| BuildFormInputs "Success Story!" "What's your story?" inputChanger model.madeMyDayInput model.formView
+                    , buildForm <| BuildFormInputs "Made My Day!" "What's your story?" inputChanger model.madeMyDayInput model.formView
                     ]
 
                 Bug ->
@@ -30,7 +30,7 @@ workerView model =
 
                 ISpy ->
                     [ navbar model
-                    , buildForm <| BuildFormInputs "Help me!" "What have you noticed happening?" inputChanger model.iSpyInput model.formView
+                    , buildForm <| BuildFormInputs "I've noticed..." "What have you noticed happening?" inputChanger model.iSpyInput model.formView
                     ]
 
                 Snapshot ->
@@ -38,10 +38,6 @@ workerView model =
                     , div [] [ text "Snapshot page" ]
                     ]
 
-                --Suggest ->
-                --    [ navbar model
-                --    , buildForm <| BuildFormInputs "I've got a suggestion" "What's your suggestion?" ChangeSuggestBody model.suggestInput Suggest
-                --    ]
                 ViewStories (Just typeFilter) ->
                     [ navbar model
                     , viewStoriesPage model typeFilter
