@@ -1,5 +1,7 @@
 module Routes.WorkerView exposing (..)
 
+import Components.AreaOfCare exposing (..)
+import Components.Dashboard exposing (..)
 import Components.Navbar exposing (..)
 import Components.ViewStories exposing (..)
 import Html exposing (..)
@@ -14,30 +16,42 @@ workerView model =
         currentView =
             case model.formView of
                 Success ->
-                    [ navbar model Success
+                    [ navbar model
                     , buildForm <| BuildFormInputs "Success Story!" "What's your story?" ChangeSuccessBody model.successInput Success
                     ]
 
                 Bug ->
-                    [ navbar model Bug
+                    [ navbar model
                     , buildForm <| BuildFormInputs "Bug bear!" "What's your bug bear of the week" ChangeBugBody model.bugInput Bug
                     ]
 
                 Help ->
-                    [ navbar model Help
+                    [ navbar model
                     , buildForm <| BuildFormInputs "Help me!" "How can we help?" ChangeHelpBody model.helpInput Help
                     ]
 
                 Suggest ->
-                    [ navbar model Suggest
+                    [ navbar model
                     , buildForm <| BuildFormInputs "I've got a suggestion" "What's your suggestion?" ChangeSuggestBody model.suggestInput Suggest
                     ]
 
                 ViewStories (Just typeFilter) ->
-                    [ viewStoriesPage model typeFilter ]
+                    [ navbar model
+                    , viewStoriesPage model typeFilter
+                    ]
+
+                AreaOfCare ->
+                    [ navbar model
+                    , areaOfCarePage model
+                    ]
+
+                Dashboard ->
+                    [ navbar model
+                    , dashboardPage model
+                    ]
 
                 _ ->
-                    [ navbar model Overview
+                    [ navbar model
                     , h1 [] [ text "404 Not Found" ]
                     ]
     in
