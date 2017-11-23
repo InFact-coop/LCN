@@ -47,8 +47,17 @@ type FormView
 
 type AreaOfCare
     = Housing
-    | Benefit
-    | Misc
+    | Community
+    | Debt
+    | Employment
+    | WelfareBenefits
+    | Immigration
+    | PublicLaw
+    | Family
+    | MentalHealth
+    | Crime
+    | Education
+    | Consumer
 
 
 type alias BuildFormInputs =
