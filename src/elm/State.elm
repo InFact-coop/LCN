@@ -117,5 +117,13 @@ update msg model =
                 Nothing ->
                     ( model, Cmd.none )
 
+        ChangeAreaOfCareAndView newArea ->
+            ( { model
+                | formView = Dashboard
+                , areaOfCare = newArea
+              }
+            , Cmd.none
+            )
+
         _ ->
             ( model, Cmd.none )

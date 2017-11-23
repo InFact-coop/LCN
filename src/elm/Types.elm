@@ -85,3 +85,4 @@ type Msg
     | UpdateAllStories (List Story)
     | ChangeFormView FormView
     | AddStory FormView
+    | ChangeAreaOfCareAndView AreaOfCare
