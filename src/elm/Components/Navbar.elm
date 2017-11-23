@@ -43,7 +43,7 @@ navbarLink ( linkStr, name ) =
 
 navbarMsgContent : List (Html Msg)
 navbarMsgContent =
-    List.map navbarMsg [ ( "Dashboard", Dashboard ), ( "Made My Day", MadeMyDay ), ( "Bug Bear", Bug ), ( "I-Spy", ISpy ), ( "Snapshot", Snapshot ) ]
+    List.map navbarMsg [ ( "Actions", Actions ), ( "Made My Day", MadeMyDay ), ( "Bug Bear", Bug ), ( "I-Spy", ISpy ), ( "Snapshot", Snapshot ) ]
 
 
 

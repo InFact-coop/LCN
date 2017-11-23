@@ -33,12 +33,11 @@ type alias Story =
 
 
 type FormView
-    = Dashboard
+    = Actions
     | MadeMyDay
     | Bug
     | ISpy
     | Snapshot
-    | Overview
     | ViewStories (Maybe FormView)
     | AreaOfCare
 

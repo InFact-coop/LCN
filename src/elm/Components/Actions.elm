@@ -1,4 +1,4 @@
-module Components.Dashboard exposing (..)
+module Components.Actions exposing (..)
 
 import Components.Navbar exposing (..)
 import Html exposing (..)
@@ -7,8 +7,8 @@ import Html.Events exposing (..)
 import Types exposing (..)
 
 
-dashboardPage : Model -> Html Msg
-dashboardPage model =
+actionsPage : Model -> Html Msg
+actionsPage model =
     div []
         [ h1 [] [ text "What would you like to do today" ]
         , div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| UpdateFormView MadeMyDay ] [ text "Made My Day" ]

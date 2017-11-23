@@ -1,7 +1,7 @@
 module Routes.WorkerView exposing (..)
 
+import Components.Actions exposing (..)
 import Components.AreaOfCare exposing (..)
-import Components.Dashboard exposing (..)
 import Components.Navbar exposing (..)
 import Components.ViewStories exposing (..)
 import Html exposing (..)
@@ -48,9 +48,9 @@ workerView model =
                     , areaOfCarePage model
                     ]
 
-                Dashboard ->
+                Actions ->
                     [ navbar model
-                    , dashboardPage model
+                    , actionsPage model
                     ]
 
                 _ ->
@@ -68,14 +68,14 @@ workerView model =
 buildForm : BuildFormInputs -> Html Msg
 buildForm formInput =
     div []
-        [ div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| UpdateFormView <| Dashboard ] [ text "Do something else" ]
+        [ div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| UpdateFormView <| Actions ] [ text "Do something else" ]
         , div []
             [ h1 [ class "tc f1" ] [ text formInput.heading ]
             , p [ class "f3 w60 mh1 tc" ] [ text formInput.question ]
-            , textarea [ cols 40, rows 10, class "f3 w30 pa1 center db ba tc", onInput formInput.bodyUpdateMsg, value formInput.modelBodyValue, placeholder "Tell me what you think" ] []
+            , textarea [ cols 40, rows 10, class "f3 w30 pa1 center db ba tc", onInput formInput.bodyUpdateMsg, value formInput.modelBodyValue, placeholder "Tell us more" ] []
             , div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| AddStory formInput.formType ] [ text "SEND" ]
             ]
         , div []
-            [ div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| UpdateFormView <| ViewStories (Just formInput.formType) ] [ text "View other stories" ]
+            [ div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| UpdateFormView <| ViewStories (Just formInput.formType) ] [ text "View what others think" ]
             ]
         ]
