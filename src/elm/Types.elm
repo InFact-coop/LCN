@@ -19,8 +19,6 @@ type alias Model =
     , madeMyDayInput : String
     , bugInput : String
     , iSpyInput : String
-
-    --, suggestInput : String
     , stories : List Story
     }
 
@@ -69,32 +67,11 @@ type alias BuildFormInputs =
     }
 
 
-
---
--- Aisha's changes
---
--- Mavis' changes
--- Update
-
-
 type Msg
     = UrlChange Navigation.Location
-    | ChangeSuccessHeading String
-    | ChangeSuccessBody String
-    | ChangeBugHeading String
-    | ChangeBugBody String
-    | ChangeHelpHeading String
-    | ChangeHelpBody String
-    | ChangeSuggestHeading String
-    | ChangeSuggestBody String
-    | UpdateStories Story
     | IncVote Story
-      --
-      -- Aisha's changes
     | UpdateFormView FormView
-      -- Mavis' changes
     | UpdateAllStories (List Story)
-    | ChangeFormView FormView
     | AddStory FormView
     | ChangeAreaOfCareAndView AreaOfCare
     | ChangeBody FormView String

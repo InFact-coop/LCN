@@ -62,12 +62,6 @@ update msg model =
                 _ ->
                     ( model, Cmd.none )
 
-        --ChangeBugBody newBody ->
-        --    ( { model | bugInput = newBody }, Cmd.none )
-        --ChangeHelpBody newBody ->
-        --    ( { model | iSpyInput = newBody }, Cmd.none )
-        --ChangeSuggestBody newBody ->
-        --    ( { model | suggestInput = newBody }, Cmd.none )
         IncVote story ->
             let
                 newStory =
@@ -94,8 +88,6 @@ update msg model =
                         ISpy ->
                             Just model.iSpyInput
 
-                        --Suggest ->
-                        --    Just model.suggestInput
                         _ ->
                             Nothing
 
