@@ -14,74 +14,64 @@ type Route
 
 type alias Model =
     { route : Route
-    , areaOfCare : Maybe AreaOfCare
+    , areaOfCare : AreaOfCare
     , formView : FormView
-    , successInput : Story
-    , bugInput : Story
-    , helpInput : Story
-    , suggestInput : Story
+    , madeMyDayInput : String
+    , bugInput : String
+    , iSpyInput : String
     , stories : List Story
     }
 
 
 type alias Story =
     { storyType : FormView
-    , title : String
     , body : String
-    , isPublic : Bool
     , votes : Int
-    , areaOfCare : Maybe AreaOfCare
+    , areaOfCare : AreaOfCare
+    , location : String
     }
 
 
 type FormView
     = Dashboard
-    | Success
+    | MadeMyDay
     | Bug
-    | Help
-    | Suggest
+    | ISpy
+    | Snapshot
     | Overview
-    | ViewStories
+    | ViewStories (Maybe FormView)
+    | AreaOfCare
 
 
 type AreaOfCare
     = Housing
-    | Benefit
-    | Misc
+    | Community
+    | Debt
+    | Employment
+    | WelfareBenefits
+    | Immigration
+    | PublicLaw
+    | Family
+    | MentalHealth
+    | Crime
+    | Education
+    | Consumer
 
 
 type alias BuildFormInputs =
     { heading : String
     , question : String
-    , titleUpdateMsg : String -> Msg
     , bodyUpdateMsg : String -> Msg
-    , modelTitleValue : String
     , modelBodyValue : String
+    , formType : FormView
     }
-
-
-
---
--- Aisha's changes
---
--- Mavis' changes
--- Update
 
 
 type Msg
     = UrlChange Navigation.Location
-    | ChangeSuccessHeading String
-    | ChangeSuccessBody String
-    | ChangeBugHeading String
-    | ChangeBugBody String
-    | ChangeHelpHeading String
-    | ChangeHelpBody String
-    | ChangeSuggestHeading String
-    | ChangeSuggestBody String
-    | UpdateStories Story
-      --
-      -- Aisha's changes
+    | IncVote Story
     | UpdateFormView FormView
-      -- Mavis' changes
     | UpdateAllStories (List Story)
-    | ChangeFormView FormView
+    | AddStory FormView
+    | ChangeAreaOfCareAndView AreaOfCare
+    | ChangeBody FormView String

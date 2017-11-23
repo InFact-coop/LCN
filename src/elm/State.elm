@@ -1,5 +1,6 @@
 module State exposing (..)
 
+import Data.Stories exposing (..)
 import Types exposing (..)
 
 
@@ -9,13 +10,12 @@ import Types exposing (..)
 initModel : Model
 initModel =
     { route = HomeRoute
-    , areaOfCare = Nothing
-    , formView = Success
-    , successInput = Story Success "" "" False 0 Nothing
-    , bugInput = Story Bug "" "" False 0 Nothing
-    , helpInput = Story Help "" "" False 0 Nothing
-    , suggestInput = Story Suggest "" "" False 0 Nothing
-    , stories = []
+    , areaOfCare = Housing
+    , formView = AreaOfCare
+    , madeMyDayInput = ""
+    , bugInput = ""
+    , iSpyInput = ""
+    , stories = Data.Stories.stories
     }
 
 
@@ -42,95 +42,85 @@ getRoute hash =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ChangeSuccessHeading newHeading ->
-            let
-                oldSuccess =
-                    model.successInput
-
-                newSuccess =
-                    { oldSuccess | title = newHeading }
-            in
-            ( { model | successInput = newSuccess }, Cmd.none )
-
-        ChangeSuccessBody newBody ->
-            let
-                oldSuccess =
-                    model.successInput
-
-                newSuccess =
-                    { oldSuccess | body = newBody }
-            in
-            ( { model | successInput = newSuccess }, Cmd.none )
-
         UrlChange location ->
             ( { model | route = getRoute location.hash }, Cmd.none )
 
-        --
-        -- Aisha's changes
         UpdateFormView newView ->
             ( { model | formView = newView }, Cmd.none )
 
-        --
-        -- Mavis' changes
-        ChangeBugHeading newHeading ->
+        ChangeBody input newBody ->
+            case input of
+                MadeMyDay ->
+                    ( { model | madeMyDayInput = newBody }, Cmd.none )
+
+                Bug ->
+                    ( { model | bugInput = newBody }, Cmd.none )
+
+                ISpy ->
+                    ( { model | iSpyInput = newBody }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        IncVote story ->
             let
-                oldBug =
-                    model.bugInput
+                newStory =
+                    { story | votes = story.votes + 1 }
 
-                newBug =
-                    { oldBug | title = newHeading }
+                newStories =
+                    (model.stories
+                        |> List.filter (\st -> st /= story)
+                    )
+                        ++ [ newStory ]
             in
-            ( { model | bugInput = newBug }, Cmd.none )
+            ( { model | stories = newStories }, Cmd.none )
 
-        ChangeBugBody newBody ->
+        AddStory formType ->
             let
-                oldBug =
-                    model.bugInput
+                value =
+                    case formType of
+                        MadeMyDay ->
+                            Just model.madeMyDayInput
 
-                newBug =
-                    { oldBug | body = newBody }
+                        Bug ->
+                            Just model.bugInput
+
+                        ISpy ->
+                            Just model.iSpyInput
+
+                        _ ->
+                            Nothing
+
+                storyToAdd =
+                    case value of
+                        Just value ->
+                            Just (Story formType value 0 model.areaOfCare "Bromley")
+
+                        Nothing ->
+                            Nothing
             in
-            ( { model | bugInput = newBug }, Cmd.none )
+            case storyToAdd of
+                Just story ->
+                    ( { model
+                        | stories = model.stories ++ [ story ]
+                        , madeMyDayInput = ""
+                        , bugInput = ""
+                        , iSpyInput = ""
+                        , formView = ViewStories (Just formType)
+                      }
+                    , Cmd.none
+                    )
 
-        ChangeHelpHeading newHeading ->
-            let
-                oldHelp =
-                    model.helpInput
+                Nothing ->
+                    ( model, Cmd.none )
 
-                newHelp =
-                    { oldHelp | title = newHeading }
-            in
-            ( { model | helpInput = newHelp }, Cmd.none )
-
-        ChangeHelpBody newBody ->
-            let
-                oldHelp =
-                    model.helpInput
-
-                newHelp =
-                    { oldHelp | body = newBody }
-            in
-            ( { model | helpInput = newHelp }, Cmd.none )
-
-        ChangeSuggestHeading newHeading ->
-            let
-                oldSuggest =
-                    model.suggestInput
-
-                newSuggest =
-                    { oldSuggest | title = newHeading }
-            in
-            ( { model | suggestInput = newSuggest }, Cmd.none )
-
-        ChangeSuggestBody newBody ->
-            let
-                oldSuggest =
-                    model.suggestInput
-
-                newSuggest =
-                    { oldSuggest | body = newBody }
-            in
-            ( { model | suggestInput = newSuggest }, Cmd.none )
+        ChangeAreaOfCareAndView newArea ->
+            ( { model
+                | formView = Dashboard
+                , areaOfCare = newArea
+              }
+            , Cmd.none
+            )
 
         _ ->
             ( model, Cmd.none )

@@ -1,6 +1,9 @@
 module Routes.WorkerView exposing (..)
 
-import Components.Overview exposing (..)
+import Components.AreaOfCare exposing (..)
+import Components.Dashboard exposing (..)
+import Components.Navbar exposing (..)
+import Components.ViewStories exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -10,56 +13,69 @@ import Types exposing (..)
 workerView : Model -> Html Msg
 workerView model =
     let
+        inputChanger =
+            ChangeBody model.formView
+
         currentView =
             case model.formView of
-                Success ->
-                    buildForm <| BuildFormInputs "Success Story!" "What's your story?" ChangeSuccessHeading ChangeSuccessBody model.successInput.title model.successInput.body
+                MadeMyDay ->
+                    [ navbar model
+                    , buildForm <| BuildFormInputs "Made My Day!" "What's your story?" inputChanger model.madeMyDayInput model.formView
+                    ]
 
                 Bug ->
-                    buildForm <| BuildFormInputs "Bug bear!" "What's your bug bear of the week" ChangeBugHeading ChangeBugBody model.bugInput.title model.bugInput.body
+                    [ navbar model
+                    , buildForm <| BuildFormInputs "Bug bear!" "What's your bug bear of the week" inputChanger model.bugInput model.formView
+                    ]
 
-                Help ->
-                    buildForm <| BuildFormInputs "Help me!" "How can we help?" ChangeHelpHeading ChangeHelpBody model.helpInput.title model.helpInput.body
+                ISpy ->
+                    [ navbar model
+                    , buildForm <| BuildFormInputs "I've noticed..." "What have you noticed happening?" inputChanger model.iSpyInput model.formView
+                    ]
 
-                Suggest ->
-                    buildForm <| BuildFormInputs "I've got a suggestion" "What's your suggestion?" ChangeSuggestHeading ChangeSuggestBody model.suggestInput.title model.suggestInput.body
+                Snapshot ->
+                    [ navbar model
+                    , div [] [ text "Snapshot page" ]
+                    ]
 
-                --
-                --             Just Bug ->
-                --                 bugPage model
-                --             Just Help ->
-                --                 helpPage model
-                --
-                --             Just Suggest ->
-                --                 suggestPage model
-                --
-                Overview ->
-                    overviewPage model
+                ViewStories (Just typeFilter) ->
+                    [ navbar model
+                    , viewStoriesPage model typeFilter
+                    ]
 
-                --
-                --             Just ViewStories ->
-                --                 viewStoriesPage model
-                --
-                --             Nothing ->
-                --                 questionsPage model
+                AreaOfCare ->
+                    [ navbar model
+                    , areaOfCarePage model
+                    ]
+
+                Dashboard ->
+                    [ navbar model
+                    , dashboardPage model
+                    ]
+
                 _ ->
-                    h1 [] [ text "No view" ]
+                    [ navbar model
+                    , h1 [] [ text "404 Not Found" ]
+                    ]
     in
-    div [ class "w-60-ns center" ]
-        [ currentView
-        ]
+    div [] currentView
 
 
-successPage : Model -> Html Msg
-successPage model =
-    h1 [] [ text "Working" ]
+
+-- ADD SOMETHING FORM
 
 
 buildForm : BuildFormInputs -> Html Msg
 buildForm formInput =
     div []
-        [ h1 [ class "tc f1" ] [ text formInput.heading ]
-        , p [ class "f3 w60 mh1 tc" ] [ text formInput.question ]
-        , input [ class "f3 w30 pa1 center db ba tc", onInput formInput.titleUpdateMsg, value formInput.modelTitleValue, placeholder "Give me a title" ] []
-        , input [ class "f3 w30 pa1 center db ba tc", onInput formInput.bodyUpdateMsg, value formInput.modelBodyValue, placeholder "Tell me what you think" ] []
+        [ div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| UpdateFormView <| Dashboard ] [ text "Do something else" ]
+        , div []
+            [ h1 [ class "tc f1" ] [ text formInput.heading ]
+            , p [ class "f3 w60 mh1 tc" ] [ text formInput.question ]
+            , textarea [ cols 40, rows 10, class "f3 w30 pa1 center db ba tc", onInput formInput.bodyUpdateMsg, value formInput.modelBodyValue, placeholder "Tell me what you think" ] []
+            , div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| AddStory formInput.formType ] [ text "SEND" ]
+            ]
+        , div []
+            [ div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| UpdateFormView <| ViewStories (Just formInput.formType) ] [ text "View other stories" ]
+            ]
         ]
