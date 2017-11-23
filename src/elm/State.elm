@@ -11,7 +11,7 @@ initModel : Model
 initModel =
     { route = HomeRoute
     , areaOfCare = Misc
-    , formView = Success
+    , formView = AreaOfCare
     , successInput = ""
     , bugInput = ""
     , helpInput = ""
