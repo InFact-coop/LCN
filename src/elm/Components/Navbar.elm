@@ -6,11 +6,11 @@ import Html.Events exposing (..)
 import Types exposing (..)
 
 
-navbar : Model -> FormView -> Html Msg
-navbar model location =
+navbar : Model -> Html Msg
+navbar model =
     let
         bgColour =
-            navBarColour location
+            navBarColour model.formView
     in
     case model.route of
         WorkerViewRoute ->
