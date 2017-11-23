@@ -40,6 +40,7 @@ type FormView
     | Suggest
     | Overview
     | ViewStories (Maybe FormView)
+    | AreaOfCare
 
 
 type AreaOfCare
