@@ -35,9 +35,11 @@ viewStoriesPage model filter =
 
 eachStory : Story -> Html Msg
 eachStory story =
-    div [ class "pointer ba", onClick <| IncVote story ]
-        [ div [] [ text <| toString story.storyType ]
+    div []
+        [ div [] [ text story.location ]
+        , div [] [ text <| toString story.storyType ]
         , div [] [ text story.body ]
         , div [] [ text <| toString story.areaOfCare ]
         , div [] [ text <| toString story.votes ]
+        , div [ class "pointer ba", onClick <| IncVote story ] [ text "Applause!" ]
         ]

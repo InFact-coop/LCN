@@ -13,28 +13,35 @@ import Types exposing (..)
 workerView : Model -> Html Msg
 workerView model =
     let
+        inputChanger =
+            ChangeBody model.formView
+
         currentView =
             case model.formView of
-                Success ->
+                MadeMyDay ->
                     [ navbar model
-                    , buildForm <| BuildFormInputs "Success Story!" "What's your story?" ChangeSuccessBody model.successInput Success
+                    , buildForm <| BuildFormInputs "Success Story!" "What's your story?" inputChanger model.madeMyDayInput model.formView
                     ]
 
                 Bug ->
                     [ navbar model
-                    , buildForm <| BuildFormInputs "Bug bear!" "What's your bug bear of the week" ChangeBugBody model.bugInput Bug
+                    , buildForm <| BuildFormInputs "Bug bear!" "What's your bug bear of the week" inputChanger model.bugInput model.formView
                     ]
 
-                Help ->
+                ISpy ->
                     [ navbar model
-                    , buildForm <| BuildFormInputs "Help me!" "How can we help?" ChangeHelpBody model.helpInput Help
+                    , buildForm <| BuildFormInputs "Help me!" "What have you noticed happening?" inputChanger model.iSpyInput model.formView
                     ]
 
-                Suggest ->
+                Snapshot ->
                     [ navbar model
-                    , buildForm <| BuildFormInputs "I've got a suggestion" "What's your suggestion?" ChangeSuggestBody model.suggestInput Suggest
+                    , div [] [ text "Snapshot page" ]
                     ]
 
+                --Suggest ->
+                --    [ navbar model
+                --    , buildForm <| BuildFormInputs "I've got a suggestion" "What's your suggestion?" ChangeSuggestBody model.suggestInput Suggest
+                --    ]
                 ViewStories (Just typeFilter) ->
                     [ navbar model
                     , viewStoriesPage model typeFilter

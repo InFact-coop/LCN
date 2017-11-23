@@ -12,10 +12,9 @@ initModel =
     { route = HomeRoute
     , areaOfCare = Misc
     , formView = AreaOfCare
-    , successInput = ""
+    , madeMyDayInput = ""
     , bugInput = ""
-    , helpInput = ""
-    , suggestInput = ""
+    , iSpyInput = ""
     , stories = Data.Stories.stories
     }
 
@@ -49,18 +48,26 @@ update msg model =
         UpdateFormView newView ->
             ( { model | formView = newView }, Cmd.none )
 
-        ChangeSuccessBody newBody ->
-            ( { model | successInput = newBody }, Cmd.none )
+        ChangeBody input newBody ->
+            case input of
+                MadeMyDay ->
+                    ( { model | madeMyDayInput = newBody }, Cmd.none )
 
-        ChangeBugBody newBody ->
-            ( { model | bugInput = newBody }, Cmd.none )
+                Bug ->
+                    ( { model | bugInput = newBody }, Cmd.none )
 
-        ChangeHelpBody newBody ->
-            ( { model | helpInput = newBody }, Cmd.none )
+                ISpy ->
+                    ( { model | iSpyInput = newBody }, Cmd.none )
 
-        ChangeSuggestBody newBody ->
-            ( { model | suggestInput = newBody }, Cmd.none )
+                _ ->
+                    ( model, Cmd.none )
 
+        --ChangeBugBody newBody ->
+        --    ( { model | bugInput = newBody }, Cmd.none )
+        --ChangeHelpBody newBody ->
+        --    ( { model | iSpyInput = newBody }, Cmd.none )
+        --ChangeSuggestBody newBody ->
+        --    ( { model | suggestInput = newBody }, Cmd.none )
         IncVote story ->
             let
                 newStory =
@@ -78,25 +85,24 @@ update msg model =
             let
                 value =
                     case formType of
-                        Success ->
-                            Just model.successInput
+                        MadeMyDay ->
+                            Just model.madeMyDayInput
 
                         Bug ->
                             Just model.bugInput
 
-                        Help ->
-                            Just model.helpInput
+                        ISpy ->
+                            Just model.iSpyInput
 
-                        Suggest ->
-                            Just model.suggestInput
-
+                        --Suggest ->
+                        --    Just model.suggestInput
                         _ ->
                             Nothing
 
                 storyToAdd =
                     case value of
                         Just value ->
-                            Just (Story formType value 0 model.areaOfCare)
+                            Just (Story formType value 0 model.areaOfCare "Bromley")
 
                         Nothing ->
                             Nothing
@@ -105,10 +111,9 @@ update msg model =
                 Just story ->
                     ( { model
                         | stories = model.stories ++ [ story ]
-                        , successInput = ""
+                        , madeMyDayInput = ""
                         , bugInput = ""
-                        , helpInput = ""
-                        , suggestInput = ""
+                        , iSpyInput = ""
                         , formView = ViewStories (Just formType)
                       }
                     , Cmd.none

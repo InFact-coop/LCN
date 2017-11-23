@@ -16,10 +16,11 @@ type alias Model =
     { route : Route
     , areaOfCare : AreaOfCare
     , formView : FormView
-    , successInput : String
+    , madeMyDayInput : String
     , bugInput : String
-    , helpInput : String
-    , suggestInput : String
+    , iSpyInput : String
+
+    --, suggestInput : String
     , stories : List Story
     }
 
@@ -29,15 +30,16 @@ type alias Story =
     , body : String
     , votes : Int
     , areaOfCare : AreaOfCare
+    , location : String
     }
 
 
 type FormView
     = Dashboard
-    | Success
+    | MadeMyDay
     | Bug
-    | Help
-    | Suggest
+    | ISpy
+    | Snapshot
     | Overview
     | ViewStories (Maybe FormView)
     | AreaOfCare
@@ -86,3 +88,4 @@ type Msg
     | ChangeFormView FormView
     | AddStory FormView
     | ChangeAreaOfCareAndView AreaOfCare
+    | ChangeBody FormView String
