@@ -19,63 +19,60 @@ workerView model =
         currentView =
             case model.formView of
                 MadeMyDay ->
-                    [ navbar model
-                    , buildForm <| BuildFormInputs "Made My Day!" "What's your story?" inputChanger model.madeMyDayInput model.formView
-                    ]
+                    buildForm <| BuildFormInputs "Made My Day!" "What's your story?" inputChanger model.madeMyDayInput model.formView
 
                 Bug ->
-                    [ navbar model
-                    , buildForm <| BuildFormInputs "Bug bear!" "What's your bug bear of the week" inputChanger model.bugInput model.formView
-                    ]
+                    buildForm <| BuildFormInputs "Bug bear!" "What's your bug bear of the week" inputChanger model.bugInput model.formView
 
                 ISpy ->
-                    [ navbar model
-                    , buildForm <| BuildFormInputs "I've noticed..." "What have you noticed happening?" inputChanger model.iSpyInput model.formView
-                    ]
+                    buildForm <| BuildFormInputs "I've noticed..." "What have you noticed happening?" inputChanger model.iSpyInput model.formView
 
                 Snapshot ->
-                    [ navbar model
-                    , div [] [ text "Snapshot page" ]
-                    ]
+                    div [] [ text "Snapshot page" ]
 
                 ViewStories (Just typeFilter) ->
-                    [ navbar model
-                    , viewStoriesPage model typeFilter
-                    ]
+                    viewStoriesPage model typeFilter
 
                 AreaOfCare ->
-                    [ navbar model
-                    , areaOfCarePage model
-                    ]
+                    areaOfCarePage model
 
                 Actions ->
-                    [ navbar model
-                    , actionsPage model
-                    ]
+                    actionsPage model
 
                 _ ->
-                    [ navbar model
-                    , h1 [] [ text "404 Not Found" ]
-                    ]
+                    h1 [] [ text "404 Not Found" ]
     in
-    div [] currentView
+    div []
+        [ navbar model
+        , div [] [ currentView ]
+        ]
 
 
 
 -- ADD SOMETHING FORM
 
 
+tabStyle : String
+tabStyle =
+    "f4 pointer link dim br4 br--top ph3 pv2 pb0 mb0 dib white"
+
+
 buildForm : BuildFormInputs -> Html Msg
 buildForm formInput =
-    div []
-        [ div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| UpdateFormView <| Actions ] [ text "Do something else" ]
-        , div []
-            [ h1 [ class "tc f1" ] [ text formInput.heading ]
-            , p [ class "f3 w60 mh1 tc" ] [ text formInput.question ]
-            , textarea [ cols 40, rows 10, class "f3 w30 pa1 center db ba tc", onInput formInput.bodyUpdateMsg, value formInput.modelBodyValue, placeholder "Tell us more" ] []
-            , div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| AddStory formInput.formType ] [ text "SEND" ]
+    let
+        lightColour =
+            lightColourPicker formInput.formType
+
+        darkColour =
+            colourPicker formInput.formType
+    in
+    div [ class "pt5" ]
+        [ div [ class "" ]
+            [ div [ class "center pl4 mw8" ]
+                [ div [ class (tabStyle ++ lightColour) ] [ text ("Your own " ++ formInput.heading) ]
+                , div [ class (tabStyle ++ darkColour), onClick <| UpdateFormView <| ViewStories (Just formInput.formType) ] [ text "View what others think" ]
+                ]
+            , div [ class ("br3 w-100 mw8 h-ta pa4 center" ++ lightColour) ] [ textarea [ class "f4 w30 pa3 center db br3 bn h-100 w-100 input-reset", onInput formInput.bodyUpdateMsg, value formInput.modelBodyValue, placeholder formInput.question ] [] ]
             ]
-        , div []
-            [ div [ class "f6 pointer link dim br-pill ph3 pv2 mb2 dib white bg-black", onClick <| UpdateFormView <| ViewStories (Just formInput.formType) ] [ text "View what others think" ]
-            ]
+        , div [ class "pa3 tc" ] [ div [ class ("f4 pointer link grow br-pill ph4 pv3 shadow-3 mb2 dib white" ++ darkColour), onClick <| AddStory formInput.formType ] [ text "Submit" ] ]
         ]
