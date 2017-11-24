@@ -16,9 +16,9 @@ actionsPage model =
             [ class "" ]
             [ div
                 [ class "flex flex-wrap items-center justify-center pl5 pr5" ]
-                [ div [ class "w-50 ma3 max-width " ]
+                [ div [ class "w-50 ma3 max-width pa3 " ]
                     [ div
-                        [ class "tc f6 pointer link  pv2 br--top br4 white pink-background", onClick <| UpdateFormView MadeMyDay ]
+                        [ class "tc f6 pointer link  pv2 br--top br4 white pink-background", onClick <| UpdateFormView Bug ]
                         [ img [ class "pa3", src "./assets/svg/bug.svg" ] []
                         ]
                     , div [ class "bg-white" ]
@@ -28,7 +28,7 @@ actionsPage model =
                     , div [ class "tracked br--bottom br4 min-height-para bg-white grey-font f4 tc pl4 pr4 pt3 pb4" ]
                         [ text "Tell us what has got on your nerves this week" ]
                     ]
-                , div [ class "w-50 ma3 max-width " ]
+                , div [ class "w-50 ma3 max-width pa3 " ]
                     [ div
                         [ class "tc f6 pointer link  pv2 white br--top br4 orange-background", onClick <| UpdateFormView MadeMyDay ]
                         [ img [ class "pa3", src "./assets/svg/happy.svg" ] []
@@ -42,9 +42,9 @@ actionsPage model =
                     ]
                 ]
             , div [ class "flex flex-wrap items-center justify-center pl5 pr5" ]
-                [ div [ class "w-50 ma3 max-width" ]
+                [ div [ class "w-50 ma3 max-width pa3" ]
                     [ div
-                        [ class "tc f6 pointer link  pv2 white br--top br4 green-background", onClick <| UpdateFormView MadeMyDay ]
+                        [ class "tc f6 pointer link  pv2 white br--top br4 green-background", onClick <| UpdateFormView ISpy ]
                         [ img [ class "pa3", src "./assets/svg/spy.svg" ] []
                         ]
                     , div [ class "bg-white" ]
@@ -54,9 +54,9 @@ actionsPage model =
                     , div [ class "tracked br--bottom br4 min-height-para bg-white grey-font f4 tc pl4 pr4  pt3 pb4" ]
                         [ text "Let us know what trends you've noticed this week." ]
                     ]
-                , div [ class "w-50 ma3 max-width" ]
+                , div [ class "w-50 ma3 max-width pa3" ]
                     [ div
-                        [ class "tc f6 pointer link br--top br4  pv2 white blue-background", onClick <| UpdateFormView MadeMyDay ]
+                        [ class "tc f6 pointer link br--top br4  pv2 white blue-background", onClick <| UpdateFormView Snapshot ]
                         [ img [ class "pa3", src "./assets/svg/snapshot.svg" ] []
                         ]
                     , div [ class "bg-white" ]

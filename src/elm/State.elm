@@ -11,7 +11,7 @@ initModel : Model
 initModel =
     { route = WorkerViewRoute
     , areaOfCare = Housing
-    , formView = Actions
+    , formView = AreaOfCare
     , madeMyDayInput = ""
     , bugInput = ""
     , iSpyInput = ""

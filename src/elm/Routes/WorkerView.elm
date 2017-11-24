@@ -35,7 +35,9 @@ workerView model =
 
                 Snapshot ->
                     [ navbar model
-                    , div [] [ text "Snapshot page" ]
+                    , div [ class "flex justify-center" ]
+                        [ img [ src "./assets/svg/snapshotBackground.svg" ] []
+                        ]
                     ]
 
                 ViewStories (Just typeFilter) ->
