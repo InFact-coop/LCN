@@ -57,3 +57,45 @@
 
 /* your own custom styles */
 @import './_custom';
+
+
+.blue-background{
+  background-color: #43558E;
+}
+
+.green-background{
+  background-color: #138489;
+}
+
+.light-green-background{
+  background-color: #BFDFE0;
+}
+
+.pink-background{
+background-color: #C72364;
+}
+
+.light-pink-background{
+  background-color: #F0DBE2;
+}
+
+.orange-background{
+background-color: #E45F3D;
+}
+
+.light-orange-background{
+  background-color: #FFE2DB;
+}
+
+.square{
+  height: 15vw;
+  width: 15vw;
+}
+
+.margin-0-auto{
+  margin: 0 auto;
+}
+
+.grey-font{
+  color: #4F4F4F;
+}
