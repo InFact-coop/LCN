@@ -16,9 +16,9 @@ actionsPage model =
             [ class "" ]
             [ div
                 [ class "flex flex-wrap items-center justify-center pl5 pr5" ]
-                [ div [ class "w-50 ma3 max-width pa3 " ]
+                [ div [ class "w-50 ma3 max-width grow pointer pa3", onClick <| UpdateFormView Bug ]
                     [ div
-                        [ class "tc f6 pointer link  pv2 br--top br4 white pink-background", onClick <| UpdateFormView Bug ]
+                        [ class "tc f6 pointer link  pv2 br--top br4 white pink-background" ]
                         [ img [ class "pa3", src "./assets/svg/bug.svg" ] []
                         ]
                     , div [ class "bg-white" ]
@@ -28,9 +28,9 @@ actionsPage model =
                     , div [ class "tracked br--bottom br4 min-height-para bg-white grey-font f4 tc pl4 pr4 pt3 pb4" ]
                         [ text "Tell us what has got on your nerves this week" ]
                     ]
-                , div [ class "w-50 ma3 max-width pa3 " ]
+                , div [ class "w-50 ma3 max-width grow pointer pa3", onClick <| UpdateFormView MadeMyDay ]
                     [ div
-                        [ class "tc f6 pointer link  pv2 white br--top br4 orange-background", onClick <| UpdateFormView MadeMyDay ]
+                        [ class "tc f6 pointer link  pv2 white br--top br4 orange-background" ]
                         [ img [ class "pa3", src "./assets/svg/happy.svg" ] []
                         ]
                     , div [ class "bg-white" ]
@@ -42,9 +42,9 @@ actionsPage model =
                     ]
                 ]
             , div [ class "flex flex-wrap items-center justify-center pl5 pr5" ]
-                [ div [ class "w-50 ma3 max-width pa3" ]
+                [ div [ class "w-50 ma3 max-width grow pointer pa3", onClick <| UpdateFormView ISpy ]
                     [ div
-                        [ class "tc f6 pointer link  pv2 white br--top br4 green-background", onClick <| UpdateFormView ISpy ]
+                        [ class "tc f6 pointer link  pv2 white br--top br4 green-background" ]
                         [ img [ class "pa3", src "./assets/svg/spy.svg" ] []
                         ]
                     , div [ class "bg-white" ]
@@ -54,9 +54,9 @@ actionsPage model =
                     , div [ class "tracked br--bottom br4 min-height-para bg-white grey-font f4 tc pl4 pr4  pt3 pb4" ]
                         [ text "Let us know what trends you've noticed this week." ]
                     ]
-                , div [ class "w-50 ma3 max-width pa3" ]
+                , div [ class "w-50 ma3 max-width grow pointer pa3", onClick <| UpdateFormView Snapshot ]
                     [ div
-                        [ class "tc f6 pointer link br--top br4  pv2 white blue-background", onClick <| UpdateFormView Snapshot ]
+                        [ class "tc f6 pointer link br--top br4  pv2 white blue-background" ]
                         [ img [ class "pa3", src "./assets/svg/snapshot.svg" ] []
                         ]
                     , div [ class "bg-white" ]

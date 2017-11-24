@@ -58,53 +58,57 @@
 /* your own custom styles */
 @import './_custom';
 
-*{
-  font-family: "ff-meta-web-pro";
+* {
+  font-family: 'ff-meta-web-pro';
 }
 
-body{
-  background-color: #F5F2F2;
+body {
+  background-color: #f5f2f2;
 }
 
-.blue-background{
-  background-color: #43558E;
+.blue-background {
+  background-color: #43558e;
 }
 
-.green-background{
+.green-background {
   background-color: #138489;
 }
 
-.light-green-background{
-  background-color: #BFDFE0;
+.light-green-background {
+  background-color: #bfdfe0;
 }
 
-.pink-background{
-background-color: #C72364;
+.pink-background {
+  background-color: #c72364;
 }
 
-.light-pink-background{
-  background-color: #F0DBE2;
+.light-pink-background {
+  background-color: #f0dbe2;
 }
 
-.orange-background{
-background-color: #E45F3D;
+.orange-background {
+  background-color: #e45f3d;
 }
 
-.light-orange-background{
-  background-color: #FFE2DB;
+.light-orange-background {
+  background-color: #ffe2db;
 }
 
-.square{
-  height:15vw;
+.square {
+  height: 15vw;
   width: 15vw;
 }
 
-.margin-0-auto{
+.margin-0-auto {
   margin: 0 auto;
 }
 
-.grey-font{
-  color: #4F4F4F;
+.grey-font {
+  color: #4f4f4f;
+}
+
+.h-ta {
+  height: 24rem;
 }
 
 /*.min-height-para{
@@ -112,8 +116,6 @@ background-color: #E45F3D;
   /*min-width: 260px;
   }*/
 
-
-.max-width{
+.max-width {
   width: 400px;
-
 }

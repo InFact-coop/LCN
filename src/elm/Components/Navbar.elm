@@ -10,7 +10,7 @@ navbar : Model -> Html Msg
 navbar model =
     let
         bgColour =
-            navBarColour model.formView
+            colourPicker model.formView
 
         areaOfCareTitle =
             "Area of Care"
@@ -123,23 +123,81 @@ navbarMsg ( name, newView ) =
 -- set colour
 
 
-navBarColour : FormView -> String
-navBarColour location =
+colourPicker : FormView -> String
+colourPicker location =
     let
         homeColour =
-            "green-background"
+            " green-background"
 
         mmdColour =
-            "orange-background"
+            " orange-background"
 
         bugColour =
-            "pink-background"
+            " pink-background"
 
         iSpyColour =
-            "green-background"
+            " green-background"
 
         snapshotColour =
-            "blue-background"
+            " blue-background"
+    in
+    case location of
+        MadeMyDay ->
+            mmdColour
+
+        Bug ->
+            bugColour
+
+        ISpy ->
+            iSpyColour
+
+        Snapshot ->
+            snapshotColour
+
+        ViewStories (Just formView) ->
+            case formView of
+                MadeMyDay ->
+                    mmdColour
+
+                Bug ->
+                    bugColour
+
+                ISpy ->
+                    iSpyColour
+
+                Snapshot ->
+                    snapshotColour
+
+                _ ->
+                    homeColour
+
+        AreaOfCare ->
+            homeColour
+
+        Actions ->
+            homeColour
+
+        _ ->
+            homeColour
+
+
+lightColourPicker : FormView -> String
+lightColourPicker location =
+    let
+        mmdColour =
+            " light-orange-background"
+
+        bugColour =
+            " light-pink-background"
+
+        iSpyColour =
+            " light-green-background"
+
+        snapshotColour =
+            " light-blue-background"
+
+        homeColour =
+            " light-green-background"
     in
     case location of
         MadeMyDay ->
