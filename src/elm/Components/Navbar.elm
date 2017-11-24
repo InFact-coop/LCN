@@ -1,5 +1,7 @@
 module Components.Navbar exposing (..)
 
+import Components.Styles exposing (..)
+import Components.Translators exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -12,63 +14,8 @@ navbar model =
         bgColour =
             colourPicker model.formView
 
-        areaOfCareTitle =
-            "Area of Care"
-
-        mmdTitle =
-            "Made My Day"
-
-        bugTitle =
-            "Bug Bear"
-
-        iSpyTitle =
-            "I-Spy"
-
-        snapshotTitle =
-            "Snapshot"
-
-        dashboardTitle =
-            "Dashboard"
-
         linkText =
-            case model.formView of
-                MadeMyDay ->
-                    mmdTitle
-
-                Bug ->
-                    bugTitle
-
-                ISpy ->
-                    iSpyTitle
-
-                Snapshot ->
-                    snapshotTitle
-
-                ViewStories (Just formView) ->
-                    case formView of
-                        MadeMyDay ->
-                            mmdTitle
-
-                        Bug ->
-                            bugTitle
-
-                        ISpy ->
-                            iSpyTitle
-
-                        Snapshot ->
-                            snapshotTitle
-
-                        _ ->
-                            "Stories"
-
-                AreaOfCare ->
-                    areaOfCareTitle
-
-                Actions ->
-                    dashboardTitle
-
-                _ ->
-                    dashboardTitle
+            getTitle model.formView
     in
     case model.route of
         WorkerViewRoute ->
@@ -117,123 +64,3 @@ navbarMsgContent =
 navbarMsg : ( String, FormView ) -> Html Msg
 navbarMsg ( name, newView ) =
     li [ class navBarLinkStyle, onClick <| UpdateFormView newView ] [ text name ]
-
-
-
--- set colour
-
-
-colourPicker : FormView -> String
-colourPicker location =
-    let
-        homeColour =
-            " green-background"
-
-        mmdColour =
-            " orange-background"
-
-        bugColour =
-            " pink-background"
-
-        iSpyColour =
-            " green-background"
-
-        snapshotColour =
-            " blue-background"
-    in
-    case location of
-        MadeMyDay ->
-            mmdColour
-
-        Bug ->
-            bugColour
-
-        ISpy ->
-            iSpyColour
-
-        Snapshot ->
-            snapshotColour
-
-        ViewStories (Just formView) ->
-            case formView of
-                MadeMyDay ->
-                    mmdColour
-
-                Bug ->
-                    bugColour
-
-                ISpy ->
-                    iSpyColour
-
-                Snapshot ->
-                    snapshotColour
-
-                _ ->
-                    homeColour
-
-        AreaOfCare ->
-            homeColour
-
-        Actions ->
-            homeColour
-
-        _ ->
-            homeColour
-
-
-lightColourPicker : FormView -> String
-lightColourPicker location =
-    let
-        mmdColour =
-            " light-orange-background"
-
-        bugColour =
-            " light-pink-background"
-
-        iSpyColour =
-            " light-green-background"
-
-        snapshotColour =
-            " light-blue-background"
-
-        homeColour =
-            " light-green-background"
-    in
-    case location of
-        MadeMyDay ->
-            mmdColour
-
-        Bug ->
-            bugColour
-
-        ISpy ->
-            iSpyColour
-
-        Snapshot ->
-            snapshotColour
-
-        ViewStories (Just formView) ->
-            case formView of
-                MadeMyDay ->
-                    mmdColour
-
-                Bug ->
-                    bugColour
-
-                ISpy ->
-                    iSpyColour
-
-                Snapshot ->
-                    snapshotColour
-
-                _ ->
-                    homeColour
-
-        AreaOfCare ->
-            homeColour
-
-        Actions ->
-            homeColour
-
-        _ ->
-            homeColour
