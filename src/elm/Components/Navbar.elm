@@ -75,7 +75,7 @@ navbar model =
             nav [ class ("flex justify-between white " ++ bgColour) ]
                 [ -- Home link
                   div [ class "flex-grow pa3 flex items-center" ]
-                    ([ navbarLink <| ( "workerview", "Home" ) ] ++ navbarMsgContent)
+                    navbarMsgContent
 
                 -- Name of current page
                 , div
@@ -89,7 +89,7 @@ navbar model =
 
 navBarLinkStyle : String
 navBarLinkStyle =
-    "list dib ma3 link dim white b f4 pointer"
+    "list dib pa3 link dim white b f4 pointer"
 
 
 
@@ -107,7 +107,7 @@ navbarLink ( linkStr, name ) =
 
 navbarMsgContent : List (Html Msg)
 navbarMsgContent =
-    List.map navbarMsg [ ( "Dashboard", Actions ), ( "Made My Day", MadeMyDay ), ( "Bug Bear", Bug ), ( "I-Spy", ISpy ), ( "Snapshot", Snapshot ) ]
+    List.map navbarMsg [ ( "Home", AreaOfCare ), ( "Dashboard", Actions ), ( "Made My Day", MadeMyDay ), ( "Bug Bear", Bug ), ( "I-Spy", ISpy ), ( "Snapshot", Snapshot ) ]
 
 
 
@@ -127,19 +127,19 @@ navBarColour : FormView -> String
 navBarColour location =
     let
         homeColour =
-            "bg-green"
+            "green-background"
 
         mmdColour =
-            "bg-red"
+            "orange-background"
 
         bugColour =
-            "bg-blue"
+            "pink-background"
 
         iSpyColour =
-            "bg-yellow"
+            "green-background"
 
         snapshotColour =
-            "bg-green"
+            "blue-background"
     in
     case location of
         MadeMyDay ->
