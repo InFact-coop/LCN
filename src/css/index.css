@@ -111,6 +111,10 @@ body {
   height: 24rem;
 }
 
+.speech-width {
+  width: 28rem;
+}
+
 /*.min-height-para{
   min-height: 120px;
   /*min-width: 260px;

@@ -3,6 +3,8 @@ module Routes.WorkerView exposing (..)
 import Components.Actions exposing (..)
 import Components.AreaOfCare exposing (..)
 import Components.Navbar exposing (..)
+import Components.Styles exposing (..)
+import Components.Translators exposing (..)
 import Components.ViewStories exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -51,11 +53,6 @@ workerView model =
 
 
 -- ADD SOMETHING FORM
-
-
-tabStyle : String
-tabStyle =
-    "f4 pointer link dim br4 br--top ph3 pv2 pb0 mb0 dib white"
 
 
 buildForm : BuildFormInputs -> Html Msg
