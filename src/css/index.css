@@ -58,9 +58,9 @@
 /* your own custom styles */
 @import './_custom';
 
-* {
-  font-family: 'ff-meta-web-pro';
-}
+/** {
+  font-family: Arial;
+}*/
 
 body {
   background-color: #f5f2f2;
