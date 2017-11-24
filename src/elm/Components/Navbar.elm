@@ -14,13 +14,7 @@ navbar model =
     in
     case model.route of
         WorkerViewRoute ->
-            ul [ class ("dib ma0 w-100 pa2 " ++ bgColour) ] <|
-                -- Home link
-                [ navbarLink <| ( "home", "Home" ) ]
-                    -- Little links
-                    ++ navbarMsgContent
-                    -- Name of current page
-                    ++ [ li [ class "list dib ma3 f3 link dim white b" ] [ text <| toString model.formView ] ]
+            ul [ class ("dib ma0 w-100 pa2 " ++ bgColour) ] <| navbarMsgContent
 
         _ ->
             ul [ class "dib ma0 bg-green w-100 pa2" ] <|

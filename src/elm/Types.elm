@@ -55,6 +55,8 @@ type AreaOfCare
     | Crime
     | Education
     | Consumer
+    | Management
+    | Triage
 
 
 type alias BuildFormInputs =

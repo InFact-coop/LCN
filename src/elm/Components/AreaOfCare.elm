@@ -23,6 +23,8 @@ areaOfCarePage model =
             , ( Crime, "Crime", "bg-green" )
             , ( Education, "Education", "bg-green" )
             , ( Consumer, "Consumer", "bg-green" )
+            , ( Management, "Management", "bg-green" )
+            , ( Triage, "Reception", "bg-green" )
             ]
     in
     div []

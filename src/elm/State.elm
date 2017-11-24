@@ -9,7 +9,7 @@ import Types exposing (..)
 
 initModel : Model
 initModel =
-    { route = HomeRoute
+    { route = WorkerViewRoute
     , areaOfCare = Housing
     , formView = AreaOfCare
     , madeMyDayInput = ""
