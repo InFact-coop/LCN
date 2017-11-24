@@ -22,7 +22,8 @@ viewStoriesPage model filter =
                     LT
     in
     div []
-        [ ul []
+        [ h3 [] [ text "What everyone else is saying" ]
+        , ul []
             (model.stories
                 |> List.filter (\story -> story.storyType == filter)
                 |> List.sortWith descendingVotes

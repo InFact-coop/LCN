@@ -11,15 +11,85 @@ navbar model =
     let
         bgColour =
             navBarColour model.formView
+
+        areaOfCareTitle =
+            "Area of Care"
+
+        mmdTitle =
+            "Made My Day"
+
+        bugTitle =
+            "Bug Bear"
+
+        iSpyTitle =
+            "I-Spy"
+
+        snapshotTitle =
+            "Snapshot"
+
+        dashboardTitle =
+            "Dashboard"
+
+        linkText =
+            case model.formView of
+                MadeMyDay ->
+                    mmdTitle
+
+                Bug ->
+                    bugTitle
+
+                ISpy ->
+                    iSpyTitle
+
+                Snapshot ->
+                    snapshotTitle
+
+                ViewStories (Just formView) ->
+                    case formView of
+                        MadeMyDay ->
+                            mmdTitle
+
+                        Bug ->
+                            bugTitle
+
+                        ISpy ->
+                            iSpyTitle
+
+                        Snapshot ->
+                            snapshotTitle
+
+                        _ ->
+                            "Stories"
+
+                AreaOfCare ->
+                    areaOfCareTitle
+
+                Actions ->
+                    dashboardTitle
+
+                _ ->
+                    dashboardTitle
     in
     case model.route of
         WorkerViewRoute ->
-            ul [ class ("dib ma0 w-100 pa2 " ++ bgColour) ] <| navbarMsgContent
+            nav [ class ("flex justify-between white " ++ bgColour) ]
+                [ -- Home link
+                  div [ class "flex-grow pa3 flex items-center" ]
+                    ([ navbarLink <| ( "workerview", "Home" ) ] ++ navbarMsgContent)
+
+                -- Name of current page
+                , div
+                    [ class "flex-grow pa3 flex items-center" ]
+                    [ div [ class "f3 white b mr4" ] [ text linkText ] ]
+                ]
 
         _ ->
-            ul [ class "dib ma0 bg-green w-100 pa2" ] <|
-                [ navbarLink <| ( "home", "Home" ) ]
-                    ++ [ li [ class "list dib ma3 f3 link dim white b" ] [ text <| toString model.route ] ]
+            ul [] []
+
+
+navBarLinkStyle : String
+navBarLinkStyle =
+    "list dib ma3 link dim white b f4 pointer"
 
 
 
@@ -28,7 +98,7 @@ navbar model =
 
 navbarLink : ( String, String ) -> Html Msg
 navbarLink ( linkStr, name ) =
-    li [ class "list dib ma3" ] [ a [ class "link dim white b", href ("/#" ++ linkStr) ] [ text name ] ]
+    div [ class navBarLinkStyle ] [ a [ class "link dim white b", href ("/#" ++ linkStr) ] [ text name ] ]
 
 
 
@@ -37,7 +107,7 @@ navbarLink ( linkStr, name ) =
 
 navbarMsgContent : List (Html Msg)
 navbarMsgContent =
-    List.map navbarMsg [ ( "Actions", Actions ), ( "Made My Day", MadeMyDay ), ( "Bug Bear", Bug ), ( "I-Spy", ISpy ), ( "Snapshot", Snapshot ) ]
+    List.map navbarMsg [ ( "Dashboard", Actions ), ( "Made My Day", MadeMyDay ), ( "Bug Bear", Bug ), ( "I-Spy", ISpy ), ( "Snapshot", Snapshot ) ]
 
 
 
@@ -46,7 +116,7 @@ navbarMsgContent =
 
 navbarMsg : ( String, FormView ) -> Html Msg
 navbarMsg ( name, newView ) =
-    li [ class "list dib ma3 link pointer dim white b", onClick <| UpdateFormView newView ] [ text name ]
+    li [ class navBarLinkStyle, onClick <| UpdateFormView newView ] [ text name ]
 
 
 
@@ -55,18 +125,57 @@ navbarMsg ( name, newView ) =
 
 navBarColour : FormView -> String
 navBarColour location =
-    case location of
-        MadeMyDay ->
+    let
+        homeColour =
             "bg-green"
 
-        Bug ->
-            "bg-blue"
-
-        ISpy ->
+        mmdColour =
             "bg-red"
 
-        Snapshot ->
+        bugColour =
+            "bg-blue"
+
+        iSpyColour =
             "bg-yellow"
 
+        snapshotColour =
+            "bg-green"
+    in
+    case location of
+        MadeMyDay ->
+            mmdColour
+
+        Bug ->
+            bugColour
+
+        ISpy ->
+            iSpyColour
+
+        Snapshot ->
+            snapshotColour
+
+        ViewStories (Just formView) ->
+            case formView of
+                MadeMyDay ->
+                    mmdColour
+
+                Bug ->
+                    bugColour
+
+                ISpy ->
+                    iSpyColour
+
+                Snapshot ->
+                    snapshotColour
+
+                _ ->
+                    homeColour
+
+        AreaOfCare ->
+            homeColour
+
+        Actions ->
+            homeColour
+
         _ ->
-            "bg-black"
+            homeColour
