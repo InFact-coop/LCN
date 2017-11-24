@@ -30,7 +30,8 @@ workerView model =
                     buildForm <| BuildFormInputs "I've noticed..." "What have you noticed happening?" inputChanger model.iSpyInput model.formView
 
                 Snapshot ->
-                    div [] [ text "Snapshot page" ]
+                    div [ class "flex justify-center" ]
+                        [ img [ src "./assets/svg/snapshotBackground.svg" ] [] ]
 
                 ViewStories (Just typeFilter) ->
                     viewStoriesPage model typeFilter
