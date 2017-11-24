@@ -33,6 +33,10 @@ workerView model =
                     div [ class "flex justify-center" ]
                         [ img [ src "./assets/svg/snapshotBackground.svg" ] [] ]
 
+                Questions ->
+                    div [ class "flex justify-center", onClick (UpdateFormView Actions) ]
+                        [ img [ src "./assets/svg/questions.svg" ] [] ]
+
                 ViewStories (Just typeFilter) ->
                     viewStoriesPage model typeFilter
 

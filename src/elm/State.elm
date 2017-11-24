@@ -116,7 +116,7 @@ update msg model =
 
         ChangeAreaOfCareAndView newArea ->
             ( { model
-                | formView = Actions
+                | formView = Questions
                 , areaOfCare = newArea
               }
             , Cmd.none

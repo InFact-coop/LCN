@@ -4,10 +4,12 @@ import Types exposing (..)
 
 
 stories =
-    [ Story MadeMyDay "I had a good day" 3 Housing "Manchester"
-    , Story MadeMyDay "I had a great day" 2 Housing "Newcastle"
-    , Story MadeMyDay "I had a pretty ok day" 6 MentalHealth "Preston"
-    , Story Bug "I had an annoying thing happen ok day" 3 MentalHealth "Bristol"
-    , Story ISpy "I can't find my keys" 2 Crime "Derby"
-    , Story Bug "Make this app better!" 10 Crime "Chester"
+    [ Story MadeMyDay "Cleared up a deposit dispute between some young tenants and an aggressive landlord!" 3 Housing "Islington"
+    , Story MadeMyDay "Closed a 6 month old case this week!" 6 MentalHealth "Bradford"
+    , Story Bug "I had to turn away 6 people this week!" 3 MentalHealth "Bristol"
+    , Story Bug "Our system keeps crashing" 3 Community "Bromley"
+    , Story Bug "Make this app better!" 10 Crime "Bury"
+    , Story ISpy "Seems like a lot of people compared ot last winter" 2 Immigration "Nottingham"
+    , Story ISpy "Had a lot of teachers ask about privacy laws" 2 Education "Carlisle"
+    , Story ISpy "Street crime cases are rising" 2 Crime "Islington"
     ]

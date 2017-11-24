@@ -40,6 +40,7 @@ type FormView
     | Snapshot
     | ViewStories (Maybe FormView)
     | AreaOfCare
+    | Questions
 
 
 type AreaOfCare
