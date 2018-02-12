@@ -1,5 +1,6 @@
 module State exposing (..)
 
+import Data.Stories exposing (..)
 import Types exposing (..)
 
 
@@ -8,8 +9,13 @@ import Types exposing (..)
 
 initModel : Model
 initModel =
-    { route = HomeRoute
-    , userInput = ""
+    { route = WorkerViewRoute
+    , areaOfCare = Housing
+    , formView = AreaOfCare
+    , madeMyDayInput = ""
+    , bugInput = ""
+    , iSpyInput = ""
+    , stories = Data.Stories.stories
     }
 
 
@@ -23,11 +29,11 @@ getRoute hash =
         "#home" ->
             HomeRoute
 
-        "#pageone" ->
-            PageOneRoute
+        "#workerview" ->
+            WorkerViewRoute
 
-        "#pagetwo" ->
-            PageTwoRoute
+        "#repview" ->
+            RepViewRoute
 
         _ ->
             HomeRoute
@@ -36,8 +42,85 @@ getRoute hash =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Change newInput ->
-            ( { model | userInput = newInput }, Cmd.none )
-
         UrlChange location ->
-            ( { model | route = (getRoute location.hash) }, Cmd.none )
+            ( { model | route = getRoute location.hash }, Cmd.none )
+
+        UpdateFormView newView ->
+            ( { model | formView = newView }, Cmd.none )
+
+        ChangeBody input newBody ->
+            case input of
+                MadeMyDay ->
+                    ( { model | madeMyDayInput = newBody }, Cmd.none )
+
+                Bug ->
+                    ( { model | bugInput = newBody }, Cmd.none )
+
+                ISpy ->
+                    ( { model | iSpyInput = newBody }, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
+        IncVote story ->
+            let
+                newStory =
+                    { story | votes = story.votes + 1 }
+
+                newStories =
+                    (model.stories
+                        |> List.filter (\st -> st /= story)
+                    )
+                        ++ [ newStory ]
+            in
+            ( { model | stories = newStories }, Cmd.none )
+
+        AddStory formType ->
+            let
+                value =
+                    case formType of
+                        MadeMyDay ->
+                            Just model.madeMyDayInput
+
+                        Bug ->
+                            Just model.bugInput
+
+                        ISpy ->
+                            Just model.iSpyInput
+
+                        _ ->
+                            Nothing
+
+                storyToAdd =
+                    case value of
+                        Just value ->
+                            Just (Story formType value 0 model.areaOfCare "Bromley")
+
+                        Nothing ->
+                            Nothing
+            in
+            case storyToAdd of
+                Just story ->
+                    ( { model
+                        | stories = model.stories ++ [ story ]
+                        , madeMyDayInput = ""
+                        , bugInput = ""
+                        , iSpyInput = ""
+                        , formView = ViewStories (Just formType)
+                      }
+                    , Cmd.none
+                    )
+
+                Nothing ->
+                    ( model, Cmd.none )
+
+        ChangeAreaOfCareAndView newArea ->
+            ( { model
+                | formView = Questions
+                , areaOfCare = newArea
+              }
+            , Cmd.none
+            )
+
+        _ ->
+            ( model, Cmd.none )
