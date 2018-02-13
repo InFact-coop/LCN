@@ -18,10 +18,10 @@ run the following commands:
 
 * Run server tests: `npm run test`
 
-* Run a live updating elm server (front end): `npm run dev`
+* Run a live updating elm server (front end): `npm run dev-frontend`
 
-* Run the backend with live updating: `npm run dev:server`
+* Run the backend with live updating: `npm run dev-backend`
 
-* Build the front end: `npm run build`
+* Build the front end: `npm run heroku-postbuild`
 
 * Start the server: `npm start`
