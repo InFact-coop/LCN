@@ -1,5 +1,6 @@
 module Router exposing (..)
 
+import Components.Nav exposing (navBar)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Types exposing (..)
@@ -18,7 +19,8 @@ view model =
             getCurrentView model
     in
         div [ class "w-100 fixed overflow-y-scroll top-0 bottom-0 bg-light-blue m0-auto cover", id "container" ]
-            [ view
+            [ navBar
+            , view
             ]
 
 

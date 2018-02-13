@@ -1,47 +1,7 @@
 * {
-  font-family: "Open Sans", sans-serif;
+  font-family: var(--sans-serif), sans-serif;
 }
 
 body {
   background-color: var(--light-blue);
-}
-
-.raleway {
-  font-family: "Raleway", sans-serif !important;
-}
-
-.m0-auto {
-  margin: 0 auto;
-}
-
-.minus-margin {
-  margin-left: -100rem;
-}
-
-@media (--breakpoint-medium) {
-  .minus-margin {
-    margin-left: -7rem;
-  }
-}
-
-@media (--breakpoint-large) {
-  .minus-margin {
-    margin-left: -12rem;
-  }
-}
-
-.minus-top-margin {
-  margin-top: -2.5rem;
-}
-
-.top5percent {
-  top: 5%;
-}
-
-.left5percent {
-  left: 5%;
-}
-
-.modalGray {
-  background-color: rgba(112, 112, 112, 0.7);
 }
