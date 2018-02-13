@@ -4,7 +4,11 @@ import Navigation
 
 
 type View
-    = Home
+    = HomeView
+    | QuantFormView
+    | SnapshotView
+    | QualFormView
+    | CommentsView
 
 
 type alias Model =

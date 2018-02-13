@@ -2,9 +2,13 @@ module Router exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Views.Home exposing (..)
 import Types exposing (..)
 import Navigation exposing (..)
+import Views.Home exposing (..)
+import Views.QuantForm exposing (..)
+import Views.Snapshot exposing (..)
+import Views.QualForm exposing (..)
+import Views.Comments exposing (..)
 
 
 view : Model -> Html Msg
@@ -21,18 +25,45 @@ view model =
 getCurrentView : Model -> Html Msg
 getCurrentView model =
     case model.view of
-        Home ->
-            home model
+        HomeView ->
+            homeView model
+
+        QuantFormView ->
+            quantFormView model
+
+        SnapshotView ->
+            snapshotView model
+
+        QualFormView ->
+            qualFormView model
+
+        CommentsView ->
+            commentsView model
 
 
 getView : String -> View
 getView hash =
     case hash of
         "#home" ->
-            Home
+            HomeView
+
+        "#numbers" ->
+            QuantFormView
+
+        "#numbers-snapshot" ->
+            SnapshotView
+
+        "#add-comment" ->
+            QualFormView
+
+        "#see-comments" ->
+            CommentsView
+
+        "#logout" ->
+            HomeView
 
         _ ->
-            Home
+            HomeView
 
 
 viewFromUrl : Navigation.Location -> Model -> Model
