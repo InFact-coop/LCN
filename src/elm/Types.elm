@@ -10,13 +10,13 @@ type View
 type alias Model =
     { view : View
     , name : String
-    , lawCentre : LawCentre
-    , role : Role
-    , lawArea : LawArea
+    , lawCentre : Maybe LawCentre
+    , role : Maybe Role
+    , lawArea : Maybe LawArea
     , qualForm : QualForm
     , quantForm : QuantForm
     , weeklyCount : Maybe Int
-    , commentFilter : CommentType
+    , commentFilter : Maybe CommentType
     , comments : Maybe (List QualForm)
     }
 
@@ -46,18 +46,18 @@ type alias QualForm =
     { id : Maybe Int
     , parentId : Maybe Int
     , name : String
-    , lawCentre : LawCentre
+    , lawCentre : Maybe LawCentre
     , commentBody : String
     , likes : Int
-    , commentType : CommentType
-    , lawArea : LawArea
+    , commentType : Maybe CommentType
+    , lawArea : Maybe LawArea
     }
 
 
 type alias QuantForm =
     { name : String
-    , lawCentre : LawCentre
-    , lawArea : LawArea
+    , lawCentre : Maybe LawCentre
+    , lawArea : Maybe LawArea
     , peopleSeenWeekly : Int
     , peopleTurnedAwayWeekly : Int
     }
