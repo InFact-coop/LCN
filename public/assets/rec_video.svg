@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="202px" height="202px" viewBox="0 0 202 202" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>rec_video</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="rec_video" transform="translate(1.000000, 1.000000)" stroke="#777777" stroke-width="2">
+            <circle id="Oval-3" cx="100" cy="100" r="100"></circle>
+            <g id="video-66" transform="translate(45.000000, 41.000000)">
+                <path d="M69.6666667,103 L7.33333333,103 C3.2835,103 0,99.6978438 0,95.625 L0,51.375 C0,47.3021563 3.2835,44 7.33333333,44 L69.6666667,44 C73.7165,44 77,47.3021563 77,51.375 L77,95.625 C77,99.6978438 73.7165,103 69.6666667,103 Z" id="Shape" stroke-linecap="square"></path>
+                <circle id="Oval" stroke-linecap="square" cx="20.5" cy="16.5" r="16.5"></circle>
+                <circle id="Oval" stroke-linecap="square" cx="62" cy="22" r="11"></circle>
+                <polyline id="Shape" points="77 64.7142857 110 48 110 100 77 83.2857143"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

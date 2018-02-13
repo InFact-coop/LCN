@@ -1,126 +1,250 @@
 module State exposing (..)
 
-import Data.Stories exposing (..)
+import Dom.Scroll exposing (..)
+import Ports exposing (..)
+import Router exposing (getRoute)
+import Task
+import Time exposing (Time, second)
 import Types exposing (..)
+import Commands exposing (..)
+import Helpers exposing (..)
 
 
--- MODEL
+initForm : Form
+initForm =
+    Form "" "" "" "" "" "" "" "" 0 0 "" "" "" "" "" "" "" ""
 
 
 initModel : Model
 initModel =
-    { route = WorkerViewRoute
-    , areaOfCare = Housing
-    , formView = AreaOfCare
-    , madeMyDayInput = ""
-    , bugInput = ""
-    , iSpyInput = ""
-    , stories = Data.Stories.stories
+    { route = Home
+    , videoStage = StagePreRecord
+    , audioStage = StagePreRecord
+    , liveVideoUrl = ""
+    , messageLength = 0
+    , paused = True
+    , videoModal = False
+    , audioModal = False
+    , recordedVideoUrl = ""
+    , airtableForm = initForm
+    , formSent = NotSent
+    , formRequestCount = 0
     }
 
 
 
---UPDATE
+-- TODO what is messageLength?
 
 
-getRoute : String -> Route
-getRoute hash =
-    case hash of
-        "#home" ->
-            HomeRoute
+createNewForm : Form -> FormField -> String -> Form
+createNewForm currentForm fieldType content =
+    case fieldType of
+        Name ->
+            { currentForm | name = content }
 
-        "#workerview" ->
-            WorkerViewRoute
+        ContactNumber ->
+            { currentForm | contactNumber = content }
 
-        "#repview" ->
-            RepViewRoute
+        Email ->
+            { currentForm | email = content }
 
-        _ ->
-            HomeRoute
+        Role ->
+            { currentForm | role = content }
+
+        RoleOther ->
+            { currentForm | roleOther = content }
+
+        StartDate ->
+            { currentForm | startDate = content }
+
+        ContractLength ->
+            { currentForm | contractLength = content }
+
+        ContractOther ->
+            { currentForm | contractOther = content }
+
+        MinRate ->
+            { currentForm
+                | minRate = Result.withDefault 0 (String.toInt content)
+            }
+
+        MaxRate ->
+            { currentForm
+                | maxRate = Result.withDefault 0 (String.toInt content)
+            }
+
+        CV ->
+            { currentForm | cv = content }
+
+        LinkedIn ->
+            { currentForm | linkedIn = content }
+
+        Twitter ->
+            { currentForm | twitter = content }
+
+        GitHub ->
+            { currentForm | gitHub = content }
+
+        Website ->
+            { currentForm | website = content }
+
+        Q1 ->
+            { currentForm | q1 = content }
+
+        Q2 ->
+            { currentForm | q2 = content }
+
+        Q3 ->
+            { currentForm | q3 = content }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        UpdateForm fieldType content ->
+            let
+                newForm =
+                    createNewForm model.airtableForm fieldType content
+            in
+                ( { model | airtableForm = newForm }, Cmd.none )
+
+        Increment ->
+            if model.messageLength >= 30 then
+                model
+                    |> update (ToggleVideo StageRecording)
+            else
+                ( { model | messageLength = model.messageLength + 1 }, Cmd.none )
+
+        RecordStart ->
+            ( model, recordStart () )
+
+        RecordStop ->
+            ( model, recordStop () )
+
+        ReceiveRecordedVideoUrl string ->
+            ( { model | recordedVideoUrl = string, liveVideoUrl = "" }, Cmd.none )
+
+        RecieveQ1Url string ->
+            let
+                newForm =
+                    createNewForm model.airtableForm Q1 string
+            in
+                ( { model | airtableForm = newForm }, Cmd.none )
+
+        RecieveQ2Url string ->
+            let
+                newForm =
+                    createNewForm model.airtableForm Q2 string
+            in
+                ( { model | airtableForm = newForm }, Cmd.none )
+
+        RecieveQ3Url string ->
+            let
+                newForm =
+                    createNewForm model.airtableForm Q3 string
+
+                newModel =
+                    { model | airtableForm = newForm, formSent = Pending }
+            in
+                newModel ! [ sendFormCmd model ]
+
+        ReceiveLiveVideoUrl string ->
+            ( { model | liveVideoUrl = string, recordedVideoUrl = "" }, Cmd.none )
+
+        RecordError err ->
+            ( { model | videoStage = StageRecordError }, Cmd.none )
+
+        UploadQuestion string ->
+            ( { model | videoModal = ifThenElse (model.route == ChallengingProject) True False, route = goToNextQuestion model.route }, uploadVideo string )
+
         UrlChange location ->
-            ( { model | route = getRoute location.hash }, Cmd.none )
+            if getRoute location.hash == Home then
+                initModel ! []
+            else
+                ( { model | route = getRoute location.hash }, Task.attempt (always NoOp) (toTop "container") )
 
-        UpdateFormView newView ->
-            ( { model | formView = newView }, Cmd.none )
+        SendForm ->
+            ( { model | formSent = Pending }, sendFormCmd model )
 
-        ChangeBody input newBody ->
-            case input of
-                MadeMyDay ->
-                    ( { model | madeMyDayInput = newBody }, Cmd.none )
-
-                Bug ->
-                    ( { model | bugInput = newBody }, Cmd.none )
-
-                ISpy ->
-                    ( { model | iSpyInput = newBody }, Cmd.none )
-
-                _ ->
-                    ( model, Cmd.none )
-
-        IncVote story ->
-            let
-                newStory =
-                    { story | votes = story.votes + 1 }
-
-                newStories =
-                    (model.stories
-                        |> List.filter (\st -> st /= story)
-                    )
-                        ++ [ newStory ]
-            in
-            ( { model | stories = newStories }, Cmd.none )
-
-        AddStory formType ->
-            let
-                value =
-                    case formType of
-                        MadeMyDay ->
-                            Just model.madeMyDayInput
-
-                        Bug ->
-                            Just model.bugInput
-
-                        ISpy ->
-                            Just model.iSpyInput
-
-                        _ ->
-                            Nothing
-
-                storyToAdd =
-                    case value of
-                        Just value ->
-                            Just (Story formType value 0 model.areaOfCare "Bromley")
-
-                        Nothing ->
-                            Nothing
-            in
-            case storyToAdd of
-                Just story ->
+        OnFormSent (Ok result) ->
+            case result.success of
+                True ->
                     ( { model
-                        | stories = model.stories ++ [ story ]
-                        , madeMyDayInput = ""
-                        , bugInput = ""
-                        , iSpyInput = ""
-                        , formView = ViewStories (Just formType)
+                        | airtableForm = initForm
+                        , formSent = Success
+                        , route = ThankYou
                       }
                     , Cmd.none
                     )
 
-                Nothing ->
-                    ( model, Cmd.none )
+                False ->
+                    ( { model | formSent = FailureServer }, Cmd.none )
 
-        ChangeAreaOfCareAndView newArea ->
-            ( { model
-                | formView = Questions
-                , areaOfCare = newArea
-              }
-            , Cmd.none
-            )
+        OnFormSent (Err _) ->
+            ( { model | formSent = FailureServer }, Cmd.none )
+
+        ToggleVideo stage ->
+            case stage of
+                StageRecordError ->
+                    ( { model | videoStage = StageRecordError }, Cmd.none )
+
+                StageRecordStopped ->
+                    ( { model | videoStage = StagePreRecord, videoModal = True }, prepareVideo () )
+
+                StageRecording ->
+                    ( { model | videoStage = StageRecordStopped }, recordStop () )
+
+                StagePreRecord ->
+                    ( { model | videoStage = StageRecording }, recordStart () )
+
+        ToggleAudio stage ->
+            case stage of
+                StageRecordError ->
+                    ( { model | audioStage = StageRecordError }, Cmd.none )
+
+                StageRecordStopped ->
+                    ( { model | audioStage = StagePreRecord }, prepareVideo () )
+
+                StageRecording ->
+                    ( { model | audioStage = StageRecordStopped }, recordStop () )
+
+                StagePreRecord ->
+                    ( { model | audioStage = StageRecording }, recordStart () )
+
+        PrepareVideo ->
+            { model | videoModal = True, videoStage = StagePreRecord, recordedVideoUrl = "" } ! [ prepareVideo () ]
+
+        PrepareAudio ->
+            { model | audioModal = True } ! [ prepareAudio () ]
+
+        NoOp ->
+            ( model, Cmd.none )
+
+
+goToNextQuestion : Route -> Route
+goToNextQuestion route =
+    case route of
+        NextRole ->
+            PersonalIntro
+
+        PersonalIntro ->
+            ChallengingProject
+
+        ChallengingProject ->
+            ChallengingProject
 
         _ ->
-            ( model, Cmd.none )
+            NextRole
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        [ recordedVideoUrl ReceiveRecordedVideoUrl
+        , getQ1Url RecieveQ1Url
+        , getQ2Url RecieveQ2Url
+        , getQ3Url RecieveQ3Url
+        , recordError RecordError
+        , ifThenElse (not model.paused) (Time.every second (always Increment)) Sub.none
+        , liveVideoUrl ReceiveLiveVideoUrl
+        ]

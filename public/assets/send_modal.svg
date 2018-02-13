@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="94px" height="94px" viewBox="0 0 94 94" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>send_modal</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="45" cy="45" r="45"></circle>
+    </defs>
+    <g id="Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon" transform="translate(2.000000, 2.000000)">
+            <g id="Oval">
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <circle stroke="#363346" stroke-width="2" cx="45" cy="45" r="46"></circle>
+            </g>
+            <g id="send" transform="translate(13.400000, 18.000000)" stroke="#363346" stroke-width="2">
+                <polyline id="Shape" points="56 0 16 32 16 52 26.9 39.8"></polyline>
+                <polygon id="Shape" stroke-linecap="square" points="0 20 56 0 46 54"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="62px" height="58px" viewBox="0 0 62 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>job_spec</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="job_spec" transform="translate(1.000000, 1.000000)" stroke="#777777" stroke-width="2">
+            <polyline id="Shape" points="20 8 20 0 40 0 40 8"></polyline>
+            <path d="M10,40 L0,40 L0,12 C0,9.791 1.791,8 4,8 L56,8 C58.209,8 60,9.791 60,12 L60,40 L50,40" id="Shape"></path>
+            <path d="M56,45 L56,52 C56,54.209 54.209,56 52,56 L8,56 C5.791,56 4,54.209 4,52 L4,45" id="Shape"></path>
+            <path d="M15,8 L15,35" id="Shape"></path>
+            <path d="M15,45 L15,56" id="Shape"></path>
+            <path d="M45,8 L45,35" id="Shape"></path>
+            <path d="M45,45 L45,56" id="Shape"></path>
+            <path d="M20,40 L40,40" id="Shape"></path>
+            <rect id="Rectangle-path" x="10" y="35" width="10" height="10"></rect>
+            <rect id="Rectangle-path" x="40" y="35" width="10" height="10"></rect>
+        </g>
+    </g>
+</svg>

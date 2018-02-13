@@ -3,6 +3,9 @@ elm-stuff
 # elm-repl generated files
 repl-temp-*
 
+# DS-Store
+.DS_Store
+
 elm.js
 
 
@@ -10,3 +13,7 @@ elm.js
 style.min.css
 
 node_modules
+
+.env
+
+uploads/

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="202px" height="202px" viewBox="0 0 202 202" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>rec_audio</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="s" transform="translate(1.000000, 1.000000)" stroke="#777777" stroke-width="2">
+            <g id="audio-92" transform="translate(66.000000, 52.000000)" stroke-linecap="square">
+                <path d="M9.83606557,98.3606557 L59.0163934,98.3606557" id="Shape"></path>
+                <path d="M34.4262295,68.852459 C21.7508197,68.852459 11.4754098,58.5770492 11.4754098,45.9016393 L11.4754098,22.9508197 C11.4754098,10.2754098 21.7508197,0 34.4262295,0 C47.1016393,0 57.3770492,10.2754098 57.3770492,22.9508197 L57.3770492,45.9016393 C57.3770492,58.5770492 47.1016393,68.852459 34.4262295,68.852459 Z" id="Shape"></path>
+                <path d="M34.4262295,80.3278689 L34.4262295,98.3606557" id="Shape"></path>
+                <path d="M68.852459,45.9016393 C68.852459,64.9147541 53.4393443,80.3278689 34.4262295,80.3278689 C15.4131148,80.3278689 0,64.9147541 0,45.9016393" id="Shape"></path>
+                <path d="M11.4754098,27.8688525 L21.3114754,27.8688525" id="Shape"></path>
+                <path d="M11.4754098,40.9836066 L21.3114754,40.9836066" id="Shape"></path>
+                <path d="M47.5409836,27.8688525 L57.3770492,27.8688525" id="Shape"></path>
+                <path d="M47.5409836,40.9836066 L57.3770492,40.9836066" id="Shape"></path>
+            </g>
+            <circle id="Oval-3" cx="100" cy="100" r="100"></circle>
+        </g>
+    </g>
+</svg>

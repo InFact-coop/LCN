@@ -1,0 +1,22 @@
+<svg width="376" height="332" viewBox="0 0 376 332" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>recording_error</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(50 379)">
+<g id="recording_error">
+<g id="Vector">
+<use xlink:href="#path0_stroke" transform="translate(-35.7 -362)"/>
+</g>
+<g id="Vector">
+<use xlink:href="#path1_stroke" transform="translate(138 -263.5)"/>
+</g>
+<g id="Vector">
+<use xlink:href="#path2_fill" transform="translate(130 -111.5)"/>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_stroke" d="M 173.7 0L 180.66 -3.94439L 173.7 -16.2256L 166.74 -3.94439L 173.7 0ZM -7.62939e-07 306.5L -6.96002 302.556L -13.7292 314.5L -7.62939e-07 314.5L -7.62939e-07 306.5ZM 347.4 306.5L 347.4 314.5L 361.129 314.5L 354.36 302.556L 347.4 306.5ZM 166.74 -3.94439L -6.96002 302.556L 6.96001 310.444L 180.66 3.94439L 166.74 -3.94439ZM -7.62939e-07 314.5L 347.4 314.5L 347.4 298.5L -7.62939e-07 298.5L -7.62939e-07 314.5ZM 354.36 302.556L 180.66 -3.94439L 166.74 3.94439L 340.44 310.444L 354.36 302.556Z"/>
+<path id="path1_stroke" d="M -8 0L -8 128L 8 128L 8 0L -8 0Z"/>
+<path id="path2_fill" d="M 16 0L 0 0L 0 16L 16 16L 16 0Z"/>
+</defs>
+</svg>
