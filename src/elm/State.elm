@@ -10,6 +10,38 @@ import Navigation exposing (..)
 initModel : Model
 initModel =
     { view = HomeView
+    , name = ""
+    , lawCentre = Nothing
+    , role = Nothing
+    , lawArea = Nothing
+    , qualForm = initialQualForm
+    , quantForm = initialQuantForm
+    , weeklyCount = Nothing
+    , commentFilter = Nothing
+    , comments = Nothing
+    }
+
+
+initialQualForm : QualForm
+initialQualForm =
+    { id = Nothing
+    , parentId = Nothing
+    , name = ""
+    , lawCentre = Nothing
+    , commentBody = ""
+    , likes = 0
+    , commentType = Nothing
+    , lawArea = Nothing
+    }
+
+
+initialQuantForm : QuantForm
+initialQuantForm =
+    { name = ""
+    , lawCentre = Nothing
+    , lawArea = Nothing
+    , peopleSeenWeekly = 0
+    , peopleTurnedAwayWeekly = 0
     }
 
 
