@@ -4,6 +4,6 @@ import Html exposing (..)
 import Types exposing (..)
 
 
-home : Model -> Html Msg
-home model =
+homeView : Model -> Html Msg
+homeView model =
     div [] [ text "Home" ]
