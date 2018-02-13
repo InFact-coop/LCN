@@ -3,12 +3,12 @@ module Types exposing (..)
 import Navigation
 
 
-type Route
+type View
     = Home
 
 
 type alias Model =
-    { route : Route
+    { view : View
     }
 
 

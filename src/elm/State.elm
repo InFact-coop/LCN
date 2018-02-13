@@ -1,7 +1,7 @@
 module State exposing (..)
 
 import Dom.Scroll exposing (..)
-import Router exposing (getRoute, viewFromUrl)
+import Router exposing (getView, viewFromUrl)
 import Task
 import Types exposing (..)
 import Navigation exposing (..)
@@ -9,7 +9,7 @@ import Navigation exposing (..)
 
 initModel : Model
 initModel =
-    { route = Home
+    { view = Home
     }
 
 
@@ -26,7 +26,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            { model | route = getRoute location.hash } ! [ Task.attempt (always NoOp) (toTop "container") ]
+            { model | view = getView location.hash } ! [ Task.attempt (always NoOp) (toTop "container") ]
 
         NoOp ->
             model ! []
