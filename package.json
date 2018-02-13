@@ -1,35 +1,51 @@
 {
-  "name": "elm-boiler-plate",
+  "name": "LCN",
   "version": "1.0.0",
-  "description": "a boiler plate for elm projects",
+  "description": "Find the help that speaks to you",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "elm-live src/elm/Main.elm --output=public/elm.js --dir=public --open --debug --pushstate",
-    "build": "npm run css-build; elm-make src/elm/Main.elm --output=public/elm.js",
+    "start": "node ./src/server/start",
+    "test": "NODE_ENV=test mocha ./tests/*  ",
+    "test:watch": "NODE_ENV=test mocha ./tests/* --watch",
+    "elm-watch-debug": "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js --debug'",
+    "elm-watch": "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js'",
     "css-watch": "postcss ./src/css/index.css --output ./public/style.min.css --watch --config ./postcss.config.js",
-    "css-build": "postcss ./src/css/index.css --output ./public/style.min.css --config ./postcss.config.js"
+    "dev-frontend": "npm run elm-watch & npm run css-watch",
+    "dev-backend": "NODE_ENV=development nodemon ./src/server/start",
+    "css-build": "postcss ./src/css/index.css --output ./public/style.min.css --config ./postcss.config.js",
+    "heroku-postbuild": "npm run css-build; elm-make src/elm/Main.elm --output=public/elm.js --yes"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/InFact-coop/LCN"
+    "url": "git+https://github.com/InFact-coop/LCN.git"
   },
-  "author": "CAST TEAM - Mavis, Jen & Aisha",
+  "author": "inFACT",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/InFact-coop/LCN/issues"
   },
   "homepage": "https://github.com/InFact-coop/LCN#readme",
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chokidar-cli": "^1.2.0",
+    "dotenv": "^4.0.0",
     "elm-live": "^2.7.5",
+    "mocha": "^4.1.0",
+    "nodemon": "^1.14.11",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "airtable": "^0.5.2",
     "autoprefixer": "^7.1.6",
+    "body-parser": "^1.18.2",
+    "elm": "^0.18.0",
+    "express": "^4.16.2",
     "postcss-clean": "^1.1.0",
     "postcss-cli": "^4.1.1",
     "postcss-custom-media": "^6.0.0",
     "postcss-custom-properties": "^6.2.0",
-    "postcss-import": "^11.0.0"
-  },
-  "dependencies": {
+    "postcss-import": "^11.0.0",
     "tachyons-custom": "^4.9.0"
   }
 }
