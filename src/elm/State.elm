@@ -9,7 +9,7 @@ import Navigation exposing (..)
 
 initModel : Model
 initModel =
-    { view = HomeView
+    { view = Home
     , name = ""
     , lawCentre = Nothing
     , role = Nothing

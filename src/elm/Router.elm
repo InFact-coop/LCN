@@ -5,10 +5,10 @@ import Html.Attributes exposing (..)
 import Types exposing (..)
 import Navigation exposing (..)
 import Views.Home exposing (..)
-import Views.QuantForm exposing (..)
+import Views.AddStats exposing (..)
 import Views.Snapshot exposing (..)
-import Views.QualForm exposing (..)
-import Views.Comments exposing (..)
+import Views.AddComment exposing (..)
+import Views.ListComments exposing (..)
 
 
 view : Model -> Html Msg
@@ -25,45 +25,45 @@ view model =
 getCurrentView : Model -> Html Msg
 getCurrentView model =
     case model.view of
-        HomeView ->
+        Home ->
             homeView model
 
-        QuantFormView ->
-            quantFormView model
+        AddStats ->
+            addStatsView model
 
-        SnapshotView ->
+        Snapshot ->
             snapshotView model
 
-        QualFormView ->
-            qualFormView model
+        AddComment ->
+            addCommentView model
 
-        CommentsView ->
-            commentsView model
+        ListComments ->
+            listCommentsView model
 
 
 getView : String -> View
 getView hash =
     case hash of
         "#home" ->
-            HomeView
+            Home
 
         "#numbers" ->
-            QuantFormView
+            AddStats
 
         "#numbers-snapshot" ->
-            SnapshotView
+            Snapshot
 
         "#add-comment" ->
-            QualFormView
+            AddComment
 
-        "#see-comments" ->
-            CommentsView
+        "#list-comments" ->
+            ListComments
 
         "#logout" ->
-            HomeView
+            Home
 
         _ ->
-            HomeView
+            Home
 
 
 viewFromUrl : Navigation.Location -> Model -> Model
