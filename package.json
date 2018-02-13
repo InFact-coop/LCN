@@ -1,5 +1,5 @@
 {
-  "name": "day-digital",
+  "name": "LCN",
   "version": "1.0.0",
   "description": "Find the help that speaks to you",
   "main": "index.js",
@@ -22,14 +22,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/InFact-coop/day-digital.git"
+    "url": "git+https://github.com/InFact-coop/LCN.git"
   },
   "author": "inFACT",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/InFact-coop/day-digital/issues"
+    "url": "https://github.com/InFact-coop/LCN/issues"
   },
-  "homepage": "https://github.com/InFact-coop/day-digital#readme",
+  "homepage": "https://github.com/InFact-coop/LCN#readme",
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
