@@ -5,6 +5,10 @@ import Navigation
 
 type View
     = Home
+    | AddStats
+    | Snapshot
+    | AddComment
+    | ListComments
 
 
 type alias Model =

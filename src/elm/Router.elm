@@ -3,9 +3,13 @@ module Router exposing (..)
 import Components.Nav exposing (navBar)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Navigation exposing (..)
 import Types exposing (..)
+import Navigation exposing (..)
 import Views.Home exposing (..)
+import Views.AddStats exposing (..)
+import Views.Snapshot exposing (..)
+import Views.AddComment exposing (..)
+import Views.ListComments exposing (..)
 
 
 view : Model -> Html Msg
@@ -24,13 +28,40 @@ getCurrentView : Model -> Html Msg
 getCurrentView model =
     case model.view of
         Home ->
-            home model
+            homeView model
+
+        AddStats ->
+            addStatsView model
+
+        Snapshot ->
+            snapshotView model
+
+        AddComment ->
+            addCommentView model
+
+        ListComments ->
+            listCommentsView model
 
 
 getView : String -> View
 getView hash =
     case hash of
         "#home" ->
+            Home
+
+        "#numbers" ->
+            AddStats
+
+        "#numbers-snapshot" ->
+            Snapshot
+
+        "#add-comment" ->
+            AddComment
+
+        "#list-comments" ->
+            ListComments
+
+        "#logout" ->
             Home
 
         _ ->
