@@ -1,10 +1,6 @@
 module Main exposing (..)
 
-import Navigation
-
-
--- My Elm Files
-
+import Navigation exposing (program)
 import State exposing (..)
 import Router exposing (..)
 import Types exposing (..)
@@ -12,9 +8,9 @@ import Types exposing (..)
 
 main : Program Never Model Msg
 main =
-    Navigation.program UrlChange
-        { init = always ( initModel, Cmd.none )
+    program UrlChange
+        { init = init
         , view = view
         , update = update
-        , subscriptions = subscriptions
+        , subscriptions = always Sub.none
         }
