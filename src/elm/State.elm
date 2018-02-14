@@ -50,3 +50,6 @@ update msg model =
 
         UpdateCommentBody commentBody ->
             { model | commentBody = commentBody } ! []
+
+        UpdateLawCentre lc ->
+            { model | lawCentre = Just lc } ! []

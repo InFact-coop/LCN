@@ -41,6 +41,7 @@ type alias Comment =
 
 type LawCentre
     = Camden
+    | None
 
 
 type Role
@@ -66,3 +67,4 @@ type Msg
     | UpdateCommentType CommentType
     | UpdateName String
     | UpdateCommentBody String
+    | UpdateLawCentre LawCentre
