@@ -60,5 +60,21 @@ update msg model =
         UrlChange location ->
             { model | view = getView location.hash } ! [ Task.attempt (always NoOp) (toTop "container") ]
 
+        UpdateName username ->
+            let
+                oldQuantForm =
+                    model.quantForm
+
+                oldQualForm =
+                    model.qualForm
+
+                newQuantForm =
+                    { oldQuantForm | name = username }
+
+                newQualForm =
+                    { oldQualForm | name = username }
+            in
+                { model | name = username, quantForm = newQuantForm, qualForm = newQualForm } ! []
+
         NoOp ->
             model ! []

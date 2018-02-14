@@ -2,6 +2,7 @@ module Views.Home exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Types exposing (..)
 
 
@@ -14,7 +15,7 @@ homeView model =
                 [ label
                     [ for "name", class "b mr3" ]
                     [ text "Name:" ]
-                , input [ id "name", class "f5 fw2 bn", size 35, type_ "text", placeholder "Larry Law" ] []
+                , input [ id "name", class "f5 fw2 bn", size 35, type_ "text", placeholder "Larry Law", onInput UpdateName ] []
                 ]
             , div [ class "w-100 bb bw1 mb4 pb2 b--orange" ]
                 [ label
