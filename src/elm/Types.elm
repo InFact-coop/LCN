@@ -51,6 +51,8 @@ type Role
 
 type LawArea
     = Criminal
+    | Immigration
+    | None
 
 
 type CommentType
@@ -64,7 +66,4 @@ type Msg
     = NoOp
     | UrlChange Navigation.Location
     | UpdateName String
-
-
-
--- | UpdateLawCentre LawCentre String
+    | UpdateLawArea LawArea
