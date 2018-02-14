@@ -70,3 +70,8 @@ type alias QuantForm =
 type Msg
     = NoOp
     | UrlChange Navigation.Location
+
+
+
+-- | UpdateName String
+-- | UpdateLawCentre LawCentre
