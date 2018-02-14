@@ -45,7 +45,5 @@ update msg model =
         NoOp ->
             model ! []
 
-
-
--- UpdateLawCentre lc _ ->
---     { model | lawCentre = Just lc } ! []
+        UpdateLawCentre lc ->
+            { model | lawCentre = Just lc } ! []
