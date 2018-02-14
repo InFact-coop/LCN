@@ -17,11 +17,11 @@ type alias Model =
     , lawCentre : Maybe LawCentre
     , role : Maybe Role
     , lawArea : Maybe LawArea
-    , qualForm : QualForm
-    , quantForm : QuantForm
     , weeklyCount : Maybe Int
     , commentFilter : Maybe CommentType
     , comments : Maybe (List QualForm)
+    , userCommentBody : String
+    , userCommentType : Maybe CommentType
     }
 
 
@@ -58,15 +58,7 @@ type alias QualForm =
     }
 
 
-type alias QuantForm =
-    { name : String
-    , lawCentre : Maybe LawCentre
-    , lawArea : Maybe LawArea
-    , peopleSeenWeekly : Int
-    , peopleTurnedAwayWeekly : Int
-    }
-
-
 type Msg
     = NoOp
     | UrlChange Navigation.Location
+    | UpdateCommentType CommentType

@@ -3,6 +3,7 @@ module Views.AddComment exposing (..)
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Types exposing (..)
 
 
@@ -57,6 +58,7 @@ topicButton commentType =
             , buttonStyle
             , buttonColor (commentType)
             ]
+        , onClick <| UpdateCommentType commentType
         ]
         [ text <| commentTypeToString commentType ]
 

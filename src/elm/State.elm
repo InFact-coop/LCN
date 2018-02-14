@@ -12,13 +12,13 @@ initModel =
     { view = Home
     , name = ""
     , lawCentre = Nothing
-    , role = Nothing
     , lawArea = Nothing
-    , qualForm = initialQualForm
-    , quantForm = initialQuantForm
+    , role = Nothing
     , weeklyCount = Nothing
     , commentFilter = Nothing
     , comments = Nothing
+    , userCommentBody = ""
+    , userCommentType = Nothing
     }
 
 
@@ -28,20 +28,10 @@ initialQualForm =
     , parentId = Nothing
     , name = ""
     , lawCentre = Nothing
+    , lawArea = Nothing
     , commentBody = ""
     , likes = 0
     , commentType = Nothing
-    , lawArea = Nothing
-    }
-
-
-initialQuantForm : QuantForm
-initialQuantForm =
-    { name = ""
-    , lawCentre = Nothing
-    , lawArea = Nothing
-    , peopleSeenWeekly = 0
-    , peopleTurnedAwayWeekly = 0
     }
 
 
@@ -62,3 +52,6 @@ update msg model =
 
         NoOp ->
             model ! []
+
+        UpdateCommentType commentType ->
+            { model | userCommentType = Just commentType } ! []
