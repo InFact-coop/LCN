@@ -7,8 +7,13 @@ import Types exposing (..)
 import Views.AddComment exposing (commentTypeToString)
 
 
-postComment : Model -> Http.Request String
+postComment : Model -> Cmd Msg
 postComment model =
+    Http.send ReceiveCommentStatus (commentRequest model)
+
+
+commentRequest : Model -> Http.Request String
+commentRequest model =
     post "/post-comment" (jsonBody <| comment model) (Decode.succeed "")
 
 

@@ -72,4 +72,5 @@ type Msg
     | UpdateLawArea LawArea
     | UpdateCommentBody String
     | UpdateLawCentre LawCentre
-    | PostComment (Result Http.Error String)
+    | ReceiveCommentStatus (Result Http.Error String)
+    | PostComment

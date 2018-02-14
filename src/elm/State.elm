@@ -1,10 +1,11 @@
 module State exposing (..)
 
+import Data.PostComment exposing (..)
 import Dom.Scroll exposing (..)
+import Navigation exposing (..)
 import Router exposing (getView, viewFromUrl)
 import Task
 import Types exposing (..)
-import Navigation exposing (..)
 
 
 initModel : Model
@@ -56,3 +57,12 @@ update msg model =
 
         UpdateLawCentre lc ->
             { model | lawCentre = lc } ! []
+
+        PostComment ->
+            model ! [ postComment model ]
+
+        ReceiveCommentStatus (Ok string) ->
+            model ! []
+
+        ReceiveCommentStatus (Err err) ->
+            model ! []
