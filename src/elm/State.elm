@@ -11,8 +11,8 @@ initModel : Model
 initModel =
     { view = Home
     , name = ""
-    , lawCentre = Nothing
-    , lawArea = Nothing
+    , lawCentre = Camden
+    , lawArea = Immigration
     , role = Nothing
     , weeklyCount = Nothing
     , peopleSeenWeekly = 0
@@ -43,7 +43,7 @@ update msg model =
             model ! []
 
         UpdateLawArea la ->
-            { model | lawArea = Just la } ! []
+            { model | lawArea = la } ! []
 
         UpdateName username ->
             { model | name = username } ! []
@@ -55,4 +55,4 @@ update msg model =
             { model | commentBody = commentBody } ! []
 
         UpdateLawCentre lc ->
-            { model | lawCentre = Just lc } ! []
+            { model | lawCentre = lc } ! []

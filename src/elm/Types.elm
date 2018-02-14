@@ -1,6 +1,7 @@
 module Types exposing (..)
 
 import Navigation
+import Http
 
 
 type View
@@ -14,8 +15,8 @@ type View
 type alias Model =
     { view : View
     , name : String
-    , lawCentre : Maybe LawCentre
-    , lawArea : Maybe LawArea
+    , lawCentre : LawCentre
+    , lawArea : LawArea
     , role : Maybe Role
     , weeklyCount : Maybe Int
     , peopleSeenWeekly : Int
@@ -71,3 +72,4 @@ type Msg
     | UpdateLawArea LawArea
     | UpdateCommentBody String
     | UpdateLawCentre LawCentre
+    | PostComment (Result Http.Error String)
