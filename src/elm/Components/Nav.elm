@@ -10,9 +10,9 @@ navBar model =
     nav [ class <| "w-100 h4 bg-white flex-row justify-between items-center" ++ toggleNav model.view ]
         [ img [ src "/assets/lcn-logo.png", class "h4" ] []
         , div []
-            [ a [ class "dib mh3 link", href "/#numbers" ] [ text "Add?" ]
-            , a [ class "dib mh3 link", href "/#list-comments" ] [ text "Comments" ]
-            , a [ class "dib mh3 link", href "/#logout" ] [ text "Log out" ]
+            [ a [ class "dib mh3 link black pointer", href "/#numbers" ] [ text "Add?" ]
+            , a [ class "dib mh3 link black pointer", href "/#list-comments" ] [ text "Comments" ]
+            , a [ class "dib mh3 link black pointer", href "/#logout" ] [ text "Log out" ]
             ]
         ]
 

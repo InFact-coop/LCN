@@ -42,6 +42,9 @@ update msg model =
         NoOp ->
             model ! []
 
+        UpdateLawArea la ->
+            { model | lawArea = Just la } ! []
+
         UpdateName username ->
             { model | name = username } ! []
 

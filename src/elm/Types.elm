@@ -41,7 +41,7 @@ type alias Comment =
 
 type LawCentre
     = Camden
-    | None
+    | NoCentre
 
 
 type Role
@@ -52,6 +52,8 @@ type Role
 
 type LawArea
     = Criminal
+    | Immigration
+    | NoArea
 
 
 type CommentType
@@ -66,5 +68,6 @@ type Msg
     | UrlChange Navigation.Location
     | UpdateCommentType CommentType
     | UpdateName String
+    | UpdateLawArea LawArea
     | UpdateCommentBody String
     | UpdateLawCentre LawCentre

@@ -36,7 +36,7 @@ homeView model =
                     [ text "Law Centre:" ]
                 , select [ id "lawcentre", class "f5 fw2 bn", placeholder "Camden", on "change" <| Json.Decode.map UpdateLawCentre targetValueDecoderLC ]
                     [ option [ value <| toString Camden ] [ text <| toString Camden ]
-                    , option [ value <| toString None ] [ text <| toString None ]
+                    , option [ value <| toString NoCentre ] [ text <| toString NoCentre ]
                     ]
                 ]
             , a [ href "#numbers", class "link black dib bw1 f3 br3 ba b--black ph5 pv3 center" ] [ text "Login" ]
@@ -57,7 +57,7 @@ decoderLC val =
             Json.Decode.succeed Camden
 
         "None" ->
-            Json.Decode.succeed None
+            Json.Decode.succeed NoCentre
 
         _ ->
-            Json.Decode.succeed None
+            Json.Decode.succeed NoCentre
