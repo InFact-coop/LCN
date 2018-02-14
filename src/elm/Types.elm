@@ -17,11 +17,25 @@ type alias Model =
     , lawCentre : Maybe LawCentre
     , role : Maybe Role
     , lawArea : Maybe LawArea
-    , qualForm : QualForm
-    , quantForm : QuantForm
     , weeklyCount : Maybe Int
+    , peopleSeenWeekly : Int
+    , peopleTurnedAwayWeekly : Int
+    , commentBody : String
     , commentFilter : Maybe CommentType
+    , commentType : Maybe CommentType
     , comments : Maybe (List QualForm)
+    }
+
+
+type alias QualForm =
+    { id : Maybe Int
+    , parentId : Maybe Int
+    , name : String
+    , lawCentre : Maybe LawCentre
+    , commentBody : String
+    , likes : Int
+    , commentType : Maybe CommentType
+    , lawArea : Maybe LawArea
     }
 
 
@@ -46,27 +60,11 @@ type CommentType
     | AboutUs
 
 
-type alias QualForm =
-    { id : Maybe Int
-    , parentId : Maybe Int
-    , name : String
-    , lawCentre : Maybe LawCentre
-    , commentBody : String
-    , likes : Int
-    , commentType : Maybe CommentType
-    , lawArea : Maybe LawArea
-    }
-
-
-type alias QuantForm =
-    { name : String
-    , lawCentre : Maybe LawCentre
-    , lawArea : Maybe LawArea
-    , peopleSeenWeekly : Int
-    , peopleTurnedAwayWeekly : Int
-    }
-
-
 type Msg
     = NoOp
     | UrlChange Navigation.Location
+    | UpdateName String
+
+
+
+-- | UpdateLawCentre LawCentre String

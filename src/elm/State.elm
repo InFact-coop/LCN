@@ -14,34 +14,13 @@ initModel =
     , lawCentre = Nothing
     , role = Nothing
     , lawArea = Nothing
-    , qualForm = initialQualForm
-    , quantForm = initialQuantForm
     , weeklyCount = Nothing
-    , commentFilter = Nothing
-    , comments = Nothing
-    }
-
-
-initialQualForm : QualForm
-initialQualForm =
-    { id = Nothing
-    , parentId = Nothing
-    , name = ""
-    , lawCentre = Nothing
-    , commentBody = ""
-    , likes = 0
-    , commentType = Nothing
-    , lawArea = Nothing
-    }
-
-
-initialQuantForm : QuantForm
-initialQuantForm =
-    { name = ""
-    , lawCentre = Nothing
-    , lawArea = Nothing
     , peopleSeenWeekly = 0
     , peopleTurnedAwayWeekly = 0
+    , commentBody = ""
+    , commentType = Nothing
+    , commentFilter = Nothing
+    , comments = Nothing
     }
 
 
@@ -60,5 +39,13 @@ update msg model =
         UrlChange location ->
             { model | view = getView location.hash } ! [ Task.attempt (always NoOp) (toTop "container") ]
 
+        UpdateName username ->
+            { model | name = username } ! []
+
         NoOp ->
             model ! []
+
+
+
+-- UpdateLawCentre lc _ ->
+--     { model | lawCentre = Just lc } ! []
