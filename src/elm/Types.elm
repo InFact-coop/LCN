@@ -25,7 +25,15 @@ type alias Model =
     , commentType : CommentType
     , commentFilter : Maybe CommentType
     , comments : Maybe (List Comment)
+    , commentStatus : RemoteData
     }
+
+
+type RemoteData
+    = NotAsked
+    | Loading
+    | ResponseFailure
+    | ResponseSuccess
 
 
 type alias Comment =
@@ -72,5 +80,5 @@ type Msg
     | UpdateLawArea LawArea
     | UpdateCommentBody String
     | UpdateLawCentre LawCentre
-    | ReceiveCommentStatus (Result Http.Error String)
+    | ReceiveCommentStatus (Result Http.Error Bool)
     | PostComment

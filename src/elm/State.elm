@@ -22,6 +22,7 @@ initModel =
     , commentType = Success
     , commentFilter = Nothing
     , comments = Nothing
+    , commentStatus = NotAsked
     }
 
 
@@ -59,10 +60,10 @@ update msg model =
             { model | lawCentre = lc } ! []
 
         PostComment ->
-            model ! [ postComment model ]
+            { model | commentStatus = Loading } ! [ postComment model ]
 
-        ReceiveCommentStatus (Ok string) ->
-            model ! []
+        ReceiveCommentStatus (Ok bool) ->
+            { model | commentStatus = ResponseSuccess } ! []
 
         ReceiveCommentStatus (Err err) ->
-            model ! []
+            { model | commentStatus = ResponseFailure } ! []

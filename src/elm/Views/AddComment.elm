@@ -24,6 +24,7 @@ addCommentView model =
                 , onClick PostComment
                 ]
                 [ text "Submit" ]
+            , div [ class "f2 red" ] [ text <| toString model.commentStatus ]
             ]
         ]
 

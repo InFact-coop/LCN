@@ -12,9 +12,9 @@ postComment model =
     Http.send ReceiveCommentStatus (commentRequest model)
 
 
-commentRequest : Model -> Http.Request String
+commentRequest : Model -> Http.Request Bool
 commentRequest model =
-    post "/post-comment" (jsonBody <| comment model) (Decode.succeed "")
+    post "/api/v1/post-comment" (jsonBody <| comment model) (Decode.field "success" Decode.bool)
 
 
 comment : Model -> Value
@@ -49,16 +49,3 @@ lawAreaToString lawArea =
 
         NoArea ->
             "No Area"
-
-
-
--- type alias Comment =
---     { id : Maybe Int
---     , parentId : Maybe Int
---     , name : String
---     , lawCentre : Maybe LawCentre
---     , commentBody : String
---     , likes : Int
---     , commentType : Maybe CommentType
---     , lawArea : Maybe LawArea
---     }
