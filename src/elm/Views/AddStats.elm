@@ -77,4 +77,4 @@ decoderLawArea val =
             Json.Decode.succeed Criminal
 
         _ ->
-            Json.Decode.succeed None
+            Json.Decode.succeed NoArea

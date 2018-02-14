@@ -12,13 +12,13 @@ initModel =
     { view = Home
     , name = ""
     , lawCentre = Nothing
-    , role = Nothing
     , lawArea = Nothing
+    , role = Nothing
     , weeklyCount = Nothing
     , peopleSeenWeekly = 0
     , peopleTurnedAwayWeekly = 0
     , commentBody = ""
-    , commentType = Nothing
+    , commentType = Success
     , commentFilter = Nothing
     , comments = Nothing
     }
@@ -39,11 +39,20 @@ update msg model =
         UrlChange location ->
             { model | view = getView location.hash } ! [ Task.attempt (always NoOp) (toTop "container") ]
 
-        UpdateName username ->
-            { model | name = username } ! []
-
         NoOp ->
             model ! []
 
         UpdateLawArea la ->
             { model | lawArea = Just la } ! []
+
+        UpdateName username ->
+            { model | name = username } ! []
+
+        UpdateCommentType commentType ->
+            { model | commentType = commentType } ! []
+
+        UpdateCommentBody commentBody ->
+            { model | commentBody = commentBody } ! []
+
+        UpdateLawCentre lc ->
+            { model | lawCentre = Just lc } ! []

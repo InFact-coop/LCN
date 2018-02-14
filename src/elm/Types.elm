@@ -15,19 +15,19 @@ type alias Model =
     { view : View
     , name : String
     , lawCentre : Maybe LawCentre
-    , role : Maybe Role
     , lawArea : Maybe LawArea
+    , role : Maybe Role
     , weeklyCount : Maybe Int
     , peopleSeenWeekly : Int
     , peopleTurnedAwayWeekly : Int
     , commentBody : String
+    , commentType : CommentType
     , commentFilter : Maybe CommentType
-    , commentType : Maybe CommentType
-    , comments : Maybe (List QualForm)
+    , comments : Maybe (List Comment)
     }
 
 
-type alias QualForm =
+type alias Comment =
     { id : Maybe Int
     , parentId : Maybe Int
     , name : String
@@ -41,6 +41,7 @@ type alias QualForm =
 
 type LawCentre
     = Camden
+    | NoCentre
 
 
 type Role
@@ -52,18 +53,21 @@ type Role
 type LawArea
     = Criminal
     | Immigration
-    | None
+    | NoArea
 
 
 type CommentType
     = Trend
     | Success
     | Annoyance
-    | AboutUs
+    | AskUs
 
 
 type Msg
     = NoOp
     | UrlChange Navigation.Location
+    | UpdateCommentType CommentType
     | UpdateName String
     | UpdateLawArea LawArea
+    | UpdateCommentBody String
+    | UpdateLawCentre LawCentre

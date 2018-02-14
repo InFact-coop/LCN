@@ -1,5 +1,6 @@
 * {
   font-family: var(--sans-serif), sans-serif;
+  outline: 0 !important;
 }
 
 body {

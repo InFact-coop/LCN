@@ -84,6 +84,7 @@ video {
   border: 0;
   font-size: 100%;
   vertical-align: baseline;
+  font-weight: normal;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -114,7 +115,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
