@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
+import Json.Decode exposing (Decoder, andThen)
 
 
 homeView : Model -> Html Msg
@@ -33,8 +34,9 @@ homeView model =
                 [ label
                     [ for "lawcentre", class "b mr3" ]
                     [ text "Law Centre:" ]
-                , select [ id "lawcentre", class "f5 fw2 bn", placeholder "Camden" ]
-                    [-- createLawCentreOption Camden
+                , select [ id "lawcentre", class "f5 fw2 bn", placeholder "Camden", on "change" <| Json.Decode.map UpdateLawCentre targetValueDecoderLC ]
+                    [ option [ value <| toString Camden ] [ text <| toString Camden ]
+                    , option [ value <| toString None ] [ text <| toString None ]
                     ]
                 ]
             , a [ href "#numbers", class "link black dib bw1 f3 br3 ba b--black ph5 pv3 center" ] [ text "Login" ]
@@ -42,9 +44,20 @@ homeView model =
         ]
 
 
+targetValueDecoderLC : Decoder LawCentre
+targetValueDecoderLC =
+    targetValue
+        |> andThen decoderLC
 
--- createLawCentreOption : LawCentre -> Html Msg
--- createLawCentreOption lawCentre =
---     case lawCentre of
---         Camden ->
---             option [ value "Camden", onClick <| UpdateLawCentre Camden ] [ text "Camden" ]
+
+decoderLC : String -> Decoder LawCentre
+decoderLC val =
+    case val of
+        "Camden" ->
+            Json.Decode.succeed Camden
+
+        "None" ->
+            Json.Decode.succeed None
+
+        _ ->
+            Json.Decode.succeed None

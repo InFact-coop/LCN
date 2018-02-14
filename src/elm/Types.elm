@@ -41,6 +41,7 @@ type alias QualForm =
 
 type LawCentre
     = Camden
+    | None
 
 
 type Role
@@ -64,7 +65,4 @@ type Msg
     = NoOp
     | UrlChange Navigation.Location
     | UpdateName String
-
-
-
--- | UpdateLawCentre LawCentre String
+    | UpdateLawCentre LawCentre
