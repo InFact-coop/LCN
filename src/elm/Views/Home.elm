@@ -34,7 +34,7 @@ homeView model =
                     [ for "lawcentre", class "b mr3" ]
                     [ text "Law Centre:" ]
                 , select [ id "lawcentre", class "f5 fw2 bn", placeholder "Camden" ]
-                    [ createLawCentreOption Camden
+                    [-- createLawCentreOption Camden
                     ]
                 ]
             , a [ href "#numbers", class "link black dib bw1 f3 br3 ba b--black ph5 pv3 center" ] [ text "Login" ]
@@ -42,8 +42,9 @@ homeView model =
         ]
 
 
-createLawCentreOption : LawCentre -> Html Msg
-createLawCentreOption lawCentre =
-    case lawCentre of
-        Camden ->
-            option [ value "Camden" ] [ text "Camden" ]
+
+-- createLawCentreOption : LawCentre -> Html Msg
+-- createLawCentreOption lawCentre =
+--     case lawCentre of
+--         Camden ->
+--             option [ value "Camden", onClick <| UpdateLawCentre Camden ] [ text "Camden" ]
