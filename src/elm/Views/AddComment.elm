@@ -13,7 +13,7 @@ addCommentView model =
         [ div []
             [ div [ class "mv3" ] summary
             , div [ class "mv3" ] chooseTopic
-            , div [ class "flex flex-column" ] inputComment
+            , div [ class "flex flex-column" ] <| inputComment model
             ]
         ]
 
@@ -36,9 +36,12 @@ chooseTopic =
     ]
 
 
-inputComment : List (Html Msg)
-inputComment =
-    [ h1 [ classes [ headlineFont, "" ] ] [ text "Tell us about the success you've had" ]
+inputComment : Model -> List (Html Msg)
+inputComment model =
+    [ h1
+        [ classes [ headlineFont, "" ] ]
+      <|
+        commentHeading model
     , textarea
         [ classes [ "bn mv3 pa3", bodyFont ]
         , attribute "rows" "4"
@@ -46,8 +49,35 @@ inputComment =
         , onInput UpdateCommentBody
         ]
         []
-    , button [ classes [ "ph3 pv2 w5 white bg-washed-green", bodyFont, buttonStyle ] ] [ text "Submit" ]
+    , button [ classes [ "ph3 pv2 w5 white", bodyFont, buttonStyle, ("bg-" ++ (commentTypeColor model.commentType)) ] ] [ text "Submit" ]
     ]
+
+
+commentHeading : Model -> List (Html Msg)
+commentHeading model =
+    case model.commentType of
+        Success ->
+            [ text "Tell us about the "
+            , span [ classes [ (commentTypeColor Success), "b" ] ] [ text "success" ]
+            , text " you've had"
+            ]
+
+        Annoyance ->
+            [ text "Tell us about the "
+            , span [ classes [ (commentTypeColor Annoyance), "b" ] ] [ text "annoyance " ]
+            , text "you've had"
+            ]
+
+        Trend ->
+            [ text "Tell us about a "
+            , span [ classes [ (commentTypeColor Trend), "b" ] ] [ text "trend " ]
+            , text "you've noticed"
+            ]
+
+        AskUs ->
+            [ text "Ask us a "
+            , span [ classes [ (commentTypeColor AskUs), "b" ] ] [ text "question" ]
+            ]
 
 
 topicButton : CommentType -> Html Msg
@@ -57,7 +87,7 @@ topicButton commentType =
             [ "ph3 pv2 w5 white"
             , bodyFont
             , buttonStyle
-            , buttonColor (commentType)
+            , "bg-" ++ (commentTypeColor (commentType))
             ]
         , onClick <| UpdateCommentType commentType
         ]
@@ -66,7 +96,7 @@ topicButton commentType =
 
 topics : List CommentType
 topics =
-    [ Trend, Success, Annoyance, AboutUs ]
+    [ Trend, Success, Annoyance, AskUs ]
 
 
 commentTypeToString : CommentType -> String
@@ -81,21 +111,21 @@ commentTypeToString commentType =
         Annoyance ->
             "Annoyance"
 
-        AboutUs ->
-            "About Us"
+        AskUs ->
+            "Ask Us"
 
 
-buttonColor : CommentType -> String
-buttonColor commentType =
+commentTypeColor : CommentType -> String
+commentTypeColor commentType =
     case commentType of
         Trend ->
-            "bg-dark-pink"
+            "pink"
 
         Success ->
-            "bg-washed-green"
+            "green"
 
         Annoyance ->
-            "bg-orange"
+            "orange"
 
-        AboutUs ->
-            "bg-washed-blue"
+        AskUs ->
+            "blue"

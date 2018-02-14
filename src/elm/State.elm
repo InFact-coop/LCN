@@ -18,7 +18,7 @@ initModel =
     , peopleSeenWeekly = 0
     , peopleTurnedAwayWeekly = 0
     , commentBody = ""
-    , commentType = Nothing
+    , commentType = Success
     , commentFilter = Nothing
     , comments = Nothing
     }
@@ -46,7 +46,7 @@ update msg model =
             { model | name = username } ! []
 
         UpdateCommentType commentType ->
-            { model | commentType = Just commentType } ! []
+            { model | commentType = commentType } ! []
 
         UpdateCommentBody commentBody ->
             { model | commentBody = commentBody } ! []

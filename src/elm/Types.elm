@@ -21,7 +21,7 @@ type alias Model =
     , peopleSeenWeekly : Int
     , peopleTurnedAwayWeekly : Int
     , commentBody : String
-    , commentType : Maybe CommentType
+    , commentType : CommentType
     , commentFilter : Maybe CommentType
     , comments : Maybe (List Comment)
     }
@@ -57,7 +57,7 @@ type CommentType
     = Trend
     | Success
     | Annoyance
-    | AboutUs
+    | AskUs
 
 
 type Msg
