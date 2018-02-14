@@ -17,8 +17,8 @@ initModel =
     , weeklyCount = Nothing
     , peopleSeenWeekly = 0
     , peopleTurnedAwayWeekly = 0
-    , userCommentBody = ""
-    , userCommentType = Nothing
+    , commentBody = ""
+    , commentType = Nothing
     , commentFilter = Nothing
     , comments = Nothing
     }
@@ -39,11 +39,14 @@ update msg model =
         UrlChange location ->
             { model | view = getView location.hash } ! [ Task.attempt (always NoOp) (toTop "container") ]
 
-        UpdateName username ->
-            { model | name = username } ! []
-
         NoOp ->
             model ! []
 
+        UpdateName username ->
+            { model | name = username } ! []
+
         UpdateCommentType commentType ->
-            { model | userCommentType = Just commentType } ! []
+            { model | commentType = Just commentType } ! []
+
+        UpdateCommentBody commentBody ->
+            { model | commentBody = commentBody } ! []

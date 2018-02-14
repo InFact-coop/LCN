@@ -20,14 +20,14 @@ type alias Model =
     , weeklyCount : Maybe Int
     , peopleSeenWeekly : Int
     , peopleTurnedAwayWeekly : Int
-    , userCommentBody : String
-    , userCommentType : Maybe CommentType
+    , commentBody : String
+    , commentType : Maybe CommentType
     , commentFilter : Maybe CommentType
-    , comments : Maybe CommentType
+    , comments : Maybe (List Comment)
     }
 
 
-type alias QualForm =
+type alias Comment =
     { id : Maybe Int
     , parentId : Maybe Int
     , name : String
@@ -65,3 +65,4 @@ type Msg
     | UrlChange Navigation.Location
     | UpdateCommentType CommentType
     | UpdateName String
+    | UpdateCommentBody String

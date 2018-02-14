@@ -43,6 +43,7 @@ inputComment =
         [ classes [ "bn mv3 pa3", bodyFont ]
         , attribute "rows" "4"
         , attribute "placeholder" "Write your comment here"
+        , onInput UpdateCommentBody
         ]
         []
     , button [ classes [ "ph3 pv2 w5 white bg-washed-green", bodyFont, buttonStyle ] ] [ text "Submit" ]
