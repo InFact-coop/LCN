@@ -20,10 +20,7 @@ type alias Model =
     , weeklyCount : Maybe Int
     , peopleSeenWeekly : Int
     , peopleTurnedAwayWeekly : Int
-    , commentId : Maybe Int
-    , parentCommentId : Maybe Int
     , commentBody : String
-    , commentLikes : Int
     , commentFilter : Maybe CommentType
     , commentType : Maybe CommentType
     , comments : Maybe (List QualForm)
