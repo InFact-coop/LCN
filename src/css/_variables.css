@@ -91,6 +91,11 @@
 
   /* ~ LCN Brand Colours ~ */
 
+  --green: #00838b;
+  --pink: #c81d63;
+  --orange: #e45e38;
+  --blue: #43538e;
+
   --gray: #464646;
   --silver: #bcbcbc;
   --purple: #70277d;
@@ -111,7 +116,7 @@
   /* border */
   --moon-gray: #d4d8e1;
 
-  --black: #000;
+  --black: #333;
   --near-black: #111;
   --light-silver: #aaa;
   --near-white: #f4f4f4;
@@ -144,24 +149,19 @@
   --white-05: rgba(255, 255, 255, 0.05);
   --white-025: rgba(255, 255, 255, 0.025);
   --white-0125: rgba(255, 255, 255, 0.0125);
-
   --dark-red: #e7040f;
   --red: #ff4136;
   --light-red: #ff725c;
-  --orange: #d05e25;
   --gold: #ffb700;
   --yellow: #ffd700;
   --light-yellow: #fbf1a9;
   --dark-pink: #c72364;
   --hot-pink: #ff41b4;
-  --pink: #ff80cc;
   --light-pink: #ffa3d7;
   --dark-green: #007459;
-  --green: #19a974;
   --light-green: #c7ffdf;
   --navy: #001b44;
   --dark-blue: #2d6b8e;
-  --blue: #357edd;
   --light-blue: #f6f7fb;
   --lightest-blue: #cdecff;
   --washed-blue: #43558e;

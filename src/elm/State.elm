@@ -15,23 +15,12 @@ initModel =
     , lawArea = Nothing
     , role = Nothing
     , weeklyCount = Nothing
-    , commentFilter = Nothing
-    , comments = Nothing
+    , peopleSeenWeekly = 0
+    , peopleTurnedAwayWeekly = 0
     , userCommentBody = ""
     , userCommentType = Nothing
-    }
-
-
-initialQualForm : QualForm
-initialQualForm =
-    { id = Nothing
-    , parentId = Nothing
-    , name = ""
-    , lawCentre = Nothing
-    , lawArea = Nothing
-    , commentBody = ""
-    , likes = 0
-    , commentType = Nothing
+    , commentFilter = Nothing
+    , comments = Nothing
     }
 
 
@@ -49,6 +38,9 @@ update msg model =
     case msg of
         UrlChange location ->
             { model | view = getView location.hash } ! [ Task.attempt (always NoOp) (toTop "container") ]
+
+        UpdateName username ->
+            { model | name = username } ! []
 
         NoOp ->
             model ! []

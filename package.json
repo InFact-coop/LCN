@@ -11,6 +11,8 @@
       "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js --debug'",
     "elm-watch":
       "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js'",
+    "just-frontend":
+      "elm-live src/elm/Main.elm --debug --output=public/elm.js --dir=public --open --pushstate & npm run css-watch",
     "css-watch":
       "postcss ./src/css/index.css --output ./public/style.min.css --watch --config ./postcss.config.js",
     "dev-frontend": "npm run elm-watch & npm run css-watch",

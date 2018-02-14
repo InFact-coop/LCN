@@ -19,7 +19,7 @@ view model =
             getCurrentView model
     in
         div [ class "w-100 fixed overflow-y-scroll top-0 bottom-0 bg-light-blue m0-auto cover", id "container" ]
-            [ navBar
+            [ navBar model
             , view
             ]
 
