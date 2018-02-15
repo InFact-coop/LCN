@@ -1,7 +1,8 @@
 module Types exposing (..)
 
-import Navigation
 import Http
+import Navigation
+import Time exposing (Time)
 
 
 type View
@@ -45,6 +46,7 @@ type alias Comment =
     , likes : Int
     , commentType : CommentType
     , lawArea : LawArea
+    , createdAt : Time
     }
 
 

@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Airtable = require('airtable');
 const base = Airtable.base(process.env.AIRTABLE_BASE);
 const fs = require('fs');
+const R = require('ramda');
 
 Airtable.configure({
   endpointUrl: 'https://api.airtable.com',
@@ -35,9 +36,14 @@ router.route('/get-comments').get((req, res, next) => {
       function done(err) {
         if (err) {
           console.error(err);
-          return;
+          return res.status(500).json({ success: false });
         }
-        return res.json(comments);
+        const dateStringToNumber = str => new Date(str).getTime();
+        const createdTimeLens = R.lensProp('createdTime');
+        const commentsWithNumericalDate = comments.map(
+          R.over(createdTimeLens, dateStringToNumber)
+        );
+        return res.json(commentsWithNumericalDate);
       }
     );
 });

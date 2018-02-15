@@ -30,3 +30,4 @@ commentDecoder =
         |> optionalAt [ "fields", "Likes" ] int 0
         |> optionalAt [ "fields", "Comment type" ] (Json.Decode.map stringToCommmentType string) Success
         |> optionalAt [ "fields", "Law area" ] (Json.Decode.map stringToLawArea string) NoArea
+        |> required "createdTime" float
