@@ -1,18 +1,19 @@
 module State exposing (..)
 
+import Data.PostComment exposing (..)
 import Dom.Scroll exposing (..)
+import Navigation exposing (..)
 import Router exposing (getView, viewFromUrl)
 import Task
 import Types exposing (..)
-import Navigation exposing (..)
 
 
 initModel : Model
 initModel =
     { view = Home
     , name = ""
-    , lawCentre = Nothing
-    , lawArea = Nothing
+    , lawCentre = Camden
+    , lawArea = Immigration
     , role = Nothing
     , weeklyCount = Nothing
     , peopleSeenWeekly = 0
@@ -21,6 +22,7 @@ initModel =
     , commentType = Success
     , commentFilter = Nothing
     , comments = Nothing
+    , commentStatus = NotAsked
     }
 
 
@@ -43,7 +45,7 @@ update msg model =
             model ! []
 
         UpdateLawArea la ->
-            { model | lawArea = Just la } ! []
+            { model | lawArea = la } ! []
 
         UpdateName username ->
             { model | name = username } ! []
@@ -55,4 +57,13 @@ update msg model =
             { model | commentBody = commentBody } ! []
 
         UpdateLawCentre lc ->
-            { model | lawCentre = Just lc } ! []
+            { model | lawCentre = lc } ! []
+
+        PostComment ->
+            { model | commentStatus = Loading } ! [ postComment model ]
+
+        ReceiveCommentStatus (Ok bool) ->
+            { model | commentStatus = ResponseSuccess } ! []
+
+        ReceiveCommentStatus (Err err) ->
+            { model | commentStatus = ResponseFailure } ! []

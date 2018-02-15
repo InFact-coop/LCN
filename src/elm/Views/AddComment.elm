@@ -14,6 +14,17 @@ addCommentView model =
             [ div [ class "mv3" ] summary
             , div [ class "mv3" ] chooseTopic
             , div [ class "flex flex-column" ] <| inputComment model
+            , button
+                [ classes
+                    [ "ph3 pv2 w5 white"
+                    , bodyFont
+                    , buttonStyle
+                    , ("bg-" ++ (commentTypeColor model.commentType))
+                    ]
+                , onClick PostComment
+                ]
+                [ text "Submit" ]
+            , div [ class "f2 red" ] [ text <| toString model.commentStatus ]
             ]
         ]
 
@@ -49,7 +60,6 @@ inputComment model =
         , onInput UpdateCommentBody
         ]
         []
-    , button [ classes [ "ph3 pv2 w5 white", bodyFont, buttonStyle, ("bg-" ++ (commentTypeColor model.commentType)) ] ] [ text "Submit" ]
     ]
 
 
