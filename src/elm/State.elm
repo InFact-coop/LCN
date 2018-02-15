@@ -44,7 +44,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            { model | view = getView location.hash } ! [ Task.attempt (always NoOp) (toTop "container") ]
+            { model | view = getView location.hash, displayStatsModal = False } ! [ Task.attempt (always NoOp) (toTop "container") ]
 
         NoOp ->
             model ! []

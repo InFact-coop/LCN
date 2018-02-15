@@ -44,26 +44,28 @@ statsModal model =
                 , alt "Success"
                 ]
                 []
-            , h1 [ classes [ "f2", "mb4", "mt3" ] ] [ text <| "Thank you" ++ name ++ "!" ]
-            , h2 [ classes [ "f2", "fw3", "mt3", "mb5" ] ]
-                [ text "We've now seen "
-                , span
-                    [ classes
-                        [ "pink"
-                        , "b"
-                        , displayElement <| model.listStatsStatus == ResponseSuccess
+            , section [ classes [ "success" ] ]
+                [ h1 [ classes [ "f2", "mb4", "mt3" ] ] [ text <| "Thank you" ++ name ++ "!" ]
+                , h2 [ classes [ "f2", "fw3", "mt3", "mb5" ] ]
+                    [ text "We've now seen "
+                    , span
+                        [ classes
+                            [ "pink"
+                            , "b"
+                            , displayElement <| model.listStatsStatus == ResponseSuccess
+                            ]
                         ]
+                        [ text <| toString model.peopleSeenWeeklyAll ++ " people" ]
+                    , text " this week!"
                     ]
-                    [ text <| toString model.peopleSeenWeeklyAll ++ " people" ]
-                , text " this week!"
-                ]
-            , h1 [ classes [ "f2" ] ]
-                [ text "What would you like to do now?" ]
-            , section
-                [ classes [ "action-buttons", "mt3" ] ]
-                [ modalButtons "Add Comment" "#add-comment"
-                , modalButtons "See comments" "#list-comments"
-                , modalButtons "Log out" "#logout"
+                , h1 [ classes [ "f2" ] ]
+                    [ text "What would you like to do now?" ]
+                , section
+                    [ classes [ "action-buttons", "mt3" ] ]
+                    [ modalButtons "Add Comment" "#add-comment"
+                    , modalButtons "See comments" "#list-comments"
+                    , modalButtons "Log out" "#logout"
+                    ]
                 ]
             ]
 
