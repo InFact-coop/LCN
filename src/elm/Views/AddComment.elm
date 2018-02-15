@@ -1,6 +1,8 @@
 module Views.AddComment exposing (..)
 
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont)
+import Data.CommentType exposing (commentTypeColor, commentTypes)
+import Helpers exposing (unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -14,24 +16,14 @@ addCommentView model =
             [ div [ class "mv3" ] summary
             , div [ class "mv3" ] chooseTopic
             , div [ class "flex flex-column" ] <| inputComment model
-            , button
-                [ classes
-                    [ "ph3 pv2 w5 white"
-                    , bodyFont
-                    , buttonStyle
-                    , ("bg-" ++ (commentTypeColor model.commentType))
-                    ]
-                , onClick PostComment
-                ]
-                [ text "Submit" ]
-            , div [ class "f2 red" ] [ text <| toString model.commentStatus ]
+            , submitButton model
             ]
         ]
 
 
 summary : List (Html Msg)
 summary =
-    [ h1 [ classes [ headlineFont, "" ] ] [ text "Summary" ]
+    [ h1 [ classes [ headlineFont ] ] [ text "Summary" ]
     , p [ classes [ bodyFont ] ] [ text "An intro to this section could go here. Explaining that it's optional and why the information is useful" ]
     ]
 
@@ -42,7 +34,7 @@ chooseTopic =
     , div [ class "flex justify-between mt2" ]
         (List.map
             topicButton
-            topics
+            commentTypes
         )
     ]
 
@@ -101,41 +93,18 @@ topicButton commentType =
             ]
         , onClick <| UpdateCommentType commentType
         ]
-        [ text <| commentTypeToString commentType ]
+        [ text <| unionTypeToString commentType ]
 
 
-topics : List CommentType
-topics =
-    [ Trend, Success, Annoyance, AskUs ]
-
-
-commentTypeToString : CommentType -> String
-commentTypeToString commentType =
-    case commentType of
-        Trend ->
-            "Trend"
-
-        Success ->
-            "Success"
-
-        Annoyance ->
-            "Annoyance"
-
-        AskUs ->
-            "Ask Us"
-
-
-commentTypeColor : CommentType -> String
-commentTypeColor commentType =
-    case commentType of
-        Trend ->
-            "pink"
-
-        Success ->
-            "green"
-
-        Annoyance ->
-            "orange"
-
-        AskUs ->
-            "blue"
+submitButton : Model -> Html Msg
+submitButton model =
+    button
+        [ classes
+            [ "ph3 pv2 w5 white"
+            , bodyFont
+            , buttonStyle
+            , ("bg-" ++ (commentTypeColor model.commentType))
+            ]
+        , onClick PostComment
+        ]
+        [ text "Submit" ]

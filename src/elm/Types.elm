@@ -24,7 +24,7 @@ type alias Model =
     , commentBody : String
     , commentType : CommentType
     , commentFilter : Maybe CommentType
-    , comments : Maybe (List Comment)
+    , comments : List Comment
     , commentStatus : RemoteData
     }
 
@@ -40,10 +40,10 @@ type alias Comment =
     { id : Maybe Int
     , parentId : Maybe Int
     , name : String
-    , lawCentre : Maybe LawCentre
+    , lawCentre : LawCentre
     , commentBody : String
     , likes : Int
-    , commentType : Maybe CommentType
+    , commentType : CommentType
     , lawArea : Maybe LawArea
     }
 

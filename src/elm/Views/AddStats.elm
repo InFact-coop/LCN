@@ -1,11 +1,12 @@
 module Views.AddStats exposing (..)
 
+import Components.Button exposing (..)
+import Data.LawArea exposing (decoderLawArea)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Decode exposing (Decoder, andThen)
 import Types exposing (..)
-import Components.Button exposing (..)
 
 
 addStatsView : Model -> Html Msg
@@ -65,16 +66,3 @@ targetValueDecoderLawArea : Decoder LawArea
 targetValueDecoderLawArea =
     targetValue
         |> andThen decoderLawArea
-
-
-decoderLawArea : String -> Decoder LawArea
-decoderLawArea val =
-    case val of
-        "Criminal" ->
-            Json.Decode.succeed Criminal
-
-        "Immigration" ->
-            Json.Decode.succeed Immigration
-
-        _ ->
-            Json.Decode.succeed NoArea
