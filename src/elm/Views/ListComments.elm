@@ -1,8 +1,9 @@
 module Views.ListComments exposing (..)
 
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont)
-import Data.CommentType exposing (commentTypeColor, commentTypeToString, commentTypes)
+import Data.CommentType exposing (commentTypeColor, commentTypes)
 import Data.LawCentre exposing (lawCentreToString)
+import Helpers exposing (unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -49,7 +50,7 @@ topicButton commentType =
             ]
         , onClick <| UpdateCommentType commentType
         ]
-        [ text <| commentTypeToString commentType ]
+        [ text <| unionTypeToString commentType ]
 
 
 commentsHeader : Model -> List (Html Msg)

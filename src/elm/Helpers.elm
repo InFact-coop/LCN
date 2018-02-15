@@ -12,8 +12,8 @@ ifThenElse conditional trueCase falseCase =
         falseCase
 
 
-unionTypeToLabel : a -> String
-unionTypeToLabel a =
+unionTypeToString : a -> String
+unionTypeToString a =
     Regex.replace All
         (Regex.regex "[A-Z]")
         (\{ match } -> " " ++ match)
