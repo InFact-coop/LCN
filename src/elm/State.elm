@@ -1,9 +1,11 @@
 module State exposing (..)
 
-import Data.PostComment exposing (..)
-import Data.PostStats exposing (..)
+import Requests.PostComment exposing (..)
+import Requests.PostStats exposing (..)
 import Dom.Scroll exposing (..)
 import Navigation exposing (..)
+import Requests.GetComments exposing (getComments)
+import Requests.PostComment exposing (..)
 import Router exposing (getView, viewFromUrl)
 import Task
 import Types exposing (..)
@@ -22,7 +24,7 @@ initModel =
     , commentBody = ""
     , commentType = Success
     , commentFilter = Nothing
-    , comments = Nothing
+    , comments = []
     , commentStatus = NotAsked
     , postStatsStatus = NotAsked
     , listStatsStatus = NotAsked
@@ -37,7 +39,7 @@ init location =
         model =
             viewFromUrl location initModel
     in
-        model ! []
+        model ! [ getComments ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -100,3 +102,9 @@ update msg model =
 
         ToggleStatsModal ->
             { model | displayStatsModal = False } ! []
+
+        ReceiveComments (Ok comments) ->
+            { model | comments = comments } ! []
+
+        ReceiveComments (Err err) ->
+            model ! []

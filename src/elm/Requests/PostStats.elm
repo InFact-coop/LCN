@@ -1,4 +1,4 @@
-module Data.PostStats exposing (..)
+module Requests.PostStats exposing (..)
 
 import Http exposing (jsonBody, post)
 import Json.Encode exposing (..)

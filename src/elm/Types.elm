@@ -1,7 +1,8 @@
 module Types exposing (..)
 
-import Navigation
 import Http
+import Navigation
+import Time exposing (Time)
 
 
 type View
@@ -24,7 +25,7 @@ type alias Model =
     , commentBody : String
     , commentType : CommentType
     , commentFilter : Maybe CommentType
-    , comments : Maybe (List Comment)
+    , comments : List Comment
     , commentStatus : RemoteData
     , postStatsStatus : RemoteData
     , listStatsStatus : RemoteData
@@ -41,14 +42,15 @@ type RemoteData
 
 
 type alias Comment =
-    { id : Maybe Int
-    , parentId : Maybe Int
+    { id : String
+    , parentId : Maybe String
     , name : String
-    , lawCentre : Maybe LawCentre
+    , lawCentre : LawCentre
     , commentBody : String
     , likes : Int
-    , commentType : Maybe CommentType
-    , lawArea : Maybe LawArea
+    , commentType : CommentType
+    , lawArea : LawArea
+    , createdAt : Time
     }
 
 
@@ -100,3 +102,4 @@ type Msg
     | PostComment
     | PostStats
     | ToggleStatsModal
+    | ReceiveComments (Result Http.Error (List Comment))
