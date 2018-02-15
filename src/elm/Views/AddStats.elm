@@ -25,9 +25,9 @@ addStatsView model =
                         [ text "What is your role?" ]
                     , div
                         []
-                        [ colouredButton "pink" "Case Worker"
-                        , colouredButton "green" "Management"
-                        , colouredButton "orange" "Triage/Reception"
+                        [ colouredButton "pink" CaseWorker
+                        , colouredButton "green" Management
+                        , colouredButton "orange" Triage
                         ]
                     ]
                 , div [ class "pl4 mt4 mb5" ]
