@@ -55,7 +55,7 @@ addStatsView model =
                             ]
                         ]
                     ]
-                , bigColouredButton "green" "Submit" "/#add-comment"
+                , bigColouredButton "green" "Submit" PostStats
                 ]
             ]
         ]

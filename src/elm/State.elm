@@ -23,6 +23,7 @@ initModel =
     , commentFilter = Nothing
     , comments = Nothing
     , commentStatus = NotAsked
+    , statsStatus = NotAsked
     }
 
 
@@ -71,8 +72,17 @@ update msg model =
         PostComment ->
             { model | commentStatus = Loading } ! [ postComment model ]
 
+        PostStats ->
+            { model | statsStatus = Loading } ! [ postComment model ]
+
         ReceiveCommentStatus (Ok bool) ->
             { model | commentStatus = ResponseSuccess } ! []
 
         ReceiveCommentStatus (Err err) ->
+            { model | commentStatus = ResponseFailure } ! []
+
+        ReceiveStats (Ok bool) ->
+            { model | commentStatus = ResponseSuccess } ! []
+
+        ReceiveStats (Err err) ->
             { model | commentStatus = ResponseFailure } ! []

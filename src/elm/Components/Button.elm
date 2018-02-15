@@ -12,6 +12,6 @@ colouredButton colour role =
     button [ class <| "pointer bn br2 fw3 f4 pv3 mr4 ph3 white bg-" ++ colour, onClick <| UpdateRole role ] [ text <| unionTypeToLabel role ]
 
 
-bigColouredButton : String -> String -> String -> Html Msg
-bigColouredButton colour label linkTo =
-    a [ class <| "dib link pointer bn br2 fw3 f3 pv3 mr4 ph4 white bg-" ++ colour, href linkTo ] [ text label ]
+bigColouredButton : String -> String -> Msg -> Html Msg
+bigColouredButton colour label clickMsg =
+    button [ class <| "pointer bn br2 fw3 f3 pv3 mr4 ph4 white bg-" ++ colour, onClick clickMsg ] [ text label ]

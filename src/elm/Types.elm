@@ -26,6 +26,7 @@ type alias Model =
     , commentFilter : Maybe CommentType
     , comments : Maybe (List Comment)
     , commentStatus : RemoteData
+    , statsStatus : RemoteData
     }
 
 
@@ -85,4 +86,6 @@ type Msg
     | UpdateLawCentre LawCentre
     | UpdateRole Role
     | ReceiveCommentStatus (Result Http.Error Bool)
+    | ReceiveStats (Result Http.Error Bool)
     | PostComment
+    | PostStats
