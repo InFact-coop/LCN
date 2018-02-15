@@ -2,7 +2,6 @@ module Views.ListComments exposing (..)
 
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont)
 import Data.CommentType exposing (commentTypeColor, commentTypes)
-import Data.LawCentre exposing (lawCentreToString)
 import Helpers exposing (unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -93,6 +92,6 @@ singleComment : Comment -> Html Msg
 singleComment comment =
     div []
         [ p [] [ text (comment.name) ]
-        , p [] [ text (lawCentreToString comment.lawCentre) ]
+        , p [] [ text (unionTypeToString comment.lawCentre) ]
         , p [] [ text (comment.commentBody) ]
         ]

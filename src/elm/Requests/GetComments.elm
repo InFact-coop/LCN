@@ -9,6 +9,11 @@ import Json.Decode.Pipeline exposing (..)
 import Types exposing (..)
 
 
+getComments : Cmd Msg
+getComments =
+    Http.send ReceiveComments getCommentsRequest
+
+
 getCommentsRequest : Request (List Comment)
 getCommentsRequest =
     Http.get "/api/v1/get-comments" (list commentDecoder)

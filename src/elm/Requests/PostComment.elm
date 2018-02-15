@@ -1,6 +1,5 @@
 module Requests.PostComment exposing (..)
 
-import Data.LawCentre exposing (lawCentreToString)
 import Helpers exposing (unionTypeToString)
 import Http exposing (jsonBody, post)
 import Json.Decode as Decode
@@ -22,7 +21,7 @@ comment : Model -> Value
 comment model =
     object
         [ ( "Name", string model.name )
-        , ( "Law centre", string (lawCentreToString model.lawCentre) )
+        , ( "Law centre", string (unionTypeToString model.lawCentre) )
         , ( "Comment body", string model.commentBody )
         , ( "Comment type", string (unionTypeToString model.commentType) )
         , ( "Law area", string (lawAreaToString model.lawArea) )

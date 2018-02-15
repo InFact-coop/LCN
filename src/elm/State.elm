@@ -76,3 +76,9 @@ update msg model =
 
         ReceiveCommentStatus (Err err) ->
             { model | commentStatus = ResponseFailure } ! []
+
+        ReceiveComments (Ok comments) ->
+            { model | comments = comments } ! []
+
+        ReceiveComments (Err err) ->
+            model ! []

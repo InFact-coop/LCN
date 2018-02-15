@@ -86,3 +86,4 @@ type Msg
     | UpdateRole Role
     | ReceiveCommentStatus (Result Http.Error Bool)
     | PostComment
+    | ReceiveComments (Result Http.Error (List Comment))

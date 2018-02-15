@@ -9,7 +9,7 @@ stringToLawCentre val =
         "Camden" ->
             Camden
 
-        "None" ->
+        "No Centre" ->
             NoCentre
 
         _ ->
