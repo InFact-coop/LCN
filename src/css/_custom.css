@@ -7,9 +7,25 @@ body {
   background-color: var(--light-blue);
 }
 
+/* Remove blue border highlight on inputs */
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
+}
+
+/*  Modal Centering */
+
+.modal {
+  max-height: calc(100% - 100px);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.icon-above {
+  transform: translate(-3rem, -7rem);
 }

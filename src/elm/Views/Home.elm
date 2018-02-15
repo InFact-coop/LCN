@@ -20,7 +20,9 @@ homeView model =
                     [ text "Name:" ]
                 , input [ id "name", class "f5 fw2 bn", size 35, type_ "text", placeholder "Larry Law", onInput UpdateName ] []
                 ]
-            , div [ class "w-100 bb bw1 mb4 pb2 b--orange" ]
+            , div
+                [ class "w-100 bb bw1 mb4 pb2 b--orange"
+                ]
                 [ label
                     [ for "email", class "b mr3" ]
                     [ text "Email:" ]

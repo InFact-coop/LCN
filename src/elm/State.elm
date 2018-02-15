@@ -1,5 +1,7 @@
 module State exposing (..)
 
+import Requests.PostComment exposing (..)
+import Requests.PostStats exposing (..)
 import Dom.Scroll exposing (..)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments)
@@ -24,6 +26,10 @@ initModel =
     , commentFilter = Nothing
     , comments = []
     , commentStatus = NotAsked
+    , postStatsStatus = NotAsked
+    , listStatsStatus = NotAsked
+    , peopleSeenWeeklyAll = 0
+    , displayStatsModal = False
     }
 
 
@@ -33,14 +39,14 @@ init location =
         model =
             viewFromUrl location initModel
     in
-        model ! [ getComments ]
+        model ! []
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            { model | view = getView location.hash } ! [ Task.attempt (always NoOp) (toTop "container") ]
+            { model | view = getView location.hash, displayStatsModal = False } ! [ Task.attempt (always NoOp) (toTop "container") ]
 
         NoOp ->
             model ! []
@@ -72,11 +78,30 @@ update msg model =
         PostComment ->
             { model | commentStatus = Loading } ! [ postComment model ]
 
+        PostStats ->
+            { model | postStatsStatus = Loading, listStatsStatus = Loading } ! [ postStats model ]
+
         ReceiveCommentStatus (Ok bool) ->
-            { model | commentStatus = ResponseSuccess } ! []
+            { model | commentStatus = ResponseSuccess } ! [ getComments ]
 
         ReceiveCommentStatus (Err err) ->
-            { model | commentStatus = ResponseFailure } ! []
+            { model | commentStatus = ResponseFailure } ! [ getComments ]
+
+        ReceiveStats (Ok response) ->
+            if response.getSuccess == True then
+                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseSuccess, peopleSeenWeeklyAll = response.peopleSeen, displayStatsModal = True } ! []
+            else
+                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
+
+        ReceiveStats (Err response) ->
+            let
+                debug =
+                    Debug.log "response" response
+            in
+                { model | postStatsStatus = ResponseFailure, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
+
+        ToggleStatsModal ->
+            { model | displayStatsModal = False } ! []
 
         ReceiveComments (Ok comments) ->
             { model | comments = comments } ! []

@@ -98,13 +98,14 @@ topicButton commentType =
 
 submitButton : Model -> Html Msg
 submitButton model =
-    button
+    a
         [ classes
-            [ "ph3 pv2 w5 white"
+            [ "dib link black ph3 pv2 w5 white tc"
             , bodyFont
             , buttonStyle
             , ("bg-" ++ (commentTypeColor model.commentType))
             ]
+        , href "#list-comments"
         , onClick PostComment
         ]
         [ text "Submit" ]

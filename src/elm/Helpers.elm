@@ -1,7 +1,6 @@
 module Helpers exposing (..)
 
 import Regex exposing (..)
-import Types exposing (..)
 
 
 ifThenElse : Bool -> a -> a -> a

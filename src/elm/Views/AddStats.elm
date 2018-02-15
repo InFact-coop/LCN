@@ -12,7 +12,8 @@ import Types exposing (..)
 
 addStatsView : Model -> Html Msg
 addStatsView model =
-    section [ class "flex justify-center h-100 pa3" ]
+    section
+        [ class "flex justify-center h-100 pa3" ]
         [ section [ class "w-80" ]
             [ section [ class "mb5" ]
                 [ h1 [ class "tl f2 fw5 black mb3" ] [ text "Introduction" ]
@@ -27,10 +28,7 @@ addStatsView model =
                         [ text "What is your role?" ]
                     , div
                         []
-                        [ colouredButton "pink" CaseWorker
-                        , colouredButton "green" Management
-                        , colouredButton "orange" Triage
-                        ]
+                        (roleButtonsList model)
                     ]
                 , div [ class "pl4 mt4 mb5" ]
                     [ label [ for "lawArea", class "mb4 black f3 fw5 b" ] [ text "What is your primary area of Law?" ]
@@ -57,7 +55,7 @@ addStatsView model =
                             ]
                         ]
                     ]
-                , bigColouredButton "green" "Submit" "/#add-comment"
+                , bigColouredButton "green" "Submit" PostStats
                 ]
             ]
         ]
@@ -67,3 +65,44 @@ targetValueDecoderLawArea : Decoder LawArea
 targetValueDecoderLawArea =
     targetValue
         |> andThen decoderLawArea
+
+
+decoderLawArea : String -> Decoder LawArea
+decoderLawArea val =
+    case val of
+        "Criminal" ->
+            Json.Decode.succeed Criminal
+
+        "Immigration" ->
+            Json.Decode.succeed Immigration
+
+        _ ->
+            Json.Decode.succeed NoArea
+
+
+roleButtonsList : Model -> List (Html Msg)
+roleButtonsList model =
+    case model.role of
+        CaseWorker ->
+            [ colouredButton ("pink grow") CaseWorker
+            , colouredButton ("green o-30 shrink") Management
+            , colouredButton ("orange o-30 shrink") Triage
+            ]
+
+        Management ->
+            [ colouredButton ("pink o-30 shrink") CaseWorker
+            , colouredButton ("green grow") Management
+            , colouredButton ("orange o-30 shrink") Triage
+            ]
+
+        Triage ->
+            [ colouredButton ("pink o-30 shrink") CaseWorker
+            , colouredButton ("green o-30 shrink") Management
+            , colouredButton ("orange grow") Triage
+            ]
+
+        NoRole ->
+            [ colouredButton ("pink o-30 shrink") CaseWorker
+            , colouredButton ("green o-30 shrink") Management
+            , colouredButton ("orange o-30 shrink") Triage
+            ]
