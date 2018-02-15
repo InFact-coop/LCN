@@ -15,7 +15,7 @@
       "elm-live src/elm/Main.elm --debug --output=public/elm.js --dir=public --open --pushstate & npm run css-watch",
     "css-watch":
       "postcss ./src/css/index.css --output ./public/style.min.css --watch --config ./postcss.config.js",
-    "dev-frontend": "npm run elm-watch & npm run css-watch",
+    "dev-frontend": "npm run elm-watch-debug & npm run css-watch",
     "dev-backend": "NODE_ENV=development nodemon ./src/server/start",
     "css-build":
       "postcss ./src/css/index.css --output ./public/style.min.css --config ./postcss.config.js",

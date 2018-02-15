@@ -1,8 +1,9 @@
 module State exposing (..)
 
-import Requests.PostComment exposing (..)
 import Dom.Scroll exposing (..)
 import Navigation exposing (..)
+import Requests.GetComments exposing (getComments)
+import Requests.PostComment exposing (..)
 import Router exposing (getView, viewFromUrl)
 import Task
 import Types exposing (..)
@@ -32,7 +33,7 @@ init location =
         model =
             viewFromUrl location initModel
     in
-        model ! []
+        model ! [ getComments ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

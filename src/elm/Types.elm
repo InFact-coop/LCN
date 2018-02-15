@@ -37,8 +37,8 @@ type RemoteData
 
 
 type alias Comment =
-    { id : Maybe Int
-    , parentId : Maybe Int
+    { id : String
+    , parentId : Maybe String
     , name : String
     , lawCentre : LawCentre
     , commentBody : String

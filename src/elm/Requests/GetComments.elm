@@ -22,11 +22,11 @@ getCommentsRequest =
 commentDecoder : Decoder Comment
 commentDecoder =
     decode Comment
-        |> required "id" (maybe int)
-        |> required "Parent Id" (maybe int)
-        |> required "Name" string
-        |> required "Law centre" (Json.Decode.map stringToLawCentre string)
-        |> required "Comment body" string
-        |> required "Likes" int
-        |> required "Comment type" (Json.Decode.map stringToCommmentType string)
-        |> required "Law area" (Json.Decode.map stringToLawArea string)
+        |> required "id" string
+        |> optionalAt [ "fields", "Parent Id" ] (maybe string) Nothing
+        |> optionalAt [ "fields", "Name" ] string ""
+        |> optionalAt [ "fields", "Law centre" ] (Json.Decode.map stringToLawCentre string) NoCentre
+        |> optionalAt [ "fields", "Comment body" ] string ""
+        |> optionalAt [ "fields", "Likes" ] int 0
+        |> optionalAt [ "fields", "Comment type" ] (Json.Decode.map stringToCommmentType string) Success
+        |> optionalAt [ "fields", "Law area" ] (Json.Decode.map stringToLawArea string) NoArea

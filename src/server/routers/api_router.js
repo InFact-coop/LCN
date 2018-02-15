@@ -20,4 +20,26 @@ router.route('/post-comment').post((req, res, next) => {
   });
 });
 
+router.route('/get-comments').get((req, res, next) => {
+  let comments = [];
+  base('Qual')
+    .select()
+    .eachPage(
+      function page(records, fetchNextPage) {
+        records.forEach(function(record) {
+          comments.push(record._rawJson);
+        });
+
+        fetchNextPage();
+      },
+      function done(err) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        return res.json(comments);
+      }
+    );
+});
+
 module.exports = router;
