@@ -1,10 +1,10 @@
-module Data.PostComment exposing (..)
+module Requests.PostComment exposing (..)
 
 import Http exposing (jsonBody, post)
 import Json.Encode exposing (..)
 import Json.Decode as Decode
 import Types exposing (..)
-import Views.AddComment exposing (commentTypeToString)
+import Data.CommentType exposing (commentTypeToString)
 
 
 postComment : Model -> Cmd Msg

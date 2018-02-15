@@ -1,6 +1,6 @@
 module State exposing (..)
 
-import Data.PostComment exposing (..)
+import Requests.PostComment exposing (..)
 import Dom.Scroll exposing (..)
 import Navigation exposing (..)
 import Router exposing (getView, viewFromUrl)
