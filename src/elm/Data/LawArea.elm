@@ -15,3 +15,16 @@ stringToLawArea string =
 
         _ ->
             Criminal
+
+
+decoderLawArea : String -> Decoder LawArea
+decoderLawArea val =
+    case val of
+        "Criminal" ->
+            Json.Decode.succeed Criminal
+
+        "Immigration" ->
+            Json.Decode.succeed Immigration
+
+        _ ->
+            Json.Decode.succeed NoArea

@@ -1,11 +1,11 @@
 module Views.Home exposing (..)
 
-import Data.LawCentre exposing (stringToLawCentre)
+import Data.LawCentre exposing (decoderLC, stringToLawCentre)
 import Helpers exposing (unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Json.Decode exposing (string)
+import Json.Decode exposing (Decoder, andThen)
 import Types exposing (..)
 
 
@@ -36,7 +36,7 @@ homeView model =
                 [ label
                     [ for "lawcentre", class "b mr3" ]
                     [ text "Law Centre:" ]
-                , select [ id "lawcentre", class "f5 fw2 bn", placeholder "Camden", on "change" <| Json.Decode.map (UpdateLawCentre << stringToLawCentre) string ]
+                , select [ id "lawcentre", class "f5 fw2 bn", placeholder "Camden", on "change" <| Json.Decode.map UpdateLawCentre targetValueDecoderLC ]
                     [ option [ value <| unionTypeToString Camden ] [ text <| unionTypeToString Camden ]
                     , option [ value <| unionTypeToString NoCentre ] [ text <| unionTypeToString NoCentre ]
                     ]
@@ -44,3 +44,9 @@ homeView model =
             , a [ href "#numbers", class "link black dib bw1 f3 br3 ba b--black ph5 pv3 center" ] [ text "Login" ]
             ]
         ]
+
+
+targetValueDecoderLC : Decoder LawCentre
+targetValueDecoderLC =
+    targetValue
+        |> andThen decoderLC
