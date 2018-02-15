@@ -10,10 +10,10 @@ Airtable.configure({
 
 router.route('/post-comment').post((req, res, next) => {
   let newForm = req.body;
-  base(process.env.AIRTABLE_TABLE).create(newForm, (err, record) => {
+  base('Qual').create(newForm, (err, record) => {
     if (err) {
       console.log('ERR', err);
-      return res.json({ success: false });
+      return res.status(500).json({ success: false });
     }
     console.log('SUCCESS', record);
     return res.json({ success: true });
