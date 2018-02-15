@@ -39,7 +39,7 @@ init location =
         model =
             viewFromUrl location initModel
     in
-        model ! [ getComments ]
+        model ! []
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -82,10 +82,10 @@ update msg model =
             { model | postStatsStatus = Loading, listStatsStatus = Loading } ! [ postStats model ]
 
         ReceiveCommentStatus (Ok bool) ->
-            { model | commentStatus = ResponseSuccess } ! []
+            { model | commentStatus = ResponseSuccess } ! [ getComments ]
 
         ReceiveCommentStatus (Err err) ->
-            { model | commentStatus = ResponseFailure } ! []
+            { model | commentStatus = ResponseFailure } ! [ getComments ]
 
         ReceiveStats (Ok response) ->
             if response.getSuccess == True then
