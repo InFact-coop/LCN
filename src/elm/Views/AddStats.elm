@@ -45,17 +45,17 @@ addStatsView model =
                             [ class "db mb4" ]
                             [ label [ for "peopleSeenWeekly", class "mb4 black f3 fw5 b" ]
                                 [ text "How many people have you seen this week?" ]
-                            , input [ id "peopleSeenWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3 ] []
+                            , input [ id "peopleSeenWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleSeen ] []
                             ]
                         , div
                             [ class "db mb4" ]
                             [ label [ for "peopleTurnedAwayWeekly", class "mb4 black f3 fw5 b" ]
                                 [ text "How many people have you turned away this week?" ]
-                            , input [ id "peopleTurnedAwayWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3 ] []
+                            , input [ id "peopleTurnedAwayWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleTurnedAway ] []
                             ]
                         ]
                     ]
-                , bigColouredButton "green" "Submit"
+                , bigColouredButton "green" "Submit" "/#add-comment"
                 ]
             ]
         ]
@@ -71,10 +71,10 @@ decoderLawArea : String -> Decoder LawArea
 decoderLawArea val =
     case val of
         "Criminal" ->
-            Json.Decode.succeed Immigration
+            Json.Decode.succeed Criminal
 
         "Immigration" ->
-            Json.Decode.succeed Criminal
+            Json.Decode.succeed Immigration
 
         _ ->
             Json.Decode.succeed NoArea

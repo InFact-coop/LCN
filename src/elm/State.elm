@@ -14,7 +14,7 @@ initModel =
     , name = ""
     , lawCentre = Camden
     , lawArea = Immigration
-    , role = Nothing
+    , role = CaseWorker
     , weeklyCount = Nothing
     , peopleSeenWeekly = 0
     , peopleTurnedAwayWeekly = 0
@@ -58,6 +58,15 @@ update msg model =
 
         UpdateLawCentre lc ->
             { model | lawCentre = lc } ! []
+
+        UpdateRole role ->
+            { model | role = role } ! []
+
+        UpdatePeopleTurnedAway number ->
+            { model | peopleTurnedAwayWeekly = Result.withDefault 0 (String.toInt number) } ! []
+
+        UpdatePeopleSeen number ->
+            { model | peopleSeenWeekly = Result.withDefault 0 (String.toInt number) } ! []
 
         PostComment ->
             { model | commentStatus = Loading } ! [ postComment model ]

@@ -17,7 +17,7 @@ type alias Model =
     , name : String
     , lawCentre : LawCentre
     , lawArea : LawArea
-    , role : Maybe Role
+    , role : Role
     , weeklyCount : Maybe Int
     , peopleSeenWeekly : Int
     , peopleTurnedAwayWeekly : Int
@@ -57,6 +57,7 @@ type Role
     = CaseWorker
     | Management
     | Triage
+    | NoRole
 
 
 type LawArea
@@ -79,6 +80,9 @@ type Msg
     | UpdateName String
     | UpdateLawArea LawArea
     | UpdateCommentBody String
+    | UpdatePeopleSeen String
+    | UpdatePeopleTurnedAway String
     | UpdateLawCentre LawCentre
+    | UpdateRole Role
     | ReceiveCommentStatus (Result Http.Error Bool)
     | PostComment
