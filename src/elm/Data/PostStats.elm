@@ -3,6 +3,7 @@ module Data.PostStats exposing (..)
 import Http exposing (jsonBody, post)
 import Json.Encode exposing (..)
 import Json.Decode as Decode
+import Json.Decode.Pipeline exposing (decode, required, optional)
 import Types exposing (..)
 import Helpers exposing (..)
 
@@ -13,9 +14,17 @@ postStats model =
         (statsRequest model)
 
 
-statsRequest : Model -> Http.Request Bool
+statsResponseDecoder : Decode.Decoder StatsResponse
+statsResponseDecoder =
+    decode StatsResponse
+        |> required "postSuccess" Decode.bool
+        |> required "getSuccess" Decode.bool
+        |> optional "peopleSeen" Decode.int 0
+
+
+statsRequest : Model -> Http.Request StatsResponse
 statsRequest model =
-    post "/api/v1/post-stats" (jsonBody <| stats model) (Decode.field "success" Decode.bool)
+    post "/api/v1/post-stats" (jsonBody <| stats model) statsResponseDecoder
 
 
 stats : Model -> Value

@@ -25,6 +25,7 @@ initModel =
     , comments = Nothing
     , commentStatus = NotAsked
     , statsStatus = NotAsked
+    , peopleSeenWeeklyAll = 0
     }
 
 
@@ -82,8 +83,8 @@ update msg model =
         ReceiveCommentStatus (Err err) ->
             { model | commentStatus = ResponseFailure } ! []
 
-        ReceiveStats (Ok bool) ->
-            { model | commentStatus = ResponseSuccess } ! []
+        ReceiveStats (Ok response) ->
+            { model | statsStatus = ResponseSuccess, peopleSeenWeeklyAll = response.peopleSeen } ! []
 
-        ReceiveStats (Err err) ->
-            { model | commentStatus = ResponseFailure } ! []
+        ReceiveStats (Err response) ->
+            { model | statsStatus = ResponseFailure } ! []

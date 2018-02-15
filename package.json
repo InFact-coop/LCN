@@ -10,7 +10,7 @@
     "elm-watch-debug":
       "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js --debug'",
     "elm-watch":
-      "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js'",
+      "chokidar '**/*.elm' -c 'elm make --debug src/elm/Main.elm --output=public/elm.js'",
     "just-frontend":
       "elm-live src/elm/Main.elm --debug --output=public/elm.js --dir=public --open --pushstate & npm run css-watch",
     "css-watch":

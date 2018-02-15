@@ -27,6 +27,7 @@ type alias Model =
     , comments : Maybe (List Comment)
     , commentStatus : RemoteData
     , statsStatus : RemoteData
+    , peopleSeenWeeklyAll : Int
     }
 
 
@@ -74,6 +75,13 @@ type CommentType
     | AskUs
 
 
+type alias StatsResponse =
+    { postSuccess : Bool
+    , getSuccess : Bool
+    , peopleSeen : Int
+    }
+
+
 type Msg
     = NoOp
     | UrlChange Navigation.Location
@@ -86,6 +94,6 @@ type Msg
     | UpdateLawCentre LawCentre
     | UpdateRole Role
     | ReceiveCommentStatus (Result Http.Error Bool)
-    | ReceiveStats (Result Http.Error Bool)
+    | ReceiveStats (Result Http.Error StatsResponse)
     | PostComment
     | PostStats
