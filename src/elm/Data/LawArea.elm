@@ -4,14 +4,14 @@ import Json.Decode exposing (Decoder)
 import Types exposing (..)
 
 
-decoderLawArea : String -> Decoder LawArea
-decoderLawArea val =
-    case val of
+stringToLawArea : String -> LawArea
+stringToLawArea string =
+    case string of
         "Criminal" ->
-            Json.Decode.succeed Criminal
+            Criminal
 
         "Immigration" ->
-            Json.Decode.succeed Immigration
+            Immigration
 
         _ ->
-            Json.Decode.succeed NoArea
+            Criminal

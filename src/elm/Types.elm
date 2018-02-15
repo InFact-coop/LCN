@@ -44,7 +44,7 @@ type alias Comment =
     , commentBody : String
     , likes : Int
     , commentType : CommentType
-    , lawArea : Maybe LawArea
+    , lawArea : LawArea
     }
 
 

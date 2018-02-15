@@ -22,3 +22,22 @@ commentTypeColor commentType =
 
         AskUs ->
             "blue"
+
+
+stringToCommmentType : String -> CommentType
+stringToCommmentType commentTypeString =
+    case commentTypeString of
+        "Trend" ->
+            Trend
+
+        "Success" ->
+            Success
+
+        "Annoyance" ->
+            Annoyance
+
+        "Ask Us" ->
+            AskUs
+
+        _ ->
+            Success
