@@ -1,10 +1,11 @@
 module Views.Home exposing (..)
 
+import Data.LawCentre exposing (decoderLC)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Types exposing (..)
 import Json.Decode exposing (Decoder, andThen)
+import Types exposing (..)
 
 
 homeView : Model -> Html Msg
@@ -48,16 +49,3 @@ targetValueDecoderLC : Decoder LawCentre
 targetValueDecoderLC =
     targetValue
         |> andThen decoderLC
-
-
-decoderLC : String -> Decoder LawCentre
-decoderLC val =
-    case val of
-        "Camden" ->
-            Json.Decode.succeed Camden
-
-        "None" ->
-            Json.Decode.succeed NoCentre
-
-        _ ->
-            Json.Decode.succeed NoCentre
