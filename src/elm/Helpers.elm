@@ -1,7 +1,6 @@
 module Helpers exposing (..)
 
 import Regex exposing (..)
-import Types exposing (..)
 
 
 ifThenElse : Bool -> a -> a -> a
@@ -12,8 +11,8 @@ ifThenElse conditional trueCase falseCase =
         falseCase
 
 
-unionTypeToLabel : a -> String
-unionTypeToLabel a =
+unionTypeToString : a -> String
+unionTypeToString a =
     Regex.replace All
         (Regex.regex "[A-Z]")
         (\{ match } -> " " ++ match)

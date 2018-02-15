@@ -1,6 +1,7 @@
 module State exposing (..)
 
 import Data.PostComment exposing (..)
+import Data.PostStats exposing (..)
 import Dom.Scroll exposing (..)
 import Navigation exposing (..)
 import Router exposing (getView, viewFromUrl)
@@ -73,7 +74,7 @@ update msg model =
             { model | commentStatus = Loading } ! [ postComment model ]
 
         PostStats ->
-            { model | statsStatus = Loading } ! [ postComment model ]
+            { model | statsStatus = Loading } ! [ postStats model ]
 
         ReceiveCommentStatus (Ok bool) ->
             { model | commentStatus = ResponseSuccess } ! []

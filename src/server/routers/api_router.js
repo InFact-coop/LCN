@@ -20,4 +20,17 @@ router.route('/post-comment').post((req, res, next) => {
   });
 });
 
+router.route('/post-stats').post((req, res, next) => {
+  let newForm = req.body;
+  console.log('STATS: ', newForm);
+  base('Quant').create(newForm, (err, record) => {
+    if (err) {
+      console.log('ERR', err);
+      return res.status(500).json({ success: false });
+    }
+    console.log('SUCCESS', record);
+    return res.json({ success: true });
+  });
+});
+
 module.exports = router;

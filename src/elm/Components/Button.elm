@@ -9,7 +9,7 @@ import Helpers exposing (..)
 
 colouredButton : String -> Role -> Html Msg
 colouredButton colour role =
-    button [ class <| "pointer bn br2 fw3 f4 pv3 mr4 ph3 white bg-" ++ colour, onClick <| UpdateRole role ] [ text <| unionTypeToLabel role ]
+    button [ class <| "pointer bn br2 fw3 f4 pv3 mr4 ph3 white bg-" ++ colour, onClick <| UpdateRole role ] [ text <| unionTypeToString role ]
 
 
 bigColouredButton : String -> String -> Msg -> Html Msg
