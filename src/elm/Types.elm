@@ -1,7 +1,8 @@
 module Types exposing (..)
 
-import Navigation
 import Http
+import Navigation
+import Time exposing (Time)
 
 
 type View
@@ -37,14 +38,15 @@ type RemoteData
 
 
 type alias Comment =
-    { id : Maybe Int
-    , parentId : Maybe Int
+    { id : String
+    , parentId : Maybe String
     , name : String
     , lawCentre : LawCentre
     , commentBody : String
     , likes : Int
     , commentType : CommentType
-    , lawArea : Maybe LawArea
+    , lawArea : LawArea
+    , createdAt : Time
     }
 
 
@@ -86,3 +88,4 @@ type Msg
     | UpdateRole Role
     | ReceiveCommentStatus (Result Http.Error Bool)
     | PostComment
+    | ReceiveComments (Result Http.Error (List Comment))

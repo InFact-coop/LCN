@@ -2,7 +2,6 @@ module Views.ListComments exposing (..)
 
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont)
 import Data.CommentType exposing (commentTypeColor, commentTypes)
-import Data.LawCentre exposing (lawCentreToString)
 import Helpers exposing (unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -17,6 +16,7 @@ listCommentsView model =
             [ div [ class "mv3" ] summary
             , div [ class "mv3" ] chooseTopic
             , div [] (commentsHeader model)
+            , div [] (List.map singleComment <| List.sortBy .createdAt model.comments)
             ]
         ]
 
@@ -84,15 +84,10 @@ commentsHeaderContent model =
             ]
 
 
-listComments : Model -> Html Msg
-listComments model =
-    div [] (List.map singleComment model.comments)
-
-
 singleComment : Comment -> Html Msg
 singleComment comment =
-    div []
+    div [ class "flex flex-row justify-between" ]
         [ p [] [ text (comment.name) ]
-        , p [] [ text (lawCentreToString comment.lawCentre) ]
+        , p [] [ text (unionTypeToString comment.lawCentre) ]
         , p [] [ text (comment.commentBody) ]
         ]

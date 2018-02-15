@@ -1,17 +1,20 @@
 module Data.LawCentre exposing (..)
 
+import Json.Decode exposing (..)
 import Types exposing (..)
-import Json.Decode exposing (Decoder)
 
 
-lawCentreToString : LawCentre -> String
-lawCentreToString lawCentre =
-    case lawCentre of
-        Camden ->
-            "Camden"
+stringToLawCentre : String -> LawCentre
+stringToLawCentre val =
+    case val of
+        "Camden" ->
+            Camden
 
-        NoCentre ->
-            "No Centre"
+        "No Centre" ->
+            NoCentre
+
+        _ ->
+            NoCentre
 
 
 decoderLC : String -> Decoder LawCentre
@@ -20,7 +23,7 @@ decoderLC val =
         "Camden" ->
             Json.Decode.succeed Camden
 
-        "None" ->
+        "No Centre" ->
             Json.Decode.succeed NoCentre
 
         _ ->

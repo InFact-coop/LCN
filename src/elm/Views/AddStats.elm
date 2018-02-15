@@ -1,7 +1,8 @@
 module Views.AddStats exposing (..)
 
 import Components.Button exposing (..)
-import Data.LawArea exposing (decoderLawArea)
+import Data.LawArea exposing (decoderLawArea, stringToLawArea)
+import Helpers exposing (unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -34,8 +35,8 @@ addStatsView model =
                 , div [ class "pl4 mt4 mb5" ]
                     [ label [ for "lawArea", class "mb4 black f3 fw5 b" ] [ text "What is your primary area of Law?" ]
                     , select [ id "areaOfLaw", class "db f4 mt3 b--light-gray ba bw1 fw2 br4 pa2", placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
-                        [ option [ class "f3", value <| toString Immigration ] [ text <| toString Immigration ]
-                        , option [ class "f3", value <| toString Criminal ] [ text <| toString Criminal ]
+                        [ option [ class "f3", value <| unionTypeToString Immigration ] [ text <| unionTypeToString Immigration ]
+                        , option [ class "f3", value <| unionTypeToString Criminal ] [ text <| unionTypeToString Criminal ]
                         ]
                     ]
                 , section [ class "mb5" ]
