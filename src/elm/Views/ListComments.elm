@@ -2,6 +2,7 @@ module Views.ListComments exposing (..)
 
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont)
 import Data.CommentType exposing (commentTypeColor, commentTypeToString, commentTypes)
+import Data.LawCentre exposing (lawCentreToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -14,6 +15,7 @@ listCommentsView model =
         [ div []
             [ div [ class "mv3" ] summary
             , div [ class "mv3" ] chooseTopic
+            , div [] (commentsHeader model)
             ]
         ]
 
@@ -48,3 +50,48 @@ topicButton commentType =
         , onClick <| UpdateCommentType commentType
         ]
         [ text <| commentTypeToString commentType ]
+
+
+commentsHeader : Model -> List (Html Msg)
+commentsHeader model =
+    [ h1 [ classes [ headlineFont, "" ] ] (commentsHeaderContent model) ]
+
+
+commentsHeaderContent : Model -> List (Html Msg)
+commentsHeaderContent model =
+    case model.commentType of
+        Success ->
+            [ text "See what others have said about their "
+            , span [ classes [ (commentTypeColor Success), "b" ] ] [ text "successes" ]
+            ]
+
+        Annoyance ->
+            [ text "Check out others' "
+            , span [ classes [ (commentTypeColor Annoyance), "b" ] ] [ text "annoyances" ]
+            ]
+
+        Trend ->
+            [ text "See what "
+            , span [ classes [ (commentTypeColor Trend), "b" ] ] [ text "trends " ]
+            , text "others have spotted"
+            ]
+
+        AskUs ->
+            [ text "Have a look through "
+            , span [ classes [ (commentTypeColor AskUs), "b" ] ] [ text "questions " ]
+            , text "others have asked"
+            ]
+
+
+listComments : Model -> Html Msg
+listComments model =
+    div [] (List.map singleComment model.comments)
+
+
+singleComment : Comment -> Html Msg
+singleComment comment =
+    div []
+        [ p [] [ text (comment.name) ]
+        , p [] [ text (lawCentreToString comment.lawCentre) ]
+        , p [] [ text (comment.commentBody) ]
+        ]

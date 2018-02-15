@@ -21,7 +21,7 @@ initModel =
     , commentBody = ""
     , commentType = Success
     , commentFilter = Nothing
-    , comments = Nothing
+    , comments = []
     , commentStatus = NotAsked
     }
 

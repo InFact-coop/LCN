@@ -1,10 +1,11 @@
 module Requests.PostComment exposing (..)
 
-import Http exposing (jsonBody, post)
-import Json.Encode exposing (..)
-import Json.Decode as Decode
-import Types exposing (..)
 import Data.CommentType exposing (commentTypeToString)
+import Data.LawCentre exposing (lawCentreToString)
+import Http exposing (jsonBody, post)
+import Json.Decode as Decode
+import Json.Encode exposing (..)
+import Types exposing (..)
 
 
 postComment : Model -> Cmd Msg
@@ -26,16 +27,6 @@ comment model =
         , ( "Comment type", string (commentTypeToString model.commentType) )
         , ( "Law area", string (lawAreaToString model.lawArea) )
         ]
-
-
-lawCentreToString : LawCentre -> String
-lawCentreToString lawCentre =
-    case lawCentre of
-        Camden ->
-            "Camden"
-
-        NoCentre ->
-            "No Centre"
 
 
 lawAreaToString : LawArea -> String
