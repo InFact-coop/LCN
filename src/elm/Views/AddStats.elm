@@ -10,7 +10,8 @@ import Components.Button exposing (..)
 
 addStatsView : Model -> Html Msg
 addStatsView model =
-    section [ class "flex justify-center h-100 pa3" ]
+    section
+        [ class "flex justify-center h-100 pa3" ]
         [ section [ class "w-80" ]
             [ section [ class "mb5" ]
                 [ h1 [ class "tl f2 fw5 black mb3" ] [ text "Introduction" ]

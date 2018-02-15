@@ -26,8 +26,10 @@ type alias Model =
     , commentFilter : Maybe CommentType
     , comments : Maybe (List Comment)
     , commentStatus : RemoteData
-    , statsStatus : RemoteData
+    , postStatsStatus : RemoteData
+    , listStatsStatus : RemoteData
     , peopleSeenWeeklyAll : Int
+    , displayStatsModal : Bool
     }
 
 
@@ -97,3 +99,4 @@ type Msg
     | ReceiveStats (Result Http.Error StatsResponse)
     | PostComment
     | PostStats
+    | ToggleStatsModal

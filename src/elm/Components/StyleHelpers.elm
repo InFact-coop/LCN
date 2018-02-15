@@ -23,3 +23,11 @@ classes : List String -> Html.Attribute msg
 classes classList =
     String.join " " classList
         |> class
+
+
+displayElement : Bool -> String
+displayElement bool =
+    if bool == True then
+        ""
+    else
+        "dn"

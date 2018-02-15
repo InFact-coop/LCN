@@ -63,9 +63,7 @@ router.route('/post-stats').post((req, res, next) => {
         function done(err) {
           if (err) {
             console.error('Get Stats Error', err);
-            return res
-              .status(500)
-              .json({ postSuccess: true, getSuccess: false });
+            return res.json({ postSuccess: true, getSuccess: false });
           }
           console.log('Get Stats Success', peopleSeen);
           return res.json({ postSuccess: true, getSuccess: true, peopleSeen });

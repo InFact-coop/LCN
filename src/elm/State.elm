@@ -24,8 +24,10 @@ initModel =
     , commentFilter = Nothing
     , comments = Nothing
     , commentStatus = NotAsked
-    , statsStatus = NotAsked
+    , postStatsStatus = NotAsked
+    , listStatsStatus = NotAsked
     , peopleSeenWeeklyAll = 0
+    , displayStatsModal = False
     }
 
 
@@ -75,7 +77,7 @@ update msg model =
             { model | commentStatus = Loading } ! [ postComment model ]
 
         PostStats ->
-            { model | statsStatus = Loading } ! [ postStats model ]
+            { model | postStatsStatus = Loading, listStatsStatus = Loading } ! [ postStats model ]
 
         ReceiveCommentStatus (Ok bool) ->
             { model | commentStatus = ResponseSuccess } ! []
@@ -84,7 +86,17 @@ update msg model =
             { model | commentStatus = ResponseFailure } ! []
 
         ReceiveStats (Ok response) ->
-            { model | statsStatus = ResponseSuccess, peopleSeenWeeklyAll = response.peopleSeen } ! []
+            if response.getSuccess == True then
+                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseSuccess, peopleSeenWeeklyAll = response.peopleSeen, displayStatsModal = True } ! []
+            else
+                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
 
         ReceiveStats (Err response) ->
-            { model | statsStatus = ResponseFailure } ! []
+            let
+                debug =
+                    Debug.log "response" response
+            in
+                { model | postStatsStatus = ResponseFailure, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
+
+        ToggleStatsModal ->
+            { model | displayStatsModal = False } ! []
