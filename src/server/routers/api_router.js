@@ -3,27 +3,12 @@ const Airtable = require('airtable');
 const base = Airtable.base(process.env.AIRTABLE_BASE);
 const fs = require('fs');
 const R = require('ramda');
+const helpers = require('../helpers');
 
 Airtable.configure({
   endpointUrl: 'https://api.airtable.com',
   apiKey: process.env.AIRTABLE_API_KEY
 });
-
-const getToday = () => {
-  let today = new Date();
-  let dd = today.getDate();
-  let mm = today.getMonth() + 1; //January is 0!
-
-  let yyyy = today.getFullYear();
-  if (dd < 10) {
-    dd = `0${dd}`;
-  }
-  if (mm < 10) {
-    mm = `0${mm}`;
-  }
-  today = `${yyyy}-${mm}-${dd}`;
-  return today;
-};
 
 router.route('/post-comment').post((req, res, next) => {
   let newForm = req.body;
@@ -39,7 +24,7 @@ router.route('/post-comment').post((req, res, next) => {
 
 router.route('/post-stats').post((req, res, next) => {
   let newForm = req.body;
-  newForm['Date'] = getToday();
+  newForm['Date'] = helpers.getToday();
   let peopleSeen = 0;
   console.log('STATS: ', newForm);
   base('Quant').create(newForm, (err, record) => {
