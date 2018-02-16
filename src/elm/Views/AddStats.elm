@@ -61,25 +61,6 @@ addStatsView model =
         ]
 
 
-targetValueDecoderLawArea : Decoder LawArea
-targetValueDecoderLawArea =
-    targetValue
-        |> andThen decoderLawArea
-
-
-decoderLawArea : String -> Decoder LawArea
-decoderLawArea val =
-    case val of
-        "Criminal" ->
-            Json.Decode.succeed Criminal
-
-        "Immigration" ->
-            Json.Decode.succeed Immigration
-
-        _ ->
-            Json.Decode.succeed NoArea
-
-
 roleButtonsList : Model -> List (Html Msg)
 roleButtonsList model =
     case model.role of
@@ -106,3 +87,9 @@ roleButtonsList model =
             , colouredButton ("green o-30 shrink") Management
             , colouredButton ("orange o-30 shrink") Triage
             ]
+
+
+targetValueDecoderLawArea : Decoder LawArea
+targetValueDecoderLawArea =
+    targetValue
+        |> andThen decoderLawArea

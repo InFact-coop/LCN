@@ -39,7 +39,7 @@ init location =
         model =
             viewFromUrl location initModel
     in
-        model ! []
+        model ! [ getComments ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -94,11 +94,7 @@ update msg model =
                 { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
 
         ReceiveStats (Err response) ->
-            let
-                debug =
-                    Debug.log "response" response
-            in
-                { model | postStatsStatus = ResponseFailure, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
+            { model | postStatsStatus = ResponseFailure, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
 
         ToggleStatsModal ->
             { model | displayStatsModal = False } ! []

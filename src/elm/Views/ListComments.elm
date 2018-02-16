@@ -16,7 +16,11 @@ listCommentsView model =
             [ div [ class "mv3" ] summary
             , div [ class "mv3" ] chooseTopic
             , div [] (commentsHeader model)
-            , div [] (List.map singleComment <| List.sortBy .createdAt model.comments)
+            , div []
+                (List.map singleComment <|
+                    List.sortBy .createdAt <|
+                        List.filter (\comment -> comment.commentType == model.commentType) model.comments
+                )
             ]
         ]
 
@@ -87,7 +91,8 @@ commentsHeaderContent model =
 singleComment : Comment -> Html Msg
 singleComment comment =
     div [ class "flex flex-row justify-between" ]
-        [ p [] [ text (comment.name) ]
-        , p [] [ text (unionTypeToString comment.lawCentre) ]
-        , p [] [ text (comment.commentBody) ]
+        [ p [] [ text ("Name: " ++ comment.name) ]
+        , p [] [ text ("Comment: " ++ comment.commentBody) ]
+        , p [] [ text ("Likes: " ++ toString comment.likes) ]
+        , p [] [ text ("Topic: " ++ unionTypeToString comment.commentType) ]
         ]
