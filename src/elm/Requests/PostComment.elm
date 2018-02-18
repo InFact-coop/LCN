@@ -24,18 +24,5 @@ comment model =
         , ( "Law centre", string (unionTypeToString model.lawCentre) )
         , ( "Comment body", string model.commentBody )
         , ( "Comment type", string (unionTypeToString model.commentType) )
-        , ( "Law area", string (lawAreaToString model.lawArea) )
+        , ( "Law area", string (unionTypeToString model.lawArea) )
         ]
-
-
-lawAreaToString : LawArea -> String
-lawAreaToString lawArea =
-    case lawArea of
-        Criminal ->
-            "Criminal"
-
-        Immigration ->
-            "Immigration"
-
-        NoArea ->
-            "No Area"
