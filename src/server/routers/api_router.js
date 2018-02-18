@@ -56,33 +56,33 @@ router.route('/post-stats').post((req, res) => {
         }
       );
   });
+});
 
-  router.route('/get-comments').get((req, res) => {
-    let comments = [];
-    base('Qual')
-      .select()
-      .eachPage(
-        function page(records, fetchNextPage) {
-          records.forEach(function(record) {
-            comments.push(record._rawJson);
-          });
+router.route('/get-comments').get((req, res) => {
+  let comments = [];
+  base('Qual')
+    .select()
+    .eachPage(
+      function page(records, fetchNextPage) {
+        records.forEach(function(record) {
+          comments.push(record._rawJson);
+        });
 
-          fetchNextPage();
-        },
-        function done(err) {
-          if (err) {
-            console.error(err);
-            return res.status(500).json({ success: false });
-          }
-          const dateStringToNumber = str => new Date(str).getTime();
-          const createdTimeLens = R.lensProp('createdTime');
-          const commentsWithNumericalDate = comments.map(
-            R.over(createdTimeLens, dateStringToNumber)
-          );
-          return res.json(commentsWithNumericalDate);
+        fetchNextPage();
+      },
+      function done(err) {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ success: false });
         }
-      );
-  });
+        const dateStringToNumber = str => new Date(str).getTime();
+        const createdTimeLens = R.lensProp('createdTime');
+        const commentsWithNumericalDate = comments.map(
+          R.over(createdTimeLens, dateStringToNumber)
+        );
+        return res.json(commentsWithNumericalDate);
+      }
+    );
 });
 
 module.exports = router;
