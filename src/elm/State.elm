@@ -39,14 +39,17 @@ init location =
         model =
             viewFromUrl location initModel
     in
-        model ! [ getComments ]
+        model ! []
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            { model | view = getView location.hash, displayStatsModal = False } ! [ Task.attempt (always NoOp) (toTop "container") ]
+            { model | view = getView location.hash, displayStatsModal = False }
+                ! [ Task.attempt (always NoOp) (toTop "container")
+                  , handleGetComments location
+                  ]
 
         NoOp ->
             model ! []
@@ -104,3 +107,17 @@ update msg model =
 
         ReceiveComments (Err err) ->
             model ! []
+
+
+handleGetComments : Navigation.Location -> Cmd Msg
+handleGetComments location =
+    let
+        currentView =
+            getView location.hash
+    in
+        case currentView of
+            ListComments ->
+                getComments
+
+            _ ->
+                Cmd.none

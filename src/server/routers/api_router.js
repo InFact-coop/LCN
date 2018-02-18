@@ -10,7 +10,7 @@ Airtable.configure({
   apiKey: process.env.AIRTABLE_API_KEY
 });
 
-router.route('/post-comment').post((req, res, next) => {
+router.route('/post-comment').post((req, res) => {
   let newForm = req.body;
   base('Qual').create(newForm, (err, record) => {
     if (err) {
@@ -22,7 +22,7 @@ router.route('/post-comment').post((req, res, next) => {
   });
 });
 
-router.route('/post-stats').post((req, res, next) => {
+router.route('/post-stats').post((req, res) => {
   let newForm = req.body;
   newForm['Date'] = helpers.getToday();
   let peopleSeen = 0;
@@ -57,7 +57,7 @@ router.route('/post-stats').post((req, res, next) => {
       );
   });
 
-  router.route('/get-comments').get((req, res, next) => {
+  router.route('/get-comments').get((req, res) => {
     let comments = [];
     base('Qual')
       .select()

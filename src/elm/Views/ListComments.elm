@@ -90,9 +90,8 @@ commentsHeaderContent model =
 
 singleComment : Comment -> Html Msg
 singleComment comment =
-    div [ class "flex flex-row justify-between" ]
-        [ p [] [ text ("Name: " ++ comment.name) ]
-        , p [] [ text ("Comment: " ++ comment.commentBody) ]
-        , p [] [ text ("Likes: " ++ toString comment.likes) ]
-        , p [] [ text ("Topic: " ++ unionTypeToString comment.commentType) ]
+    div [ class "" ]
+        [ div [] [ h1 [] [ text comment.name ], span [] [ text " - " ], h2 [] [ text <| unionTypeToString comment.lawCentre ] ]
+        , p [] [ text comment.commentBody ]
+        , div [] [ button [] [ text "Reply" ], img [ src "./assets/like.svg" ] [] ]
         ]
