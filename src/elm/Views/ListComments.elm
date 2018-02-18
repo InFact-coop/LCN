@@ -90,8 +90,8 @@ commentsHeaderContent model =
 
 singleComment : Comment -> Html Msg
 singleComment comment =
-    div [ class "" ]
-        [ div [] [ h1 [] [ text comment.name ], span [] [ text " - " ], h2 [] [ text <| unionTypeToString comment.lawCentre ] ]
-        , p [] [ text comment.commentBody ]
-        , div [] [ button [] [ text "Reply" ], img [ src "./assets/like.svg" ] [] ]
+    div [ classes [ "center", "flex", "flex-column", "content-center", "bg-white", "br3", "ph4", "pv3", "ma4" ] ]
+        [ div [ classes [ "green", "mb3" ] ] [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ], span [] [ text " - " ], h2 [ classes [ "di" ] ] [ text <| unionTypeToString comment.lawCentre ] ]
+        , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
+        , div [ classes [ "flex", "content-center", "h2" ] ] [ button [ classes [ "pointer", "bn", "bg-green", "ph4", "white", "f4", "br2", "mr4" ] ] [ text "reply" ], img [ src "./assets/like.svg", classes [ "w2", "v-mid" ] ] [] ]
         ]
