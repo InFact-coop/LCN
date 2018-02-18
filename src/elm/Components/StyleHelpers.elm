@@ -14,6 +14,11 @@ bodyFont =
     "f4 lh-copy black"
 
 
+textareaFont : String
+textareaFont =
+    "f5 lh-copy black"
+
+
 buttonStyle : String
 buttonStyle =
     "pointer link lh-copy bn br2"
