@@ -1,7 +1,7 @@
 module Views.AddComment exposing (..)
 
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont)
-import Data.CommentType exposing (commentTypeColor, commentTypes)
+import Data.Comment exposing (commentTypeColor, commentTypes)
 import Helpers exposing (unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -80,6 +80,9 @@ commentHeading model =
             [ text "Ask us a "
             , span [ classes [ (commentTypeColor AskUs), "b" ] ] [ text "question" ]
             ]
+
+        NoType ->
+            []
 
 
 topicButton : CommentType -> Html Msg

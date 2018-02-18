@@ -1,7 +1,7 @@
 module Views.ListComments exposing (..)
 
-import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont)
-import Data.CommentType exposing (commentTypeColor, commentTypes)
+import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, displayElement, emptyDiv, headlineFont)
+import Data.Comment exposing (commentTypeColor, commentTypes, defaultComment)
 import Helpers exposing (unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -17,7 +17,7 @@ listCommentsView model =
             , div [ class "mv3" ] chooseTopic
             , div [] (commentsHeader model)
             , div []
-                (List.map singleComment <|
+                (List.map (singleComment model) <|
                     List.sortBy .createdAt <|
                         List.filter (\comment -> comment.commentType == model.commentType) model.comments
                 )
@@ -87,11 +87,50 @@ commentsHeaderContent model =
             , text "others have asked"
             ]
 
+        NoType ->
+            []
 
-singleComment : Comment -> Html Msg
-singleComment comment =
+
+singleComment : Model -> Comment -> Html Msg
+singleComment model comment =
     div [ classes [ "center", "flex", "flex-column", "content-center", "bg-white", "br3", "ph4", "pv3", "ma4" ] ]
+        [ showParentComment model comment
+        , div [ classes [ "green", "mb3" ] ] [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ], span [] [ text " - " ], h2 [ classes [ "di" ] ] [ text <| unionTypeToString comment.lawCentre ] ]
+        , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
+        , div [ classes [ "flex", "content-center", "h2" ] ] [ button [ classes [ "pointer", "bn", "bg-green", "ph4", "white", "f4", "br1", "mr3", displayElement <| hasParentId comment ] ] [ text "reply" ], img [ src "./assets/like.svg", classes [ "w2", "v-mid" ] ] [] ]
+        ]
+
+
+parentComment : Model -> Comment -> Html Msg
+parentComment model comment =
+    div [ classes [ "center", "flex", "flex-column", "content-center", "bg-green", "br3", "ph4", "pv3", "ma4" ] ]
         [ div [ classes [ "green", "mb3" ] ] [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ], span [] [ text " - " ], h2 [ classes [ "di" ] ] [ text <| unionTypeToString comment.lawCentre ] ]
         , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
-        , div [ classes [ "flex", "content-center", "h2" ] ] [ button [ classes [ "pointer", "bn", "bg-green", "ph4", "white", "f4", "br2", "mr4" ] ] [ text "reply" ], img [ src "./assets/like.svg", classes [ "w2", "v-mid" ] ] [] ]
         ]
+
+
+hasParentId : Comment -> Bool
+hasParentId comment =
+    case comment.parentId of
+        Just _ ->
+            False
+
+        Nothing ->
+            True
+
+
+showParentComment : Model -> Comment -> Html Msg
+showParentComment model comment =
+    case comment.parentId of
+        Just commentId ->
+            parentComment model (getCommentByCommentId model commentId)
+
+        Nothing ->
+            emptyDiv
+
+
+getCommentByCommentId : Model -> CommentId -> Comment
+getCommentByCommentId model commentId =
+    List.filter (\comment -> comment.id == commentId) model.comments
+        |> List.head
+        |> Maybe.withDefault defaultComment

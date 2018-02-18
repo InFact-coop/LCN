@@ -1,6 +1,11 @@
-module Data.CommentType exposing (..)
+module Data.Comment exposing (..)
 
 import Types exposing (..)
+
+
+defaultComment : Comment
+defaultComment =
+    Comment "" Nothing "" NoCentre "" 0 NoType NoArea 0
 
 
 commentTypes : List CommentType
@@ -22,6 +27,9 @@ commentTypeColor commentType =
 
         AskUs ->
             "blue"
+
+        NoType ->
+            "white"
 
 
 stringToCommmentType : String -> CommentType

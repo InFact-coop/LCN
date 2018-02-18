@@ -25,9 +25,14 @@ classes classList =
         |> class
 
 
+emptyDiv : Html msg
+emptyDiv =
+    div [ class "dn" ] []
+
+
 displayElement : Bool -> String
 displayElement bool =
-    if bool == True then
+    if bool then
         ""
     else
         "dn"

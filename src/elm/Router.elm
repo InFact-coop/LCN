@@ -23,7 +23,7 @@ view model =
             [ modalBackground model
             , statsModal model
             , navBar model
-            , view
+            , div [ class "mw8 center" ] [ view ]
             ]
 
 

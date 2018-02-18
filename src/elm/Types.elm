@@ -42,8 +42,8 @@ type RemoteData
 
 
 type alias Comment =
-    { id : String
-    , parentId : Maybe String
+    { id : CommentId
+    , parentId : Maybe CommentId
     , name : String
     , lawCentre : LawCentre
     , commentBody : String
@@ -52,6 +52,10 @@ type alias Comment =
     , lawArea : LawArea
     , createdAt : Time
     }
+
+
+type alias CommentId =
+    String
 
 
 type LawCentre
@@ -77,6 +81,7 @@ type CommentType
     | Success
     | Annoyance
     | AskUs
+    | NoType
 
 
 type alias StatsResponse =
