@@ -51,6 +51,7 @@ type alias Comment =
     , commentType : CommentType
     , lawArea : LawArea
     , createdAt : Time
+    , showReplyInput : Bool
     }
 
 
@@ -108,3 +109,4 @@ type Msg
     | PostStats
     | ToggleStatsModal
     | ReceiveComments (Result Http.Error (List Comment))
+    | ToggleReplyComponent Comment

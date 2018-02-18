@@ -5,7 +5,7 @@ import Types exposing (..)
 
 defaultComment : Comment
 defaultComment =
-    Comment "" Nothing "" NoCentre "" 0 NoType NoArea 0
+    Comment "" Nothing "" NoCentre "" 0 NoType NoArea 0 False
 
 
 commentTypes : List CommentType

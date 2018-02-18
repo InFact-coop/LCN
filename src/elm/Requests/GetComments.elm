@@ -1,6 +1,7 @@
 module Requests.GetComments exposing (..)
 
 import Data.CommentType exposing (stringToCommmentType)
+import Data.Comment exposing (stringToCommmentType)
 import Data.LawArea exposing (stringToLawArea)
 import Data.LawCentre exposing (stringToLawCentre)
 import Http exposing (..)
@@ -31,3 +32,4 @@ commentDecoder =
         |> optionalAt [ "fields", "Comment type" ] (Json.Decode.map stringToCommmentType string) Success
         |> optionalAt [ "fields", "Law area" ] (Json.Decode.map stringToLawArea string) NoArea
         |> required "createdTime" float
+        |> hardcoded False
