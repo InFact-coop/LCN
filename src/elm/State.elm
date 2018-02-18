@@ -109,19 +109,6 @@ update msg model =
         ReceiveComments (Err err) ->
             model ! []
 
-
-handleGetComments : Navigation.Location -> Cmd Msg
-handleGetComments location =
-    let
-        currentView =
-            getView location.hash
-    in
-        case currentView of
-            ListComments ->
-                getComments
-
-            _ ->
-                Cmd.none
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
 
@@ -136,3 +123,16 @@ toggleReplyComponent model clickedComment =
         )
         model.comments
 
+
+handleGetComments : Navigation.Location -> Cmd Msg
+handleGetComments location =
+    let
+        currentView =
+            getView location.hash
+    in
+        case currentView of
+            ListComments ->
+                getComments
+
+            _ ->
+                Cmd.none
