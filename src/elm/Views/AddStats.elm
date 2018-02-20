@@ -58,7 +58,7 @@ addStatsView model =
                         , input [ id "peopleTurnedAwayWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleTurnedAway ] []
                         ]
                     ]
-                , section [ class "mb5" ]
+                , section [ classes [ "mb5", displayElement <| model.role == CaseWorker ] ]
                     [ h1 [ class "tl f2 black mb4" ]
                         [ text "A bit more detail" ]
                     , div [ class "pl4" ]
