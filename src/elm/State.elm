@@ -1,16 +1,13 @@
 module State exposing (..)
 
 import Data.Comment exposing (toggleReplyComponent)
-import Dom.Scroll exposing (..)
+import Helpers exposing (scrollToTop)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments, handleGetComments)
 import Requests.PostComment exposing (..)
+import Requests.PostReply exposing (postReply)
 import Requests.PostStats exposing (..)
 import Router exposing (getView, viewFromUrl)
-import Task
-import Types exposing (..)
-import Router exposing (getView)
-import Task
 import Types exposing (..)
 
 
@@ -50,9 +47,7 @@ update msg model =
     case msg of
         UrlChange location ->
             { model | view = getView location.hash, displayStatsModal = False }
-                ! [ Task.attempt (always NoOp) (toTop "container")
-                  , handleGetComments location
-                  ]
+                ! [ scrollToTop, handleGetComments location ]
 
         NoOp ->
             model ! []
@@ -88,10 +83,10 @@ update msg model =
             { model | postStatsStatus = Loading, listStatsStatus = Loading } ! [ postStats model ]
 
         ReceiveCommentStatus (Ok bool) ->
-            { model | commentStatus = ResponseSuccess } ! [ getComments ]
+            { model | commentStatus = ResponseSuccess } ! [ getComments, scrollToTop ]
 
         ReceiveCommentStatus (Err err) ->
-            { model | commentStatus = ResponseFailure } ! [ getComments ]
+            { model | commentStatus = ResponseFailure } ! [ getComments, scrollToTop ]
 
         ReceiveStats (Ok response) ->
             if response.getSuccess == True then
@@ -113,3 +108,10 @@ update msg model =
 
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
+
+        PostReply parentComment ->
+            let
+                log =
+                    Debug.log "parentComment" parentComment
+            in
+                model ! [ postReply model parentComment ]

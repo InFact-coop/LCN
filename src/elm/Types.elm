@@ -110,3 +110,4 @@ type Msg
     | ToggleStatsModal
     | ReceiveComments (Result Http.Error (List Comment))
     | ToggleReplyComponent Comment
+    | PostReply Comment
