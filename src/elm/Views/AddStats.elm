@@ -5,6 +5,7 @@ import Components.LawArea exposing (lawAreaList, lawAreaOption)
 import Components.LawAreaCheckbox exposing (lawAreaCheckbox)
 import Components.StyleHelpers exposing (classes, displayElement)
 import Data.LawArea exposing (decoderLawArea, stringToLawArea)
+import Helpers exposing (ifThenElse)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -15,7 +16,7 @@ import Types exposing (..)
 addStatsView : Model -> Html Msg
 addStatsView model =
     section
-        [ class "flex justify-center h-100 pa3" ]
+        [ classes [ "flex", "justify-center", "h-100", "pa3", ifThenElse model.displayStatsModal "disableButtons" "" ] ]
         [ section [ class "w-80" ]
             [ section [ class "mb5" ]
                 [ h1 [ class "tl f2 fw5 black mb3" ] [ text "Introduction" ]
@@ -64,8 +65,6 @@ addStatsView model =
                     , div [ class "pl4" ]
                         [ h2 [ class "mb4 black f3 fw5 b" ]
                             [ text "What were the main kinds of problems you have seen this week? "
-
-                            --, div [ class "fw3 i f4 lh-copy" ] [ text "Tick the top 3" ]
                             ]
                         , div [ class "mb1" ]
                             (lawAreaCheckboxesList model)

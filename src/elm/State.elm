@@ -113,7 +113,7 @@ update msg model =
             model ! []
 
         ToggleProblem string checked ->
-            if checked && checkIfExists string model.problems then
+            if checked && isNewEntry string model.problems then
                 { model | problems = model.problems ++ [ string ] } ! []
             else
                 { model | problems = List.filter (\x -> x /= string) model.problems } ! []
@@ -122,7 +122,7 @@ update msg model =
             { model | comments = toggleReplyComponent model comment } ! []
 
 
-checkIfExists : String -> List String -> Bool
-checkIfExists string stringList =
+isNewEntry : String -> List String -> Bool
+isNewEntry string stringList =
     List.member string stringList
         |> not
