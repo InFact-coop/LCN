@@ -1,5 +1,6 @@
 module Views.Home exposing (..)
 
+import Components.LawCentre exposing (lawCentreList, lawCentreOption)
 import Data.LawCentre exposing (decoderLC, stringToLawCentre)
 import Helpers exposing (unionTypeToString)
 import Html exposing (..)
@@ -39,9 +40,7 @@ homeView model =
                     [ for "lawcentre", class "b mr3" ]
                     [ text "Law Centre:" ]
                 , select [ id "lawcentre", class "f5 fw2 bn", placeholder "Camden", on "change" <| Json.Decode.map UpdateLawCentre targetValueDecoderLC ]
-                    [ option [ value <| unionTypeToString Camden ] [ text <| unionTypeToString Camden ]
-                    , option [ value <| unionTypeToString NoCentre ] [ text <| unionTypeToString NoCentre ]
-                    ]
+                    (List.map lawCentreOption lawCentreList)
                 ]
             , a [ href "#numbers", class "link black dib bw1 f3 br3 ba b--black ph5 pv3 center" ] [ text "Login" ]
             ]

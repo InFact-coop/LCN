@@ -35,4 +35,5 @@ stats model =
         , ( "Law area", string (unionTypeToString model.lawArea) )
         , ( "People seen weekly", int model.peopleSeenWeekly )
         , ( "People turned away weekly", int (model.peopleTurnedAwayWeekly) )
+        , ( "Problems encountered", list (List.map (\problem -> string problem) model.problems) )
         ]

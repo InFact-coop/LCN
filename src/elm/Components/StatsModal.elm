@@ -74,8 +74,9 @@ modalBackground : Model -> Html Msg
 modalBackground model =
     div
         [ classes
-            [ "vh-100"
-            , "w-100"
+            [ "w-100"
+            , "h-100"
+            , "fixed"
             , "bg-black"
             , "o-70"
             , "z-1"

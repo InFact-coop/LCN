@@ -16,7 +16,7 @@ initModel =
     { view = Home
     , name = ""
     , lawCentre = Camden
-    , lawArea = Immigration
+    , lawArea = NoArea
     , role = CaseWorker
     , weeklyCount = Nothing
     , peopleSeenWeekly = 0
@@ -30,6 +30,7 @@ initModel =
     , listStatsStatus = NotAsked
     , peopleSeenWeeklyAll = 0
     , displayStatsModal = False
+    , problems = []
     }
 
 
@@ -106,12 +107,20 @@ update msg model =
         ReceiveComments (Err err) ->
             model ! []
 
+        ToggleProblem string checked ->
+            if checked && isNewEntry string model.problems then
+                { model | problems = model.problems ++ [ string ] } ! []
+            else
+                { model | problems = List.filter (\x -> x /= string) model.problems } ! []
+
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
 
         PostReply parentComment ->
-            let
-                log =
-                    Debug.log "parentComment" parentComment
-            in
-                model ! [ postReply model parentComment ]
+            model ! [ postReply model parentComment ]
+
+
+isNewEntry : String -> List String -> Bool
+isNewEntry string stringList =
+    List.member string stringList
+        |> not
