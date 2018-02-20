@@ -10,7 +10,11 @@ import Components.StyleHelpers exposing (classes)
 
 colouredButton : String -> Role -> Html Msg
 colouredButton colour role =
-    button [ class <| "pointer bn br2 fw3 f4 pv3 mr4 ph3 white bg-" ++ colour, onClick <| UpdateRole role ] [ text <| unionTypeToString role ]
+    let
+        buttonText =
+            ifThenElse (role == CaseWorker) "Lawyer/Case Worker" (unionTypeToString role)
+    in
+        button [ class <| "pointer bn br2 fw3 f4 pv3 mr4 ph3 white bg-" ++ colour, onClick <| UpdateRole role ] [ text buttonText ]
 
 
 bigColouredButton : String -> String -> Msg -> Html Msg

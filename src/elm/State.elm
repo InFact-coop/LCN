@@ -94,7 +94,7 @@ update msg model =
             { model | commentStatus = ResponseFailure } ! [ getComments, scrollToTop ]
 
         ReceiveStats (Ok response) ->
-            if response.getSuccess == True then
+            if response.getSuccess then
                 { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseSuccess, peopleSeenWeeklyAll = response.peopleSeen, displayStatsModal = True } ! []
             else
                 { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
@@ -115,8 +115,4 @@ update msg model =
             { model | comments = toggleReplyComponent model comment } ! []
 
         PostReply parentComment ->
-            let
-                log =
-                    Debug.log "parentComment" parentComment
-            in
-                model ! [ postReply model parentComment ]
+            model ! [ postReply model parentComment ]
