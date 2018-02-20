@@ -160,3 +160,4 @@ type Msg
     | ReceiveComments (Result Http.Error (List Comment))
     | ToggleReplyComponent Comment
     | ToggleProblem String Bool
+    | PostReply Comment

@@ -25,3 +25,13 @@ getCommentByCommentId model commentId =
     List.filter (\comment -> comment.id == commentId) model.comments
         |> List.head
         |> Maybe.withDefault defaultComment
+
+
+hasParentId : Comment -> Bool
+hasParentId comment =
+    case comment.parentId of
+        Just _ ->
+            False
+
+        Nothing ->
+            True
