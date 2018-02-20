@@ -14,7 +14,7 @@ postReply model parentComment =
 
 replyRequest : Model -> Comment -> Http.Request Bool
 replyRequest model parentComment =
-    post "/api/v1/post-reply" (jsonBody <| comment model parentComment) (Decode.field "success" Decode.bool)
+    post "/api/v1/post-comment" (jsonBody <| comment model parentComment) (Decode.field "success" Decode.bool)
 
 
 comment : Model -> Comment -> Value

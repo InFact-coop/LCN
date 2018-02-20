@@ -19,7 +19,7 @@ listCommentsView model =
             , div [] (commentsHeader model)
             , div []
                 (List.map (singleComment model) <|
-                    List.sortBy .createdAt <|
+                    List.sortBy (.createdAt >> negate) <|
                         List.filter (\comment -> comment.commentType == model.commentType) model.comments
                 )
             ]
@@ -94,12 +94,23 @@ commentsHeaderContent model =
 
 singleComment : Model -> Comment -> Html Msg
 singleComment model comment =
-    div [ classes [ "center", "flex", "flex-column", "content-center", "bg-white", "br3", "ph4", "pt3", "pb0", "ma4" ] ]
-        [ showParentComment model comment
-        , div [ classes [ "green", "mb3" ] ] [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ], span [] [ text " - " ], h2 [ classes [ "di" ] ] [ text <| unionTypeToString comment.lawCentre ] ]
-        , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
-        , ifThenElse comment.showReplyInput (replyComponent comment) (commentActions comment)
-        ]
+    let
+        parentComment =
+            getCommentByCommentId model (Maybe.withDefault "" comment.parentId)
+    in
+        div [ classes [ "center", "flex", "flex-column", "content-center", "bg-white", "br3", "ph4", "pt3", "pb0", "ma4" ] ]
+            [ showParentComment model comment
+            , div [ classes [ "green", "mb3" ] ]
+                [ h1 [ classes [ "fw5", "f3", "b", "di" ] ] [ text comment.name ]
+                , span [] [ text " - " ]
+                , h1 [ classes [ "di", "fw3", "f3" ] ] [ text <| (unionTypeToString comment.lawCentre) ++ " Law Centre" ]
+                , ifThenElse (hasParentId comment)
+                    emptyDiv
+                    (h2 [ class "di fw3 f3 i" ] [ text <| " - In reply to " ++ parentComment.name ])
+                ]
+            , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
+            , ifThenElse comment.showReplyInput (replyComponent comment) (commentActions comment)
+            ]
 
 
 commentActions : Comment -> Html Msg
@@ -142,7 +153,11 @@ replyComponent parentComment =
 parentComment : Model -> Comment -> Html Msg
 parentComment model comment =
     div [ classes [ "center", "flex", "flex-column", "content-center", "bg-green", "br3", "ph4", "pv3", "ma4", "bg-light-green" ] ]
-        [ div [ classes [ "green", "mb3" ] ] [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ], span [] [ text " - " ], h2 [ classes [ "di" ] ] [ text <| unionTypeToString comment.lawCentre ] ]
+        [ div [ classes [ "green", "mb3" ] ]
+            [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ]
+            , span [] [ text " - " ]
+            , h2 [ class "di fw3 f3" ] [ text <| (unionTypeToString comment.lawCentre) ++ " Law Centre" ]
+            ]
         , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
         ]
 

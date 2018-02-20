@@ -1,6 +1,9 @@
 module Helpers exposing (..)
 
 import Regex exposing (..)
+import Types exposing (..)
+import Dom.Scroll exposing (..)
+import Task
 
 
 ifThenElse : Bool -> a -> a -> a
@@ -18,3 +21,8 @@ unionTypeToString a =
         (\{ match } -> " " ++ match)
         (toString a)
         |> String.trim
+
+
+scrollToTop : Cmd Msg
+scrollToTop =
+    Task.attempt (always NoOp) (toTop "container")
