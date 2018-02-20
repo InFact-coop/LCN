@@ -1,7 +1,6 @@
 module Requests.GetComments exposing (..)
 
-import Data.Comment exposing (stringToCommmentType)
-import Data.Comment exposing (stringToCommmentType)
+import Data.CommentType exposing (stringToCommmentType)
 import Data.LawArea exposing (stringToLawArea)
 import Data.LawCentre exposing (stringToLawCentre)
 import Http exposing (..)

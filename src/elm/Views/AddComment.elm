@@ -1,7 +1,7 @@
 module Views.AddComment exposing (..)
 
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont)
-import Data.Comment exposing (commentTypeColor, commentTypes)
+import Data.CommentType exposing (commentTypeColor, commentTypes)
 import Helpers exposing (unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)

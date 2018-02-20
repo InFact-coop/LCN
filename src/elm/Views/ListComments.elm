@@ -1,7 +1,8 @@
 module Views.ListComments exposing (..)
 
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, displayElement, emptyDiv, headlineFont, textareaFont)
-import Data.Comment exposing (commentTypeColor, commentTypes, defaultComment)
+import Data.Comment exposing (defaultComment, getCommentByCommentId)
+import Data.CommentType exposing (commentTypeColor, commentTypes)
 import Helpers exposing (ifThenElse, unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -164,10 +165,3 @@ showParentComment model comment =
 
         Nothing ->
             emptyDiv
-
-
-getCommentByCommentId : Model -> CommentId -> Comment
-getCommentByCommentId model commentId =
-    List.filter (\comment -> comment.id == commentId) model.comments
-        |> List.head
-        |> Maybe.withDefault defaultComment

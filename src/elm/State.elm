@@ -1,13 +1,15 @@
 module State exposing (..)
 
-import Requests.PostComment exposing (..)
-import Requests.PostStats exposing (..)
+import Data.Comment exposing (toggleReplyComponent)
 import Dom.Scroll exposing (..)
-import Helpers exposing (ifThenElse)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments)
 import Requests.PostComment exposing (..)
+import Requests.PostStats exposing (..)
 import Router exposing (getView, viewFromUrl)
+import Task
+import Types exposing (..)
+import Router exposing (getView)
 import Task
 import Types exposing (..)
 
@@ -111,17 +113,6 @@ update msg model =
 
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
-
-
-toggleReplyComponent : Model -> Comment -> List Comment
-toggleReplyComponent model clickedComment =
-    List.map
-        (\currentComment ->
-            ifThenElse (currentComment.id == clickedComment.id)
-                { currentComment | showReplyInput = not currentComment.showReplyInput }
-                { currentComment | showReplyInput = False }
-        )
-        model.comments
 
 
 handleGetComments : Navigation.Location -> Cmd Msg

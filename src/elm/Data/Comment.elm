@@ -1,5 +1,6 @@
 module Data.Comment exposing (..)
 
+import Helpers exposing (ifThenElse)
 import Types exposing (..)
 
 
@@ -8,44 +9,19 @@ defaultComment =
     Comment "" Nothing "" NoCentre "" 0 NoType NoArea 0 False
 
 
-commentTypes : List CommentType
-commentTypes =
-    [ Trend, Success, Annoyance, AskUs ]
+toggleReplyComponent : Model -> Comment -> List Comment
+toggleReplyComponent model clickedComment =
+    List.map
+        (\currentComment ->
+            ifThenElse (currentComment.id == clickedComment.id)
+                { currentComment | showReplyInput = not currentComment.showReplyInput }
+                { currentComment | showReplyInput = False }
+        )
+        model.comments
 
 
-commentTypeColor : CommentType -> String
-commentTypeColor commentType =
-    case commentType of
-        Trend ->
-            "pink"
-
-        Success ->
-            "green"
-
-        Annoyance ->
-            "orange"
-
-        AskUs ->
-            "blue"
-
-        NoType ->
-            "white"
-
-
-stringToCommmentType : String -> CommentType
-stringToCommmentType commentTypeString =
-    case commentTypeString of
-        "Trend" ->
-            Trend
-
-        "Success" ->
-            Success
-
-        "Annoyance" ->
-            Annoyance
-
-        "Ask Us" ->
-            AskUs
-
-        _ ->
-            Success
+getCommentByCommentId : Model -> CommentId -> Comment
+getCommentByCommentId model commentId =
+    List.filter (\comment -> comment.id == commentId) model.comments
+        |> List.head
+        |> Maybe.withDefault defaultComment
