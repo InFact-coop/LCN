@@ -81,6 +81,9 @@ commentHeading model =
             , span [ classes [ (commentTypeColor AskUs), "b" ] ] [ text "question" ]
             ]
 
+        NoType ->
+            []
+
 
 topicButton : CommentType -> Html Msg
 topicButton commentType =

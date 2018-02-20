@@ -7,6 +7,8 @@ import Http exposing (..)
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Types exposing (..)
+import Navigation exposing (..)
+import Router exposing (getView)
 
 
 getComments : Cmd Msg
@@ -31,3 +33,18 @@ commentDecoder =
         |> optionalAt [ "fields", "Comment type" ] (Json.Decode.map stringToCommmentType string) Success
         |> optionalAt [ "fields", "Law area" ] (Json.Decode.map stringToLawArea string) NoArea
         |> required "createdTime" float
+        |> hardcoded False
+
+
+handleGetComments : Navigation.Location -> Cmd Msg
+handleGetComments location =
+    let
+        currentView =
+            getView location.hash
+    in
+        case currentView of
+            ListComments ->
+                getComments
+
+            _ ->
+                Cmd.none

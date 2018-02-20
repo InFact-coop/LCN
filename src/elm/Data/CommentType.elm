@@ -23,6 +23,9 @@ commentTypeColor commentType =
         AskUs ->
             "blue"
 
+        NoType ->
+            "white"
+
 
 stringToCommmentType : String -> CommentType
 stringToCommmentType commentTypeString =

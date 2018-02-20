@@ -11,7 +11,7 @@ import Types exposing (..)
 
 homeView : Model -> Html Msg
 homeView model =
-    section [ class "flex items-center justify-center h-100" ]
+    section [ class "flex items-center justify-center vh-100" ]
         [ section [ class "flex items-center justify-between flex-column bg-white pa3" ]
             [ img [ class "mb4", src "./assets/lcn-logo.png" ] []
             , div [ class "w-100 bb bw1 mb4 pb2 b--pink" ]

@@ -1,12 +1,15 @@
 module State exposing (..)
 
-import Requests.PostComment exposing (..)
-import Requests.PostStats exposing (..)
+import Data.Comment exposing (toggleReplyComponent)
 import Dom.Scroll exposing (..)
 import Navigation exposing (..)
-import Requests.GetComments exposing (getComments)
+import Requests.GetComments exposing (getComments, handleGetComments)
 import Requests.PostComment exposing (..)
+import Requests.PostStats exposing (..)
 import Router exposing (getView, viewFromUrl)
+import Task
+import Types exposing (..)
+import Router exposing (getView)
 import Task
 import Types exposing (..)
 
@@ -46,7 +49,10 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            { model | view = getView location.hash, displayStatsModal = False } ! [ Task.attempt (always NoOp) (toTop "container") ]
+            { model | view = getView location.hash, displayStatsModal = False }
+                ! [ Task.attempt (always NoOp) (toTop "container")
+                  , handleGetComments location
+                  ]
 
         NoOp ->
             model ! []
@@ -94,11 +100,7 @@ update msg model =
                 { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
 
         ReceiveStats (Err response) ->
-            let
-                debug =
-                    Debug.log "response" response
-            in
-                { model | postStatsStatus = ResponseFailure, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
+            { model | postStatsStatus = ResponseFailure, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
 
         ToggleStatsModal ->
             { model | displayStatsModal = False } ! []
@@ -108,3 +110,6 @@ update msg model =
 
         ReceiveComments (Err err) ->
             model ! []
+
+        ToggleReplyComponent comment ->
+            { model | comments = toggleReplyComponent model comment } ! []

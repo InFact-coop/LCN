@@ -1,8 +1,9 @@
 module Views.ListComments exposing (..)
 
-import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont)
+import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, displayElement, emptyDiv, headlineFont, textareaFont)
+import Data.Comment exposing (defaultComment, getCommentByCommentId)
 import Data.CommentType exposing (commentTypeColor, commentTypes)
-import Helpers exposing (unionTypeToString)
+import Helpers exposing (ifThenElse, unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -16,7 +17,11 @@ listCommentsView model =
             [ div [ class "mv3" ] summary
             , div [ class "mv3" ] chooseTopic
             , div [] (commentsHeader model)
-            , div [] (List.map singleComment <| List.sortBy .createdAt model.comments)
+            , div []
+                (List.map (singleComment model) <|
+                    List.sortBy .createdAt <|
+                        List.filter (\comment -> comment.commentType == model.commentType) model.comments
+                )
             ]
         ]
 
@@ -83,11 +88,80 @@ commentsHeaderContent model =
             , text "others have asked"
             ]
 
+        NoType ->
+            []
 
-singleComment : Comment -> Html Msg
-singleComment comment =
-    div [ class "flex flex-row justify-between" ]
-        [ p [] [ text (comment.name) ]
-        , p [] [ text (unionTypeToString comment.lawCentre) ]
-        , p [] [ text (comment.commentBody) ]
+
+singleComment : Model -> Comment -> Html Msg
+singleComment model comment =
+    div [ classes [ "center", "flex", "flex-column", "content-center", "bg-white", "br3", "ph4", "pt3", "pb0", "ma4" ] ]
+        [ showParentComment model comment
+        , div [ classes [ "green", "mb3" ] ] [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ], span [] [ text " - " ], h2 [ classes [ "di" ] ] [ text <| unionTypeToString comment.lawCentre ] ]
+        , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
+        , ifThenElse comment.showReplyInput replyComponent (commentActions comment)
         ]
+
+
+commentActions : Comment -> Html Msg
+commentActions comment =
+    div [ classes [ "flex", "content-center", "h2" ] ]
+        [ button
+            [ classes
+                [ "pointer"
+                , "bn"
+                , "bg-green"
+                , "ph4"
+                , "white"
+                , "f4"
+                , "br1"
+                , "mr3"
+                , displayElement <| hasParentId comment
+                ]
+            , onClick <| ToggleReplyComponent comment
+            ]
+            [ text "reply" ]
+        , img [ src "./assets/like.svg", classes [ "w2", "v-mid" ] ] []
+        ]
+
+
+replyComponent : Html Msg
+replyComponent =
+    div [ classes [ "flex", "items-center", "bt", "bw1", "b--light-gray" ] ]
+        [ img [ classes [ "w2", "h2" ], src "./assets/comment.svg" ] []
+        , textarea
+            [ classes [ "bn mv3 pa3", "w-100", textareaFont ]
+            , rows 1
+            , placeholder "Write your comment here"
+            , onInput UpdateCommentBody
+            ]
+            []
+        , img [ classes [ "h2", "w2", "pointer" ], src "./assets/send.svg" ] []
+        ]
+
+
+parentComment : Model -> Comment -> Html Msg
+parentComment model comment =
+    div [ classes [ "center", "flex", "flex-column", "content-center", "bg-green", "br3", "ph4", "pv3", "ma4", "bg-light-green" ] ]
+        [ div [ classes [ "green", "mb3" ] ] [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ], span [] [ text " - " ], h2 [ classes [ "di" ] ] [ text <| unionTypeToString comment.lawCentre ] ]
+        , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
+        ]
+
+
+hasParentId : Comment -> Bool
+hasParentId comment =
+    case comment.parentId of
+        Just _ ->
+            False
+
+        Nothing ->
+            True
+
+
+showParentComment : Model -> Comment -> Html Msg
+showParentComment model comment =
+    case comment.parentId of
+        Just commentId ->
+            parentComment model (getCommentByCommentId model commentId)
+
+        Nothing ->
+            emptyDiv
