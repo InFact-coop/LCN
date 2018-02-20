@@ -16,7 +16,7 @@ colouredButton colour role =
     in
         button
             [ classes
-                [ "mr3 white w-25"
+                [ "mr3 white w-25-ns w-100 mb2 mb0-ns"
                 , "bg-" ++ colour
                 , roleButtonFont
                 , buttonStyle

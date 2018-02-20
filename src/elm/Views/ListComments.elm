@@ -12,7 +12,7 @@ import Types exposing (..)
 
 listCommentsView : Model -> Html Msg
 listCommentsView model =
-    div [ class "flex flex-column items-center w-80 center" ]
+    div [ class "flex flex-column items-center w-80-ns w-90 center" ]
         [ div []
             [ div [ class "mv4" ] summary
             , div [ class "mv4" ] chooseTopic
@@ -36,7 +36,7 @@ summary =
 chooseTopic : List (Html Msg)
 chooseTopic =
     [ h1 [ classes [ headlineFont, "mb3" ] ] [ text "Choose a topic" ]
-    , div [ class "flex justify-between mt2" ]
+    , div [ class "flex flex-row-ns flex-column justify-between-ns mt2" ]
         (List.map
             topicButton
             commentTypes
@@ -48,7 +48,7 @@ topicButton : CommentType -> Html Msg
 topicButton commentType =
     button
         [ classes
-            [ "w5 white"
+            [ "w5-ns white w-100 mb2"
             , topicButtonFont
             , buttonStyle
             , "bg-" ++ (commentTypeColor (commentType))

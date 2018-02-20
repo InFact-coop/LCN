@@ -14,8 +14,8 @@ import Types exposing (..)
 addStatsView : Model -> Html Msg
 addStatsView model =
     section
-        [ class "flex justify-center h-100 pa3" ]
-        [ section [ class "w-80" ]
+        [ class "flex justify-center pa3-ns pv3" ]
+        [ section [ class "w-80-ns w-90" ]
             [ section [ class "mb4" ]
                 [ h1 [ classes [ "tl mb3", headlineFont ] ] [ text "Introduction" ]
                 , p [ class bodyFont ] [ text "An intro into why LCN want this information etc etc" ]
@@ -27,15 +27,13 @@ addStatsView model =
                     []
                     [ h2 [ class "mb4 black f3 fw5 b" ]
                         [ text "What is your role?" ]
-                    , div
-                        []
-                        (roleButtonsList model)
+                    , div [] (roleButtonsList model)
                     ]
                 , div [ class "mt4 mb4" ]
                     [ label [ for "lawArea", class "mb4 black f3 fw5 b" ] [ text "What is your primary area of Law?" ]
-                    , select [ id "areaOfLaw", class "db f4 mt3 b--light-gray ba bw1 fw2 br4 pa2", placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
+                    , select [ id "areaOfLaw", class "db f4 mt3 b--light-gray ba bw1 fw2 br4 ph4 pv2 input-reset bg-white", placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
                         [ option [ class "f3", value <| unionTypeToString Immigration ] [ text <| unionTypeToString Immigration ]
-                        , option [ class "f3", value <| unionTypeToString Criminal ] [ text <| unionTypeToString Criminal ]
+                        , option [ class "f3", value <| unionTypeToString Family ] [ text <| unionTypeToString Family ]
                         ]
                     ]
                 , section [ class "mb4" ]

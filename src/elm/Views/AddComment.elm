@@ -6,12 +6,12 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
-import Views.ListComments exposing (topicButton)
+import Views.ListComments exposing (chooseTopic, topicButton)
 
 
 addCommentView : Model -> Html Msg
 addCommentView model =
-    div [ class "flex flex-column items-center w-80 center" ]
+    div [ class "flex flex-column items-center w-80-ns w-90 center" ]
         [ div []
             [ div [ class "mv4" ] summary
             , div [ class "mv4" ] chooseTopic
@@ -25,17 +25,6 @@ summary : List (Html Msg)
 summary =
     [ h1 [ classes [ headlineFont ] ] [ text "Summary" ]
     , p [ classes [ bodyFont, "mt2" ] ] [ text "An intro to this section could go here. Explaining that it's optional and why the information is useful" ]
-    ]
-
-
-chooseTopic : List (Html Msg)
-chooseTopic =
-    [ h1 [ classes [ headlineFont, "mb3" ] ] [ text "Choose a topic" ]
-    , div [ class "flex justify-between mt2" ]
-        (List.map
-            topicButton
-            commentTypes
-        )
     ]
 
 

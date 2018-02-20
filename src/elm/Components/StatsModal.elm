@@ -18,7 +18,7 @@ statsModal model =
     in
         section
             [ classes
-                [ "modal fixed f3 ph5 pb4 pt5 bg-white br2 w-70 z-2 center tc"
+                [ "modal fixed f3 ph5 pb4 pt5 bg-white br2 w-70-ns w-90 z-2 center tc"
                 , displayElement model.displayStatsModal
                 ]
             ]

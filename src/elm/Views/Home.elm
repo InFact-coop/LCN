@@ -13,29 +13,29 @@ import Types exposing (..)
 homeView : Model -> Html Msg
 homeView model =
     section [ class "flex items-center justify-center vh-100" ]
-        [ section [ class "flex items-center justify-between flex-column bg-white pa5" ]
+        [ section [ class "flex items-center justify-between flex-column bg-white pa5-ns pa2 pv4" ]
             [ img [ class "mb4", src "./assets/lcn-logo.png" ] []
-            , div [ class "w-100 bb bw1 mb4 pb2 b--pink" ]
+            , div [ class "w-100-ns w-90 bb bw1 mb4 pb2 b--pink" ]
                 [ label
                     [ for "name", classes [ "mr3", inputLabelFont ] ]
                     [ text "Name:" ]
-                , input [ id "name", classes [ inputFont, "bn" ], size 35, type_ "text", placeholder "Larry Law", onInput UpdateName ] []
+                , input [ id "name", classes [ inputFont, "bn w-75" ], type_ "text", placeholder "Larry Law", onInput UpdateName ] []
                 ]
             , div
-                [ class "w-100 bb bw1 mb4 pb2 b--orange"
+                [ class "w-100-ns w-90 bb bw1 mb4 pb2 b--orange"
                 ]
                 [ label
                     [ for "email", classes [ "mr3", inputLabelFont ] ]
                     [ text "Email:" ]
-                , input [ id "email", classes [ inputFont, "bn" ], size 35, type_ "email", placeholder "larry.law@lawcentres.org" ] []
+                , input [ id "email", classes [ inputFont, "bn w-75" ], type_ "email", placeholder "larry.law@lawcentres.org" ] []
                 ]
-            , div [ class "w-100 bb bw1 mb4 pb2 b--blue" ]
+            , div [ class "w-100-ns w-90 bb bw1 mb4 pb2 b--blue" ]
                 [ label
                     [ for "password", classes [ "mr3", inputLabelFont ] ]
                     [ text "Password:" ]
-                , input [ id "password", classes [ inputFont, "bn" ], size 35, type_ "password", placeholder "lovethelaw" ] []
+                , input [ id "password", classes [ inputFont, "bn w-70-ns w-60" ], type_ "password", placeholder "lovethelaw" ] []
                 ]
-            , div [ class "w-100 bb bw1 mb4 pb2 b--green" ]
+            , div [ class "w-100-ns w-90 bb bw1 mb4 pb2 b--green" ]
                 [ label
                     [ for "lawcentre", classes [ "mr3", inputLabelFont ] ]
                     [ text "Law Centre:" ]

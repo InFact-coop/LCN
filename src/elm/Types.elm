@@ -73,7 +73,7 @@ type Role
 
 
 type LawArea
-    = Criminal
+    = Family
     | Immigration
     | NoArea
 

@@ -26,7 +26,7 @@ view model =
             , statsModal model
             , commentModal model
             , div [ class "w-100 bg-white flex flex-row justify-center" ] [ navBar model ]
-            , div [ class "mw8 center pt3" ] [ view ]
+            , div [ class "mw8-ns center pt3-ns" ] [ view ]
             ]
 
 
