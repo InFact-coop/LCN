@@ -41,34 +41,38 @@ addStatsView model =
                             lawAreaList
                         )
                     ]
-                ]
-            , section [ class "mb5" ]
-                [ h1 [ class "tl f2 black mb4" ]
-                    [ text "Your Week" ]
-                , div [ class "pl4" ]
-                    [ div
-                        [ class "db mb4" ]
-                        [ label [ for "peopleSeenWeekly", class "mb4 black f3 fw5 b" ]
-                            [ text "How many people have you seen this week?" ]
-                        , input [ id "peopleSeenWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleSeen ] []
-                        ]
-                    , div
-                        [ class "db mb4" ]
-                        [ label [ for "peopleTurnedAwayWeekly", class "mb4 black f3 fw5 b" ]
-                            [ text "How many people have you turned away this week?" ]
-                        , input [ id "peopleTurnedAwayWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleTurnedAway ] []
-                        ]
+                , div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
+                    [ label [ for "lawArea", class "black f3 fw5 b" ] [ text "What were the main kinds of problems you have seen this week?" ]
+                    , div [ classes [ "mv4" ] ] (lawAreaCheckboxesList model)
                     ]
-                , section [ classes [ "mb5", displayElement <| model.role == CaseWorker ] ]
+                , section [ class "mb5 mt4" ]
                     [ h1 [ class "tl f2 black mb4" ]
-                        [ text "A bit more detail" ]
+                        [ text "Your Week" ]
                     , div [ class "pl4" ]
-                        [ h2 [ class "mb4 black f3 fw5 b" ]
-                            [ text "What were the main kinds of problems you have seen this week? "
+                        [ div
+                            [ class "db mb4" ]
+                            [ label [ for "peopleSeenWeekly", class "mb4 black f3 fw5 b" ]
+                                [ text "How many people have you seen this week?" ]
+                            , input [ id "peopleSeenWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleSeen ] []
                             ]
-                        , div [ class "mb1" ]
-                            (lawAreaCheckboxesList model)
+                        , div
+                            [ class "db mb4" ]
+                            [ label [ for "peopleTurnedAwayWeekly", class "mb4 black f3 fw5 b" ]
+                                [ text "How many people have you turned away this week?" ]
+                            , input [ id "peopleTurnedAwayWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleTurnedAway ] []
+                            ]
                         ]
+
+                    -- , section [ classes [ "mb5", displayElement <| model.role == CaseWorker ] ]
+                    --     [ h1 [ class "tl f2 black mb4" ]
+                    --         [ text "A bit more detail" ]
+                    --     , div [ class "pl4" ]
+                    --         [ h2 [ class "mb4 black f3 fw5 b" ]
+                    --             [ text "What were the main kinds of problems you have seen this week? "
+                    --             ]
+                    --         , div [ class "mb1" ]
+                    --             (lawAreaCheckboxesList model)
+                    --         ]
                     ]
                 ]
             , bigColouredButton "green" "Submit" PostStats

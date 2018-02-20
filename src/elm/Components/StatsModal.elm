@@ -75,6 +75,7 @@ modalBackground model =
     div
         [ classes
             [ "w-100"
+            , "h-100"
             , "fixed"
             , "bg-black"
             , "o-70"

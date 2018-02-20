@@ -13,7 +13,8 @@ lawAreaOption la =
 
 lawAreaList : List LawArea
 lawAreaList =
-    [ WelfareAndBenefits
+    [ NoArea
+    , WelfareAndBenefits
     , Employment
     , Debt
     , Housing
