@@ -1,11 +1,11 @@
 module Components.Button exposing (..)
 
+import Components.StyleHelpers exposing (buttonStyle, classes, roleButtonFont, submitButtonStyle, topicButtonFont)
+import Helpers exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
-import Helpers exposing (..)
-import Components.StyleHelpers exposing (classes)
 
 
 colouredButton : String -> Role -> Html Msg
@@ -14,12 +14,30 @@ colouredButton colour role =
         buttonText =
             ifThenElse (role == CaseWorker) "Lawyer/Case Worker" (unionTypeToString role)
     in
-        button [ class <| "pointer bn br2 fw3 f4 pv3 mr4 ph3 white bg-" ++ colour, onClick <| UpdateRole role ] [ text buttonText ]
+        button
+            [ classes
+                [ "mr3 white w-25"
+                , "bg-" ++ colour
+                , roleButtonFont
+                , buttonStyle
+                ]
+            , onClick <| UpdateRole role
+            ]
+            [ text buttonText ]
 
 
 bigColouredButton : String -> String -> Msg -> Html Msg
 bigColouredButton colour label clickMsg =
-    button [ class <| "pointer bn br2 fw3 f3 pv3 mr4 ph4 white bg-" ++ colour, onClick clickMsg ] [ text label ]
+    button
+        [ classes
+            [ "mr4 white"
+            , "bg-" ++ colour
+            , submitButtonStyle
+            , topicButtonFont
+            ]
+        , onClick clickMsg
+        ]
+        [ text label ]
 
 
 modalButton : String -> String -> Html Msg

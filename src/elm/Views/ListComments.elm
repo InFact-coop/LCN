@@ -1,6 +1,6 @@
 module Views.ListComments exposing (..)
 
-import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, displayElement, emptyDiv, headlineFont, textareaFont)
+import Components.StyleHelpers exposing (bodyFont, topicButtonFont, buttonStyle, classes, displayElement, emptyDiv, headlineFont, textareaFont)
 import Data.Comment exposing (defaultComment, getCommentByCommentId, hasParentId)
 import Data.CommentType exposing (commentTypeColor, commentTypes)
 import Helpers exposing (ifThenElse, unionTypeToString)
@@ -12,10 +12,10 @@ import Types exposing (..)
 
 listCommentsView : Model -> Html Msg
 listCommentsView model =
-    div [ class "flex flex-column items-center" ]
+    div [ class "flex flex-column items-center w-80 center" ]
         [ div []
-            [ div [ class "mv3" ] summary
-            , div [ class "mv3" ] chooseTopic
+            [ div [ class "mv4" ] summary
+            , div [ class "mv4" ] chooseTopic
             , div [] (commentsHeader model)
             , div []
                 (List.map (singleComment model) <|
@@ -29,13 +29,13 @@ listCommentsView model =
 summary : List (Html Msg)
 summary =
     [ h1 [ classes [ headlineFont ] ] [ text "Summary" ]
-    , p [ classes [ bodyFont ] ] [ text "An intro to this section could go here. Explaining that it's optional and why the information is useful" ]
+    , p [ classes [ bodyFont, "mt2" ] ] [ text "An intro to this section could go here. Explaining that it's optional and why the information is useful" ]
     ]
 
 
 chooseTopic : List (Html Msg)
 chooseTopic =
-    [ h1 [ classes [ headlineFont, "" ] ] [ text "Choose a topic" ]
+    [ h1 [ classes [ headlineFont, "mb3" ] ] [ text "Choose a topic" ]
     , div [ class "flex justify-between mt2" ]
         (List.map
             topicButton
@@ -48,8 +48,8 @@ topicButton : CommentType -> Html Msg
 topicButton commentType =
     button
         [ classes
-            [ "ph3 pv2 w5 white"
-            , bodyFont
+            [ "w5 white"
+            , topicButtonFont
             , buttonStyle
             , "bg-" ++ (commentTypeColor (commentType))
             ]

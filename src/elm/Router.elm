@@ -25,8 +25,8 @@ view model =
             [ modalBackground model
             , statsModal model
             , commentModal model
-            , navBar model
-            , div [ class "mw8 center" ] [ view ]
+            , div [ class "w-100 bg-white flex flex-row justify-center" ] [ navBar model ]
+            , div [ class "mw8 center pt3" ] [ view ]
             ]
 
 
