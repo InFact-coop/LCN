@@ -5,11 +5,9 @@ import Dom.Scroll exposing (..)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments, handleGetComments)
 import Requests.PostComment exposing (..)
+import Requests.PostReply exposing (postReply)
 import Requests.PostStats exposing (..)
 import Router exposing (getView, viewFromUrl)
-import Task
-import Types exposing (..)
-import Router exposing (getView)
 import Task
 import Types exposing (..)
 
@@ -113,3 +111,10 @@ update msg model =
 
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
+
+        PostReply parentComment ->
+            let
+                log =
+                    Debug.log "parentComment" parentComment
+            in
+                model ! [ postReply model parentComment ]

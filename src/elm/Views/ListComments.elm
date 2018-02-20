@@ -1,7 +1,7 @@
 module Views.ListComments exposing (..)
 
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, displayElement, emptyDiv, headlineFont, textareaFont)
-import Data.Comment exposing (defaultComment, getCommentByCommentId)
+import Data.Comment exposing (defaultComment, getCommentByCommentId, hasParentId)
 import Data.CommentType exposing (commentTypeColor, commentTypes)
 import Helpers exposing (ifThenElse, unionTypeToString)
 import Html exposing (..)
@@ -98,13 +98,13 @@ singleComment model comment =
         [ showParentComment model comment
         , div [ classes [ "green", "mb3" ] ] [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ], span [] [ text " - " ], h2 [ classes [ "di" ] ] [ text <| unionTypeToString comment.lawCentre ] ]
         , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
-        , ifThenElse comment.showReplyInput replyComponent (commentActions comment)
+        , ifThenElse comment.showReplyInput (replyComponent comment) (commentActions comment)
         ]
 
 
 commentActions : Comment -> Html Msg
 commentActions comment =
-    div [ classes [ "flex", "content-center", "h2" ] ]
+    div [ classes [ "flex", "content-center", "h2", "mb3" ] ]
         [ button
             [ classes
                 [ "pointer"
@@ -124,8 +124,8 @@ commentActions comment =
         ]
 
 
-replyComponent : Html Msg
-replyComponent =
+replyComponent : Comment -> Html Msg
+replyComponent parentComment =
     div [ classes [ "flex", "items-center", "bt", "bw1", "b--light-gray" ] ]
         [ img [ classes [ "w2", "h2" ], src "./assets/comment.svg" ] []
         , textarea
@@ -135,7 +135,7 @@ replyComponent =
             , onInput UpdateCommentBody
             ]
             []
-        , img [ classes [ "h2", "w2", "pointer" ], src "./assets/send.svg" ] []
+        , img [ classes [ "h2", "w2", "pointer" ], src "./assets/send.svg", onClick <| PostReply parentComment ] []
         ]
 
 
@@ -145,16 +145,6 @@ parentComment model comment =
         [ div [ classes [ "green", "mb3" ] ] [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ], span [] [ text " - " ], h2 [ classes [ "di" ] ] [ text <| unionTypeToString comment.lawCentre ] ]
         , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
         ]
-
-
-hasParentId : Comment -> Bool
-hasParentId comment =
-    case comment.parentId of
-        Just _ ->
-            False
-
-        Nothing ->
-            True
 
 
 showParentComment : Model -> Comment -> Html Msg
