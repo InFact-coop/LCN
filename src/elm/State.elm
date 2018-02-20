@@ -33,7 +33,7 @@ initModel =
     , listStatsStatus = NotAsked
     , peopleSeenWeeklyAll = 0
     , displayStatsModal = False
-    , problems = ""
+    , problems = []
     }
 
 
@@ -112,15 +112,17 @@ update msg model =
         ReceiveComments (Err err) ->
             model ! []
 
-        ToggleProblem string bool ->
-            let
-                debugit =
-                    Debug.log "the Problem" string
-
-                debug2 =
-                    Debug.log "Checked?" bool
-            in
-                { model | problems = string } ! []
+        ToggleProblem string checked ->
+            if checked && checkIfExists string model.problems then
+                { model | problems = model.problems ++ [ string ] } ! []
+            else
+                { model | problems = List.filter (\x -> x /= string) model.problems } ! []
 
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
+
+
+checkIfExists : String -> List String -> Bool
+checkIfExists string stringList =
+    List.member string stringList
+        |> not
