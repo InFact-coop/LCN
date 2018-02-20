@@ -152,7 +152,7 @@ replyComponent parentComment =
 
 parentComment : Model -> Comment -> Html Msg
 parentComment model comment =
-    div [ classes [ "center", "flex", "flex-column", "content-center", "bg-green", "br3", "ph4", "pv3", "ma4", "bg-light-green" ] ]
+    div [ classes [ "center", "flex", "flex-column", "content-center", "bg-green", "br3", "ph4", "pv3", "ma4", "bg-light-green", "w-100" ] ]
         [ div [ classes [ "green", "mb3" ] ]
             [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ]
             , span [] [ text " - " ]

@@ -18,6 +18,6 @@ bigColouredButton colour label clickMsg =
     button [ class <| "pointer bn br2 fw3 f3 pv3 mr4 ph4 white bg-" ++ colour, onClick clickMsg ] [ text label ]
 
 
-modalButtons : String -> String -> Html Msg
-modalButtons label linkTo =
+modalButton : String -> String -> Html Msg
+modalButton label linkTo =
     a [ classes [ "dib", "link", "black", "pv2", "ph3", "ma2", "br4", "fw3", "f4", "ba", "b--light-gray", "bw1", "pointer" ], href linkTo, onClick ToggleStatsModal ] [ text label ]

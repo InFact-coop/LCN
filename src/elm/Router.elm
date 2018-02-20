@@ -1,16 +1,18 @@
 module Router exposing (..)
 
 import Components.Nav exposing (navBar)
-import Components.StatsModal exposing (..)
+import Components.StatsModal exposing (statsModal)
+import Components.CommentModal exposing (commentModal)
+import Components.StyleHelpers exposing (classes, displayElement)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Types exposing (..)
 import Navigation exposing (..)
-import Views.Home exposing (..)
-import Views.AddStats exposing (..)
-import Views.Snapshot exposing (..)
+import Types exposing (..)
 import Views.AddComment exposing (..)
+import Views.AddStats exposing (..)
+import Views.Home exposing (..)
 import Views.ListComments exposing (..)
+import Views.Snapshot exposing (..)
 
 
 view : Model -> Html Msg
@@ -22,9 +24,21 @@ view model =
         div [ class "w-100 fixed overflow-y-scroll top-0 bottom-0 bg-light-blue m0-auto cover", id "container" ]
             [ modalBackground model
             , statsModal model
+            , commentModal model
             , navBar model
             , div [ class "mw8 center" ] [ view ]
             ]
+
+
+modalBackground : Model -> Html Msg
+modalBackground model =
+    div
+        [ classes
+            [ "vh-100 w-100 bg-black o-70 z-1 absolute"
+            , displayElement (model.displayStatsModal || model.displayCommentModal)
+            ]
+        ]
+        []
 
 
 getCurrentView : Model -> Html Msg

@@ -30,6 +30,7 @@ initModel =
     , listStatsStatus = NotAsked
     , peopleSeenWeeklyAll = 0
     , displayStatsModal = False
+    , displayCommentModal = False
     }
 
 
@@ -46,7 +47,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            { model | view = getView location.hash, displayStatsModal = False }
+            { model | view = getView location.hash, displayStatsModal = False, displayCommentModal = False }
                 ! [ scrollToTop, handleGetComments location ]
 
         NoOp ->
@@ -83,7 +84,7 @@ update msg model =
             { model | postStatsStatus = Loading, listStatsStatus = Loading } ! [ postStats model ]
 
         ReceiveCommentStatus (Ok bool) ->
-            { model | commentStatus = ResponseSuccess } ! [ getComments, scrollToTop ]
+            { model | commentStatus = ResponseSuccess, displayCommentModal = True } ! [ getComments, scrollToTop ]
 
         ReceiveCommentStatus (Err err) ->
             { model | commentStatus = ResponseFailure } ! [ getComments, scrollToTop ]
