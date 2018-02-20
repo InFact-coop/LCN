@@ -3,7 +3,7 @@ module State exposing (..)
 import Data.Comment exposing (toggleReplyComponent)
 import Dom.Scroll exposing (..)
 import Navigation exposing (..)
-import Requests.GetComments exposing (getComments)
+import Requests.GetComments exposing (getComments, handleGetComments)
 import Requests.PostComment exposing (..)
 import Requests.PostStats exposing (..)
 import Router exposing (getView, viewFromUrl)
@@ -113,17 +113,3 @@ update msg model =
 
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
-
-
-handleGetComments : Navigation.Location -> Cmd Msg
-handleGetComments location =
-    let
-        currentView =
-            getView location.hash
-    in
-        case currentView of
-            ListComments ->
-                getComments
-
-            _ ->
-                Cmd.none
