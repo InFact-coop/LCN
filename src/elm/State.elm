@@ -1,7 +1,7 @@
 module State exposing (..)
 
 import Data.Comment exposing (toggleReplyComponent)
-import Helpers exposing (scrollToTop)
+import Helpers exposing (ifThenElse, scrollToTop)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments, handleGetComments)
 import Requests.PostComment exposing (..)
@@ -84,7 +84,11 @@ update msg model =
             { model | postStatsStatus = Loading, listStatsStatus = Loading } ! [ postStats model ]
 
         ReceiveCommentStatus (Ok bool) ->
-            { model | commentStatus = ResponseSuccess, displayCommentModal = True } ! [ getComments, scrollToTop ]
+            let
+                displayModal =
+                    ifThenElse (model.view == AddComment) True False
+            in
+                { model | commentStatus = ResponseSuccess, displayCommentModal = displayModal, commentBody = "" } ! [ getComments, scrollToTop ]
 
         ReceiveCommentStatus (Err err) ->
             { model | commentStatus = ResponseFailure } ! [ getComments, scrollToTop ]

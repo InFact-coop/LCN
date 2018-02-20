@@ -50,6 +50,7 @@ inputComment model =
         , attribute "rows" "4"
         , attribute "placeholder" "Write your comment here"
         , onInput UpdateCommentBody
+        , value model.commentBody
         ]
         []
     ]
@@ -101,14 +102,13 @@ topicButton commentType =
 
 submitButton : Model -> Html Msg
 submitButton model =
-    a
+    button
         [ classes
             [ "dib link black ph3 pv2 w5 white tc"
             , bodyFont
             , buttonStyle
             , ("bg-" ++ (commentTypeColor model.commentType))
             ]
-        , href "#list-comments"
         , onClick PostComment
         ]
         [ text "Submit" ]
