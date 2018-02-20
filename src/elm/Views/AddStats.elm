@@ -1,6 +1,7 @@
 module Views.AddStats exposing (..)
 
 import Components.Button exposing (..)
+import Components.LawArea exposing (lawAreaList, lawAreaOption)
 import Data.LawArea exposing (decoderLawArea, stringToLawArea)
 import Helpers exposing (unionTypeToString)
 import Html exposing (..)
@@ -33,30 +34,31 @@ addStatsView model =
                 , div [ class "pl4 mt4 mb5" ]
                     [ label [ for "lawArea", class "mb4 black f3 fw5 b" ] [ text "What is your primary area of Law?" ]
                     , select [ id "areaOfLaw", class "db f4 mt3 b--light-gray ba bw1 fw2 br4 pa2", placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
-                        [ option [ class "f3", value <| unionTypeToString Immigration ] [ text <| unionTypeToString Immigration ]
-                        , option [ class "f3", value <| unionTypeToString Criminal ] [ text <| unionTypeToString Criminal ]
-                        ]
+                        (List.map
+                            lawAreaOption
+                            lawAreaList
+                        )
                     ]
-                , section [ class "mb5" ]
-                    [ h1 [ class "tl f2 black mb4" ]
-                        [ text "Your Week" ]
-                    , div [ class "pl4" ]
-                        [ div
-                            [ class "db mb4" ]
-                            [ label [ for "peopleSeenWeekly", class "mb4 black f3 fw5 b" ]
-                                [ text "How many people have you seen this week?" ]
-                            , input [ id "peopleSeenWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleSeen ] []
-                            ]
-                        , div
-                            [ class "db mb4" ]
-                            [ label [ for "peopleTurnedAwayWeekly", class "mb4 black f3 fw5 b" ]
-                                [ text "How many people have you turned away this week?" ]
-                            , input [ id "peopleTurnedAwayWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleTurnedAway ] []
-                            ]
-                        ]
-                    ]
-                , bigColouredButton "green" "Submit" PostStats
                 ]
+            , section [ class "mb5" ]
+                [ h1 [ class "tl f2 black mb4" ]
+                    [ text "Your Week" ]
+                , div [ class "pl4" ]
+                    [ div
+                        [ class "db mb4" ]
+                        [ label [ for "peopleSeenWeekly", class "mb4 black f3 fw5 b" ]
+                            [ text "How many people have you seen this week?" ]
+                        , input [ id "peopleSeenWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleSeen ] []
+                        ]
+                    , div
+                        [ class "db mb4" ]
+                        [ label [ for "peopleTurnedAwayWeekly", class "mb4 black f3 fw5 b" ]
+                            [ text "How many people have you turned away this week?" ]
+                        , input [ id "peopleTurnedAwayWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleTurnedAway ] []
+                        ]
+                    ]
+                ]
+            , bigColouredButton "green" "Submit" PostStats
             ]
         ]
 

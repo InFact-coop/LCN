@@ -7,24 +7,66 @@ import Types exposing (..)
 stringToLawArea : String -> LawArea
 stringToLawArea string =
     case string of
-        "Criminal" ->
-            Criminal
+        "No Area" ->
+            NoArea
 
-        "Immigration" ->
-            Immigration
+        "Welfare And Benefits" ->
+            WelfareAndBenefits
+
+        "Employment" ->
+            Employment
+
+        "Debt" ->
+            Debt
+
+        "Housing" ->
+            Housing
+
+        "Immigration And Asylum" ->
+            ImmigrationAndAsylum
+
+        "Family" ->
+            Family
+
+        "Community Care" ->
+            CommunityCare
+
+        "Public Law" ->
+            PublicLaw
 
         _ ->
-            Criminal
+            NoArea
 
 
 decoderLawArea : String -> Decoder LawArea
 decoderLawArea val =
     case val of
-        "Criminal" ->
-            Json.Decode.succeed Criminal
+        "No Area" ->
+            Json.Decode.succeed NoArea
 
-        "Immigration" ->
-            Json.Decode.succeed Immigration
+        "Welfare And Benefits" ->
+            Json.Decode.succeed WelfareAndBenefits
+
+        "Employment" ->
+            Json.Decode.succeed Employment
+
+        "Debt" ->
+            Json.Decode.succeed Debt
+
+        "Housing" ->
+            Json.Decode.succeed Housing
+
+        "Immigration And Asylum" ->
+            Json.Decode.succeed ImmigrationAndAsylum
+
+        "Family" ->
+            Json.Decode.succeed Family
+
+        "Community Care" ->
+            Json.Decode.succeed CommunityCare
+
+        "Public Law" ->
+            Json.Decode.succeed PublicLaw
 
         _ ->
             Json.Decode.succeed NoArea

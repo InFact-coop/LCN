@@ -72,9 +72,15 @@ type Role
 
 
 type LawArea
-    = Criminal
-    | Immigration
-    | NoArea
+    = NoArea
+    | WelfareAndBenefits
+    | Employment
+    | Debt
+    | Housing
+    | ImmigrationAndAsylum
+    | Family
+    | CommunityCare
+    | PublicLaw
 
 
 type CommentType
