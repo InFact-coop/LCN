@@ -31,6 +31,7 @@ type alias Model =
     , listStatsStatus : RemoteData
     , peopleSeenWeeklyAll : Int
     , displayStatsModal : Bool
+    , problems : String
     }
 
 
@@ -116,3 +117,4 @@ type Msg
     | ToggleStatsModal
     | ReceiveComments (Result Http.Error (List Comment))
     | ToggleReplyComponent Comment
+    | ToggleProblem String Bool

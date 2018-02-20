@@ -33,6 +33,7 @@ initModel =
     , listStatsStatus = NotAsked
     , peopleSeenWeeklyAll = 0
     , displayStatsModal = False
+    , problems = ""
     }
 
 
@@ -110,6 +111,16 @@ update msg model =
 
         ReceiveComments (Err err) ->
             model ! []
+
+        ToggleProblem string bool ->
+            let
+                debugit =
+                    Debug.log "the Problem" string
+
+                debug2 =
+                    Debug.log "Checked?" bool
+            in
+                { model | problems = string } ! []
 
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
