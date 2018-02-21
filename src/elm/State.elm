@@ -16,7 +16,7 @@ initModel =
     { view = Home
     , name = ""
     , lawCentre = Camden
-    , lawArea = Immigration
+    , lawArea = NoArea
     , role = CaseWorker
     , weeklyCount = Nothing
     , peopleSeenWeekly = 0
@@ -31,6 +31,7 @@ initModel =
     , peopleSeenWeeklyAll = 0
     , displayStatsModal = False
     , displayCommentModal = False
+    , problems = []
     }
 
 
@@ -95,9 +96,9 @@ update msg model =
 
         ReceiveStats (Ok response) ->
             if response.getSuccess then
-                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseSuccess, peopleSeenWeeklyAll = response.peopleSeen, displayStatsModal = True } ! []
+                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseSuccess, peopleSeenWeeklyAll = response.peopleSeen, displayStatsModal = True } ! [ scrollToTop ]
             else
-                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
+                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseFailure, displayStatsModal = True } ! [ scrollToTop ]
 
         ReceiveStats (Err response) ->
             { model | postStatsStatus = ResponseFailure, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
@@ -111,8 +112,20 @@ update msg model =
         ReceiveComments (Err err) ->
             model ! []
 
+        ToggleProblem string checked ->
+            if checked && isNewEntry string model.problems then
+                { model | problems = model.problems ++ [ string ] } ! []
+            else
+                { model | problems = List.filter (\x -> x /= string) model.problems } ! []
+
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
 
         PostReply parentComment ->
             model ! [ postReply model parentComment ]
+
+
+isNewEntry : String -> List String -> Bool
+isNewEntry string stringList =
+    List.member string stringList
+        |> not

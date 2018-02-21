@@ -57,3 +57,20 @@ statsModal model =
                     ]
                 ]
             ]
+
+
+modalBackground : Model -> Html Msg
+modalBackground model =
+    div
+        [ classes
+            [ "w-100"
+            , "h-100"
+            , "fixed"
+            , "bg-black"
+            , "o-70"
+            , "z-1"
+            , "absolute"
+            , displayElement model.displayStatsModal
+            ]
+        ]
+        []

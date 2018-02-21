@@ -29,3 +29,7 @@ input:-webkit-autofill:active {
 .icon-above {
   transform: translate(-3rem, -7rem);
 }
+
+.disableButtons {
+  pointer-events: none;
+}

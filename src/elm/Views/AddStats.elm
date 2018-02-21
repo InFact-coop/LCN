@@ -1,9 +1,11 @@
 module Views.AddStats exposing (..)
 
 import Components.Button exposing (..)
-import Components.StyleHelpers exposing (bodyFont, classes, headlineFont)
+import Components.LawArea exposing (lawAreaList, lawAreaOption)
+import Components.LawAreaCheckbox exposing (lawAreaCheckbox)
+import Components.StyleHelpers exposing (classes, displayElement, bodyFont, classes, headlineFont)
 import Data.LawArea exposing (decoderLawArea, stringToLawArea)
-import Helpers exposing (unionTypeToString)
+import Helpers exposing (ifThenElse)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -14,7 +16,7 @@ import Types exposing (..)
 addStatsView : Model -> Html Msg
 addStatsView model =
     section
-        [ class "flex justify-center pa3-ns pv3" ]
+        [ classes [ "flex justify-center pa3-ns pv3", ifThenElse model.displayStatsModal "disableButtons" "" ] ]
         [ section [ class "w-80-ns w-90" ]
             [ section [ class "mb4" ]
                 [ h1 [ classes [ "tl mb3", headlineFont ] ] [ text "Introduction" ]
@@ -29,14 +31,19 @@ addStatsView model =
                         [ text "What is your role?" ]
                     , div [] (roleButtonsList model)
                     ]
-                , div [ class "mt4 mb4" ]
+                , div [ classes [ "mt4", "mb5", displayElement <| model.role == CaseWorker ] ]
                     [ label [ for "lawArea", class "mb4 black f3 fw5 b" ] [ text "What is your primary area of Law?" ]
-                    , select [ id "areaOfLaw", class "db f4 mt3 b--light-gray ba bw1 fw2 br4 ph4 pv2 input-reset bg-white", placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
-                        [ option [ class "f3", value <| unionTypeToString Immigration ] [ text <| unionTypeToString Immigration ]
-                        , option [ class "f3", value <| unionTypeToString Family ] [ text <| unionTypeToString Family ]
-                        ]
+                    , select [ id "areaOfLaw", class "db f4 mt3 b--light-gray ba bw1 fw2 br4 pa2", placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
+                        (List.map
+                            lawAreaOption
+                            lawAreaList
+                        )
                     ]
-                , section [ class "mb4" ]
+                , div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
+                    [ label [ for "lawArea", class "black f3 fw5 b" ] [ text "What were the main kinds of problems you have seen this week?" ]
+                    , div [ classes [ "mv4" ] ] (lawAreaCheckboxesList model)
+                    ]
+                , section [ class "mb5 mt4" ]
                     [ h1 [ classes [ "tl mb4", headlineFont ] ]
                         [ text "Your Week" ]
                     , div []
@@ -54,37 +61,134 @@ addStatsView model =
                             ]
                         ]
                     ]
-                , bigColouredButton "green" "Submit" PostStats
                 ]
+            , bigColouredButton "green" "Submit" PostStats
             ]
         ]
+
+
+lawAreaCheckboxesList : Model -> List (Html Msg)
+lawAreaCheckboxesList model =
+    case model.lawArea of
+        WelfareAndBenefits ->
+            [ lawAreaCheckbox "Entitlement"
+            , lawAreaCheckbox "Overpayment"
+            , lawAreaCheckbox "Right to Reside"
+            , lawAreaCheckbox "Sanctions"
+            , lawAreaCheckbox "Universal Credit"
+            , lawAreaCheckbox "PIP"
+            , lawAreaCheckbox "ESA"
+            , lawAreaCheckbox "DLA"
+            , lawAreaCheckbox "JSA"
+            , lawAreaCheckbox "Council Tax Reduction"
+            , lawAreaCheckbox "Tax Credit"
+            , lawAreaCheckbox "Pension Credit"
+            ]
+
+        Employment ->
+            [ lawAreaCheckbox "Working Time"
+            , lawAreaCheckbox "Withheld Wages / Notice / Holiday Pay"
+            , lawAreaCheckbox "Redundancy Payments"
+            , lawAreaCheckbox "Discrimination"
+            , lawAreaCheckbox "Breach of Contract"
+            , lawAreaCheckbox "Unfair Dismissal"
+            , lawAreaCheckbox "Disciplinary / Grievance"
+            , lawAreaCheckbox "Whistleblowing"
+            ]
+
+        Debt ->
+            [ lawAreaCheckbox "Council Tax Arrears / Bailiffs"
+            , lawAreaCheckbox "Utilities"
+            , lawAreaCheckbox "Rent Arrears"
+            , lawAreaCheckbox "Mortgage (Arrears or Interest Only)"
+            , lawAreaCheckbox "Court Fines"
+            , lawAreaCheckbox "Secured or Student Loans"
+            , lawAreaCheckbox "Credit Card Debt"
+            , lawAreaCheckbox "Overpaid Benefits Clawback"
+            ]
+
+        Housing ->
+            [ lawAreaCheckbox "Allocations"
+            , lawAreaCheckbox "Committals"
+            , lawAreaCheckbox "Disrepair"
+            , lawAreaCheckbox "Duty Scheme"
+            , lawAreaCheckbox "Eviction"
+            , lawAreaCheckbox "Homelessness"
+            , lawAreaCheckbox "Homelessness Review"
+            , lawAreaCheckbox "Injunction"
+            , lawAreaCheckbox "Possession"
+            ]
+
+        ImmigrationAndAsylum ->
+            [ lawAreaCheckbox "Asylum"
+            , lawAreaCheckbox "Non-Asylum Immigration"
+            , lawAreaCheckbox "Article 8"
+            , lawAreaCheckbox "Article 3 / Humanitarian Protection"
+            , lawAreaCheckbox "Domestic Violence"
+            , lawAreaCheckbox "Family Reunion"
+            , lawAreaCheckbox "NRPF"
+            , lawAreaCheckbox "Trafficking"
+            , lawAreaCheckbox "Children / UASC"
+            ]
+
+        Family ->
+            [ lawAreaCheckbox "Care Proceedings"
+            , lawAreaCheckbox "Child Abduction"
+            , lawAreaCheckbox "Child Arrangement Orders"
+            , lawAreaCheckbox "Divorce"
+            , lawAreaCheckbox "Domestic Violence"
+            , lawAreaCheckbox "Financial Matters"
+            ]
+
+        CommunityCare ->
+            [ lawAreaCheckbox "Aids and Adaptations"
+            , lawAreaCheckbox "Assessments for Care / Support"
+            , lawAreaCheckbox "Best Interest Decision Making"
+            , lawAreaCheckbox "Care / Support Planning"
+            , lawAreaCheckbox "Care at Home"
+            , lawAreaCheckbox "Care Home Placement / Supported Living"
+            , lawAreaCheckbox "Carers Assessment / Services"
+            , lawAreaCheckbox "Children's Act Assessment / Services"
+            , lawAreaCheckbox "Payments (Charging, Personal Budget, Direct Payments)"
+            , lawAreaCheckbox "Service Reorganisation / Closure"
+            ]
+
+        PublicLaw ->
+            [ lawAreaCheckbox "Social Welfare"
+            , lawAreaCheckbox "Human Rights"
+            , lawAreaCheckbox "Migrant Support"
+            , lawAreaCheckbox "Other"
+            ]
+
+        NoArea ->
+            []
 
 
 roleButtonsList : Model -> List (Html Msg)
 roleButtonsList model =
     case model.role of
         CaseWorker ->
-            [ colouredButton ("pink grow") CaseWorker
+            [ colouredButton ("orange o-30 shrink") Triage
             , colouredButton ("green o-30 shrink") Management
-            , colouredButton ("orange o-30 shrink") Triage
+            , colouredButton ("pink grow") CaseWorker
             ]
 
         Management ->
-            [ colouredButton ("pink o-30 shrink") CaseWorker
+            [ colouredButton ("orange o-30 shrink") Triage
             , colouredButton ("green grow") Management
-            , colouredButton ("orange o-30 shrink") Triage
+            , colouredButton ("pink o-30 shrink") CaseWorker
             ]
 
         Triage ->
-            [ colouredButton ("pink o-30 shrink") CaseWorker
+            [ colouredButton ("orange grow") Triage
             , colouredButton ("green o-30 shrink") Management
-            , colouredButton ("orange grow") Triage
+            , colouredButton ("pink o-30 shrink") CaseWorker
             ]
 
         NoRole ->
-            [ colouredButton ("pink o-30 shrink") CaseWorker
+            [ colouredButton ("orange o-30 shrink") Triage
             , colouredButton ("green o-30 shrink") Management
-            , colouredButton ("orange o-30 shrink") Triage
+            , colouredButton ("pink o-30 shrink") CaseWorker
             ]
 
 
