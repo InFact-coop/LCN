@@ -1,6 +1,6 @@
 module Views.ListComments exposing (..)
 
-import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, displayElement, emptyDiv, headlineFont, textareaFont)
+import Components.StyleHelpers exposing (bodyFont, topicButtonFont, buttonStyle, classes, displayElement, emptyDiv, headlineFont, textareaFont)
 import Data.Comment exposing (defaultComment, getCommentByCommentId, hasParentId)
 import Data.CommentType exposing (commentTypeColor, commentTypes)
 import Helpers exposing (ifThenElse, unionTypeToString)
@@ -12,10 +12,10 @@ import Types exposing (..)
 
 listCommentsView : Model -> Html Msg
 listCommentsView model =
-    div [ class "flex flex-column items-center" ]
+    div [ class "flex flex-column items-center w-80-ns w-90 center" ]
         [ div []
-            [ div [ class "mv3" ] summary
-            , div [ class "mv3" ] chooseTopic
+            [ div [ class "mv4" ] summary
+            , div [ class "mv4" ] chooseTopic
             , div [] (commentsHeader model)
             , div []
                 (List.map (singleComment model) <|
@@ -29,14 +29,14 @@ listCommentsView model =
 summary : List (Html Msg)
 summary =
     [ h1 [ classes [ headlineFont ] ] [ text "Summary" ]
-    , p [ classes [ bodyFont ] ] [ text "An intro to this section could go here. Explaining that it's optional and why the information is useful" ]
+    , p [ classes [ bodyFont, "mt2" ] ] [ text "An intro to this section could go here. Explaining that it's optional and why the information is useful" ]
     ]
 
 
 chooseTopic : List (Html Msg)
 chooseTopic =
-    [ h1 [ classes [ headlineFont, "" ] ] [ text "Choose a topic" ]
-    , div [ class "flex justify-between mt2" ]
+    [ h1 [ classes [ headlineFont, "mb3" ] ] [ text "Choose a topic" ]
+    , div [ class "flex flex-row-ns flex-column justify-between-ns mt2" ]
         (List.map
             topicButton
             commentTypes
@@ -48,8 +48,8 @@ topicButton : CommentType -> Html Msg
 topicButton commentType =
     button
         [ classes
-            [ "ph3 pv2 w5 white"
-            , bodyFont
+            [ "w5-ns white w-100 mb2"
+            , topicButtonFont
             , buttonStyle
             , "bg-" ++ (commentTypeColor (commentType))
             ]
@@ -152,7 +152,7 @@ replyComponent parentComment =
 
 parentComment : Model -> Comment -> Html Msg
 parentComment model comment =
-    div [ classes [ "center", "flex", "flex-column", "content-center", "bg-green", "br3", "ph4", "pv3", "ma4", "bg-light-green" ] ]
+    div [ classes [ "center", "flex", "flex-column", "content-center", "bg-green", "br3", "ph4", "pv3", "ma4", "bg-light-green", "w-100" ] ]
         [ div [ classes [ "green", "mb3" ] ]
             [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ]
             , span [] [ text " - " ]

@@ -3,7 +3,7 @@ module Views.AddStats exposing (..)
 import Components.Button exposing (..)
 import Components.LawArea exposing (lawAreaList, lawAreaOption)
 import Components.LawAreaCheckbox exposing (lawAreaCheckbox)
-import Components.StyleHelpers exposing (classes, displayElement)
+import Components.StyleHelpers exposing (classes, displayElement, bodyFont, classes, headlineFont)
 import Data.LawArea exposing (decoderLawArea, stringToLawArea)
 import Helpers exposing (ifThenElse)
 import Html exposing (..)
@@ -16,24 +16,22 @@ import Types exposing (..)
 addStatsView : Model -> Html Msg
 addStatsView model =
     section
-        [ classes [ "flex", "justify-center", "h-100", "pa3", ifThenElse model.displayStatsModal "disableButtons" "" ] ]
-        [ section [ class "w-80" ]
-            [ section [ class "mb5" ]
-                [ h1 [ class "tl f2 fw5 black mb3" ] [ text "Introduction" ]
-                , p [ class "fw3 f4" ] [ text "An intro into why LCN want this information etc etc" ]
+        [ classes [ "flex justify-center pa3-ns pv3", ifThenElse model.displayStatsModal "disableButtons" "" ] ]
+        [ section [ class "w-80-ns w-90" ]
+            [ section [ class "mb4" ]
+                [ h1 [ classes [ "tl mb3", headlineFont ] ] [ text "Introduction" ]
+                , p [ class bodyFont ] [ text "An intro into why LCN want this information etc etc" ]
                 ]
-            , section [ class "mb5" ]
-                [ h1 [ class "tl f2 black mb4" ]
+            , section [ class "mb4" ]
+                [ h1 [ classes [ "tl mb4", headlineFont ] ]
                     [ text "Weekly survey" ]
                 , div
-                    [ class "pl4" ]
+                    []
                     [ h2 [ class "mb4 black f3 fw5 b" ]
                         [ text "What is your role?" ]
-                    , div
-                        []
-                        (roleButtonsList model)
+                    , div [] (roleButtonsList model)
                     ]
-                , div [ classes [ "pl4", "mt4", "mb5", displayElement <| model.role == CaseWorker ] ]
+                , div [ classes [ "mt4", "mb5", displayElement <| model.role == CaseWorker ] ]
                     [ label [ for "lawArea", class "mb4 black f3 fw5 b" ] [ text "What is your primary area of Law?" ]
                     , select [ id "areaOfLaw", class "db f4 mt3 b--light-gray ba bw1 fw2 br4 pa2", placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
                         (List.map
@@ -46,9 +44,9 @@ addStatsView model =
                     , div [ classes [ "mv4" ] ] (lawAreaCheckboxesList model)
                     ]
                 , section [ class "mb5 mt4" ]
-                    [ h1 [ class "tl f2 black mb4" ]
+                    [ h1 [ classes [ "tl mb4", headlineFont ] ]
                         [ text "Your Week" ]
-                    , div [ class "pl4" ]
+                    , div []
                         [ div
                             [ class "db mb4" ]
                             [ label [ for "peopleSeenWeekly", class "mb4 black f3 fw5 b" ]
@@ -62,17 +60,6 @@ addStatsView model =
                             , input [ id "peopleTurnedAwayWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleTurnedAway ] []
                             ]
                         ]
-
-                    -- , section [ classes [ "mb5", displayElement <| model.role == CaseWorker ] ]
-                    --     [ h1 [ class "tl f2 black mb4" ]
-                    --         [ text "A bit more detail" ]
-                    --     , div [ class "pl4" ]
-                    --         [ h2 [ class "mb4 black f3 fw5 b" ]
-                    --             [ text "What were the main kinds of problems you have seen this week? "
-                    --             ]
-                    --         , div [ class "mb1" ]
-                    --             (lawAreaCheckboxesList model)
-                    --         ]
                     ]
                 ]
             , bigColouredButton "green" "Submit" PostStats

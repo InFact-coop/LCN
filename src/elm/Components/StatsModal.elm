@@ -3,7 +3,7 @@ module Components.StatsModal exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Components.StyleHelpers exposing (displayElement, classes)
-import Components.Button exposing (modalButtons)
+import Components.Button exposing (modalButton)
 import Types exposing (..)
 
 
@@ -18,18 +18,7 @@ statsModal model =
     in
         section
             [ classes
-                [ "modal"
-                , "fixed"
-                , "f3"
-                , "ph5"
-                , "pb4"
-                , "pt5"
-                , "bg-white"
-                , "br2"
-                , "w-70"
-                , "z-2"
-                , "center"
-                , "tc"
+                [ "modal fixed f3 ph5 pb4 pt5 bg-white br2 w-70-ns w-90 z-2 center tc"
                 , displayElement model.displayStatsModal
                 ]
             ]
@@ -62,9 +51,9 @@ statsModal model =
                     [ text "What would you like to do now?" ]
                 , section
                     [ classes [ "action-buttons", "mt3" ] ]
-                    [ modalButtons "Add Comment" "#add-comment"
-                    , modalButtons "See comments" "#list-comments"
-                    , modalButtons "Log out" "#logout"
+                    [ modalButton "Add Comment" "#add-comment"
+                    , modalButton "See comments" "#list-comments"
+                    , modalButton "Log out" "#logout"
                     ]
                 ]
             ]

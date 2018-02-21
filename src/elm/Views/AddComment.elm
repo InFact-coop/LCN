@@ -1,20 +1,20 @@
 module Views.AddComment exposing (..)
 
-import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont)
+import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont, submitButtonStyle, topicButtonFont)
 import Data.CommentType exposing (commentTypeColor, commentTypes)
-import Helpers exposing (unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
+import Views.ListComments exposing (chooseTopic, topicButton)
 
 
 addCommentView : Model -> Html Msg
 addCommentView model =
-    div [ class "flex flex-column items-center" ]
+    div [ class "flex flex-column items-center w-80-ns w-90 center" ]
         [ div []
-            [ div [ class "mv3" ] summary
-            , div [ class "mv3" ] chooseTopic
+            [ div [ class "mv4" ] summary
+            , div [ class "mv4" ] chooseTopic
             , div [ class "flex flex-column" ] <| inputComment model
             , submitButton model
             ]
@@ -24,18 +24,7 @@ addCommentView model =
 summary : List (Html Msg)
 summary =
     [ h1 [ classes [ headlineFont ] ] [ text "Summary" ]
-    , p [ classes [ bodyFont ] ] [ text "An intro to this section could go here. Explaining that it's optional and why the information is useful" ]
-    ]
-
-
-chooseTopic : List (Html Msg)
-chooseTopic =
-    [ h1 [ classes [ headlineFont, "" ] ] [ text "Choose a topic" ]
-    , div [ class "flex justify-between mt2" ]
-        (List.map
-            topicButton
-            commentTypes
-        )
+    , p [ classes [ bodyFont, "mt2" ] ] [ text "An intro to this section could go here. Explaining that it's optional and why the information is useful" ]
     ]
 
 
@@ -50,6 +39,7 @@ inputComment model =
         , attribute "rows" "4"
         , attribute "placeholder" "Write your comment here"
         , onInput UpdateCommentBody
+        , value model.commentBody
         ]
         []
     ]
@@ -85,30 +75,14 @@ commentHeading model =
             []
 
 
-topicButton : CommentType -> Html Msg
-topicButton commentType =
-    button
-        [ classes
-            [ "ph3 pv2 w5 white"
-            , bodyFont
-            , buttonStyle
-            , "bg-" ++ (commentTypeColor (commentType))
-            ]
-        , onClick <| UpdateCommentType commentType
-        ]
-        [ text <| unionTypeToString commentType ]
-
-
 submitButton : Model -> Html Msg
 submitButton model =
-    a
+    button
         [ classes
-            [ "dib link black ph3 pv2 w5 white tc"
-            , bodyFont
-            , buttonStyle
+            [ topicButtonFont
+            , submitButtonStyle
             , ("bg-" ++ (commentTypeColor model.commentType))
             ]
-        , href "#list-comments"
         , onClick PostComment
         ]
         [ text "Submit" ]

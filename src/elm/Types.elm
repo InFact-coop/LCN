@@ -31,6 +31,7 @@ type alias Model =
     , listStatsStatus : RemoteData
     , peopleSeenWeeklyAll : Int
     , displayStatsModal : Bool
+    , displayCommentModal : Bool
     , problems : List String
     }
 
