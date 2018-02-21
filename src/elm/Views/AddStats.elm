@@ -29,7 +29,7 @@ addStatsView model =
                     []
                     [ h2 [ class "mb4 black f3 fw5 b" ]
                         [ text "What is your role?" ]
-                    , div [] (roleButtonsList model)
+                    , div [ classes [ "flex", "items-center" ] ] (roleButtonsList model)
                     ]
                 , div [ classes [ "mt4", "mb5", displayElement <| model.role == CaseWorker ] ]
                     [ label [ for "lawArea", class "mb4 black f3 fw5 b" ] [ text "What is your primary area of Law?" ]
