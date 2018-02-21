@@ -3,7 +3,7 @@ module Views.AddStats exposing (..)
 import Components.Button exposing (..)
 import Components.LawArea exposing (lawAreaList, lawAreaOption)
 import Components.LawAreaCheckbox exposing (lawAreaCheckbox)
-import Components.StyleHelpers exposing (classes, displayElement, bodyFont, classes, headlineFont)
+import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, headlineFont)
 import Data.LawArea exposing (decoderLawArea, stringToLawArea)
 import Helpers exposing (ifThenElse)
 import Html exposing (..)
@@ -33,11 +33,13 @@ addStatsView model =
                     ]
                 , div [ classes [ "mb4", displayElement <| model.role == CaseWorker ] ]
                     [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What is your primary area of law?" ]
-                    , select [ id "areaOfLaw", class "db f4 mt3 b--light-gray ba bw1 fw2 br4", placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
-                        (List.map
-                            lawAreaOption
-                            lawAreaList
-                        )
+                    , div [ class "select mt2 w-25-ns w-100" ]
+                        [ select [ id "areaOfLaw", classes [ "br4", checkboxFont ], placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
+                            (List.map
+                                lawAreaOption
+                                lawAreaList
+                            )
+                        ]
                     ]
                 , div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
                     [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
