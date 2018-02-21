@@ -14,6 +14,11 @@ bodyFont =
     "f4 lh-copy fw3"
 
 
+checkboxFont : String
+checkboxFont =
+    "f5 lh-copy fw3"
+
+
 topicButtonFont : String
 topicButtonFont =
     "f3 fw3"

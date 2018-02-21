@@ -33,3 +33,15 @@ input:-webkit-autofill:active {
 .disableButtons {
   pointer-events: none;
 }
+
+input[type='checkbox'] {
+  -webkit-appearance: none;
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 5px;
+  border: 2px solid var(--light-gray);
+}
+input[type='checkbox']:checked {
+  background: var(--pink);
+}
