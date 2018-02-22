@@ -65,7 +65,7 @@ addStatsView model =
                         ]
                     ]
                 ]
-            , bigColouredButton "green" "Submit" PostStats
+            , bigColouredButton model "green" "Submit" PostStats
             ]
         ]
 
