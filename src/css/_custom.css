@@ -30,7 +30,7 @@ input:-webkit-autofill:active {
   transform: translate(-3rem, -7rem);
 }
 
-.disableButtons {
+.disableButton {
   pointer-events: none;
 }
 
