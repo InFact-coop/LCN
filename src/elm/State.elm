@@ -175,7 +175,14 @@ submitEnabledToModel model =
             AddStats ->
                 ifThenElse
                     (model.peopleSeenWeekly /= 0 && model.peopleTurnedAwayWeekly /= 0)
-                    trueModel
+                    (ifThenElse (model.role /= CaseWorker)
+                        trueModel
+                        (ifThenElse
+                            (model.lawArea /= NoArea)
+                            trueModel
+                            falseModel
+                        )
+                    )
                     falseModel
 
             Snapshot ->
