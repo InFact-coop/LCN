@@ -29,9 +29,18 @@ listCommentsView model =
 
 summary : List (Html Msg)
 summary =
-    [ h1 [ classes [ headlineFont ] ] [ text "Summary" ]
-    , p [ classes [ bodyFont, "mt2" ] ] [ text "An intro to this section could go here. Explaining that it's optional and why the information is useful" ]
+    [ h1 [ classes [ headlineFont ] ] [ text "Check out what others have said" ]
+    , p [ classes [ bodyFont, "mt2" ] ] [ text summaryText ]
     ]
+
+
+summaryText : String
+summaryText =
+    """
+    Here are the issues that Law Centres are seeing now, as shared by you! They are grouped by
+    categories and the latest appear first. Feel free to reply to colleagues or simply 'like' their
+    posts if they ring true. LCN responses to questions and requests are under the last heading.
+    """
 
 
 commentsHeader : Model -> List (Html Msg)

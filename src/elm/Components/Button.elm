@@ -10,20 +10,29 @@ import Types exposing (..)
 
 colouredButton : String -> Role -> Html Msg
 colouredButton colour role =
-    let
-        buttonText =
-            ifThenElse (role == CaseWorker) "Lawyer/Case Worker" (unionTypeToString role)
-    in
-        button
-            [ classes
-                [ "mr3 white w-25-ns w-100 mb2 mb0-ns"
-                , "bg-" ++ colour
-                , roleButtonFont
-                , buttonStyle
-                ]
-            , onClick <| UpdateRole role
+    button
+        [ classes
+            [ "mr3 white w-25-ns w-100 mb2 mb0-ns"
+            , "bg-" ++ colour
+            , roleButtonFont
+            , buttonStyle
             ]
-            [ text buttonText ]
+        , onClick <| UpdateRole role
+        ]
+        [ text <| colouredButtonText role ]
+
+
+colouredButtonText : Role -> String
+colouredButtonText role =
+    case role of
+        CaseWorker ->
+            "Lawyer/Case Worker"
+
+        Triage ->
+            "Triage/Reception"
+
+        _ ->
+            unionTypeToString role
 
 
 bigColouredButton : String -> String -> Msg -> Html Msg
