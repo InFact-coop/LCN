@@ -16,7 +16,7 @@ import Types exposing (..)
 addStatsView : Model -> Html Msg
 addStatsView model =
     section
-        [ classes [ "flex justify-center pa3-ns pv3", ifThenElse model.displayStatsModal "disableButtons" "" ] ]
+        [ classes [ "flex justify-center pa3-ns pv3", ifThenElse model.displayStatsModal "disableButton" "" ] ]
         [ section [ class "w-80-ns w-90" ]
             [ section [ class "mb4" ]
                 [ h1 [ classes [ "tl mb3", headlineFont ] ] [ text "Introduction" ]
@@ -65,7 +65,7 @@ addStatsView model =
                         ]
                     ]
                 ]
-            , bigColouredButton "green" "Submit" PostStats
+            , bigColouredButton model "green" "Submit" PostStats
             ]
         ]
 

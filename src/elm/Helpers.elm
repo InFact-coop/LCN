@@ -1,9 +1,9 @@
 module Helpers exposing (..)
 
-import Regex exposing (..)
-import Types exposing (..)
 import Dom.Scroll exposing (..)
+import Regex exposing (..)
 import Task
+import Types exposing (..)
 
 
 ifThenElse : Bool -> a -> a -> a
@@ -26,3 +26,15 @@ unionTypeToString a =
 scrollToTop : Cmd Msg
 scrollToTop =
     Task.attempt (always NoOp) (toTop "container")
+
+
+prettifyNumber : Int -> String
+prettifyNumber number =
+    let
+        numberString =
+            toString number
+    in
+        if String.length numberString > 3 then
+            String.dropRight 3 numberString ++ "," ++ String.right 3 numberString
+        else
+            numberString

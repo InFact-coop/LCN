@@ -1,8 +1,9 @@
 module Views.Home exposing (..)
 
-import Components.StyleHelpers exposing (classes, inputFont, inputLabelFont)
 import Components.LawCentre exposing (lawCentreList, lawCentreOption)
+import Components.StyleHelpers exposing (classes, inputFont, inputLabelFont)
 import Data.LawCentre exposing (decoderLC, stringToLawCentre)
+import Helpers exposing (ifThenElse)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -42,7 +43,7 @@ homeView model =
                 , select [ id "lawcentre", classes [ inputFont, "bn" ], placeholder "Camden", on "change" <| Json.Decode.map UpdateLawCentre targetValueDecoderLC ]
                     (List.map lawCentreOption lawCentreList)
                 ]
-            , a [ href "#numbers", class "link black dib bw1 f3 br3 ba b--black ph5 pv3 center" ] [ text "Log in" ]
+            , a [ href "#numbers", classes [ "link dib bw1 f3 br3 ba ph5 pv3 center", ifThenElse (model.submitEnabled == True) "black b--black" "light-gray b--light-gray disableButton" ] ] [ text "Log in" ]
             ]
         ]
 

@@ -1,9 +1,10 @@
 module Components.StatsModal exposing (..)
 
+import Components.Button exposing (modalButton)
+import Components.StyleHelpers exposing (classes, displayElement)
+import Helpers exposing (prettifyNumber)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Components.StyleHelpers exposing (displayElement, classes)
-import Components.Button exposing (modalButton)
 import Types exposing (..)
 
 
@@ -44,7 +45,7 @@ statsModal model =
                             , displayElement <| model.listStatsStatus == ResponseSuccess
                             ]
                         ]
-                        [ text <| toString model.peopleSeenWeeklyAll ++ " people" ]
+                        [ text <| prettifyNumber model.peopleSeenWeeklyAll ++ " people" ]
                     , text " this week!"
                     ]
                 , h1 [ classes [ "f2" ] ]
