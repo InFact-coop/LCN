@@ -91,12 +91,12 @@ singleComment model comment =
                     , commentTypeColor model.commentType
                     ]
                 ]
-                [ h1 [ classes [ "fw5", "f3", "b", "di" ] ] [ text comment.name ]
+                [ h1 [ classes [ "fw5", "f3", "b", "di" ] ] [ text <| ifThenElse (comment.name /= "") comment.name "Anonymous" ]
                 , span [] [ text " - " ]
-                , h1 [ classes [ "di", "fw3", "f3" ] ] [ text <| (unionTypeToString comment.lawCentre) ++ " Law Centre" ]
+                , h1 [ classes [ "di", "fw3", "f3" ] ] [ text <| ifThenElse (comment.lawCentre /= NoCentre) ((unionTypeToString comment.lawCentre) ++ " Law Centre") ("Law Centres Network") ]
                 , ifThenElse (hasParentId comment)
                     emptyDiv
-                    (h2 [ class "di fw3 f3 i" ] [ text <| " - In reply to " ++ parentComment.name ])
+                    (h2 [ class "di fw3 f3 i" ] [ text <| " - In reply to " ++ ifThenElse (parentComment.name /= "") parentComment.name "anonymous" ])
                 ]
             , p [ classes [ "f4 lh-copy fw3", "mb3" ] ] [ text comment.commentBody ]
             , ifThenElse comment.showReplyInput (replyComponent comment) (commentActions comment)
@@ -117,7 +117,7 @@ parentComment model comment =
                 , commentTypeColor model.commentType
                 ]
             ]
-            [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ]
+            [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text <| ifThenElse (comment.name /= "") comment.name "Anonymous" ]
             , span [] [ text " - " ]
             , h2 [ class "di fw3 f3" ] [ text <| (unionTypeToString comment.lawCentre) ++ " Law Centre" ]
             ]
