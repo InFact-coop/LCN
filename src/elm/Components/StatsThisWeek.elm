@@ -1,5 +1,6 @@
 module Components.StatsThisWeek exposing (..)
 
+import Components.LawAreaCheckbox exposing (problemCheckbox, agencyCheckbox)
 import Components.StyleHelpers exposing (bodyFont, classes, displayElement, headlineFont)
 import Helpers exposing (ifThenElse)
 import Html exposing (..)
@@ -26,6 +27,17 @@ statsThisWeek model =
                 , numericalInput (model.role == Triage) "How many enquiries have you had to turn away without signposting anywhere?" UpdatePeopleTurnedAway
                 , numericalInput (model.role == Triage) "How many enquiries were signposted to one-off Law Centre advice? (include drop in or pro bono clinics)" UpdateSignpostedInterally
                 , numericalInput (model.role == Triage) "How many enquiries were referred to other agencies?" UpdateSignpostedExternally
+                , div [ classes [ "mb4", displayElement (model.role == Triage) ] ]
+                    [ label [ for "agencyTypes", classes [ "mb4", bodyFont ] ] [ text "Tick the main types of agencies you referred to this week:" ]
+                    , div [ class "mt2" ]
+                        [ agencyCheckbox "Local advice agency"
+                        , agencyCheckbox "Local non-advice support agency"
+                        , agencyCheckbox "National agency/helpline"
+                        , agencyCheckbox "Local MPs"
+                        , agencyCheckbox "Local councillors"
+                        , agencyCheckbox "Other"
+                        ]
+                    ]
                 ]
             ]
 

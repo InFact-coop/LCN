@@ -36,6 +36,7 @@ type alias Model =
     , displayStatsModal : Bool
     , displayCommentModal : Bool
     , problems : List String
+    , agencies : List String
     , submitEnabled : Bool
     }
 
@@ -168,4 +169,5 @@ type Msg
     | ReceiveComments (Result Http.Error (List Comment))
     | ToggleReplyComponent Comment
     | ToggleProblem String Bool
+    | ToggleAgency String Bool
     | PostReply Comment

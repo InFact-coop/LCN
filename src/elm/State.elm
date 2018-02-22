@@ -34,6 +34,7 @@ initModel =
     , displayStatsModal = False
     , displayCommentModal = False
     , problems = []
+    , agencies = []
     , submitEnabled = False
     }
 
@@ -53,7 +54,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            { model | view = getView location.hash, displayStatsModal = False, displayCommentModal = False, submitEnabled = False }
+            { model | view = getView location.hash, displayStatsModal = False, displayCommentModal = False, submitEnabled = False, peopleSeenWeekly = -1, peopleTurnedAwayWeekly = -1, newCasesWeekly = -1, signpostedInternallyWeekly = -1, signpostedExternallyWeekly = -1 }
                 ! [ scrollToTop, handleGetComments location ]
 
         NoOp ->
@@ -172,6 +173,12 @@ update msg model =
             else
                 { model | problems = List.filter (\x -> x /= string) model.problems } ! []
 
+        ToggleAgency string checked ->
+            if checked && isNewEntry string model.agencies then
+                { model | agencies = model.agencies ++ [ string ] } ! []
+            else
+                { model | agencies = List.filter (\x -> x /= string) model.agencies } ! []
+
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
 
@@ -204,10 +211,10 @@ submitEnabledToModel model =
             AddStats ->
                 case model.role of
                     CaseWorker ->
-                        ifThenElse (model.lawArea /= NoArea && model.peopleSeenWeekly /= -1 && model.newCasesWeekly /= -1) trueModel falseModel
+                        ifThenElse (model.lawArea /= NoArea && model.peopleSeenWeekly /= -1 && model.newCasesWeekly /= -1 && (not <| List.isEmpty model.problems)) trueModel falseModel
 
                     Triage ->
-                        ifThenElse (model.peopleSeenWeekly /= -1 && model.peopleTurnedAwayWeekly /= -1 && model.signpostedInternallyWeekly /= -1 && model.signpostedExternallyWeekly /= -1) trueModel falseModel
+                        ifThenElse (model.peopleSeenWeekly /= -1 && model.peopleTurnedAwayWeekly /= -1 && model.signpostedInternallyWeekly /= -1 && model.signpostedExternallyWeekly /= -1 && (not <| List.isEmpty model.problems)) trueModel falseModel
 
                     _ ->
                         ifThenElse (model.peopleSeenWeekly /= -1) trueModel falseModel
