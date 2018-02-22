@@ -8,6 +8,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
+import Components.ChooseTopic exposing (chooseTopic)
 
 
 listCommentsView : Model -> Html Msg
@@ -15,7 +16,7 @@ listCommentsView model =
     div [ class "flex flex-column items-center w-80-ns w-90 center" ]
         [ div []
             [ div [ class "mv4" ] summary
-            , div [ class "mv4" ] chooseTopic
+            , div [ class "mv4" ] <| chooseTopic model
             , div [] (commentsHeader model)
             , div []
                 (List.map (singleComment model) <|
@@ -31,31 +32,6 @@ summary =
     [ h1 [ classes [ headlineFont ] ] [ text "Summary" ]
     , p [ classes [ bodyFont, "mt2" ] ] [ text "An intro to this section could go here. Explaining that it's optional and why the information is useful" ]
     ]
-
-
-chooseTopic : List (Html Msg)
-chooseTopic =
-    [ h1 [ classes [ headlineFont, "mb3" ] ] [ text "Choose a topic" ]
-    , div [ class "flex flex-row-ns flex-column justify-between-ns mt2" ]
-        (List.map
-            topicButton
-            commentTypes
-        )
-    ]
-
-
-topicButton : CommentType -> Html Msg
-topicButton commentType =
-    button
-        [ classes
-            [ "w5-ns white w-100 mb2"
-            , topicButtonFont
-            , buttonStyle
-            , "bg-" ++ (commentTypeColor (commentType))
-            ]
-        , onClick <| UpdateCommentType commentType
-        ]
-        [ text <| unionTypeToString commentType ]
 
 
 commentsHeader : Model -> List (Html Msg)
@@ -98,7 +74,7 @@ singleComment model comment =
         parentComment =
             getCommentByCommentId model (Maybe.withDefault "" comment.parentId)
     in
-        div [ classes [ "center", "flex", "flex-column", "content-center", "bg-white", "br3", "ph4", "pt3", "pb0", "ma4" ] ]
+        div [ classes [ "center flex flex-column content-center bg-white br3 ph4 pt3 pb0 ma4" ] ]
             [ showParentComment model comment
             , div [ classes [ "green", "mb3" ] ]
                 [ h1 [ classes [ "fw5", "f3", "b", "di" ] ] [ text comment.name ]
@@ -118,14 +94,7 @@ commentActions comment =
     div [ classes [ "flex", "content-center", "h2", "mb3" ] ]
         [ button
             [ classes
-                [ "pointer"
-                , "bn"
-                , "bg-green"
-                , "ph4"
-                , "white"
-                , "f4"
-                , "br1"
-                , "mr3"
+                [ "pointer bn bg-green ph4 white f4 br1 mr3"
                 , displayElement <| hasParentId comment
                 ]
             , onClick <| ToggleReplyComponent comment
@@ -152,7 +121,7 @@ replyComponent parentComment =
 
 parentComment : Model -> Comment -> Html Msg
 parentComment model comment =
-    div [ classes [ "center", "flex", "flex-column", "content-center", "bg-green", "br3", "ph4", "pv3", "ma4", "bg-light-green", "w-100" ] ]
+    div [ classes [ "center flex flex-column content-center bg-green br3 pl2 pr4 pv3 mh4 mv3 bg-light-green w-100 bl b--green bw3" ] ]
         [ div [ classes [ "green", "mb3" ] ]
             [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ]
             , span [] [ text " - " ]
