@@ -44,7 +44,9 @@ init location =
         model =
             viewFromUrl location initModel
     in
-        model ! []
+        model
+            ! [ handleGetComments location
+              ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -158,7 +160,11 @@ update msg model =
             { model | comments = comments } ! []
 
         ReceiveComments (Err err) ->
-            model ! []
+            let
+                debugIt =
+                    Debug.log "error" err
+            in
+                model ! []
 
         ToggleProblem string checked ->
             if checked && isNewEntry string model.problems then

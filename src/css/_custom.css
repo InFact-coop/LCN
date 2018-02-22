@@ -95,3 +95,7 @@ input[type='checkbox']:checked {
 .maxh5 {
   max-height: 14rem;
 }
+
+.w-15 {
+  width: 1.5rem;
+}

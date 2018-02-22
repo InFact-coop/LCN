@@ -127,7 +127,7 @@ parentComment model comment =
 
 commentActions : Comment -> Html Msg
 commentActions comment =
-    div [ classes [ "flex", "content-center", "h2", "mb3" ] ]
+    div [ classes [ "flex", "content-center", "items-center", "h2", "mb3" ] ]
         [ button
             [ classes
                 [ "pointer bn ph4 white f4 br2 mr3"
@@ -137,7 +137,8 @@ commentActions comment =
             , onClick <| ToggleReplyComponent comment
             ]
             [ text "reply" ]
-        , img [ src <| "./assets/like-" ++ (commentTypeColor comment.commentType) ++ ".svg", classes [ "w2", "v-mid", "pointer" ] ] []
+        , img [ src <| "./assets/like-" ++ (commentTypeColor comment.commentType) ++ ".svg", classes [ "w2", "v-mid", "pointer", "ml3", "h2", "w-15" ] ] []
+        , span [ classes [ commentTypeColor comment.commentType, "f4", "ml2" ] ] [ span [ classes [ "fw3", displayElement <| comment.likes /= 0 ] ] [ text <| toString comment.likes ], span [ class "dn di-ns fw3" ] [ text <| ifThenElse (comment.likes /= 0) " people like this" "Be the first person to like this!" ] ]
         ]
 
 
