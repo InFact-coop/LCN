@@ -11,6 +11,7 @@ type View
     | Snapshot
     | AddComment
     | ListComments
+    | LogOut
 
 
 type alias Model =
@@ -24,7 +25,6 @@ type alias Model =
     , peopleTurnedAwayWeekly : Int
     , commentBody : String
     , commentType : CommentType
-    , commentFilter : Maybe CommentType
     , comments : List Comment
     , commentStatus : RemoteData
     , postStatsStatus : RemoteData

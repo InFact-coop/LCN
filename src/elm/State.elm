@@ -23,7 +23,6 @@ initModel =
     , peopleTurnedAwayWeekly = 0
     , commentBody = ""
     , commentType = Success
-    , commentFilter = Nothing
     , comments = []
     , commentStatus = NotAsked
     , postStatsStatus = NotAsked

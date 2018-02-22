@@ -45,7 +45,7 @@ getCurrentView : Model -> Html Msg
 getCurrentView model =
     case model.view of
         Home ->
-            homeView model
+            homeView model False
 
         AddStats ->
             addStatsView model
@@ -58,6 +58,9 @@ getCurrentView model =
 
         ListComments ->
             listCommentsView model
+
+        LogOut ->
+            homeView model True
 
 
 getView : String -> View
@@ -79,7 +82,7 @@ getView hash =
             ListComments
 
         "#logout" ->
-            Home
+            LogOut
 
         _ ->
             Home
