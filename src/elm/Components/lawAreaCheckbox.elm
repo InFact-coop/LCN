@@ -1,18 +1,18 @@
 module Components.LawAreaCheckbox exposing (..)
 
-import Components.StyleHelpers exposing (classes)
-import Json.Decode as Decode
+import Components.StyleHelpers exposing (checkboxFont, classes)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Json.Decode as Decode
 import Types exposing (..)
 
 
 lawAreaCheckbox : String -> Html Msg
 lawAreaCheckbox content =
-    div [ classes [ "mb2" ] ]
+    div [ classes [ "mb2 flex flex-row items-center" ] ]
         [ input [ type_ "checkbox", id content, value content, classes [ "mr3" ], onCheckboxInput ToggleProblem ] []
-        , label [ for content ] [ text content ]
+        , label [ for content, classes [ checkboxFont ] ] [ text content ]
         ]
 
 

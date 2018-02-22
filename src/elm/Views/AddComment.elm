@@ -6,7 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
-import Views.ListComments exposing (chooseTopic, topicButton)
+import Components.ChooseTopic exposing (chooseTopic)
 
 
 addCommentView : Model -> Html Msg
@@ -14,7 +14,7 @@ addCommentView model =
     div [ class "flex flex-column items-center w-80-ns w-90 center" ]
         [ div []
             [ div [ class "mv4" ] summary
-            , div [ class "mv4" ] chooseTopic
+            , div [ class "mv4" ] <| chooseTopic model
             , div [ class "flex flex-column" ] <| inputComment model
             , submitButton model
             ]

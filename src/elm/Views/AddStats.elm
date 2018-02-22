@@ -3,7 +3,7 @@ module Views.AddStats exposing (..)
 import Components.Button exposing (..)
 import Components.LawArea exposing (lawAreaList, lawAreaOption)
 import Components.LawAreaCheckbox exposing (lawAreaCheckbox)
-import Components.StyleHelpers exposing (classes, displayElement, bodyFont, classes, headlineFont)
+import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, headlineFont)
 import Data.LawArea exposing (decoderLawArea, stringToLawArea)
 import Helpers exposing (ifThenElse)
 import Html exposing (..)
@@ -27,35 +27,37 @@ addStatsView model =
                     [ text "Weekly survey" ]
                 , div
                     []
-                    [ h2 [ class "mb4 black f3 fw5 b" ]
+                    [ h2 [ classes [ "mb3", bodyFont ] ]
                         [ text "What is your role?" ]
-                    , div [] (roleButtonsList model)
+                    , div [ class "mb4" ] (roleButtonsList model)
                     ]
-                , div [ classes [ "mt4", "mb5", displayElement <| model.role == CaseWorker ] ]
-                    [ label [ for "lawArea", class "mb4 black f3 fw5 b" ] [ text "What is your primary area of Law?" ]
-                    , select [ id "areaOfLaw", class "db f4 mt3 b--light-gray ba bw1 fw2 br4 pa2", placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
-                        (List.map
-                            lawAreaOption
-                            lawAreaList
-                        )
+                , div [ classes [ "mb4", displayElement <| model.role == CaseWorker ] ]
+                    [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What is your primary area of law?" ]
+                    , div [ class "select mt2 w-25-ns w-100" ]
+                        [ select [ id "areaOfLaw", classes [ "br4", checkboxFont ], placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
+                            (List.map
+                                lawAreaOption
+                                lawAreaList
+                            )
+                        ]
                     ]
                 , div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
-                    [ label [ for "lawArea", class "black f3 fw5 b" ] [ text "What were the main kinds of problems you have seen this week?" ]
+                    [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
                     , div [ classes [ "mv4" ] ] (lawAreaCheckboxesList model)
                     ]
-                , section [ class "mb5 mt4" ]
+                , section [ class "mb4 mt4" ]
                     [ h1 [ classes [ "tl mb4", headlineFont ] ]
                         [ text "Your Week" ]
                     , div []
                         [ div
                             [ class "db mb4" ]
-                            [ label [ for "peopleSeenWeekly", class "mb4 black f3 fw5 b" ]
+                            [ label [ for "peopleSeenWeekly", classes [ "mb4", bodyFont ] ]
                                 [ text "How many people have you seen this week?" ]
                             , input [ id "peopleSeenWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleSeen ] []
                             ]
                         , div
                             [ class "db mb4" ]
-                            [ label [ for "peopleTurnedAwayWeekly", class "mb4 black f3 fw5 b" ]
+                            [ label [ for "peopleTurnedAwayWeekly", classes [ "mb4", bodyFont ] ]
                                 [ text "How many people have you turned away this week?" ]
                             , input [ id "peopleTurnedAwayWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleTurnedAway ] []
                             ]
