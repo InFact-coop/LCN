@@ -2,6 +2,7 @@ require('../../config.js');
 const express = require('express');
 const bodyParser = require('body-parser');
 const api_router = require('./routers/api_router');
+const path = require('path');
 
 const app = express();
 
@@ -20,8 +21,8 @@ const https_redirect = (req, res, next) => {
 };
 
 app.use(https_redirect);
+app.use(express.static(path.join(__dirname, '../../public')));
 app.use(bodyParser.json());
-app.use(express.static('public'));
 
 app.use('/api/v1/', api_router);
 
