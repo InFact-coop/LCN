@@ -107,13 +107,13 @@ parentComment : Model -> Comment -> Html Msg
 parentComment model comment =
     div
         [ classes
-            [ "center flex flex-column content-center br3 pl2 pr4 pv3 mh4 mv3 w-100 bl bw3"
+            [ "center flex flex-column content-center br3 pl2 pr4 pv3 mh4 mv3 w-100 bl bw3 overflow-scroll maxh5"
             , List.map ((flip (++)) (commentTypeColorLight model.commentType)) [ "bg-light-", "b--" ] |> List.intersperse " " |> List.foldr (++) ""
             ]
         ]
         [ div
             [ classes
-                [ "mb3"
+                [ "mb3 lh-copy"
                 , commentTypeColor model.commentType
                 ]
             ]
