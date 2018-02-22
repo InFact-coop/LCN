@@ -2,7 +2,6 @@ module State exposing (..)
 
 import Data.Comment exposing (toggleReplyComponent)
 import Helpers exposing (ifThenElse, scrollToTop)
-import Html.Attributes exposing (for)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments, handleGetComments)
 import Requests.PostComment exposing (..)
