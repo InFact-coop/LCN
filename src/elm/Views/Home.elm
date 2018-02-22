@@ -42,7 +42,7 @@ homeView model =
                 , select [ id "lawcentre", classes [ inputFont, "bn" ], placeholder "Camden", on "change" <| Json.Decode.map UpdateLawCentre targetValueDecoderLC ]
                     (List.map lawCentreOption lawCentreList)
                 ]
-            , a [ href "#numbers", classes [ "link", "black", "dib", "bw1", "f3", "br3", "ba", "b--black", "ph5", "pv3", "center", "gray" ] ] [ text "Login" ]
+            , a [ href "#numbers", class "link black dib bw1 f3 br3 ba b--black ph5 pv3 center" ] [ text "Log in" ]
             ]
         ]
 

@@ -5,7 +5,7 @@ import Types exposing (..)
 
 commentTypes : List CommentType
 commentTypes =
-    [ Trend, Success, Annoyance, AskUs ]
+    [ Success, Annoyance, Trend, AskUs ]
 
 
 commentTypeColor : CommentType -> String
@@ -19,6 +19,25 @@ commentTypeColor commentType =
 
         Annoyance ->
             "orange"
+
+        AskUs ->
+            "blue"
+
+        NoType ->
+            "white"
+
+
+commentTypeColorLight : CommentType -> String
+commentTypeColorLight commentType =
+    case commentType of
+        Trend ->
+            "pink"
+
+        Success ->
+            "green"
+
+        Annoyance ->
+            "red"
 
         AskUs ->
             "blue"

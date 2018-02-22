@@ -33,3 +33,61 @@ input:-webkit-autofill:active {
 .disableButtons {
   pointer-events: none;
 }
+
+input[type='checkbox'] {
+  -webkit-appearance: none;
+  width: 30px;
+  height: 30px;
+  background: white;
+  border-radius: 5px;
+  border: 2px solid var(--light-gray);
+}
+input[type='checkbox']:checked {
+  background: var(--pink);
+}
+
+#areaOfLaw {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background: white;
+  background-image: none;
+}
+/* Custom Select */
+.select {
+  position: relative;
+  display: block;
+  line-height: 3.5;
+  background: white;
+  overflow: hidden;
+  height: 3.5em;
+  border-radius: var(--border-radius-2);
+  border: 2px solid var(--pink);
+}
+#areaOfLaw {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 0 0 0.5em;
+  color: var(--pink);
+  cursor: pointer;
+}
+#areaOfLaw::-ms-expand {
+  display: none;
+}
+/* Arrow */
+.select::after {
+  color: var(--pink);
+  content: '\25BC';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 1em;
+  background: white;
+  pointer-events: none;
+}

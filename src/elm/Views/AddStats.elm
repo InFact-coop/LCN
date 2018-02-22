@@ -3,7 +3,7 @@ module Views.AddStats exposing (..)
 import Components.Button exposing (..)
 import Components.LawArea exposing (lawAreaList, lawAreaOption)
 import Components.LawAreaCheckbox exposing (lawAreaCheckbox)
-import Components.StyleHelpers exposing (classes, displayElement, bodyFont, classes, headlineFont)
+import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, headlineFont)
 import Data.LawArea exposing (decoderLawArea, stringToLawArea)
 import Helpers exposing (ifThenElse)
 import Html exposing (..)
@@ -20,42 +20,45 @@ addStatsView model =
         [ section [ class "w-80-ns w-90" ]
             [ section [ class "mb4" ]
                 [ h1 [ classes [ "tl mb3", headlineFont ] ] [ text "Introduction" ]
-                , p [ class bodyFont ] [ text "An intro into why LCN want this information etc etc" ]
+                , p [ class bodyFont ]
+                    [ text introText ]
                 ]
             , section [ class "mb4" ]
                 [ h1 [ classes [ "tl mb4", headlineFont ] ]
                     [ text "Weekly survey" ]
                 , div
                     []
-                    [ h2 [ class "mb4 black f3 fw5 b" ]
-                        [ text "What is your role?" ]
-                    , div [ classes [ "flex", "items-center" ] ] (roleButtonsList model)
+                    [ h2 [ classes [ "mb3", bodyFont ] ]
+                        [ text "What is your role type at the Law Centre?" ]
+                    , div [ class "mb4" ] (roleButtonsList model)
                     ]
-                , div [ classes [ "mt4", "mb5", displayElement <| model.role == CaseWorker ] ]
-                    [ label [ for "lawArea", class "mb4 black f3 fw5 b" ] [ text "What is your primary area of Law?" ]
-                    , select [ id "areaOfLaw", class "db f4 mt3 b--light-gray ba bw1 fw2 br4 pa2", placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
-                        (List.map
-                            lawAreaOption
-                            lawAreaList
-                        )
+                , div [ classes [ "mb4", displayElement <| model.role == CaseWorker ] ]
+                    [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What is your main area of practice?" ]
+                    , div [ class "select mt2 w-25-ns w-100" ]
+                        [ select [ id "areaOfLaw", classes [ "br4", checkboxFont ], placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
+                            (List.map
+                                lawAreaOption
+                                lawAreaList
+                            )
+                        ]
                     ]
                 , div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
-                    [ label [ for "lawArea", class "black f3 fw5 b" ] [ text "What were the main kinds of problems you have seen this week?" ]
+                    [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
                     , div [ classes [ "mv4" ] ] (lawAreaCheckboxesList model)
                     ]
-                , section [ class "mb5 mt4" ]
+                , section [ class "mb4 mt4" ]
                     [ h1 [ classes [ "tl mb4", headlineFont ] ]
                         [ text "Your Week" ]
                     , div []
                         [ div
                             [ class "db mb4" ]
-                            [ label [ for "peopleSeenWeekly", class "mb4 black f3 fw5 b" ]
+                            [ label [ for "peopleSeenWeekly", classes [ "mb4", bodyFont ] ]
                                 [ text "How many people have you seen this week?" ]
                             , input [ id "peopleSeenWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleSeen ] []
                             ]
                         , div
                             [ class "db mb4" ]
-                            [ label [ for "peopleTurnedAwayWeekly", class "mb4 black f3 fw5 b" ]
+                            [ label [ for "peopleTurnedAwayWeekly", classes [ "mb4", bodyFont ] ]
                                 [ text "How many people have you turned away this week?" ]
                             , input [ id "peopleTurnedAwayWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleTurnedAway ] []
                             ]
@@ -65,6 +68,16 @@ addStatsView model =
             , bigColouredButton "green" "Submit" PostStats
             ]
         ]
+
+
+introText : String
+introText =
+    """
+    Please tells us a little about the cases you have seen this week. We are collecting this
+    rough-and-ready information so LCN and each Law Centre have a better idea of current workloads and
+    trends. This will help you see if your experience is similar to that in other Law Centres. It will
+    also help LCN to speak out quickly and with better authority about the issues arising.
+    """
 
 
 lawAreaCheckboxesList : Model -> List (Html Msg)
@@ -168,27 +181,27 @@ roleButtonsList : Model -> List (Html Msg)
 roleButtonsList model =
     case model.role of
         CaseWorker ->
-            [ colouredButton ("orange o-30 shrink") Triage
+            [ colouredButton ("pink grow") CaseWorker
+            , colouredButton ("orange o-30 shrink") Triage
             , colouredButton ("green o-30 shrink") Management
-            , colouredButton ("pink grow") CaseWorker
             ]
 
         Management ->
-            [ colouredButton ("orange o-30 shrink") Triage
+            [ colouredButton ("pink o-30 shrink") CaseWorker
+            , colouredButton ("orange o-30 shrink") Triage
             , colouredButton ("green grow") Management
-            , colouredButton ("pink o-30 shrink") CaseWorker
             ]
 
         Triage ->
-            [ colouredButton ("orange grow") Triage
+            [ colouredButton ("pink o-30 shrink") CaseWorker
+            , colouredButton ("orange grow") Triage
             , colouredButton ("green o-30 shrink") Management
-            , colouredButton ("pink o-30 shrink") CaseWorker
             ]
 
         NoRole ->
-            [ colouredButton ("orange o-30 shrink") Triage
+            [ colouredButton ("pink o-30 shrink") CaseWorker
+            , colouredButton ("orange o-30 shrink") Triage
             , colouredButton ("green o-30 shrink") Management
-            , colouredButton ("pink o-30 shrink") CaseWorker
             ]
 
 

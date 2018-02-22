@@ -1,8 +1,9 @@
 module Views.ListComments exposing (..)
 
-import Components.StyleHelpers exposing (bodyFont, topicButtonFont, buttonStyle, classes, displayElement, emptyDiv, headlineFont, textareaFont)
+import Components.ChooseTopic exposing (chooseTopic)
+import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, displayElement, emptyDiv, headlineFont, textareaFont, topicButtonFont)
 import Data.Comment exposing (defaultComment, getCommentByCommentId, hasParentId)
-import Data.CommentType exposing (commentTypeColor, commentTypes)
+import Data.CommentType exposing (commentTypeColor, commentTypeColorLight, commentTypes)
 import Helpers exposing (ifThenElse, unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -15,7 +16,7 @@ listCommentsView model =
     div [ class "flex flex-column items-center w-80-ns w-90 center" ]
         [ div []
             [ div [ class "mv4" ] summary
-            , div [ class "mv4" ] chooseTopic
+            , div [ class "mv4" ] <| chooseTopic model
             , div [] (commentsHeader model)
             , div []
                 (List.map (singleComment model) <|
@@ -28,34 +29,18 @@ listCommentsView model =
 
 summary : List (Html Msg)
 summary =
-    [ h1 [ classes [ headlineFont ] ] [ text "Summary" ]
-    , p [ classes [ bodyFont, "mt2" ] ] [ text "An intro to this section could go here. Explaining that it's optional and why the information is useful" ]
+    [ h1 [ classes [ headlineFont ] ] [ text "Check out what others have said" ]
+    , p [ classes [ bodyFont, "mt2" ] ] [ text summaryText ]
     ]
 
 
-chooseTopic : List (Html Msg)
-chooseTopic =
-    [ h1 [ classes [ headlineFont, "mb3" ] ] [ text "Choose a topic" ]
-    , div [ class "flex flex-row-ns flex-column justify-between-ns mt2" ]
-        (List.map
-            topicButton
-            commentTypes
-        )
-    ]
-
-
-topicButton : CommentType -> Html Msg
-topicButton commentType =
-    button
-        [ classes
-            [ "w5-ns white w-100 mb2"
-            , topicButtonFont
-            , buttonStyle
-            , "bg-" ++ (commentTypeColor (commentType))
-            ]
-        , onClick <| UpdateCommentType commentType
-        ]
-        [ text <| unionTypeToString commentType ]
+summaryText : String
+summaryText =
+    """
+    Here are the issues that Law Centres are seeing now, as shared by you! They are grouped by
+    categories and the latest appear first. Feel free to reply to colleagues or simply 'like' their
+    posts if they ring true. LCN responses to questions and requests are under the last heading.
+    """
 
 
 commentsHeader : Model -> List (Html Msg)
@@ -98,9 +83,14 @@ singleComment model comment =
         parentComment =
             getCommentByCommentId model (Maybe.withDefault "" comment.parentId)
     in
-        div [ classes [ "center", "flex", "flex-column", "content-center", "bg-white", "br3", "ph4", "pt3", "pb0", "ma4" ] ]
+        div [ classes [ "center flex flex-column content-center bg-white br3 ph4 pt3 pb0 ma4" ] ]
             [ showParentComment model comment
-            , div [ classes [ "green", "mb3" ] ]
+            , div
+                [ classes
+                    [ "mb3"
+                    , commentTypeColor model.commentType
+                    ]
+                ]
                 [ h1 [ classes [ "fw5", "f3", "b", "di" ] ] [ text comment.name ]
                 , span [] [ text " - " ]
                 , h1 [ classes [ "di", "fw3", "f3" ] ] [ text <| (unionTypeToString comment.lawCentre) ++ " Law Centre" ]
@@ -108,9 +98,31 @@ singleComment model comment =
                     emptyDiv
                     (h2 [ class "di fw3 f3 i" ] [ text <| " - In reply to " ++ parentComment.name ])
                 ]
-            , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
+            , p [ classes [ "f4 lh-copy fw3", "mb3" ] ] [ text comment.commentBody ]
             , ifThenElse comment.showReplyInput (replyComponent comment) (commentActions comment)
             ]
+
+
+parentComment : Model -> Comment -> Html Msg
+parentComment model comment =
+    div
+        [ classes
+            [ "center flex flex-column content-center br3 pl2 pr4 pv3 mh4 mv3 w-100 bl bw3"
+            , List.map ((flip (++)) (commentTypeColorLight model.commentType)) [ "bg-light-", "b--" ] |> List.intersperse " " |> List.foldr (++) ""
+            ]
+        ]
+        [ div
+            [ classes
+                [ "mb3"
+                , commentTypeColor model.commentType
+                ]
+            ]
+            [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ]
+            , span [] [ text " - " ]
+            , h2 [ class "di fw3 f3" ] [ text <| (unionTypeToString comment.lawCentre) ++ " Law Centre" ]
+            ]
+        , p [ classes [ "f5 lh-copy fw3", "mb3" ] ] [ text comment.commentBody ]
+        ]
 
 
 commentActions : Comment -> Html Msg
@@ -118,27 +130,25 @@ commentActions comment =
     div [ classes [ "flex", "content-center", "h2", "mb3" ] ]
         [ button
             [ classes
-                [ "pointer"
-                , "bn"
-                , "bg-green"
-                , "ph4"
-                , "white"
-                , "f4"
-                , "br1"
-                , "mr3"
+                [ "pointer bn ph4 white f4 br2 mr3"
                 , displayElement <| hasParentId comment
+                , "bg-" ++ (commentTypeColor comment.commentType)
                 ]
             , onClick <| ToggleReplyComponent comment
             ]
             [ text "reply" ]
-        , img [ src "./assets/like.svg", classes [ "w2", "v-mid" ] ] []
+        , img [ src <| "./assets/like-" ++ (commentTypeColor comment.commentType) ++ ".svg", classes [ "w2", "v-mid", "pointer" ] ] []
         ]
 
 
 replyComponent : Comment -> Html Msg
 replyComponent parentComment =
     div [ classes [ "flex", "items-center", "bt", "bw1", "b--light-gray" ] ]
-        [ img [ classes [ "w2", "h2" ], src "./assets/comment.svg" ] []
+        [ img
+            [ classes [ "w2", "h2" ]
+            , src <| "./assets/comment-" ++ (commentTypeColor parentComment.commentType) ++ ".svg"
+            ]
+            []
         , textarea
             [ classes [ "bn mv3 pa3", "w-100", textareaFont ]
             , rows 1
@@ -146,19 +156,12 @@ replyComponent parentComment =
             , onInput UpdateCommentBody
             ]
             []
-        , img [ classes [ "h2", "w2", "pointer" ], src "./assets/send.svg", onClick <| PostReply parentComment ] []
-        ]
-
-
-parentComment : Model -> Comment -> Html Msg
-parentComment model comment =
-    div [ classes [ "center", "flex", "flex-column", "content-center", "bg-green", "br3", "ph4", "pv3", "ma4", "bg-light-green", "w-100" ] ]
-        [ div [ classes [ "green", "mb3" ] ]
-            [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ]
-            , span [] [ text " - " ]
-            , h2 [ class "di fw3 f3" ] [ text <| (unionTypeToString comment.lawCentre) ++ " Law Centre" ]
+        , img
+            [ classes [ "h2", "w2", "pointer" ]
+            , src <| "./assets/send-" ++ (commentTypeColor parentComment.commentType) ++ ".svg"
+            , onClick <| PostReply parentComment
             ]
-        , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
+            []
         ]
 
 
