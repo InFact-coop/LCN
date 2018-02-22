@@ -15,7 +15,7 @@ initModel : Model
 initModel =
     { view = Home
     , name = ""
-    , lawCentre = Camden
+    , lawCentre = NoCentre
     , lawArea = NoArea
     , role = CaseWorker
     , weeklyCount = Nothing
@@ -32,6 +32,7 @@ initModel =
     , displayStatsModal = False
     , displayCommentModal = False
     , problems = []
+    , submitEnabled = False
     }
 
 
@@ -48,7 +49,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            { model | view = getView location.hash, displayStatsModal = False, displayCommentModal = False }
+            { model | view = getView location.hash, displayStatsModal = False, displayCommentModal = False, submitEnabled = False }
                 ! [ scrollToTop, handleGetComments location ]
 
         NoOp ->
@@ -58,25 +59,25 @@ update msg model =
             { model | lawArea = la } ! []
 
         UpdateName username ->
-            { model | name = username } ! []
+            { model | name = username, submitEnabled = submitReady model } ! []
 
         UpdateCommentType commentType ->
             { model | commentType = commentType } ! []
 
         UpdateCommentBody commentBody ->
-            { model | commentBody = commentBody } ! []
+            { model | commentBody = commentBody, submitEnabled = submitReady model } ! []
 
         UpdateLawCentre lc ->
-            { model | lawCentre = lc } ! []
+            { model | lawCentre = lc, submitEnabled = submitReady model } ! []
 
         UpdateRole role ->
             { model | role = role } ! []
 
         UpdatePeopleTurnedAway number ->
-            { model | peopleTurnedAwayWeekly = Result.withDefault 0 (String.toInt number) } ! []
+            { model | peopleTurnedAwayWeekly = Result.withDefault 0 (String.toInt number), submitEnabled = submitReady model } ! []
 
         UpdatePeopleSeen number ->
-            { model | peopleSeenWeekly = Result.withDefault 0 (String.toInt number) } ! []
+            { model | peopleSeenWeekly = Result.withDefault 0 (String.toInt number), submitEnabled = submitReady model } ! []
 
         PostComment ->
             { model | commentStatus = Loading } ! [ postComment model ]
@@ -129,3 +130,31 @@ isNewEntry : String -> List String -> Bool
 isNewEntry string stringList =
     List.member string stringList
         |> not
+
+
+submitReady : Model -> Bool
+submitReady model =
+    case model.view of
+        Home ->
+            ifThenElse
+                (model.name /= "" && model.lawCentre /= NoCentre)
+                True
+                False
+
+        AddStats ->
+            ifThenElse
+                (model.peopleSeenWeekly /= 0 && model.peopleTurnedAwayWeekly /= 0)
+                True
+                False
+
+        Snapshot ->
+            False
+
+        AddComment ->
+            ifThenElse
+                (model.commentBody /= "")
+                True
+                False
+
+        ListComments ->
+            False
