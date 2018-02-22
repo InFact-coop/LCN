@@ -3,6 +3,7 @@ module Views.AddStats exposing (..)
 import Components.Button exposing (..)
 import Components.LawArea exposing (lawAreaList, lawAreaOption)
 import Components.LawAreaCheckbox exposing (lawAreaCheckbox)
+import Components.StatsThisWeek exposing (statsThisWeek)
 import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, headlineFont)
 import Data.LawArea exposing (decoderLawArea, stringToLawArea)
 import Helpers exposing (ifThenElse)
@@ -10,6 +11,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Json.Decode exposing (Decoder, andThen)
+import Requests.PostStats exposing (stats)
 import Types exposing (..)
 
 
@@ -46,24 +48,7 @@ addStatsView model =
                     [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
                     , div [ classes [ "mv4" ] ] (lawAreaCheckboxesList model)
                     ]
-                , section [ class "mb4 mt4" ]
-                    [ h1 [ classes [ "tl mb4", headlineFont ] ]
-                        [ text "Your Week" ]
-                    , div []
-                        [ div
-                            [ class "db mb4" ]
-                            [ label [ for "peopleSeenWeekly", classes [ "mb4", bodyFont ] ]
-                                [ text "How many people have you seen this week?" ]
-                            , input [ id "peopleSeenWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleSeen ] []
-                            ]
-                        , div
-                            [ class "db mb4" ]
-                            [ label [ for "peopleTurnedAwayWeekly", classes [ "mb4", bodyFont ] ]
-                                [ text "How many people have you turned away this week?" ]
-                            , input [ id "peopleTurnedAwayWeekly", type_ "number", class "mt3 db br4 bw1 pa2 f3 ba b--light-gray", size 3, onInput UpdatePeopleTurnedAway ] []
-                            ]
-                        ]
-                    ]
+                , statsThisWeek model
                 ]
             , bigColouredButton model "green" "Submit" PostStats
             ]

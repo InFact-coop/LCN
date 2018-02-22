@@ -23,6 +23,9 @@ type alias Model =
     , weeklyCount : Maybe Int
     , peopleSeenWeekly : Int
     , peopleTurnedAwayWeekly : Int
+    , newCasesWeekly : Int
+    , signpostedInternallyWeekly : Int
+    , signpostedExternallyWeekly : Int
     , commentBody : String
     , commentType : CommentType
     , comments : List Comment
@@ -152,6 +155,9 @@ type Msg
     | UpdateCommentBody String
     | UpdatePeopleSeen String
     | UpdatePeopleTurnedAway String
+    | UpdateNewCases String
+    | UpdateSignpostedInterally String
+    | UpdateSignpostedExternally String
     | UpdateLawCentre LawCentre
     | UpdateRole Role
     | ReceiveCommentStatus (Result Http.Error Bool)

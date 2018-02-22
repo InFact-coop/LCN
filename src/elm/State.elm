@@ -19,8 +19,11 @@ initModel =
     , lawArea = NoArea
     , role = CaseWorker
     , weeklyCount = Nothing
-    , peopleSeenWeekly = 0
-    , peopleTurnedAwayWeekly = 0
+    , peopleSeenWeekly = -1
+    , peopleTurnedAwayWeekly = -1
+    , newCasesWeekly = -1
+    , signpostedExternallyWeekly = -1
+    , signpostedInternallyWeekly = -1
     , commentBody = ""
     , commentType = Success
     , comments = []
@@ -46,107 +49,128 @@ init location =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    let
-        submitCheck =
-            { model | submitEnabled = submitEnabledToModel model }
-    in
-        case msg of
-            UrlChange location ->
-                { model | view = getView location.hash, displayStatsModal = False, displayCommentModal = False, submitEnabled = False }
-                    ! [ scrollToTop, handleGetComments location ]
+    case msg of
+        UrlChange location ->
+            { model | view = getView location.hash, displayStatsModal = False, displayCommentModal = False, submitEnabled = False }
+                ! [ scrollToTop, handleGetComments location ]
 
-            NoOp ->
-                model ! []
+        NoOp ->
+            model ! []
 
-            UpdateLawArea la ->
-                { model | lawArea = la } ! []
+        UpdateLawArea la ->
+            { model | lawArea = la } ! []
 
-            UpdateName username ->
-                let
-                    updatedModel =
-                        { model | name = username }
-                in
-                    submitEnabledToModel updatedModel ! []
+        UpdateName username ->
+            let
+                updatedModel =
+                    { model | name = username }
+            in
+                submitEnabledToModel updatedModel ! []
 
-            UpdateCommentType commentType ->
-                { model | commentType = commentType } ! []
+        UpdateCommentType commentType ->
+            { model | commentType = commentType } ! []
 
-            UpdateCommentBody commentBody ->
-                let
-                    updatedModel =
-                        { model | commentBody = commentBody }
-                in
-                    submitEnabledToModel updatedModel ! []
+        UpdateCommentBody commentBody ->
+            let
+                updatedModel =
+                    { model | commentBody = commentBody }
+            in
+                submitEnabledToModel updatedModel ! []
 
-            UpdateLawCentre lc ->
-                let
-                    updatedModel =
-                        { model | lawCentre = lc }
-                in
-                    submitEnabledToModel updatedModel ! []
+        UpdateLawCentre lc ->
+            let
+                updatedModel =
+                    { model | lawCentre = lc }
+            in
+                submitEnabledToModel updatedModel ! []
 
-            UpdateRole role ->
-                { model | role = role } ! []
+        UpdateRole role ->
+            let
+                updatedModel =
+                    { model | role = role, peopleSeenWeekly = -1, peopleTurnedAwayWeekly = -1, newCasesWeekly = -1, signpostedInternallyWeekly = -1, signpostedExternallyWeekly = -1 }
+            in
+                submitEnabledToModel updatedModel ! []
 
-            UpdatePeopleTurnedAway number ->
-                let
-                    updatedModel =
-                        { model | peopleTurnedAwayWeekly = Result.withDefault 0 (String.toInt number) }
-                in
-                    submitEnabledToModel updatedModel ! []
+        UpdatePeopleTurnedAway number ->
+            let
+                updatedModel =
+                    { model | peopleTurnedAwayWeekly = Result.withDefault -1 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
 
-            UpdatePeopleSeen number ->
-                let
-                    updatedModel =
-                        { model | peopleSeenWeekly = Result.withDefault 0 (String.toInt number) }
-                in
-                    submitEnabledToModel updatedModel ! []
+        UpdatePeopleSeen number ->
+            let
+                updatedModel =
+                    { model | peopleSeenWeekly = Result.withDefault -1 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
 
-            PostComment ->
-                { model | commentStatus = Loading } ! [ postComment model ]
+        UpdateNewCases number ->
+            let
+                updatedModel =
+                    { model | newCasesWeekly = Result.withDefault -1 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
 
-            PostStats ->
-                { model | postStatsStatus = Loading, listStatsStatus = Loading } ! [ postStats model ]
+        UpdateSignpostedInterally number ->
+            let
+                updatedModel =
+                    { model | signpostedInternallyWeekly = Result.withDefault -1 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
 
-            ReceiveCommentStatus (Ok bool) ->
-                let
-                    displayModal =
-                        ifThenElse (model.view == AddComment) True False
-                in
-                    { model | commentStatus = ResponseSuccess, displayCommentModal = displayModal, commentBody = "" } ! [ getComments, scrollToTop ]
+        UpdateSignpostedExternally number ->
+            let
+                updatedModel =
+                    { model | signpostedExternallyWeekly = Result.withDefault -1 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
 
-            ReceiveCommentStatus (Err err) ->
-                { model | commentStatus = ResponseFailure } ! [ getComments, scrollToTop ]
+        PostComment ->
+            { model | commentStatus = Loading } ! [ postComment model ]
 
-            ReceiveStats (Ok response) ->
-                if response.getSuccess then
-                    { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseSuccess, peopleSeenWeeklyAll = response.peopleSeen, displayStatsModal = True } ! [ scrollToTop ]
-                else
-                    { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseFailure, displayStatsModal = True } ! [ scrollToTop ]
+        PostStats ->
+            { model | postStatsStatus = Loading, listStatsStatus = Loading } ! [ postStats model ]
 
-            ReceiveStats (Err response) ->
-                { model | postStatsStatus = ResponseFailure, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
+        ReceiveCommentStatus (Ok bool) ->
+            let
+                displayModal =
+                    ifThenElse (model.view == AddComment) True False
+            in
+                { model | commentStatus = ResponseSuccess, displayCommentModal = displayModal, commentBody = "" } ! [ getComments, scrollToTop ]
 
-            ToggleStatsModal ->
-                { model | displayStatsModal = False } ! []
+        ReceiveCommentStatus (Err err) ->
+            { model | commentStatus = ResponseFailure } ! [ getComments, scrollToTop ]
 
-            ReceiveComments (Ok comments) ->
-                { model | comments = comments } ! []
+        ReceiveStats (Ok response) ->
+            if response.getSuccess then
+                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseSuccess, peopleSeenWeeklyAll = response.peopleSeen, displayStatsModal = True } ! [ scrollToTop ]
+            else
+                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseFailure, displayStatsModal = True } ! [ scrollToTop ]
 
-            ReceiveComments (Err err) ->
-                model ! []
+        ReceiveStats (Err response) ->
+            { model | postStatsStatus = ResponseFailure, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
 
-            ToggleProblem string checked ->
-                if checked && isNewEntry string model.problems then
-                    { model | problems = model.problems ++ [ string ] } ! []
-                else
-                    { model | problems = List.filter (\x -> x /= string) model.problems } ! []
+        ToggleStatsModal ->
+            { model | displayStatsModal = False } ! []
 
-            ToggleReplyComponent comment ->
-                { model | comments = toggleReplyComponent model comment } ! []
+        ReceiveComments (Ok comments) ->
+            { model | comments = comments } ! []
 
-            PostReply parentComment ->
-                model ! [ postReply model parentComment ]
+        ReceiveComments (Err err) ->
+            model ! []
+
+        ToggleProblem string checked ->
+            if checked && isNewEntry string model.problems then
+                { model | problems = model.problems ++ [ string ] } ! []
+            else
+                { model | problems = List.filter (\x -> x /= string) model.problems } ! []
+
+        ToggleReplyComponent comment ->
+            { model | comments = toggleReplyComponent model comment } ! []
+
+        PostReply parentComment ->
+            model ! [ postReply model parentComment ]
 
 
 isNewEntry : String -> List String -> Bool
@@ -172,17 +196,15 @@ submitEnabledToModel model =
                     falseModel
 
             AddStats ->
-                ifThenElse
-                    (model.peopleSeenWeekly /= 0 && model.peopleTurnedAwayWeekly /= 0)
-                    (ifThenElse (model.role /= CaseWorker)
-                        trueModel
-                        (ifThenElse
-                            (model.lawArea /= NoArea)
-                            trueModel
-                            falseModel
-                        )
-                    )
-                    falseModel
+                case model.role of
+                    CaseWorker ->
+                        ifThenElse (model.lawArea /= NoArea && model.peopleSeenWeekly /= -1 && model.newCasesWeekly /= -1) trueModel falseModel
+
+                    Triage ->
+                        ifThenElse (model.peopleSeenWeekly /= -1 && model.peopleTurnedAwayWeekly /= -1 && model.signpostedInternallyWeekly /= -1 && model.signpostedExternallyWeekly /= -1) trueModel falseModel
+
+                    _ ->
+                        ifThenElse (model.peopleSeenWeekly /= -1) trueModel falseModel
 
             Snapshot ->
                 falseModel

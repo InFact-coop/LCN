@@ -35,5 +35,8 @@ stats model =
         , ( "Law area", string (unionTypeToString model.lawArea) )
         , ( "People seen weekly", int model.peopleSeenWeekly )
         , ( "People turned away weekly", int (model.peopleTurnedAwayWeekly) )
+        , ( "New cases weekly", int (model.newCasesWeekly) )
+        , ( "People signposted internally weekly", int (model.signpostedInternallyWeekly) )
+        , ( "People referred to other agencies weekly", int (model.signpostedExternallyWeekly) )
         , ( "Problems encountered", list (List.map (\problem -> string problem) model.problems) )
         ]
