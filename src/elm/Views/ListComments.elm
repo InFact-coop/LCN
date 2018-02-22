@@ -89,7 +89,7 @@ singleComment model comment =
                     emptyDiv
                     (h2 [ class "di fw3 f3 i" ] [ text <| " - In reply to " ++ parentComment.name ])
                 ]
-            , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
+            , p [ classes [ "f4 lh-copy fw3", "mb3" ] ] [ text comment.commentBody ]
             , ifThenElse comment.showReplyInput (replyComponent comment) (commentActions comment)
             ]
 
@@ -112,7 +112,7 @@ parentComment model comment =
             , span [] [ text " - " ]
             , h2 [ class "di fw3 f3" ] [ text <| (unionTypeToString comment.lawCentre) ++ " Law Centre" ]
             ]
-        , p [ classes [ "fw3", "lh-copy", "mb3" ] ] [ text comment.commentBody ]
+        , p [ classes [ "f5 lh-copy fw3", "mb3" ] ] [ text comment.commentBody ]
         ]
 
 
@@ -135,7 +135,11 @@ commentActions comment =
 replyComponent : Comment -> Html Msg
 replyComponent parentComment =
     div [ classes [ "flex", "items-center", "bt", "bw1", "b--light-gray" ] ]
-        [ img [ classes [ "w2", "h2" ], src "./assets/comment.svg" ] []
+        [ img
+            [ classes [ "w2", "h2" ]
+            , src <| "./assets/comment-" ++ (commentTypeColor parentComment.commentType) ++ ".svg"
+            ]
+            []
         , textarea
             [ classes [ "bn mv3 pa3", "w-100", textareaFont ]
             , rows 1
@@ -143,7 +147,12 @@ replyComponent parentComment =
             , onInput UpdateCommentBody
             ]
             []
-        , img [ classes [ "h2", "w2", "pointer" ], src "./assets/send.svg", onClick <| PostReply parentComment ] []
+        , img
+            [ classes [ "h2", "w2", "pointer" ]
+            , src <| "./assets/send-" ++ (commentTypeColor parentComment.commentType) ++ ".svg"
+            , onClick <| PostReply parentComment
+            ]
+            []
         ]
 
 
