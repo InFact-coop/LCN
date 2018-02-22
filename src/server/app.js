@@ -21,8 +21,8 @@ const https_redirect = (req, res, next) => {
 };
 
 app.use(https_redirect);
-app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../../public')));
+app.use(bodyParser.json());
 
 app.use('/api/v1/', api_router);
 
