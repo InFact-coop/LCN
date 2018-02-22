@@ -45,7 +45,7 @@ addStatsView model =
                     [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
                     , div [ classes [ "mv4" ] ] (lawAreaCheckboxesList model)
                     ]
-                , section [ class "mb5 mt4" ]
+                , section [ class "mb4 mt4" ]
                     [ h1 [ classes [ "tl mb4", headlineFont ] ]
                         [ text "Your Week" ]
                     , div []
