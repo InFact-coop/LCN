@@ -1,6 +1,7 @@
 module Components.LawArea exposing (..)
 
-import Helpers exposing (unionTypeToString)
+import Components.StyleHelpers exposing (classes)
+import Helpers exposing (ifThenElse, unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Types exposing (..)
@@ -8,7 +9,19 @@ import Types exposing (..)
 
 lawAreaOption : LawArea -> Html Msg
 lawAreaOption la =
-    option [ class "f3", value <| unionTypeToString la ] [ text <| unionTypeToString la ]
+    option
+        ([ classes
+            [ "f3" ]
+         , value <| unionTypeToString la
+         ]
+            ++ ifThenElse
+                (la
+                    == NoArea
+                )
+                [ disabled True, selected True ]
+                [ selected False, disabled False ]
+        )
+        [ text <| ifThenElse (la == NoArea) "Please select" (unionTypeToString la) ]
 
 
 lawAreaList : List LawArea

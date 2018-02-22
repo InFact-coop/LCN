@@ -35,12 +35,14 @@ colouredButtonText role =
             unionTypeToString role
 
 
-bigColouredButton : String -> String -> Msg -> Html Msg
-bigColouredButton colour label clickMsg =
+bigColouredButton : Model -> String -> String -> Msg -> Html Msg
+bigColouredButton model colour label clickMsg =
     button
         [ classes
             [ "mr4 white"
-            , "bg-" ++ colour
+            , ifThenElse model.submitEnabled
+                ("bg-" ++ colour)
+                ("bg-gray disableButton")
             , submitButtonStyle
             , topicButtonFont
             ]

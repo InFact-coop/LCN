@@ -33,6 +33,7 @@ type alias Model =
     , displayStatsModal : Bool
     , displayCommentModal : Bool
     , problems : List String
+    , submitEnabled : Bool
     }
 
 

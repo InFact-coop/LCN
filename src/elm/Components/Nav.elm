@@ -24,5 +24,8 @@ toggleNav view =
         Home ->
             " dn"
 
+        LogOut ->
+            " dn"
+
         _ ->
             " flex"

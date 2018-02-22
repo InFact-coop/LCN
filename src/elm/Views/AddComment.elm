@@ -1,12 +1,13 @@
 module Views.AddComment exposing (..)
 
+import Components.ChooseTopic exposing (chooseTopic)
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont, submitButtonStyle, topicButtonFont)
 import Data.CommentType exposing (commentTypeColor, commentTypes)
+import Helpers exposing (ifThenElse)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
-import Components.ChooseTopic exposing (chooseTopic)
 
 
 addCommentView : Model -> Html Msg
@@ -108,7 +109,9 @@ submitButton model =
         [ classes
             [ topicButtonFont
             , submitButtonStyle
-            , ("bg-" ++ (commentTypeColor model.commentType))
+            , ifThenElse model.submitEnabled
+                ("bg-" ++ (commentTypeColor model.commentType))
+                ("bg-gray disableButton")
             ]
         , onClick PostComment
         ]

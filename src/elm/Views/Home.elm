@@ -34,7 +34,7 @@ homeView model showLogoutLinks =
                 , select [ id "lawcentre", classes [ inputFont, "bn" ], placeholder "Camden", on "change" <| Json.Decode.map UpdateLawCentre targetValueDecoderLC ]
                     (List.map lawCentreOption lawCentreList)
                 ]
-            , a [ href "#numbers", class "link black dib bw1 f3 br3 ba b--black ph5 pv3 center" ] [ text "Log in" ]
+            , a [ href "#numbers", classes [ "link dib bw1 f3 br3 ba ph5 pv3 center", ifThenElse (model.submitEnabled == True) "black b--black" "light-gray b--light-gray disableButton" ] ] [ text "Log in" ]
             ]
         ]
 
