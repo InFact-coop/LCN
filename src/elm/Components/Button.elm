@@ -42,7 +42,7 @@ bigColouredButton model colour label clickMsg =
             [ "mr4 white"
             , ifThenElse model.submitEnabled
                 ("bg-" ++ colour)
-                ("bg-gray disableButton")
+                ("bg-gray disableButton o-30")
             , submitButtonStyle
             , topicButtonFont
             ]
