@@ -91,12 +91,12 @@ singleComment model comment =
                     , commentTypeColor model.commentType
                     ]
                 ]
-                [ h1 [ classes [ "fw5", "f3", "b", "di" ] ] [ text comment.name ]
+                [ h1 [ classes [ "fw5", "f3", "b", "di" ] ] [ text <| ifThenElse (comment.name /= "") comment.name "Anonymous" ]
                 , span [] [ text " - " ]
-                , h1 [ classes [ "di", "fw3", "f3" ] ] [ text <| (unionTypeToString comment.lawCentre) ++ " Law Centre" ]
+                , h1 [ classes [ "di", "fw3", "f3" ] ] [ text <| ifThenElse (comment.lawCentre /= NoCentre) ((unionTypeToString comment.lawCentre) ++ " Law Centre") ("Law Centres Network") ]
                 , ifThenElse (hasParentId comment)
                     emptyDiv
-                    (h2 [ class "di fw3 f3 i" ] [ text <| " - In reply to " ++ parentComment.name ])
+                    (h2 [ class "di fw3 f3 i" ] [ text <| " - In reply to " ++ ifThenElse (parentComment.name /= "") parentComment.name "anonymous" ])
                 ]
             , p [ classes [ "f4 lh-copy fw3", "mb3" ] ] [ text comment.commentBody ]
             , ifThenElse comment.showReplyInput (replyComponent comment) (commentActions comment)
@@ -107,17 +107,17 @@ parentComment : Model -> Comment -> Html Msg
 parentComment model comment =
     div
         [ classes
-            [ "center flex flex-column content-center br3 pl2 pr4 pv3 mh4 mv3 w-100 bl bw3"
+            [ "center flex flex-column content-center br3 pl3 pr4 pv3 mh4 mv3 w-100 bl bw3 overflow-scroll maxh5"
             , List.map ((flip (++)) (commentTypeColorLight model.commentType)) [ "bg-light-", "b--" ] |> List.intersperse " " |> List.foldr (++) ""
             ]
         ]
         [ div
             [ classes
-                [ "mb3"
+                [ "mb3 lh-copy"
                 , commentTypeColor model.commentType
                 ]
             ]
-            [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text comment.name ]
+            [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text <| ifThenElse (comment.name /= "") comment.name "Anonymous" ]
             , span [] [ text " - " ]
             , h2 [ class "di fw3 f3" ] [ text <| (unionTypeToString comment.lawCentre) ++ " Law Centre" ]
             ]
@@ -127,7 +127,7 @@ parentComment model comment =
 
 commentActions : Comment -> Html Msg
 commentActions comment =
-    div [ classes [ "flex", "content-center", "h2", "mb3" ] ]
+    div [ classes [ "flex", "content-center", "items-center", "h2", "mb3" ] ]
         [ button
             [ classes
                 [ "pointer bn ph4 white f4 br2 mr3"
@@ -137,7 +137,8 @@ commentActions comment =
             , onClick <| ToggleReplyComponent comment
             ]
             [ text "reply" ]
-        , img [ src <| "./assets/like-" ++ (commentTypeColor comment.commentType) ++ ".svg", classes [ "w2", "v-mid", "pointer" ] ] []
+        , img [ src <| "./assets/like-" ++ (commentTypeColor comment.commentType) ++ ".svg", classes [ "w2", "v-mid", "pointer", "ml3", "h2", "w-15" ] ] []
+        , span [ classes [ commentTypeColor comment.commentType, "f4", "ml2" ] ] [ span [ classes [ "fw3", displayElement <| comment.likes /= 0 ] ] [ text <| toString comment.likes ], span [ class "dn di-ns fw3" ] [ text <| ifThenElse (comment.likes /= 0) " people like this" "Be the first person to like this!" ] ]
         ]
 
 

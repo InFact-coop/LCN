@@ -91,3 +91,11 @@ input[type='checkbox']:checked {
   background: white;
   pointer-events: none;
 }
+
+.maxh5 {
+  max-height: 14rem;
+}
+
+.w-15 {
+  width: 1.5rem;
+}

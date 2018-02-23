@@ -23,6 +23,9 @@ type alias Model =
     , weeklyCount : Maybe Int
     , peopleSeenWeekly : Int
     , peopleTurnedAwayWeekly : Int
+    , newCasesWeekly : Int
+    , signpostedInternallyWeekly : Int
+    , signpostedExternallyWeekly : Int
     , commentBody : String
     , commentType : CommentType
     , comments : List Comment
@@ -33,6 +36,7 @@ type alias Model =
     , displayStatsModal : Bool
     , displayCommentModal : Bool
     , problems : List String
+    , agencies : List String
     , submitEnabled : Bool
     }
 
@@ -152,6 +156,9 @@ type Msg
     | UpdateCommentBody String
     | UpdatePeopleSeen String
     | UpdatePeopleTurnedAway String
+    | UpdateNewCases String
+    | UpdateSignpostedInterally String
+    | UpdateSignpostedExternally String
     | UpdateLawCentre LawCentre
     | UpdateRole Role
     | ReceiveCommentStatus (Result Http.Error Bool)
@@ -162,4 +169,5 @@ type Msg
     | ReceiveComments (Result Http.Error (List Comment))
     | ToggleReplyComponent Comment
     | ToggleProblem String Bool
+    | ToggleAgency String Bool
     | PostReply Comment

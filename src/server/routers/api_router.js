@@ -12,6 +12,8 @@ Airtable.configure({
 
 router.route('/post-comment').post((req, res) => {
   let newForm = req.body;
+  newForm['Likes'] = helpers.randomIntegerInRange(0, 300);
+  console.log('newForm', newForm);
   base('Qual').create(newForm, (err, record) => {
     if (err) {
       console.log('ERR', err);
@@ -72,7 +74,7 @@ router.route('/get-comments').get((req, res) => {
       },
       function done(err) {
         if (err) {
-          console.error(err);
+          console.error('ERR', err);
           return res.status(500).json({ success: false });
         }
         const dateStringToNumber = str => new Date(str).getTime();
@@ -80,6 +82,7 @@ router.route('/get-comments').get((req, res) => {
         const commentsWithNumericalDate = comments.map(
           R.over(createdTimeLens, dateStringToNumber)
         );
+        console.log(commentsWithNumericalDate);
         return res.json(commentsWithNumericalDate);
       }
     );
