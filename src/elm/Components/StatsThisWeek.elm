@@ -18,9 +18,10 @@ statsThisWeek model =
                 "How many enquiries have you had this week in all? (include phone, email, in person)"
     in
         section [ class "mb4 mt4" ]
-            [ h1 [ classes [ "tl mb2", headlineFont ] ]
-                [ text "Your Week" ]
-            , h2 [ classes [ "tl mb4 i fw3" ] ] [ text "If you don't remember exactly, give us your best estimate" ]
+            [ div [ class "flex flex-row mb4 items-baseline" ]
+                [ h1 [ classes [ headlineFont ] ] [ text "Your Week" ]
+                , h2 [ classes [ "ml2 fw3" ] ] [ text "(If you don't remember exactly, give us your best estimate)" ]
+                ]
             , div []
                 [ numericalInput True peopleSeenText UpdatePeopleSeen
                 , numericalInput (model.role == CaseWorker) "Of these, how many cases were new (even with a returning client)?" UpdateNewCases

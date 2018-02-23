@@ -111,7 +111,7 @@ submitButton model =
             , submitButtonStyle
             , ifThenElse model.submitEnabled
                 ("bg-" ++ (commentTypeColor model.commentType))
-                ("bg-gray disableButton")
+                ("bg-gray disableButton o-30")
             ]
         , onClick PostComment
         ]
