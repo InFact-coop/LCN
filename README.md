@@ -1,145 +1,110 @@
-# Law Centres Network
-See our site __[here!!](http://lcn.surge.sh/)__ :eyes: 
+# LCN
 
-## The Challenge
+See our app [here](https://lawcentres.herokuapp.com/) :eyes:
 
-LCN has trouble collecting data from each LC as they all provide it in slightly different forms and with slightly different definitions. LCN has also found it has been lacking in providing real stories of their effect. The challenge is to provide a platform which will allow Law Centres to quickly, and cohesively share data with LCN
+## The Workshop :hammer:
 
-We began the sprint with a design day. Using a number of methods (inspired from companies such as IBM, Google and Airbnb) to challenge, refine and align on the problem statement that was to be addressed.
+After the work done with LCN in the (CAST fellowship design sprint)[./DesignSprint.md], we'd decided to run a subsequent workshop. For the new people joining our development team, this was a chance to familiarise ourselves with the problem space, as well as to refine it. Our main goal was to take the lessons learnt from the first sprint and, through a series of design thinking exercises, challenge our assumptions about the problem we were trying to solve and help us to visualise it in different ways. At the end of this process, we sat down with Nimrod and honed down the prototype scope into something easy-to-use, and that hopefully solves the challenge at hand:
 
-![](https://i.imgur.com/LMMxkPA.jpg)
+## The Challenge :checkered_flag:
 
+LCN has trouble collecting data from each Law Centre as they all provide it in slightly different forms and with slightly different definitions. LCN has also found it has trouble providing real life stories of the effect that the work being done in Law Centres is having on people's lives. The challenge is to provide a platform which will allow Law Centres to quickly, and cohesively share quantitative data with LCN. The platform will also allow lawyers, case workers, receptionists and managers to share their stories with LCN.
 
-We then considered many possible solutions for each of the key problems and came up with storyboards for each of them, which were voted on. After some deliberation it was decided that the key goal we wanted to solve and User Journey we wanted to complete was:
-
->*LCN wants a way to obtain accurate, recent, multi-use data so that they can tell the LCN story*
+This data will allow LCN to speak out quickly and with better authority about the issues arising at Law Centre's across the country. It will also allow Law Centre's to share insights and trends with each other and to see if their individual experience is similar to that of other Law Centres.
 
 
-## Our Solution?
 
-**LCN Feedback Platform** 
+
+## Our Solution :bowtie:
+
+**LCN Feedback Platform**
 
 > Simple, quick, data collection with instant feedback on what others think
 
+**The aims of the solution**
 
- **The aims of the solution**
-* Allow the user to quickly and easily give some qualitative feedback to LCN and see stories others in the network have shared
-* Allow LCN to gather qualitative data and stories that they can then use to share externally or see trends across the country that might require further investigation.
-* Ask specific questions for quantative data from users so LCN can get consistent data for all of the law centres in the network
+* Allow Law Centre workers to input specific quantitative data, such as how many people they have seen that week, so that LCN can get consistent data from all Law Centres in the network
+* Allow users to quickly and easily share stories, trends they have spotted or annoyances that they have had with LCN and other Law Centres
+* Let users see the stories that others from different Law Centres have shared and allow them to reply to or like those stories
+* Store the quantitative data and the stories that Law Centre workers have shared in a way that is easily accessible to LCN. This will allow LCN to share it externally or to see if there are trends across the country that might require further investigation
 
+### Process :clipboard:
 
+**Prototype**
 
-### Process 
+We created static designs using an online tool called Figma. This allowed us to map the rough user journey and provide us with a chance to have rapid feedback on the designs prior to building the product with code.
 
-__User Stories__
-We began by aligning on the main user stories that were key to the success of the prototype. There were:
-- [x] "As a user I want a way to quickly and simply send data to the LCN"
-- [x] "As a user I want to be able to a success story"
-- [x] "As a user I want to be able to see and vote on other people's stories"
-- [ ] "As a user I want to choose to reply as a Rep or memeber of staff"
-- [x] "As a user I want to be able to fill out stats about my week"
-- [x] "As a user I want to be able to talk about what trends i've seen recently"
-- [x] "As a user I want to be able to ask a question to the LCN"
-- [x] "As a user I want to see icons and pictures instead of large sections of text    
+Below are the designs we created _*(note: the final designs have changed since these)*_
 
+> The user comes onto the app and is asked to log on. This will be a requirement when the product goes live due to the sensitive nature of the data
 
-__Prototype__  
-  
-We then built prototypes in Figma to help map the user journey more thoroughly.
+<img width="410" alt="screen shot 2017-12-12 at 9 33 46 pm" src="https://user-images.githubusercontent.com/12462448/36585058-335d982e-1874-11e8-8629-89f4b0732fb3.png">
 
-_*User is first presented with a page where they can select which is their area of law*_  
-  
-![](https://i.imgur.com/WyCdBVQ.png)
+> The Law Centre worker is then asked to fill in information about their week, this will mostly be numerical questions, such as how many people they have seen. They can select whether they are a lawyer/case worker, in management, or a receptionist. Based on their answer to this question they will be asked different questions tailored to their experiences at work
 
-_*Dependent on the type of work the user does they will be given some short questions to gather some quantative data for the LCN*_  
-  
-![](https://i.imgur.com/tzQraBg.png)
+<img width="410" alt="screen shot 2017-12-12 at 9 34 22 pm" src="https://user-images.githubusercontent.com/12462448/36585060-38176fac-1874-11e8-9384-371d771344c2.png">
 
+> Once the Law Centre worker has filled out the quantitative data about their week, they will get some feedback about how their data is being used and how it relates to the larger context of Law Centre's across the country. They will then be able to choose whether they want to continue to share some of their stories or to log out.
 
+<img width="410" alt="screen shot 2017-12-12 at 9 35 47 pm" src="https://user-images.githubusercontent.com/12462448/36585062-3b0561ce-1874-11e8-8fe5-eaf0cf3451ec.png">
 
-  
-_*User is then presented with options on what they would like to do*_  
+> If they continue the Law Centre worker will be able to share a story about their week. This could be a success they have had, something that has annoyed them or a trend they have spotted. In this section they could also ask questions from the Law Centre
 
-![](https://i.imgur.com/fXFoJiC.png)
+<img width="410" alt="screen shot 2017-12-12 at 9 36 18 pm" src="https://user-images.githubusercontent.com/12462448/36585078-47f68c96-1874-11e8-8576-f274eab833c6.png">
 
+> Again they will be able to log out at this stage or go on to see stories from others at different Law Centres
 
-_*Then the user will be guided to a page related to the topic where they can input their stories and see other people's stories. for example, with bug bear:*_  
-  
-![](https://i.imgur.com/RtRWTJH.png)  
-  
-![](https://i.imgur.com/nUJsQ2M.png)
+<img width="410" alt="screen shot 2017-12-12 at 9 36 42 pm" src="https://user-images.githubusercontent.com/12462448/36585082-4e155530-1874-11e8-8704-778e668cedb7.png">
 
-_*There will also be a "Snapshot" page where users can get a view of what is happening across the country*_  
-  
-![](https://i.imgur.com/5sqGDFV.png)
+> Here they will be able to read through the stories from other Law Centres. These will be grouped by categories and the latest will be displayed first
 
+<img width="410" alt="screen shot 2017-12-12 at 9 36 55 pm" src="https://user-images.githubusercontent.com/12462448/36585091-54d2510c-1874-11e8-9003-41ea005359b0.png">
 
-## Further Development
-### User Testing
-User testing allows you to get feedback from your primary users to check that the product being built fits their needs. This is __very__ important to build a successful product. 
+> The Law centre worker will be able to reply to any stories that they find interesting
 
-The three key points for testing are:
-- Have a script which has tasks for them to complete
-- Ask for people to give you a commentry of what they are doing, but don't response to them
-- Document their response
+<img width="410" alt="screen shot 2017-12-12 at 9 37 31 pm" src="https://user-images.githubusercontent.com/12462448/36585109-671bc12c-1874-11e8-9eab-98895b75edf2.png">
 
-Here are some useful resources to look at when completing your user testing sessions:
-- [Googles Gurilla Testing Advice](https://www.youtube.com/watch?v=0YL0xoSmyZI&feature=youtu.be)
-- [Script Guidance and Template](https://github.com/foundersandcoders/master-reference/blob/master/coursebook/weeks-10-12/user-testing.md#1-planning)
+> Their reply will then be shown at the top of the news feed
 
-Recommendations for user testing:
-- [ ] At the moment the main user for the app is all workers at Law Centre's. So the tests should be done with this group of people. 
-- [ ] If the main issue for LC's is lack of time to fill this out, need a smooth quick, easy to fill out flow. It will therefore be important to watch users interact with the app and understand if they feel using this weekly is realistic. 
-- [ ] With user testing it is important to see if the app is easy to understand and everything makes sense - this should be an area of focus as there is a lot going on in the app already that may need improving for the next sprint. The easier it is to user the more likely staff are to use it in the long run.
-- [ ] As the app is currently designed to collect qualitative and quantitve data it will be useful to know what is the preferred type for the users and the LCN
-- [ ] Do the users find seeing other people's stories and the 'snapshot' an important/interesting feature?
+<img width="410" alt="screen shot 2017-12-12 at 9 37 44 pm" src="https://user-images.githubusercontent.com/12462448/36585113-6bca59d6-1874-11e8-8eec-7ef220981789.png">
 
+## Further Development :wrench:
 
+### User Testing :two_women_holding_hands::two_women_holding_hands:
 
+User testing allows you to get feedback from your primary users to check that the product being built fits their needs. This is **very** important to build a successful product.
 
+**The three key points for testing are:**
 
-### Next Sprint
-If this design is move forward for a build sprint it is important to concentrate on key features that both solves the initital problem and implements feedback from user testing.
+* Have a script which has tasks for them to complete. **[here](https://github.com/InFact-coop/LCN/blob/master/UserTesting.md)** is an example of a script which you can use and modify
+* Ask for people to give you a commentary of what they are doing, but don't respond to them
+* Document their response
 
-Our current recommendation for initial features would be:
-* Allow users to select their area of work 
-* Provide users with quantative questions based on their area
-* Improve design
+**Additional recommendations for _*your*_ user testing:**
 
-__and:__ 
-* Complete user journey for filling in the 3 main question areas: 
-    * Bug Bear
-    * Made my Week 
-    * Eye Spy 
-* Allow users to see other people's input 
+* Ask user to complete the flow and explain what they are thinking throughout the process
+  * Make **_lots_** of notes. It is good to have someone guiding the user and someone note taking so nothing is missed!
+  * Try and gather if the user understands the purpose of the app and if the interactions are intuitive
+  * Try to understand further if the types, quantity and copy of the questions is appropriate for the audience.
+  * Does the user feel like this can help make a difference?
+* Users may comment on aesthetics **but** unless the same comments are brought up several times these comments are **_usually_** not important. The focus should be on the users interactions and understanding of the product.
 
-__or__ _*(depending on feedback from testing)*_:
+Here are some **useful resources** to look at when completing your user testing sessions:
 
-* Collect the inputs from quantative questions and automate sending the data back to LCN on a weekly basis
+* [Google's Guerrilla Testing Advice](https://www.youtube.com/watch?v=0YL0xoSmyZI&feature=youtu.be)
+* [Script Guidance and Template](https://github.com/foundersandcoders/master-reference/blob/master/coursebook/weeks-10-12/user-testing.md#1-planning)
+* [Steve Krug user testing script](https://sensible.com/downloads/test-script.pdf)
 
-*_Then_* in following sprints the focus could be on:
-* The snapshot of data
-* The journey for the reps 
+### Next Sprints :runner:
 
+If this design is move forward for further build sprints it is important to concentrate on key features that both **_solve the initial problem and implement feedback from user testing_**.
 
+Our current recommendations for further sprints would be:
 
+* Implement feedback from user testing
+* Implement login functionality
+* Extend 'reply-to' comments functionality
+* To make the product more mobile friendly
+* Improve accessibility - product is currently not useable for people with hearing or visual impairments
 
-### Presentation Feedback
-
-* All of it sounds good - bringing it back down to just one journey is quite hard. The fundamental question is still how do we get the quantative data from the law centres. Case workers may like the bug bears but is that really what is most useful to LCN. 
-    * Maybe an error on our part not having any case workers there on the day.
-* Some people already don't respond to simple surveys. 
-* Worry that it's _*Another thing*_ that people have to fill in. And will likely still have to collect other data
-*  Normally only have contact from the managers so it's a good way of seeing other perspectives within LC's
-*  How do we know if it's being done consistently? Could end up with selection bias. 
-*  In order to build an accurate snapshot we would need a way to make sure we aren't extrapolating data. 
-*  Best thing we could get from them would be seeing the trends e.g. how many people are you turning away. So they can share that with the network and the LCN could respond 
-*  Julie feels that case workers have knowledge as they are on the _*"coal face"*_. But maybe it's receptionists that get more data? They could say something more insightful. 
-    *  Would also need finance and admin - they are isolated but are doing returns & legal aid etc so is important for them to feedback 
-*  would be good to fiter stories by area of work so you can see other people from your field 
-*  People still don't know _*why*_ LCN needs the data
-    *  Breakdown of understanding. Some LC's don't know who LCN _*is*_ because managers deal with them 
-    *    This could allow a direct interface between case workers and LCN 
-*  Concern that this collection is still seperate from other platforms that exist. 
-*  Several LCs don't have reception - their clients are referred so very few turn aways
-* Will still need to prompt people to do this
+> This would be formally decided following the user testing during a sprint planning meeting :+1:
