@@ -4,7 +4,7 @@ See our app [here](https://lawcentres.herokuapp.com/) :eyes:
 
 ## The Workshop :hammer:
 
-After the work done with LCN in the (CAST fellowship design sprint)[./DesignSprint.md], we'd decided to run a subsequent workshop. For the new people joining our development team, this was a chance to familiarise ourselves with the problem space, as well as to refine it. Our main goal was to take the lessons learnt from the first sprint and, through a series of design thinking exercises, challenge our assumptions about the problem we were trying to solve and help us to visualise it in different ways. At the end of this process, we sat down with Nimrod and honed down the prototype scope into something easy-to-use, and that hopefully solves the challenge at hand:
+After the work done with LCN in the [CAST fellowship design sprint](./DesignSprint.md), we'd decided to run a subsequent workshop. For the new people joining our development team, this was a chance to familiarise ourselves with the problem space, as well as to refine it. Our main goal was to take the lessons learnt from the first sprint and, through a series of design thinking exercises, challenge our assumptions about the problem we were trying to solve and help us to visualise it in different ways. At the end of this process, we sat down with Nimrod and honed down the prototype scope into something easy-to-use, and that hopefully solves the challenge at hand:
 
 ## The Challenge :checkered_flag:
 
