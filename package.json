@@ -4,17 +4,23 @@
   "description": "Find the help that speaks to you",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/server/start",
+    "start": "node ./server/start",
     "test": "NODE_ENV=test mocha ./tests/*  ",
     "test:watch": "NODE_ENV=test mocha ./tests/* --watch",
-    "elm-watch-debug": "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js --debug'",
-    "elm-watch": "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js'",
-    "just-frontend": "elm-live src/elm/Main.elm --debug --output=public/elm.js --dir=public --open --pushstate & npm run css-watch",
-    "css-watch": "postcss ./src/css/index.css --output ./public/style.min.css --watch --config ./postcss.config.js",
+    "elm-watch-debug":
+      "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js --debug'",
+    "elm-watch":
+      "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js'",
+    "just-frontend":
+      "elm-live src/elm/Main.elm --debug --output=public/elm.js --dir=public --open --pushstate & npm run css-watch",
+    "css-watch":
+      "postcss ./src/css/index.css --output ./public/style.min.css --watch --config ./postcss.config.js",
     "dev-frontend": "npm run elm-watch-debug & npm run css-watch",
-    "dev-backend": "NODE_ENV=development nodemon ./src/server/start",
-    "css-build": "postcss ./src/css/index.css --output ./public/style.min.css --config ./postcss.config.js",
-    "heroku-postbuild": "npm run css-build; elm-make src/elm/Main.elm --output=public/elm.js --yes"
+    "dev-backend": "NODE_ENV=development nodemon ./server/start",
+    "css-build":
+      "postcss ./src/css/index.css --output ./public/style.min.css --config ./postcss.config.js",
+    "heroku-postbuild":
+      "npm run css-build; elm-make src/elm/Main.elm --output=public/elm.js --yes"
   },
   "repository": {
     "type": "git",
@@ -39,9 +45,19 @@
   "dependencies": {
     "airtable": "^0.5.2",
     "autoprefixer": "^7.1.6",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "elm": "^0.18.0",
     "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "handlebars": "^4.0.11",
+    "mongoose": "^5.0.12",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "postcss-clean": "^1.1.0",
     "postcss-cli": "^4.1.1",
     "postcss-custom-media": "^6.0.0",
