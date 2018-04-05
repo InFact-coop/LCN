@@ -14,7 +14,7 @@ const morgan = require('morgan');
 
 // Custom Stuff
 const api_router = require('./controllers/api_router');
-const login_router = require('./controllers/login_router');
+const auth_router = require('./controllers/auth_router');
 const configDB = require('./config/database.js');
 const helpers = require('./helpers.js');
 
@@ -68,5 +68,5 @@ app.use(morgan('dev'));
 // Our Routers
 // app.use('/api/v1/', api_router);
 app.use(express.static(path.join(__dirname, '../public')));
-login_router(app, passport);
+auth_router(app, passport);
 module.exports = app;

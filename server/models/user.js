@@ -3,7 +3,9 @@ const bcrypt = require('bcrypt-nodejs');
 
 var userSchema = mongoose.Schema({
   email: String,
-  password: String
+  password: String,
+  reset_password_token: String,
+  reset_password_expires: Date
 });
 
 userSchema.methods.generateHash = function(password) {
