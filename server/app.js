@@ -36,7 +36,6 @@ const https_redirect = (req, res, next) => {
 };
 
 // app.use(https_redirect);
-app.use(express.static(path.join(__dirname, '../../public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'hbs');
@@ -68,5 +67,6 @@ app.use(morgan('dev'));
 
 // Our Routers
 // app.use('/api/v1/', api_router);
+app.use(express.static(path.join(__dirname, '../public')));
 login_router(app, passport);
 module.exports = app;
