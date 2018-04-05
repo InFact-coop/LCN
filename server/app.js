@@ -33,8 +33,8 @@ app.engine(
     helpers: helpers
   })
 );
-// mongoose.connect(configDB.url);
-// require('./config/passport')(passport);
+mongoose.connect(configDB.url);
+require('./config/passport')(passport);
 
 const https_redirect = (req, res, next) => {
   if (process.env.NODE_ENV === 'production') {
@@ -48,7 +48,9 @@ const https_redirect = (req, res, next) => {
   }
 };
 
-// Passport Initialise
+app.use(https_redirect);
+app.use(express.static(path.join(__dirname, '../../public')));
+app.use(bodyParser.json());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -58,13 +60,9 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Middleware Initialise
-app.use(bodyParser.json());
 app.use(flash());
-app.use(https_redirect);
-app.use(express.static(path.join(__dirname, '../../public')));
 app.use(morgan('dev'));
+
 // app.use(cookieParser());
 
 // Our Routers
