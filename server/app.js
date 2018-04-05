@@ -15,24 +15,11 @@ const morgan = require('morgan');
 // Custom Stuff
 const api_router = require('./controllers/api_router');
 const login_router = require('./controllers/login_router');
-const configDB = require('./config/database.js')(process.env.MONGO_URI);
+const configDB = require('./config/database.js');
 const helpers = require('./helpers.js');
 
 const app = express();
 
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-app.engine(
-  'hbs',
-  exphbs({
-    extname: 'hbs',
-    layoutsDir: path.join(__dirname, 'views', 'layouts'),
-    partialsDir: path.join(__dirname, 'views', 'partials'),
-    defaultLayout: 'main',
-    helpers: helpers
-  })
-);
 mongoose.connect(configDB.url);
 require('./config/passport')(passport);
 
@@ -48,9 +35,23 @@ const https_redirect = (req, res, next) => {
   }
 };
 
-app.use(https_redirect);
+// app.use(https_redirect);
 app.use(express.static(path.join(__dirname, '../../public')));
 app.use(bodyParser.json());
+
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
+app.engine(
+  'hbs',
+  exphbs({
+    extname: 'hbs',
+    layoutsDir: path.join(__dirname, 'views', 'layouts'),
+    partialsDir: path.join(__dirname, 'views', 'partials'),
+    defaultLayout: 'main',
+    helpers: helpers
+  })
+);
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -66,6 +67,6 @@ app.use(morgan('dev'));
 // app.use(cookieParser());
 
 // Our Routers
-app.use('/api/v1/', api_router);
+// app.use('/api/v1/', api_router);
 login_router(app, passport);
 module.exports = app;
