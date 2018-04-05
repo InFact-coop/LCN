@@ -8,10 +8,17 @@ module.exports = (app, passport) => {
     res.render('login', { message: req.flash('loginMessage') });
   });
 
-  // app.post('/login',);
+  app.post(
+    '/login',
+    passport.authenticate('login', {
+      successRedirect: '/app',
+      failureRedirect: '/',
+      failureFlash: true
+    })
+  );
   app.post(
     '/signup',
-    passport.authenticate('local', {
+    passport.authenticate('signup', {
       successRedirect: '/app',
       failureRedirect: '/error',
       failureFlash: true
