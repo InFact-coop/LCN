@@ -34,6 +34,79 @@ module.exports = (app, passport) => {
       failureFlash: true
     })
   );
+
+  app.get('/reset-password', (req, res) => {
+    User.findOne({
+      reset_password_token: req.query.token,
+      reset_password_expires: {
+        $gt: Date.now()
+      }
+    }).exec((err, user) => {
+      if (!err && user) {
+        res.render('reset-password', {
+          token: req.query.token
+        });
+      } else {
+        return res.status(400).send({
+          message:
+            'Password reset token is invalid or has expired. Please send another.'
+        });
+      }
+    });
+  });
+
+  app.post('/reset-password', (req, res, next) => {
+    console.log('req.body', req.body);
+    User.findOne({
+      reset_password_token: req.body.token,
+      reset_password_expires: {
+        $gt: Date.now()
+      }
+    }).exec((err, user) => {
+      if (!err && user) {
+        if (req.body.newPassword === req.body.verifyPassword) {
+          user.generateHash(req.body.newPassword);
+          user.reset_password_token = undefined;
+          user.reset_password_expires = undefined;
+          user.save(err => {
+            if (err) {
+              return res.status(422).send({
+                message: err
+              });
+            } else {
+              const data = {
+                to: user.email,
+                from: process.env.MAILER_EMAIL_ID,
+                template: 'reset-password-email',
+                subject: 'Password Reset Confirmation',
+                context: {
+                  name: user.full_name.split(' ')[0]
+                }
+              };
+
+              smtpTransport.sendMail(data, err => {
+                if (!err) {
+                  return res.json({ message: 'Password successfully reset' });
+                } else {
+                  return res.status(422).send({ message: err });
+                }
+              });
+            }
+          });
+        } else {
+          return res.status(422).send({
+            message: 'Passwords do not match'
+          });
+        }
+      } else {
+        return res.status(400).send({
+          message:
+            'Password reset token is invalid or has expired. Please send another.'
+        });
+      }
+    });
+  });
+
   app.get('/forgot_password', (req, res) => {
     res.render('forgot-password');
   });
@@ -69,7 +142,7 @@ module.exports = (app, passport) => {
           subject: 'Password help has arrived!',
           context: {
             url:
-              'http://localhost:4000/auth/reset_password?token=' +
+              'http://localhost:4000/reset-password?token=' +
               updatedUser.reset_password_token,
             name: updatedUser.full_name.split(' ')[0]
           }
