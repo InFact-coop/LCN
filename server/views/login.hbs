@@ -1,21 +1,24 @@
-{{#if message}}
-<h2>{{message}}</h2>
-{{/if}}
-
-<form action="/login" method="POST">
-    <div class="form-group">
-        <label>Email</label>
-        <input type="text" class="form-control" name="email">
-    </div>
-    <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control" name="password">
-    </div>
-
-    <button type="submit" class="btn btn-warning btn-lg">Login</button>
-</form>
-
-<hr>
-
-<p>Need an account? <a href="/signup">Signup</a></p>
-<p>Or go <a href="/">home</a>.</p>
+<main class="flex items-center justify-center vh-100 bg-near-white">
+  <section class="flex items-center justify-between flex-column bg-white pa5-ns pa2 pv4 drop-shadow">
+    <form action="/login" method="POST" class="flex items-center justify-between flex-column bg-white">
+      <img class="mb4" src="./assets/lcn-logo.png">
+      {{#if message}}
+      <div class="flex items-center w-100-ns w-90 b--pink bw1 pl2 bl mb4">
+        <p class="w-100-ns w-90 fw3 f4 i">{{message}}</p>
+      </div>
+      {{/if}}
+      <div class="flex items-center w-100-ns w-90 bb bw1 mb4 pb2 b--orange">
+        <label class="fw5 f4 mr3" for="email">Email: </label>
+        <input id="email" type="email" class="b--none fw3 flex1 f4" name="email" placeholder="Please enter your email">
+      </div>
+      <div class="w-100-ns w-90 bb bw1 mb4 pb2 b--blue flex items-center">
+        <label for="password" class="fw5 f4 mr3">Password: </label>
+        <input type="password" id="password" class="fw3 f4 b--none flex1" name="password" placeholder="Please enter your password">
+      </div>
+      <div class="w-100-ns w-90 mb3 pb2">
+        <a href="/forgot_password" class="db link tr blue ">Forgot your password?</a>
+      </div>
+      <button type="submit" class="link dib bw1 f3 br3 ba ph5 pv3 center black b--dark-gray bg-white pointer">Login</button>
+    </form>
+  </section>
+</main>

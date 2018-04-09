@@ -3,6 +3,12 @@
   outline: 0 !important;
 }
 
+input[type='text'],
+input[type='password'],
+input[type='email'] {
+  box-sizing: border-box;
+}
+
 body {
   background-color: var(--light-blue);
 }
@@ -98,4 +104,12 @@ input[type='checkbox']:checked {
 
 .w-15 {
   width: 1.5rem;
+}
+
+.drop-shadow {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.flex1 {
+  flex: 1;
 }
