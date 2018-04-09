@@ -6,12 +6,10 @@ import Time exposing (Time)
 
 
 type View
-    = Home
-    | AddStats
+    = AddStats
     | Snapshot
     | AddComment
     | ListComments
-    | LogOut
 
 
 type alias Model =

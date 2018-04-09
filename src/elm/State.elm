@@ -1,7 +1,7 @@
 module State exposing (..)
 
 import Data.Comment exposing (toggleReplyComponent)
-import Helpers exposing (ifThenElse, scrollToTop)
+import Helpers exposing (ifThenElse, isNewEntry, scrollToTop)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments, handleGetComments)
 import Requests.PostComment exposing (..)
@@ -13,7 +13,7 @@ import Types exposing (..)
 
 initModel : Model
 initModel =
-    { view = Home
+    { view = AddStats
     , name = ""
     , lawCentre = NoCentre
     , lawArea = NoArea
@@ -54,7 +54,17 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
-            { model | view = getView location.hash, displayStatsModal = False, displayCommentModal = False, submitEnabled = False, peopleSeenWeekly = -1, peopleTurnedAwayWeekly = -1, newCasesWeekly = -1, signpostedInternallyWeekly = -1, signpostedExternallyWeekly = -1 }
+            { model
+                | view = getView location.hash
+                , displayStatsModal = False
+                , displayCommentModal = False
+                , submitEnabled = False
+                , peopleSeenWeekly = -1
+                , peopleTurnedAwayWeekly = -1
+                , newCasesWeekly = -1
+                , signpostedInternallyWeekly = -1
+                , signpostedExternallyWeekly = -1
+            }
                 ! [ scrollToTop, handleGetComments location ]
 
         NoOp ->
@@ -90,7 +100,14 @@ update msg model =
         UpdateRole role ->
             let
                 updatedModel =
-                    { model | role = role, peopleSeenWeekly = -1, peopleTurnedAwayWeekly = -1, newCasesWeekly = -1, signpostedInternallyWeekly = -1, signpostedExternallyWeekly = -1 }
+                    { model
+                        | role = role
+                        , peopleSeenWeekly = -1
+                        , peopleTurnedAwayWeekly = -1
+                        , newCasesWeekly = -1
+                        , signpostedInternallyWeekly = -1
+                        , signpostedExternallyWeekly = -1
+                    }
             in
                 submitEnabledToModel updatedModel ! []
 
@@ -140,19 +157,40 @@ update msg model =
                 displayModal =
                     ifThenElse (model.view == AddComment) True False
             in
-                { model | commentStatus = ResponseSuccess, displayCommentModal = displayModal, commentBody = "" } ! [ getComments, scrollToTop ]
+                { model
+                    | commentStatus = ResponseSuccess
+                    , displayCommentModal = displayModal
+                    , commentBody = ""
+                }
+                    ! [ getComments, scrollToTop ]
 
         ReceiveCommentStatus (Err err) ->
             { model | commentStatus = ResponseFailure } ! [ getComments, scrollToTop ]
 
         ReceiveStats (Ok response) ->
             if response.getSuccess then
-                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseSuccess, peopleSeenWeeklyAll = response.peopleSeen, displayStatsModal = True } ! [ scrollToTop ]
+                { model
+                    | postStatsStatus = ResponseSuccess
+                    , listStatsStatus = ResponseSuccess
+                    , peopleSeenWeeklyAll = response.peopleSeen
+                    , displayStatsModal = True
+                }
+                    ! [ scrollToTop ]
             else
-                { model | postStatsStatus = ResponseSuccess, listStatsStatus = ResponseFailure, displayStatsModal = True } ! [ scrollToTop ]
+                { model
+                    | postStatsStatus = ResponseSuccess
+                    , listStatsStatus = ResponseFailure
+                    , displayStatsModal = True
+                }
+                    ! [ scrollToTop ]
 
         ReceiveStats (Err response) ->
-            { model | postStatsStatus = ResponseFailure, listStatsStatus = ResponseFailure, displayStatsModal = True } ! []
+            { model
+                | postStatsStatus = ResponseFailure
+                , listStatsStatus = ResponseFailure
+                , displayStatsModal = True
+            }
+                ! []
 
         ToggleStatsModal ->
             { model | displayStatsModal = False } ! []
@@ -161,11 +199,7 @@ update msg model =
             { model | comments = comments } ! []
 
         ReceiveComments (Err err) ->
-            let
-                debugIt =
-                    Debug.log "error" err
-            in
-                model ! []
+            model ! []
 
         ToggleProblem string checked ->
             if checked && isNewEntry string model.problems then
@@ -186,12 +220,6 @@ update msg model =
             model ! [ postReply model parentComment ]
 
 
-isNewEntry : String -> List String -> Bool
-isNewEntry string stringList =
-    List.member string stringList
-        |> not
-
-
 submitEnabledToModel : Model -> Model
 submitEnabledToModel model =
     let
@@ -202,19 +230,28 @@ submitEnabledToModel model =
             { model | submitEnabled = False }
     in
         case model.view of
-            Home ->
-                ifThenElse
-                    (model.name /= "" && model.lawCentre /= NoCentre)
-                    trueModel
-                    falseModel
-
             AddStats ->
                 case model.role of
                     CaseWorker ->
-                        ifThenElse (model.lawArea /= NoArea && model.peopleSeenWeekly /= -1 && model.newCasesWeekly /= -1 && (not <| List.isEmpty model.problems)) trueModel falseModel
+                        ifThenElse
+                            ((model.lawArea /= NoArea)
+                                && (model.peopleSeenWeekly /= -1)
+                                && (model.newCasesWeekly /= -1)
+                                && (not <| List.isEmpty model.problems)
+                            )
+                            trueModel
+                            falseModel
 
                     Triage ->
-                        ifThenElse (model.peopleSeenWeekly /= -1 && model.peopleTurnedAwayWeekly /= -1 && model.signpostedInternallyWeekly /= -1 && model.signpostedExternallyWeekly /= -1 && (not <| List.isEmpty model.problems)) trueModel falseModel
+                        ifThenElse
+                            ((model.peopleSeenWeekly /= -1)
+                                && (model.peopleTurnedAwayWeekly /= -1)
+                                && (model.signpostedInternallyWeekly /= -1)
+                                && (model.signpostedExternallyWeekly /= -1)
+                                && (not <| List.isEmpty model.problems)
+                            )
+                            trueModel
+                            falseModel
 
                     _ ->
                         ifThenElse (model.peopleSeenWeekly /= -1) trueModel falseModel
@@ -230,9 +267,3 @@ submitEnabledToModel model =
 
             ListComments ->
                 falseModel
-
-            LogOut ->
-                ifThenElse
-                    (model.name /= "" && model.lawCentre /= NoCentre)
-                    trueModel
-                    falseModel

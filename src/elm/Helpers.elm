@@ -38,3 +38,9 @@ prettifyNumber number =
             String.dropRight 3 numberString ++ "," ++ String.right 3 numberString
         else
             numberString
+
+
+isNewEntry : String -> List String -> Bool
+isNewEntry string stringList =
+    List.member string stringList
+        |> not

@@ -10,7 +10,6 @@ import Navigation exposing (..)
 import Types exposing (..)
 import Views.AddComment exposing (..)
 import Views.AddStats exposing (..)
-import Views.Home exposing (..)
 import Views.ListComments exposing (..)
 import Views.Snapshot exposing (..)
 
@@ -44,9 +43,6 @@ modalBackground model =
 getCurrentView : Model -> Html Msg
 getCurrentView model =
     case model.view of
-        Home ->
-            homeView model False
-
         AddStats ->
             addStatsView model
 
@@ -59,16 +55,10 @@ getCurrentView model =
         ListComments ->
             listCommentsView model
 
-        LogOut ->
-            homeView model True
-
 
 getView : String -> View
 getView hash =
     case hash of
-        "#home" ->
-            Home
-
         "#numbers" ->
             AddStats
 
@@ -81,11 +71,8 @@ getView hash =
         "#list-comments" ->
             ListComments
 
-        "#logout" ->
-            LogOut
-
         _ ->
-            Home
+            AddStats
 
 
 viewFromUrl : Navigation.Location -> Model -> Model
