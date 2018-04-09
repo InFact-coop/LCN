@@ -42,7 +42,8 @@ const reset_password_get = (req, res) => {
   }).exec((err, user) => {
     if (!err && user) {
       res.render('reset-password', {
-        token: req.query.token
+        token: req.query.token,
+        message: req.flash('resetPasswordMessage')
       });
     } else {
       return res.status(400).send({
@@ -54,6 +55,8 @@ const reset_password_get = (req, res) => {
 };
 
 const reset_password_post = (req, res, next) => {
+  console.log('REQ', req);
+  const redirectURL = `/reset-password?token=${req.body.token}`;
   User.findOne({
     reset_password_token: req.body.token,
     reset_password_expires: {
@@ -61,19 +64,28 @@ const reset_password_post = (req, res, next) => {
     }
   }).exec((err, user) => {
     if (!err && !user) {
-      return res.status(400).send({
-        message:
-          'Password reset token is invalid or has expired. Please send another.'
-      });
+      req.flash(
+        'resetPasswordMessage',
+        'Password token is invalid or has expired. Please send another.'
+      );
+      return res.redirect(redirectURL);
     }
-    if (req.body.newPassword !== req.body.verifyPassword) {
-      return res.status(422).send({ message: 'Passwords do not match' });
+    if (req.body.password !== req.body.confirmPassword) {
+      req.flash('resetPasswordMessage', 'Passwords do not match');
+      return res.redirect(redirectURL);
     }
-    user.password = user.generateHash(req.body.newPassword);
+    user.password = user.generateHash(req.body.password);
     user.reset_password_token = undefined;
     user.reset_password_expires = undefined;
     user.save(err => {
-      if (err) return res.status(422).send({ message: err });
+      if (err) {
+        req.flash(
+          'resetPasswordMessage',
+          'Oops, looks like we had trouble resetting your password. Please try again in a few minutes.'
+        );
+        console.log('422 ERROR: ', err);
+        return res.redirect(redirectURL);
+      }
       const data = {
         to: user.email,
         from: process.env.MAILER_EMAIL_ID,
@@ -85,8 +97,11 @@ const reset_password_post = (req, res, next) => {
       };
 
       smtpTransport.sendMail(data, err => {
-        if (err) return res.status(422).send({ message: err });
-        return res.json({ message: 'Password successfully reset' });
+        if (err) {
+          console.log('422 ERROR SENDING SUCCESS MAIL: ', err);
+        }
+        req.flash('loginMessage', 'Password successfully reset. Please login');
+        return res.redirect('/');
       });
     });
   });
