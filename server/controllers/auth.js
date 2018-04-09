@@ -55,7 +55,6 @@ const reset_password_get = (req, res) => {
 };
 
 const reset_password_post = (req, res, next) => {
-  console.log('REQ', req);
   const redirectURL = `/reset-password?token=${req.body.token}`;
   User.findOne({
     reset_password_token: req.body.token,

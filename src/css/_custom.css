@@ -3,12 +3,6 @@
   outline: 0 !important;
 }
 
-input[type='text'],
-input[type='password'],
-input[type='email'] {
-  box-sizing: border-box;
-}
-
 body {
   background-color: var(--light-blue);
 }
