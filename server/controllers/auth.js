@@ -137,9 +137,11 @@ const forgot_password_post = (req, res) => {
       return new Promise((resolve, reject) => {
         smtpTransport.sendMail(data, err => {
           if (!err) {
-            return res.json({
-              message: 'Kindly check your email for further instructions'
-            });
+            req.flash(
+              'loginMessage',
+              'Kindly check your email for further instructions'
+            );
+            return res.redirect('/');
           }
           return reject(err);
         });
