@@ -108,7 +108,9 @@ const reset_password_post = (req, res, next) => {
 };
 
 const forgot_password_get = (req, res) => {
-  res.render('forgot-password');
+  res.render('forgot-password', {
+    message: req.flash('forgotPasswordMessage')
+  });
 };
 
 const forgot_password_post = (req, res) => {
@@ -119,7 +121,12 @@ const forgot_password_post = (req, res) => {
       return new Promise((resolve, reject) => {
         if (!user) return reject('Sorry, but that user does not exist');
         crypto.randomBytes(20, (err, buffer) => {
-          if (err) return reject(err);
+          if (err) {
+            console.log('Error generating random token: ', err);
+            return reject(
+              'Sorry, but there seems to have been a problem on our end. Please try again in a few minutes or contact LCN'
+            );
+          }
           const token = buffer.toString('hex');
           return resolve({ token, user });
         });
@@ -157,14 +164,19 @@ const forgot_password_post = (req, res) => {
               'Kindly check your email for further instructions'
             );
             return res.redirect('/');
+          } else {
+            console.log('Error sending reset email: ', err);
+            return reject(
+              'Sorry, we seem to have had a problem sending you a password reset email. Please try again in a few minutes.'
+            );
           }
-          return reject(err);
         });
       });
     })
     .catch(err => {
       console.log('err', err);
-      return res.status(422).json({ message: err });
+      req.flash('forgotPasswordMessage', err);
+      return res.redirect('/forgot-password');
     });
 };
 
