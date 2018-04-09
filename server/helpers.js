@@ -19,6 +19,6 @@ const randomIntegerInRange = (min, max) => {
 };
 
 module.exports = {
-  getToday: getToday,
-  randomIntegerInRange: randomIntegerInRange
+  getToday,
+  randomIntegerInRange
 };
