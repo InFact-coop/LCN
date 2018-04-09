@@ -17,7 +17,7 @@ const smtpTransport = nodemailer.createTransport({
 const handlebarsOptions = {
   viewEngine: 'handlebars',
   viewPath: path.resolve('./server/views/email'),
-  extName: '.html'
+  extName: '.hbs'
 };
 
 smtpTransport.use('compile', hbs(handlebarsOptions));

@@ -13,8 +13,8 @@ const session = require('express-session');
 const morgan = require('morgan');
 
 // Custom Stuff
-const api_router = require('./controllers/api_router');
-const auth_router = require('./controllers/auth_router');
+const api_router = require('./routers/api');
+const auth_router = require('./routers/auth');
 const configDB = require('./config/database.js');
 const helpers = require('./helpers.js');
 
