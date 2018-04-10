@@ -1,21 +1,14 @@
-{{#if message}}
-<h2>{{message}}</h2>
-{{/if}}
-
-<form action="/login" method="POST">
-    <div class="form-group">
-        <label>Email</label>
-        <input type="text" class="form-control" name="email">
-    </div>
-    <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control" name="password">
-    </div>
-
-    <button type="submit" class="btn btn-warning btn-lg">Login</button>
-</form>
-
-<hr>
-
-<p>Need an account? <a href="/signup">Signup</a></p>
-<p>Or go <a href="/">home</a>.</p>
+<main class="flex items-center justify-center vh-100 bg-near-white">
+  <section class="flex items-center justify-between flex-column bg-white pa5-ns pa2 pv4 drop-shadow">
+    <form action="/login" method="POST" class="flex items-center justify-between flex-column bg-white">
+      {{> logo}}
+      {{> flash-message}}
+      {{> email-input}}
+      {{> password-input}}
+      <div class="w-100-ns w-90 mb3 pb2">
+        <a href="/forgot-password" class="db link tr blue ">Forgot your password?</a>
+      </div>
+      <button type="submit" class="link dib bw1 f3 br3 ba ph5 pv3 center black b--dark-gray bg-white pointer">Login</button>
+    </form>
+  </section>
+</main>
