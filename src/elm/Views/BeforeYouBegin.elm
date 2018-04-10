@@ -27,11 +27,11 @@ beforeYouBegin model =
             , section [ class "mb4" ]
                 [ h1 [ classes [ "tl mb3", headlineFont ] ]
                     [ text "Which Law Centre do you work for?" ]
-                , div [ class "mb4 bw1 ba b--light-gray new-select w-40-ns w-100 relative flex items-center justify-center green-drop" ]
+                , div [ class "mb4 bw1 ba b--light-gray new-select w-40-l w-100 relative flex items-center justify-center green-drop" ]
                     [ select
                         [ classes
                             [ "f4 fw3"
-                            , "tc pv3 ph4"
+                            , "tc pv3 w-100"
                             , "override-select"
                             ]
                         , on "change" <| Json.Decode.map UpdateLawCentre targetValueDecoderLC
@@ -43,10 +43,10 @@ beforeYouBegin model =
                 , div [ class "mb4" ] (roleButtonsList model)
                 , div [ classes [ "mb4", displayElement <| model.role == CaseWorker ] ]
                     [ div [ class "mb3" ] [ label [ for "lawArea", classes [ headlineFont, "tl" ] ] [ text "What is your main area of practice?" ] ]
-                    , div [ class "bw1 ba b--light-gray new-select pink-drop w-40-ns w-100 relative flex items-center justify-center" ]
+                    , div [ class "bw1 ba b--light-gray new-select pink-drop w-40-l w-100 relative flex items-center justify-center" ]
                         [ select
                             [ classes
-                                [ "tc pv3 ph4"
+                                [ "tc pv3 w-100"
                                 , "f4 fw3"
                                 , "override-select"
                                 ]

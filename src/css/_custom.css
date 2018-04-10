@@ -5,6 +5,7 @@
 
 body {
   background-color: var(--light-blue);
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Remove blue border highlight on inputs */
@@ -106,4 +107,14 @@ input[type='checkbox']:checked {
 
 .flex1 {
   flex: 1;
+}
+
+.w5-5 {
+  width: 13rem;
+}
+
+@media (--breakpoint-large) {
+  .w5-5-l {
+    width: 13rem;
+  }
 }
