@@ -6,7 +6,8 @@ import Time exposing (Time)
 
 
 type View
-    = AddStats
+    = BeforeYouBegin
+    | AddStats
     | Snapshot
     | AddComment
     | ListComments

@@ -13,11 +13,11 @@ import Types exposing (..)
 
 initModel : Model
 initModel =
-    { view = AddStats
+    { view = BeforeYouBegin
     , name = ""
     , lawCentre = NoCentre
     , lawArea = NoArea
-    , role = CaseWorker
+    , role = NoRole
     , weeklyCount = Nothing
     , peopleSeenWeekly = -1
     , peopleTurnedAwayWeekly = -1
@@ -71,7 +71,11 @@ update msg model =
             model ! []
 
         UpdateLawArea la ->
-            { model | lawArea = la } ! []
+            let
+                updatedModel =
+                    { model | lawArea = la }
+            in
+                submitEnabledToModel updatedModel ! []
 
         UpdateName username ->
             let
@@ -102,11 +106,6 @@ update msg model =
                 updatedModel =
                     { model
                         | role = role
-                        , peopleSeenWeekly = -1
-                        , peopleTurnedAwayWeekly = -1
-                        , newCasesWeekly = -1
-                        , signpostedInternallyWeekly = -1
-                        , signpostedExternallyWeekly = -1
                     }
             in
                 submitEnabledToModel updatedModel ! []
@@ -255,6 +254,26 @@ submitEnabledToModel model =
 
                     _ ->
                         ifThenElse (model.peopleSeenWeekly /= -1) trueModel falseModel
+
+            BeforeYouBegin ->
+                case model.role of
+                    CaseWorker ->
+                        ifThenElse
+                            ((model.lawArea /= NoArea)
+                                && (model.lawCentre /= NoCentre)
+                            )
+                            trueModel
+                            falseModel
+
+                    _ ->
+                        ifThenElse
+                            (model.lawCentre
+                                /= NoCentre
+                                && model.role
+                                /= NoRole
+                            )
+                            trueModel
+                            falseModel
 
             Snapshot ->
                 falseModel

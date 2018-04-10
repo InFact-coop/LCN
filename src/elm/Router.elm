@@ -11,6 +11,7 @@ import Types exposing (..)
 import Views.AddComment exposing (..)
 import Views.AddStats exposing (..)
 import Views.ListComments exposing (..)
+import Views.BeforeYouBegin exposing (..)
 import Views.Snapshot exposing (..)
 
 
@@ -55,6 +56,9 @@ getCurrentView model =
         ListComments ->
             listCommentsView model
 
+        BeforeYouBegin ->
+            beforeYouBegin model
+
 
 getView : String -> View
 getView hash =
@@ -71,8 +75,11 @@ getView hash =
         "#list-comments" ->
             ListComments
 
+        "#before-you-begin" ->
+            BeforeYouBegin
+
         _ ->
-            AddStats
+            BeforeYouBegin
 
 
 viewFromUrl : Navigation.Location -> Model -> Model
