@@ -37,7 +37,8 @@ const reset_password_get = (req, res) => {
   }).exec((err, user) => {
     if (!err && user) {
       res.render('reset-password', {
-        token: req.query.token
+        token: req.query.token,
+        message: req.flash('resetPasswordMessage')
       });
     } else {
       return res.status(400).send({
@@ -49,6 +50,7 @@ const reset_password_get = (req, res) => {
 };
 
 const reset_password_post = (req, res, next) => {
+  const redirectURL = `/reset-password?token=${req.body.token}`;
   User.findOne({
     reset_password_token: req.body.token,
     reset_password_expires: {
@@ -56,19 +58,28 @@ const reset_password_post = (req, res, next) => {
     }
   }).exec((err, user) => {
     if (!err && !user) {
-      return res.status(400).send({
-        message:
-          'Password reset token is invalid or has expired. Please send another.'
-      });
+      req.flash(
+        'resetPasswordMessage',
+        'Password token is invalid or has expired. Please send another.'
+      );
+      return res.redirect(redirectURL);
     }
-    if (req.body.newPassword !== req.body.verifyPassword) {
-      return res.status(422).send({ message: 'Passwords do not match' });
+    if (req.body.password !== req.body.confirmPassword) {
+      req.flash('resetPasswordMessage', 'Passwords do not match');
+      return res.redirect(redirectURL);
     }
-    user.password = user.generateHash(req.body.newPassword);
+    user.password = user.generateHash(req.body.password);
     user.reset_password_token = undefined;
     user.reset_password_expires = undefined;
     user.save(err => {
-      if (err) return res.status(422).send({ message: err });
+      if (err) {
+        req.flash(
+          'resetPasswordMessage',
+          'Oops, looks like we had trouble resetting your password. Please try again in a few minutes.'
+        );
+        console.log('422 ERROR: ', err);
+        return res.redirect(redirectURL);
+      }
       const data = {
         to: user.email,
         from: process.env.MAILER_EMAIL_ID,
@@ -80,15 +91,20 @@ const reset_password_post = (req, res, next) => {
       };
 
       smtpTransport.sendMail(data, err => {
-        if (err) return res.status(422).send({ message: err });
-        return res.json({ message: 'Password successfully reset' });
+        if (err) {
+          console.log('422 ERROR SENDING SUCCESS MAIL: ', err);
+        }
+        req.flash('loginMessage', 'Password successfully reset. Please login');
+        return res.redirect('/');
       });
     });
   });
 };
 
 const forgot_password_get = (req, res) => {
-  res.render('forgot-password');
+  res.render('forgot-password', {
+    message: req.flash('forgotPasswordMessage')
+  });
 };
 
 const forgot_password_post = (req, res) => {
@@ -99,7 +115,12 @@ const forgot_password_post = (req, res) => {
       return new Promise((resolve, reject) => {
         if (!user) return reject('Sorry, but that user does not exist');
         crypto.randomBytes(20, (err, buffer) => {
-          if (err) return reject(err);
+          if (err) {
+            console.log('Error generating random token: ', err);
+            return reject(
+              'Sorry, but there seems to have been a problem on our end. Please try again in a few minutes or contact LCN'
+            );
+          }
           const token = buffer.toString('hex');
           return resolve({ token, user });
         });
@@ -132,17 +153,24 @@ const forgot_password_post = (req, res) => {
       return new Promise((resolve, reject) => {
         smtpTransport.sendMail(data, err => {
           if (!err) {
-            return res.json({
-              message: 'Kindly check your email for further instructions'
-            });
+            req.flash(
+              'loginMessage',
+              'Kindly check your email for further instructions'
+            );
+            return res.redirect('/');
+          } else {
+            console.log('Error sending reset email: ', err);
+            return reject(
+              'Sorry, we seem to have had a problem sending you a password reset email. Please try again in a few minutes.'
+            );
           }
-          return reject(err);
         });
       });
     })
     .catch(err => {
       console.log('err', err);
-      return res.status(422).json({ message: err });
+      req.flash('forgotPasswordMessage', err);
+      return res.redirect('/forgot-password');
     });
 };
 
