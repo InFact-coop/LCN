@@ -38,6 +38,7 @@ initModel =
     , problems = []
     , agencies = []
     , submitEnabled = False
+    , postUserDetailsStatus = NotAsked
     }
 
 
@@ -221,21 +222,17 @@ update msg model =
             model ! [ postReply model parentComment ]
 
         ReceiveUserDetailsStatus (Ok bool) ->
-            let
-                debugit =
-                    Debug.log "success" bool
-            in
-                model ! []
+            { model | view = AddStats, postUserDetailsStatus = ResponseSuccess } ! []
 
         ReceiveUserDetailsStatus (Err err) ->
-            let
-                debugit =
-                    Debug.log "err" err
-            in
-                model ! []
+            { model | postUserDetailsStatus = ResponseFailure } ! []
 
         PostNewUserDetails ->
-            model ! [ postNewUserDetails model ]
+            let
+                updatedModel =
+                    { model | postUserDetailsStatus = Loading, lawArea = ifThenElse (model.role == CaseWorker) model.lawArea NoArea }
+            in
+                updatedModel ! [ postNewUserDetails updatedModel ]
 
 
 submitEnabledToModel : Model -> Model

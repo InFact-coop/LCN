@@ -1,3 +1,4 @@
+const User = require('../models/user');
 const router = require('express').Router();
 const Airtable = require('airtable');
 const base = Airtable.base(process.env.AIRTABLE_BASE);
@@ -25,9 +26,25 @@ router.route('/post-comment').post((req, res) => {
 });
 
 router.route('/user-details').post((req, res) => {
-  console.log('REQ.USER', req.user);
-  console.log('REQ.BODY', req.body);
-  return res.json({ success: true });
+  const { law_centre, job_role, law_area, ...body } = req.body;
+  User.findByIdAndUpdate(
+    { _id: req.user._id },
+    {
+      law_centre,
+      job_role,
+      law_area
+    },
+    { new: true }
+  )
+    .exec()
+    .then(updatedUser => {
+      console.log('Updated User Successful', updatedUser);
+      return res.json({ success: true });
+    })
+    .catch(err => {
+      console.log(('Updated User Error', err));
+      return res.json({ success: false });
+    });
 });
 
 router.route('/post-stats').post((req, res) => {

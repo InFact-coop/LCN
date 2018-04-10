@@ -1,7 +1,6 @@
 module Views.AddStats exposing (..)
 
 import Components.Button exposing (..)
-import Components.LawArea exposing (lawAreaList, lawAreaOption)
 import Components.LawAreaCheckbox exposing (problemCheckbox, agencyCheckbox)
 import Components.StatsThisWeek exposing (statsThisWeek)
 import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, headlineFont)
@@ -25,9 +24,7 @@ addStatsView model =
                     [ text introText ]
                 ]
             , section [ class "mb4" ]
-                [ h1 [ classes [ "tl mb4", headlineFont ] ]
-                    [ text "Weekly survey" ]
-                , div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
+                [ div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
                     [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
                     , div [ classes [ "mv4" ] ] (problemCheckboxesList model)
                     ]

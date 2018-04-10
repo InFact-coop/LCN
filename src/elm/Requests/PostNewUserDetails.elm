@@ -4,10 +4,6 @@ import Http exposing (jsonBody, post)
 import Json.Encode exposing (..)
 import Json.Decode as Decode
 import Types exposing (..)
-
-
--- import Json.Decode.Pipeline exposing (decode, required, optional)
-
 import Types exposing (..)
 import Helpers exposing (..)
 
@@ -26,7 +22,7 @@ userDetailsRequest model =
 userDetails : Model -> Value
 userDetails model =
     object
-        [ ( "Law Centre", string (unionTypeToString model.lawCentre) )
-        , ( "Job Role", string (unionTypeToString model.role) )
-        , ( "Law Area", string (unionTypeToString model.lawArea) )
+        [ ( "law_centre", string (unionTypeToString model.lawCentre) )
+        , ( "job_role", string (unionTypeToString model.role) )
+        , ( "law_area", string (unionTypeToString model.lawArea) )
         ]

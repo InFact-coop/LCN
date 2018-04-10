@@ -30,6 +30,7 @@ type alias Model =
     , comments : List Comment
     , commentStatus : RemoteData
     , postStatsStatus : RemoteData
+    , postUserDetailsStatus : RemoteData
     , listStatsStatus : RemoteData
     , peopleSeenWeeklyAll : Int
     , displayStatsModal : Bool

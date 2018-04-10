@@ -58,7 +58,7 @@ beforeYouBegin model =
                             )
                         ]
                     ]
-                , bigColouredButton model "green" "Submit" PostNewUserDetails
+                , bigColouredButton model "green" (ifThenElse (model.postUserDetailsStatus == Loading) "..." "Submit") PostNewUserDetails
                 ]
             ]
         ]
