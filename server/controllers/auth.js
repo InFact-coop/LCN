@@ -188,12 +188,6 @@ const logout_get = (req, res) => {
   res.redirect('/');
 };
 
-const user_details_post = (req, res, next) => {
-  console.log('REQ.USER', req.user);
-  console.log('REQ.BODY', req.body);
-  res.redirect('/');
-};
-
 module.exports = {
   login_get,
   home_get,
@@ -205,6 +199,5 @@ module.exports = {
   logout_get,
   is_logged_in,
   login_post,
-  signup_post,
-  user_details_post
+  signup_post
 };

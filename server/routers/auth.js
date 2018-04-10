@@ -10,8 +10,7 @@ const {
   logout_get,
   is_logged_in,
   login_post,
-  signup_post,
-  user_details_post
+  signup_post
 } = require('../controllers/auth');
 
 module.exports = (app, passport) => {
@@ -21,7 +20,6 @@ module.exports = (app, passport) => {
   app.post('/signup', signup_post(passport));
   app.get('/reset-password', reset_password_get);
   app.post('/reset-password', reset_password_post);
-  app.post('/user-details', user_details_post);
   app.get('/forgot-password', forgot_password_get);
   app.post('/forgot-password', forgot_password_post);
   app.get('/signup', signup_get);

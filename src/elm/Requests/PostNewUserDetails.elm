@@ -20,7 +20,7 @@ postNewUserDetails model =
 
 userDetailsRequest : Model -> Http.Request Bool
 userDetailsRequest model =
-    post "/user-details" (jsonBody <| userDetails model) (Decode.field "success" Decode.bool)
+    post "/api/v1/user-details" (jsonBody <| userDetails model) (Decode.field "success" Decode.bool)
 
 
 userDetails : Model -> Value

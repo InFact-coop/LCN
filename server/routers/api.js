@@ -24,6 +24,12 @@ router.route('/post-comment').post((req, res) => {
   });
 });
 
+router.route('/user-details').post((req, res) => {
+  console.log('REQ.USER', req.user);
+  console.log('REQ.BODY', req.body);
+  return res.json({ success: true });
+});
+
 router.route('/post-stats').post((req, res) => {
   let newForm = req.body;
   newForm['Date'] = helpers.getToday();
