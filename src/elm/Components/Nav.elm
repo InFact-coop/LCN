@@ -13,6 +13,7 @@ navBar model =
         , div [ class "dn db-ns" ]
             [ a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/#add-comment" ] [ text "Add Comment" ]
             , a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/#list-comments" ] [ text "Comments" ]
+            , a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/invite-users" ] [ text "Invite users" ]
             , a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/logout" ] [ text "Log out" ]
             ]
         ]

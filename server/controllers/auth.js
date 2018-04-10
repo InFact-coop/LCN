@@ -2,11 +2,6 @@ const User = require('../models/user');
 const crypto = require('crypto');
 const smtpTransport = require('../config/nodemailer');
 
-const is_logged_in = (req, res, next) => {
-  if (req.isAuthenticated()) return next();
-  res.redirect('/login');
-};
-
 const login_post = passport => {
   return passport.authenticate('login', {
     successRedirect: '/',
@@ -169,7 +164,6 @@ module.exports = {
   forgot_password_post,
   signup_get,
   logout_get,
-  is_logged_in,
   login_post,
   signup_post
 };
