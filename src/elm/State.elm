@@ -2,11 +2,13 @@ module State exposing (..)
 
 import Data.Comment exposing (toggleReplyComponent)
 import Helpers exposing (ifThenElse, isNewEntry, scrollToTop)
+import Json.Decode exposing (bool)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments, handleGetComments)
 import Requests.PostComment exposing (..)
 import Requests.PostReply exposing (postReply)
-import Requests.PostStats exposing (..)
+import Requests.PostNewUserDetails exposing (postNewUserDetails)
+import Requests.PostStats exposing (postStats)
 import Router exposing (getView, viewFromUrl)
 import Types exposing (..)
 
@@ -217,6 +219,23 @@ update msg model =
 
         PostReply parentComment ->
             model ! [ postReply model parentComment ]
+
+        ReceiveUserDetailsStatus (Ok bool) ->
+            let
+                debugit =
+                    Debug.log "success" bool
+            in
+                model ! []
+
+        ReceiveUserDetailsStatus (Err err) ->
+            let
+                debugit =
+                    Debug.log "err" err
+            in
+                model ! []
+
+        PostNewUserDetails ->
+            model ! [ postNewUserDetails model ]
 
 
 submitEnabledToModel : Model -> Model

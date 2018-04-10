@@ -170,3 +170,5 @@ type Msg
     | ToggleProblem String Bool
     | ToggleAgency String Bool
     | PostReply Comment
+    | PostNewUserDetails
+    | ReceiveUserDetailsStatus (Result Http.Error Bool)

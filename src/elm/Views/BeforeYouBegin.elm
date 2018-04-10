@@ -58,7 +58,7 @@ beforeYouBegin model =
                             )
                         ]
                     ]
-                , bigColouredButton model "green" "Submit" PostStats
+                , bigColouredButton model "green" "Submit" PostNewUserDetails
                 ]
             ]
         ]
