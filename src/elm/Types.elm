@@ -6,7 +6,8 @@ import Time exposing (Time)
 
 
 type View
-    = AddStats
+    = BeforeYouBegin
+    | AddStats
     | Snapshot
     | AddComment
     | ListComments
@@ -29,6 +30,7 @@ type alias Model =
     , comments : List Comment
     , commentStatus : RemoteData
     , postStatsStatus : RemoteData
+    , postUserDetailsStatus : RemoteData
     , listStatsStatus : RemoteData
     , peopleSeenWeeklyAll : Int
     , displayStatsModal : Bool
@@ -169,3 +171,5 @@ type Msg
     | ToggleProblem String Bool
     | ToggleAgency String Bool
     | PostReply Comment
+    | PostNewUserDetails
+    | ReceiveUserDetailsStatus (Result Http.Error Bool)

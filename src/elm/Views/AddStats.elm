@@ -1,7 +1,6 @@
 module Views.AddStats exposing (..)
 
 import Components.Button exposing (..)
-import Components.LawArea exposing (lawAreaList, lawAreaOption)
 import Components.LawAreaCheckbox exposing (problemCheckbox, agencyCheckbox)
 import Components.StatsThisWeek exposing (statsThisWeek)
 import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, headlineFont)
@@ -25,31 +24,13 @@ addStatsView model =
                     [ text introText ]
                 ]
             , section [ class "mb4" ]
-                [ h1 [ classes [ "tl mb4", headlineFont ] ]
-                    [ text "Weekly survey" ]
-                , div
-                    []
-                    [ h2 [ classes [ "mb3", bodyFont ] ]
-                        [ text "What is your role type at the Law Centre?" ]
-                    , div [ class "mb4" ] (roleButtonsList model)
-                    ]
-                , div [ classes [ "mb4", displayElement <| model.role == CaseWorker ] ]
-                    [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What is your main area of practice?" ]
-                    , div [ class "select mt2 w-25-ns w-100" ]
-                        [ select [ id "areaOfLaw", classes [ "br4", checkboxFont ], placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
-                            (List.map
-                                lawAreaOption
-                                lawAreaList
-                            )
-                        ]
-                    ]
-                , div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
+                [ div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
                     [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
                     , div [ classes [ "mv4" ] ] (problemCheckboxesList model)
                     ]
                 , statsThisWeek model
+                , bigColouredButton model "green" "Submit" PostStats
                 ]
-            , bigColouredButton model "green" "Submit" PostStats
             ]
         ]
 

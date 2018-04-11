@@ -12,7 +12,7 @@ colouredButton : String -> Role -> Html Msg
 colouredButton colour role =
     button
         [ classes
-            [ "mr3 white w-25-ns w-100 mb2 mb0-ns"
+            [ "mr3 white  w-100 w5-5-l mb2 mb0-l"
             , "bg-" ++ colour
             , roleButtonFont
             , buttonStyle

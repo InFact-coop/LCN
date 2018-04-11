@@ -5,6 +5,9 @@ var userSchema = mongoose.Schema({
   email: String,
   password: String,
   full_name: String,
+  law_centre: String,
+  job_role: String,
+  law_area: String,
   reset_password_token: String,
   reset_password_expires: Date
 });

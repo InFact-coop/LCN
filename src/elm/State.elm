@@ -2,22 +2,24 @@ module State exposing (..)
 
 import Data.Comment exposing (toggleReplyComponent)
 import Helpers exposing (ifThenElse, isNewEntry, scrollToTop)
+import Json.Decode exposing (bool)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments, handleGetComments)
 import Requests.PostComment exposing (..)
 import Requests.PostReply exposing (postReply)
-import Requests.PostStats exposing (..)
+import Requests.PostNewUserDetails exposing (postNewUserDetails)
+import Requests.PostStats exposing (postStats)
 import Router exposing (getView, viewFromUrl)
 import Types exposing (..)
 
 
 initModel : Model
 initModel =
-    { view = AddStats
+    { view = BeforeYouBegin
     , name = ""
     , lawCentre = NoCentre
     , lawArea = NoArea
-    , role = CaseWorker
+    , role = NoRole
     , weeklyCount = Nothing
     , peopleSeenWeekly = -1
     , peopleTurnedAwayWeekly = -1
@@ -36,6 +38,7 @@ initModel =
     , problems = []
     , agencies = []
     , submitEnabled = False
+    , postUserDetailsStatus = NotAsked
     }
 
 
@@ -71,7 +74,11 @@ update msg model =
             model ! []
 
         UpdateLawArea la ->
-            { model | lawArea = la } ! []
+            let
+                updatedModel =
+                    { model | lawArea = la }
+            in
+                submitEnabledToModel updatedModel ! []
 
         UpdateName username ->
             let
@@ -102,11 +109,6 @@ update msg model =
                 updatedModel =
                     { model
                         | role = role
-                        , peopleSeenWeekly = -1
-                        , peopleTurnedAwayWeekly = -1
-                        , newCasesWeekly = -1
-                        , signpostedInternallyWeekly = -1
-                        , signpostedExternallyWeekly = -1
                     }
             in
                 submitEnabledToModel updatedModel ! []
@@ -219,6 +221,19 @@ update msg model =
         PostReply parentComment ->
             model ! [ postReply model parentComment ]
 
+        ReceiveUserDetailsStatus (Ok bool) ->
+            { model | view = AddStats, postUserDetailsStatus = ResponseSuccess } ! []
+
+        ReceiveUserDetailsStatus (Err err) ->
+            { model | postUserDetailsStatus = ResponseFailure } ! []
+
+        PostNewUserDetails ->
+            let
+                updatedModel =
+                    { model | postUserDetailsStatus = Loading, lawArea = ifThenElse (model.role == CaseWorker) model.lawArea NoArea }
+            in
+                updatedModel ! [ postNewUserDetails updatedModel ]
+
 
 submitEnabledToModel : Model -> Model
 submitEnabledToModel model =
@@ -255,6 +270,26 @@ submitEnabledToModel model =
 
                     _ ->
                         ifThenElse (model.peopleSeenWeekly /= -1) trueModel falseModel
+
+            BeforeYouBegin ->
+                case model.role of
+                    CaseWorker ->
+                        ifThenElse
+                            ((model.lawArea /= NoArea)
+                                && (model.lawCentre /= NoCentre)
+                            )
+                            trueModel
+                            falseModel
+
+                    _ ->
+                        ifThenElse
+                            (model.lawCentre
+                                /= NoCentre
+                                && model.role
+                                /= NoRole
+                            )
+                            trueModel
+                            falseModel
 
             Snapshot ->
                 falseModel
