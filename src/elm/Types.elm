@@ -11,6 +11,7 @@ type View
     | Snapshot
     | AddComment
     | ListComments
+    | SplashScreen
 
 
 type alias Model =
@@ -30,6 +31,7 @@ type alias Model =
     , comments : List Comment
     , commentStatus : RemoteData
     , postStatsStatus : RemoteData
+    , getUserDetailsStatus : RemoteData
     , postUserDetailsStatus : RemoteData
     , listStatsStatus : RemoteData
     , peopleSeenWeeklyAll : Int
@@ -147,6 +149,14 @@ type alias StatsResponse =
     }
 
 
+type alias UserDetails =
+    { name : String
+    , lawCentre : LawCentre
+    , lawArea : LawArea
+    , role : Role
+    }
+
+
 type Msg
     = NoOp
     | UrlChange Navigation.Location
@@ -172,4 +182,5 @@ type Msg
     | ToggleAgency String Bool
     | PostReply Comment
     | PostNewUserDetails
-    | ReceiveUserDetailsStatus (Result Http.Error Bool)
+    | PostUserDetailsStatus (Result Http.Error Bool)
+    | GetUserDetailsStatus (Result Http.Error UserDetails)

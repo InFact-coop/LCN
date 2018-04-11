@@ -10,7 +10,7 @@ import Helpers exposing (..)
 
 postNewUserDetails : Model -> Cmd Msg
 postNewUserDetails model =
-    Http.send ReceiveUserDetailsStatus
+    Http.send PostUserDetailsStatus
         (userDetailsRequest model)
 
 
