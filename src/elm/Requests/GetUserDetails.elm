@@ -23,6 +23,6 @@ userDetailsDecoder : Decoder UserDetails
 userDetailsDecoder =
     decode UserDetails
         |> required "full_name" string
-        |> optionalAt [ "fields", "law_centre" ] (Json.Decode.map stringToLawCentre string) NoCentre
-        |> optionalAt [ "fields", "law_area" ] (Json.Decode.map stringToLawArea string) NoArea
-        |> optionalAt [ "fields", "job_role" ] (Json.Decode.map stringToRole string) NoRole
+        |> optional "law_centre" (Json.Decode.map stringToLawCentre string) NoCentre
+        |> optional "law_area" (Json.Decode.map stringToLawArea string) NoArea
+        |> optional "job_role" (Json.Decode.map stringToRole string) NoRole

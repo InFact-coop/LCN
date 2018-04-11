@@ -25,27 +25,45 @@ router.route('/post-comment').post((req, res) => {
   });
 });
 
-router.route('/user-details').post((req, res) => {
-  const { law_centre, job_role, law_area, ...body } = req.body;
-  User.findByIdAndUpdate(
-    { _id: req.user._id },
-    {
-      law_centre,
-      job_role,
-      law_area
-    },
-    { new: true }
-  )
-    .exec()
-    .then(updatedUser => {
-      console.log('Updated User Successful', updatedUser);
-      return res.json({ success: true });
-    })
-    .catch(err => {
-      console.log(('Updated User Error', err));
-      return res.json({ success: false });
-    });
-});
+router
+  .route('/user-details')
+  .post((req, res) => {
+    const { law_centre, job_role, law_area, ...body } = req.body;
+    User.findByIdAndUpdate(
+      { _id: req.user._id },
+      {
+        law_centre,
+        job_role,
+        law_area
+      },
+      { new: true }
+    )
+      .exec()
+      .then(updatedUser => {
+        console.log('Updated User Successful', updatedUser);
+        return res.json({ success: true });
+      })
+      .catch(err => {
+        console.log(('Updated User Error', err));
+        return res.json({ success: false });
+      });
+  })
+  .get((req, res) => {
+    User.findById(req.user.id)
+      .exec()
+      .then(user => {
+        return res.json({
+          full_name: user.full_name,
+          law_centre: user.law_centre,
+          law_area: user.law_area,
+          job_role: user.job_role
+        });
+      })
+      .catch(err => {
+        console.log('Error retrieving user: ', err);
+        return res.status(500).send({ success: false });
+      });
+  });
 
 router.route('/post-stats').post((req, res) => {
   let newForm = req.body;

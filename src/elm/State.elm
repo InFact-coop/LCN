@@ -242,7 +242,11 @@ update msg model =
                 ! []
 
         GetUserDetailsStatus (Err err) ->
-            { model | getUserDetailsStatus = ResponseFailure } ! []
+            let
+                debugit =
+                    Debug.log "User Details Error" err
+            in
+                { model | getUserDetailsStatus = ResponseFailure, view = BeforeYouBegin } ! []
 
 
 submitEnabledToModel : Model -> Model
