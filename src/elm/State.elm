@@ -5,9 +5,10 @@ import Helpers exposing (ifThenElse, isNewEntry, scrollToTop)
 import Json.Decode exposing (bool)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments, handleGetComments)
+import Requests.GetUserDetails exposing (getUserDetails)
 import Requests.PostComment exposing (..)
-import Requests.PostReply exposing (postReply)
 import Requests.PostNewUserDetails exposing (postNewUserDetails)
+import Requests.PostReply exposing (postReply)
 import Requests.PostStats exposing (postStats)
 import Router exposing (getView, viewFromUrl)
 import Types exposing (..)
@@ -15,7 +16,7 @@ import Types exposing (..)
 
 initModel : Model
 initModel =
-    { view = BeforeYouBegin
+    { view = SplashScreen
     , name = ""
     , lawCentre = NoCentre
     , lawArea = NoArea
@@ -39,6 +40,7 @@ initModel =
     , agencies = []
     , submitEnabled = False
     , postUserDetailsStatus = NotAsked
+    , getUserDetailsStatus = NotAsked
     }
 
 
@@ -50,6 +52,7 @@ init location =
     in
         model
             ! [ handleGetComments location
+              , getUserDetails
               ]
 
 
@@ -221,10 +224,10 @@ update msg model =
         PostReply parentComment ->
             model ! [ postReply model parentComment ]
 
-        ReceiveUserDetailsStatus (Ok bool) ->
+        PostUserDetailsStatus (Ok bool) ->
             { model | view = AddStats, postUserDetailsStatus = ResponseSuccess } ! []
 
-        ReceiveUserDetailsStatus (Err err) ->
+        PostUserDetailsStatus (Err err) ->
             { model | postUserDetailsStatus = ResponseFailure } ! []
 
         PostNewUserDetails ->
@@ -233,6 +236,13 @@ update msg model =
                     { model | postUserDetailsStatus = Loading, lawArea = ifThenElse (model.role == CaseWorker) model.lawArea NoArea }
             in
                 updatedModel ! [ postNewUserDetails updatedModel ]
+
+        GetUserDetailsStatus (Ok { name, lawCentre, lawArea, role }) ->
+            { model | name = name, lawCentre = lawCentre, lawArea = lawArea, role = role, getUserDetailsStatus = ResponseSuccess, view = ifThenElse (lawCentre == NoCentre || role == NoRole) BeforeYouBegin AddStats }
+                ! []
+
+        GetUserDetailsStatus (Err err) ->
+            { model | getUserDetailsStatus = ResponseFailure } ! []
 
 
 submitEnabledToModel : Model -> Model
@@ -301,4 +311,7 @@ submitEnabledToModel model =
                     falseModel
 
             ListComments ->
+                falseModel
+
+            SplashScreen ->
                 falseModel

@@ -13,6 +13,7 @@ import Views.AddStats exposing (..)
 import Views.ListComments exposing (..)
 import Views.BeforeYouBegin exposing (..)
 import Views.Snapshot exposing (..)
+import Views.SplashScreen exposing (..)
 
 
 view : Model -> Html Msg
@@ -59,6 +60,9 @@ getCurrentView model =
         BeforeYouBegin ->
             beforeYouBegin model
 
+        SplashScreen ->
+            splashScreen model
+
 
 getView : String -> View
 getView hash =
@@ -78,8 +82,11 @@ getView hash =
         "#before-you-begin" ->
             BeforeYouBegin
 
+        "#splash-screen" ->
+            SplashScreen
+
         _ ->
-            BeforeYouBegin
+            SplashScreen
 
 
 viewFromUrl : Navigation.Location -> Model -> Model
