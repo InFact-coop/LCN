@@ -17,6 +17,12 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /*  Modal Centering */
 
 .modal {
@@ -152,4 +158,50 @@ input[type='checkbox']:checked {
 
 .ellipsis > .bouncefade:nth-child(3) {
   animation-delay: 0.4s;
+}
+
+.slider {
+  -webkit-appearance: none;
+  border: 1px solid var(--light-gray);
+}
+
+.green-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: var(--green);
+  width: 0.5rem;
+  height: 0.5rem;
+  transform: scale(4.25);
+  cursor: pointer;
+  border-radius: 50%;
+}
+.pink-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: var(--pink);
+  width: 0.5rem;
+  height: 0.5rem;
+  transform: scale(4.25);
+  cursor: pointer;
+  border-radius: 50%;
+}
+.blue-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: var(--blue);
+  width: 0.5rem;
+  height: 0.5rem;
+  transform: scale(4.25);
+  cursor: pointer;
+  border-radius: 50%;
+}
+.orange-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: var(--orange);
+  width: 0.5rem;
+  height: 0.5rem;
+  transform: scale(4.25);
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.w2d5 {
+  width: var(--width-2d5);
 }
