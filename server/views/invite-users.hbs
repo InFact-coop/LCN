@@ -1,1 +1,64 @@
-<h1>Invite all the users</h1>
+<div class="flex flex-column items-center">
+  <h1>Invite others (admin)</h1>
+  <p>As an admin, you're able to invite people to join the LCN app. Please enter their details below and click 'Submit' to invite them.</p>
+
+  <div class="flex flex-column pv4 mw6">
+    <div class="flex flex-row">
+      <div class="w-third">
+        <h2>Name</h2>
+      </div>
+      <div class="w-two-thirds">
+        <h2>Email</h2>
+      </div>
+    </div>
+    <hr>
+
+    <form class="" action="/invite-users" method="post">
+
+      <div class="flex flex-row">
+        <div class="w-third">
+          <input type="text" name="user1[name]" class="w-100">
+        </div>
+        <div class="w-two-thirds">
+          <input type="email" name="user1[email]" class="w-100">
+        </div>
+      </div>
+      <div class="flex flex-row">
+        <div class="w-third">
+          <input type="text" name="user2[name]" class="w-100">
+        </div>
+        <div class="w-two-thirds">
+          <input type="email" name="user2[email]" class="w-100">
+        </div>
+      </div>
+      <div class="flex flex-row">
+        <div class="w-third">
+          <input type="text" name="user3[name]" class="w-100">
+        </div>
+        <div class="w-two-thirds">
+          <input type="email" name="user3[email]" class="w-100">
+        </div>
+      </div>
+      <div class="flex flex-row">
+        <div class="w-third">
+          <input type="text" name="user4[name]" class="w-100">
+        </div>
+        <div class="w-two-thirds">
+          <input type="email" name="user4[email]" class="w-100">
+        </div>
+      </div>
+      <div class="flex flex-row">
+        <div class="w-third">
+          <input type="text" name="user5[name]" class="w-100">
+        </div>
+        <div class="w-two-thirds">
+          <input type="email" name="user5[email]" class="w-100">
+        </div>
+      </div>
+
+      <button type="submit">Submit</button>
+
+    </form>
+
+  </div>
+</div>
