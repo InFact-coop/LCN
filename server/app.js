@@ -38,6 +38,7 @@ const https_redirect = (req, res, next) => {
 
 app.use(https_redirect);
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));

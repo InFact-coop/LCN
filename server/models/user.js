@@ -10,7 +10,8 @@ var userSchema = mongoose.Schema({
   admin: { type: Boolean, default: false },
   signup_token: { type: String, default: null },
   signup_expires: { type: Date, default: null },
-  signed_up: { type: Boolean, default: false }
+  signed_up: { type: Boolean, default: false },
+  law_centre: { type: String }
 });
 
 userSchema.methods.generateHash = function(password) {

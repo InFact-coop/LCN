@@ -11,7 +11,9 @@ import Types exposing (..)
 import Views.AddComment exposing (..)
 import Views.AddStats exposing (..)
 import Views.ListComments exposing (..)
+import Views.BeforeYouBegin exposing (..)
 import Views.Snapshot exposing (..)
+import Views.SplashScreen exposing (..)
 
 
 view : Model -> Html Msg
@@ -55,6 +57,12 @@ getCurrentView model =
         ListComments ->
             listCommentsView model
 
+        BeforeYouBegin ->
+            beforeYouBegin model
+
+        SplashScreen ->
+            splashScreen model
+
 
 getView : String -> View
 getView hash =
@@ -71,8 +79,14 @@ getView hash =
         "#list-comments" ->
             ListComments
 
+        "#before-you-begin" ->
+            BeforeYouBegin
+
+        "#splash-screen" ->
+            SplashScreen
+
         _ ->
-            AddStats
+            SplashScreen
 
 
 viewFromUrl : Navigation.Location -> Model -> Model

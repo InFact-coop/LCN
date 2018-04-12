@@ -50,13 +50,16 @@
   --height-2: 2rem;
   --height-3: 4rem;
   --height-4: 6rem;
-  --height-5: 11rem;
+  --height-5: 10rem;
+  --height-6: 16rem;
 
   --width-1: 1rem;
   --width-2: 2rem;
+  --width-2d5: 3rem;
   --width-3: 4rem;
   --width-4: 6rem;
   --width-5: 10rem;
+  --width-6: 16rem;
 
   --max-width-1: 1rem;
   --max-width-2: 2rem;

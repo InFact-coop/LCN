@@ -1,16 +1,12 @@
 module Views.AddStats exposing (..)
 
 import Components.Button exposing (..)
-import Components.LawArea exposing (lawAreaList, lawAreaOption)
 import Components.LawAreaCheckbox exposing (problemCheckbox, agencyCheckbox)
 import Components.StatsThisWeek exposing (statsThisWeek)
 import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, headlineFont)
-import Data.LawArea exposing (decoderLawArea, stringToLawArea)
 import Helpers exposing (ifThenElse)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (..)
-import Json.Decode exposing (Decoder, andThen)
 import Types exposing (..)
 
 
@@ -24,32 +20,14 @@ addStatsView model =
                 , p [ class bodyFont ]
                     [ text introText ]
                 ]
+            , statsThisWeek model
             , section [ class "mb4" ]
-                [ h1 [ classes [ "tl mb4", headlineFont ] ]
-                    [ text "Weekly survey" ]
-                , div
-                    []
-                    [ h2 [ classes [ "mb3", bodyFont ] ]
-                        [ text "What is your role type at the Law Centre?" ]
-                    , div [ class "mb4" ] (roleButtonsList model)
-                    ]
-                , div [ classes [ "mb4", displayElement <| model.role == CaseWorker ] ]
-                    [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What is your main area of practice?" ]
-                    , div [ class "select mt2 w-25-ns w-100" ]
-                        [ select [ id "areaOfLaw", classes [ "br4", checkboxFont ], placeholder "Immigration", on "change" <| Json.Decode.map UpdateLawArea targetValueDecoderLawArea ]
-                            (List.map
-                                lawAreaOption
-                                lawAreaList
-                            )
-                        ]
-                    ]
-                , div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
-                    [ label [ for "lawArea", classes [ bodyFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
+                [ div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
+                    [ label [ for "lawArea", classes [ headlineFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
                     , div [ classes [ "mv4" ] ] (problemCheckboxesList model)
                     ]
-                , statsThisWeek model
+                , bigColouredButton model "green" "Submit" PostStats
                 ]
-            , bigColouredButton model "green" "Submit" PostStats
             ]
         ]
 
@@ -166,37 +144,3 @@ problemCheckboxesList model =
 
         NoArea ->
             []
-
-
-roleButtonsList : Model -> List (Html Msg)
-roleButtonsList model =
-    case model.role of
-        CaseWorker ->
-            [ colouredButton ("pink grow") CaseWorker
-            , colouredButton ("orange o-30 shrink") Triage
-            , colouredButton ("green o-30 shrink") Management
-            ]
-
-        Management ->
-            [ colouredButton ("pink o-30 shrink") CaseWorker
-            , colouredButton ("orange o-30 shrink") Triage
-            , colouredButton ("green grow") Management
-            ]
-
-        Triage ->
-            [ colouredButton ("pink o-30 shrink") CaseWorker
-            , colouredButton ("orange grow") Triage
-            , colouredButton ("green o-30 shrink") Management
-            ]
-
-        NoRole ->
-            [ colouredButton ("pink o-30 shrink") CaseWorker
-            , colouredButton ("orange o-30 shrink") Triage
-            , colouredButton ("green o-30 shrink") Management
-            ]
-
-
-targetValueDecoderLawArea : Decoder LawArea
-targetValueDecoderLawArea =
-    targetValue
-        |> andThen decoderLawArea

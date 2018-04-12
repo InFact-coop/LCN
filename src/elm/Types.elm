@@ -6,10 +6,12 @@ import Time exposing (Time)
 
 
 type View
-    = AddStats
+    = BeforeYouBegin
+    | AddStats
     | Snapshot
     | AddComment
     | ListComments
+    | SplashScreen
 
 
 type alias Model =
@@ -19,16 +21,18 @@ type alias Model =
     , lawArea : LawArea
     , role : Role
     , weeklyCount : Maybe Int
-    , peopleSeenWeekly : Int
-    , peopleTurnedAwayWeekly : Int
-    , newCasesWeekly : Int
-    , signpostedInternallyWeekly : Int
-    , signpostedExternallyWeekly : Int
+    , peopleSeenWeekly : Maybe Int
+    , peopleTurnedAwayWeekly : Maybe Int
+    , newCasesWeekly : Maybe Int
+    , signpostedInternallyWeekly : Maybe Int
+    , signpostedExternallyWeekly : Maybe Int
     , commentBody : String
     , commentType : CommentType
     , comments : List Comment
     , commentStatus : RemoteData
     , postStatsStatus : RemoteData
+    , getUserDetailsStatus : RemoteData
+    , postUserDetailsStatus : RemoteData
     , listStatsStatus : RemoteData
     , peopleSeenWeeklyAll : Int
     , displayStatsModal : Bool
@@ -145,6 +149,14 @@ type alias StatsResponse =
     }
 
 
+type alias UserDetails =
+    { name : String
+    , lawCentre : LawCentre
+    , lawArea : LawArea
+    , role : Role
+    }
+
+
 type Msg
     = NoOp
     | UrlChange Navigation.Location
@@ -155,7 +167,7 @@ type Msg
     | UpdatePeopleSeen String
     | UpdatePeopleTurnedAway String
     | UpdateNewCases String
-    | UpdateSignpostedInterally String
+    | UpdateSignpostedInternally String
     | UpdateSignpostedExternally String
     | UpdateLawCentre LawCentre
     | UpdateRole Role
@@ -169,3 +181,6 @@ type Msg
     | ToggleProblem String Bool
     | ToggleAgency String Bool
     | PostReply Comment
+    | PostNewUserDetails
+    | PostUserDetailsStatus (Result Http.Error Bool)
+    | GetUserDetailsStatus (Result Http.Error UserDetails)
