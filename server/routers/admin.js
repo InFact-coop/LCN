@@ -1,81 +1,22 @@
-const User = require('../models/user');
-const { is_logged_in, is_admin } = require('./route_middleware');
 const r = require('ramda');
-const crypto = require('crypto');
-const smtpTransport = require('../config/nodemailer');
-const helpers = require('../helpers');
 
-const generate_random_token = () => {
+const User = require('../models/user');
+
+const { is_logged_in, is_admin } = require('./route_middleware');
+const { generate_random_token, parse_date } = require('../helpers');
+const { send_invite_email } = require('../helpers/email_helpers');
+const {
+  create_user_with_signup_token,
+  update_user_signup_token
+} = require('../helpers/db_helpers');
+
+const search_for_existing_user = email => {
   return new Promise((resolve, reject) => {
-    crypto.randomBytes(20, (err, buffer) => {
-      if (err) {
-        console.log('Error generating random token: ', err);
-        return reject(err);
-      }
-      const token = buffer.toString('hex');
-      return resolve(token);
+    User.findOne({ email: email }, (err, user) => {
+      if (err) return reject(err);
+      if (!user) return resolve({ [email]: {} });
+      resolve({ [user.email]: user });
     });
-  });
-};
-
-const create_user_with_signup_token = ({ token, email, name }) => {
-  return new Promise((resolve, reject) => {
-    const user = new User();
-    user.email = email;
-    user.full_name = name;
-    user.signup_token = token;
-    // TODO: change expiry date to a week
-    user.signup_expires = Date.now() + 60 * 1000;
-    user.save(function(err, updated_user) {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(updated_user);
-    });
-  });
-};
-
-const update_user_signup_token = ({ user, token }) => {
-  return new Promise((resolve, reject) => {
-    User.findByIdAndUpdate(
-      { _id: user._id },
-      {
-        signup_token: token,
-        // TODO: change expiry date to a week
-        signup_expires: Date.now() + 60 * 1000
-      },
-      { new: true },
-      (err, updated_user) => {
-        if (err) {
-          return reject(err);
-        }
-        return resolve(updated_user);
-      }
-    );
-  });
-};
-
-const send_invite_email = ({ user, token }) => {
-  const data = {
-    to: user.email,
-    from: process.env.MAILER_EMAIL_ID,
-    template: 'sign-up-email',
-    subject: "You've signed up",
-    context: {
-      name: user.full_name.split(' ')[0]
-    }
-  };
-
-  smtpTransport.sendMail(data, err => {
-    if (err) {
-      return reject(err);
-    }
-    req.flash(
-      'loginMessage',
-      'Kindly check your email for further instructions'
-    );
-
-    return resolve();
   });
 };
 
@@ -88,35 +29,15 @@ const invite_new_user = async ({ email, name }) => {
 const invite_existing_user = async user => {
   const token = await generate_random_token();
   const updated_user = await update_user_signup_token({ user, token });
-  return send_invite_email({ updated_user, token });
-};
-
-const find_by_email = email => {
-  return new Promise((resolve, reject) => {
-    User.findOne({ email: email }, (err, user) => {
-      if (err) return reject(err);
-      if (!user) return resolve({ [email]: {} });
-      resolve({ [user.email]: user });
-    });
-  });
+  return send_invite_email({ user: updated_user, token });
 };
 
 module.exports = app => {
-  // app.get('/invite-users', is_logged_in, is_admin, (req, res) => {
-  app.get('/invite-users', (req, res) => {
+  app.get('/invite-users', is_logged_in, is_admin, async (req, res) => {
     res.render('invite-users');
   });
 
-  // app.post('/invite-users', is_logged_in, is_admin, (req, res) => {
-  app.post('/invite-users', async (req, res) => {
-    const mock_data = {
-      user1: { name: 'Ivan', email: 'ivangonzalez@rocketmail.com' },
-      user2: { name: 'Max', email: 'max@email.com' },
-      user3: { name: 'Ivan', email: 'ivan@infactcoop.com' },
-      user4: { name: 'Matthew', email: 'matthew@email.com' },
-      user5: { name: '', email: '' }
-    };
-
+  app.post('/invite-users', is_logged_in, is_admin, async (req, res) => {
     const submitted_users_by_email = r.reduce(
       (acc, user_obj) => {
         return user_obj.email === ''
@@ -124,23 +45,18 @@ module.exports = app => {
           : { ...acc, [user_obj.email]: user_obj };
       },
       {},
-      // r.values(req.body)
-      r.values(mock_data)
+      r.values(req.body)
     );
 
-    // TODO: error handle errors from database
     const users_from_database = await Promise.all(
-      r.map(find_by_email, r.keys(submitted_users_by_email))
-    );
-    console.log('users from database', users_from_database);
-
-    // TODO: may be able to get rid of this as signup_expires will always be set when making a user
-    // I could have a look at making it a required field when the time comes
-
-    const parse_date = date => {
-      if (!date) return 0;
-      return Date.parse(date);
-    };
+      r.map(search_for_existing_user, r.keys(submitted_users_by_email))
+    ).catch(err => {
+      console.log('invite users err', err);
+      return res.status(400).send({
+        message:
+          'Something went wrong inviting the users, please try again in a few minutes.'
+      });
+    });
 
     const already_signed_up_users = r.pipe(
       r.filter(r.prop('signed_up')),
@@ -158,30 +74,35 @@ module.exports = app => {
       r.filter(
         user_obj =>
           user_obj.signed_up === false &&
-          parse_date(user_obj.signed_up) < Date.now()
+          parse_date(user_obj.signup_expires) < Date.now()
       ),
       r.values
     )(r.mergeAll(users_from_database));
 
-    console.log('users to invite', new_users_to_invite);
-    console.log('signed up users', already_signed_up_users);
-    console.log('existing users to invite', existing_users_to_invite);
+    const invite_new_users = r.map(invite_new_user, new_users_to_invite);
 
-    const invite_new_users = Promise.all(
-      r.map(invite_new_user, new_users_to_invite)
-    ).catch(err => console.log('invite new err', err));
+    const invite_existing_users = r.map(
+      invite_existing_user,
+      existing_users_to_invite
+    );
 
-    const invite_existing_users = Promise.all(
-      r.map(invite_existing_user, existing_users_to_invite)
-    ).catch(err => console.log('invite existing err', err));
+    await Promise.all([...invite_new_users, ...invite_existing_users]).catch(
+      err => {
+        console.log('invite users err', err);
+        return res.status(400).send({
+          message:
+            'Something went wrong inviting the users, please try again in a few minutes.'
+        });
+      }
+    );
 
-    // .then(() => res.redirect('/'))
-    // .catch(err => console.log('Invite user err', err));
+    const results = {
+      already_signed_up_users: already_signed_up_users,
+      users_invited: r.map(
+        user_obj => submitted_users_by_email[user_obj.email]
+      )([...new_users_to_invite, ...existing_users_to_invite])
+    };
 
-    // const users = await Promise.all[]
-    // check whether users already have a sign up link
-    // check whether users have already signed up
-    // sign up remaining users
-    // return list of signed up users, of already signed up users and of users already sent an invite
+    res.json(results);
   });
 };
