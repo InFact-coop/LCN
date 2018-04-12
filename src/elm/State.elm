@@ -21,11 +21,11 @@ initModel =
     , lawArea = NoArea
     , role = NoRole
     , weeklyCount = Nothing
-    , peopleSeenWeekly = -1
-    , peopleTurnedAwayWeekly = -1
-    , newCasesWeekly = -1
-    , signpostedExternallyWeekly = -1
-    , signpostedInternallyWeekly = -1
+    , peopleSeenWeekly = Nothing
+    , peopleTurnedAwayWeekly = Nothing
+    , newCasesWeekly = Nothing
+    , signpostedExternallyWeekly = Nothing
+    , signpostedInternallyWeekly = Nothing
     , commentBody = ""
     , commentType = Success
     , comments = []
@@ -64,11 +64,11 @@ update msg model =
                 , displayStatsModal = False
                 , displayCommentModal = False
                 , submitEnabled = False
-                , peopleSeenWeekly = -1
-                , peopleTurnedAwayWeekly = -1
-                , newCasesWeekly = -1
-                , signpostedInternallyWeekly = -1
-                , signpostedExternallyWeekly = -1
+                , peopleSeenWeekly = Nothing
+                , peopleTurnedAwayWeekly = Nothing
+                , newCasesWeekly = Nothing
+                , signpostedInternallyWeekly = Nothing
+                , signpostedExternallyWeekly = Nothing
             }
                 ! [ scrollToTop, handleGetComments location ]
 
@@ -118,35 +118,35 @@ update msg model =
         UpdatePeopleTurnedAway number ->
             let
                 updatedModel =
-                    { model | peopleTurnedAwayWeekly = Result.withDefault -1 (String.toInt number) }
+                    { model | peopleTurnedAwayWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
                 submitEnabledToModel updatedModel ! []
 
         UpdatePeopleSeen number ->
             let
                 updatedModel =
-                    { model | peopleSeenWeekly = Result.withDefault -1 (String.toInt number) }
+                    { model | peopleSeenWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
                 submitEnabledToModel updatedModel ! []
 
         UpdateNewCases number ->
             let
                 updatedModel =
-                    { model | newCasesWeekly = Result.withDefault -1 (String.toInt number) }
+                    { model | newCasesWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
                 submitEnabledToModel updatedModel ! []
 
-        UpdateSignpostedInterally number ->
+        UpdateSignpostedInternally number ->
             let
                 updatedModel =
-                    { model | signpostedInternallyWeekly = Result.withDefault -1 (String.toInt number) }
+                    { model | signpostedInternallyWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
                 submitEnabledToModel updatedModel ! []
 
         UpdateSignpostedExternally number ->
             let
                 updatedModel =
-                    { model | signpostedExternallyWeekly = Result.withDefault -1 (String.toInt number) }
+                    { model | signpostedExternallyWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
                 submitEnabledToModel updatedModel ! []
 
@@ -259,8 +259,8 @@ submitEnabledToModel model =
                     CaseWorker ->
                         ifThenElse
                             ((model.lawArea /= NoArea)
-                                && (model.peopleSeenWeekly /= -1)
-                                && (model.newCasesWeekly /= -1)
+                                && (model.peopleSeenWeekly /= Nothing)
+                                && (model.newCasesWeekly /= Nothing)
                                 && (not <| List.isEmpty model.problems)
                             )
                             trueModel
@@ -268,17 +268,20 @@ submitEnabledToModel model =
 
                     Triage ->
                         ifThenElse
-                            ((model.peopleSeenWeekly /= -1)
-                                && (model.peopleTurnedAwayWeekly /= -1)
-                                && (model.signpostedInternallyWeekly /= -1)
-                                && (model.signpostedExternallyWeekly /= -1)
+                            ((model.peopleSeenWeekly /= Nothing)
+                                && (model.peopleTurnedAwayWeekly /= Nothing)
+                                && (model.signpostedInternallyWeekly /= Nothing)
+                                && (model.signpostedExternallyWeekly /= Nothing)
                                 && (not <| List.isEmpty model.problems)
                             )
                             trueModel
                             falseModel
 
+                    Management ->
+                        ifThenElse (model.peopleSeenWeekly /= Nothing) trueModel falseModel
+
                     _ ->
-                        ifThenElse (model.peopleSeenWeekly /= -1) trueModel falseModel
+                        trueModel
 
             BeforeYouBegin ->
                 case model.role of

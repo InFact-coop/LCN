@@ -4,6 +4,9 @@ import Dom.Scroll exposing (..)
 import Regex exposing (..)
 import Task
 import Types exposing (..)
+import Json.Decode as Json
+import Html exposing (..)
+import Html.Events exposing (..)
 
 
 ifThenElse : Bool -> a -> a -> a
@@ -44,3 +47,21 @@ isNewEntry : String -> List String -> Bool
 isNewEntry string stringList =
     List.member string stringList
         |> not
+
+
+removeSpaces : String -> String
+removeSpaces string =
+    string
+        |> String.toLower
+        |> String.words
+        |> String.join ""
+
+
+onInputValue : (String -> msg) -> Attribute msg
+onInputValue tagger =
+    on "input" (Json.map tagger targetValue)
+
+
+onBlurValue : (String -> msg) -> Attribute msg
+onBlurValue tagger =
+    on "blur" (Json.map tagger targetValue)

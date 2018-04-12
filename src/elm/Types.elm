@@ -21,11 +21,11 @@ type alias Model =
     , lawArea : LawArea
     , role : Role
     , weeklyCount : Maybe Int
-    , peopleSeenWeekly : Int
-    , peopleTurnedAwayWeekly : Int
-    , newCasesWeekly : Int
-    , signpostedInternallyWeekly : Int
-    , signpostedExternallyWeekly : Int
+    , peopleSeenWeekly : Maybe Int
+    , peopleTurnedAwayWeekly : Maybe Int
+    , newCasesWeekly : Maybe Int
+    , signpostedInternallyWeekly : Maybe Int
+    , signpostedExternallyWeekly : Maybe Int
     , commentBody : String
     , commentType : CommentType
     , comments : List Comment
@@ -167,7 +167,7 @@ type Msg
     | UpdatePeopleSeen String
     | UpdatePeopleTurnedAway String
     | UpdateNewCases String
-    | UpdateSignpostedInterally String
+    | UpdateSignpostedInternally String
     | UpdateSignpostedExternally String
     | UpdateLawCentre LawCentre
     | UpdateRole Role
