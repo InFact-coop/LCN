@@ -18,8 +18,7 @@ const generate_random_token = () => {
   });
 };
 
-// TODO: possibly add expiry time for signup_token
-const create_user_with_sign_up_token = ({ token, email, name }) => {
+const create_user_with_signup_token = ({ token, email, name }) => {
   return new Promise((resolve, reject) => {
     const user = new User();
     user.email = email;
@@ -27,12 +26,32 @@ const create_user_with_sign_up_token = ({ token, email, name }) => {
     user.signup_token = token;
     // TODO: change expiry date to a week
     user.signup_expires = Date.now() + 60 * 1000;
-    user.save(function(err) {
+    user.save(function(err, updated_user) {
       if (err) {
         return reject(err);
       }
-      return resolve(user);
+      return resolve(updated_user);
     });
+  });
+};
+
+const update_user_signup_token = ({ user, token }) => {
+  return new Promise((resolve, reject) => {
+    User.findByIdAndUpdate(
+      { _id: user._id },
+      {
+        signup_token: token,
+        // TODO: change expiry date to a week
+        signup_expires: Date.now() + 60 * 1000
+      },
+      { new: true },
+      (err, updated_user) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(updated_user);
+      }
+    );
   });
 };
 
@@ -60,10 +79,16 @@ const send_invite_email = ({ user, token }) => {
   });
 };
 
-const invite_user = async ({ email, name }) => {
+const invite_new_user = async ({ email, name }) => {
   const token = await generate_random_token();
-  const user = await create_user_with_sign_up_token({ email, name, token });
+  const user = await create_user_with_signup_token({ email, name, token });
   return send_invite_email({ user, token });
+};
+
+const invite_existing_user = async user => {
+  const token = await generate_random_token();
+  const updated_user = await update_user_signup_token({ user, token });
+  return send_invite_email({ updated_user, token });
 };
 
 const find_by_email = email => {
@@ -103,6 +128,7 @@ module.exports = app => {
       r.values(mock_data)
     );
 
+    // TODO: error handle errors from database
     const users_from_database = await Promise.all(
       r.map(find_by_email, r.keys(submitted_users_by_email))
     );
@@ -134,17 +160,23 @@ module.exports = app => {
           user_obj.signed_up === false &&
           parse_date(user_obj.signed_up) < Date.now()
       ),
-      r.keys,
-      r.map(email => submitted_users_by_email[email])
+      r.values
     )(r.mergeAll(users_from_database));
 
     console.log('users to invite', new_users_to_invite);
     console.log('signed up users', already_signed_up_users);
     console.log('existing users to invite', existing_users_to_invite);
 
-    Promise.all(r.map(invite_user, new_users_to_invite))
-      .then(() => res.redirect('/'))
-      .catch(err => console.log('Invite user err', err));
+    const invite_new_users = Promise.all(
+      r.map(invite_new_user, new_users_to_invite)
+    ).catch(err => console.log('invite new err', err));
+
+    const invite_existing_users = Promise.all(
+      r.map(invite_existing_user, existing_users_to_invite)
+    ).catch(err => console.log('invite existing err', err));
+
+    // .then(() => res.redirect('/'))
+    // .catch(err => console.log('Invite user err', err));
 
     // const users = await Promise.all[]
     // check whether users already have a sign up link
