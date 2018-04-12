@@ -19,7 +19,7 @@ statsModal model =
     in
         section
             [ classes
-                [ "modal fixed f3 ph5 pb4 pt5 bg-white br2 w-70-ns w-90 z-2 center tc"
+                [ "modal fixed f3 ph5-ns ph4 pb4 pt5 bg-white br2 w-70-ns w-90 z-2 center tc"
                 , displayElement model.displayStatsModal
                 ]
             ]
@@ -36,8 +36,10 @@ statsModal model =
                 []
             , section [ classes [ "success" ] ]
                 [ h1 [ classes [ "f2", "mb4", "mt3" ] ] [ text <| "Thank you" ++ name ++ "!" ]
-                , h2 [ classes [ "f2", "fw3", "mt3", "mb5" ] ]
-                    [ text "We've now seen "
+                , h2 [ classes [ "f2", "fw3", "mt3" ] ]
+                    [ text "With your help," ]
+                , h2 [ classes [ "f2", "fw3", "mt3", "mb4" ] ]
+                    [ text "we've seen "
                     , span
                         [ classes
                             [ "pink"
@@ -51,9 +53,8 @@ statsModal model =
                 , h1 [ classes [ "f2" ] ]
                     [ text "What would you like to do now?" ]
                 , section
-                    [ classes [ "action-buttons", "mt3" ] ]
-                    [ modalButton "Add Comment" "#add-comment"
-                    , modalButton "See comments" "#list-comments"
+                    [ classes [ "action-buttons", "mt4-ns", "mt3" ] ]
+                    [ modalButton "See Comments" "#list-comments"
                     , modalButton "Log out" "#logout"
                     ]
                 ]

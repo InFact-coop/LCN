@@ -212,10 +212,13 @@ update msg model =
                 { model | problems = List.filter (\x -> x /= string) model.problems } ! []
 
         ToggleAgency string checked ->
-            if checked && isNewEntry string model.agencies then
-                { model | agencies = model.agencies ++ [ string ] } ! []
-            else
-                { model | agencies = List.filter (\x -> x /= string) model.agencies } ! []
+            let
+                updatedModel =
+                    ifThenElse (checked && isNewEntry string model.agencies)
+                        { model | agencies = model.agencies ++ [ string ] }
+                        { model | agencies = List.filter (\x -> x /= string) model.agencies }
+            in
+                submitEnabledToModel updatedModel ! []
 
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
@@ -272,7 +275,7 @@ submitEnabledToModel model =
                                 && (model.peopleTurnedAwayWeekly /= Nothing)
                                 && (model.signpostedInternallyWeekly /= Nothing)
                                 && (model.signpostedExternallyWeekly /= Nothing)
-                                && (not <| List.isEmpty model.problems)
+                                && (not <| List.isEmpty model.agencies)
                             )
                             trueModel
                             falseModel
