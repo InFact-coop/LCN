@@ -18,7 +18,13 @@ const randomIntegerInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const trace = label => x => {
+  console.log(label, x);
+  return x;
+};
+
 module.exports = {
   getToday,
-  randomIntegerInRange
+  randomIntegerInRange,
+  trace
 };
