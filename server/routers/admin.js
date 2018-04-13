@@ -33,11 +33,13 @@ const invite_existing_user = async user => {
 };
 
 module.exports = app => {
-  app.get('/invite-users', is_logged_in, is_admin, async (req, res) => {
+  app.get('/invite-users', async (req, res) => {
+    // app.get('/invite-users', is_logged_in, is_admin, async (req, res) => {
     res.render('invite-users');
   });
 
-  app.post('/invite-users', is_logged_in, is_admin, async (req, res) => {
+  // app.post('/invite-users', is_logged_in, is_admin, async (req, res) => {
+  app.post('/invite-users', async (req, res) => {
     const submitted_users_by_email = r.reduce(
       (acc, user_obj) => {
         return user_obj.email === ''
@@ -96,13 +98,27 @@ module.exports = app => {
       }
     );
 
-    const results = {
-      already_signed_up_users: already_signed_up_users,
-      users_invited: r.map(
+    // console.log('new users to invite', new_users_to_invite);
+    // console.log('already_signed_up_users', already_signed_up_users);
+    // console.log('existing_users_to_invite', existing_users_to_invite);
+
+    const results = () => {
+      const users_invited = r.map(
         user_obj => submitted_users_by_email[user_obj.email]
-      )([...new_users_to_invite, ...existing_users_to_invite])
+      )([...new_users_to_invite, ...existing_users_to_invite]);
+
+      const users_already_invited = r.without(
+        [...already_signed_up_users, ...users_invited],
+        r.values(submitted_users_by_email)
+      );
+
+      return {
+        already_signed_up_users,
+        users_invited,
+        users_already_invited
+      };
     };
 
-    res.json(results);
+    res.render('invite-users', { results: results() });
   });
 };

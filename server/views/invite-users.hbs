@@ -60,5 +60,23 @@
 
     </form>
 
+
+    {{#if results}}
+      <div class="">
+        <h1>Thanks!</h1>
+        <br>
+        <p>The following users have been invited</p>
+        <ul>
+          {{#each results.users_invited}}
+            <li>{{this.name}} - {{this.email}}</li>
+          {{/each}}
+        </ul>
+        <br>
+        <p>The other users submitted have either already signed up or already been sent a sign up link.</p>
+        <br>
+        <p>If you'd like to invite more users, please fill and submit the form again.</p>
+      </div>
+    {{/if}}
+
   </div>
 </div>

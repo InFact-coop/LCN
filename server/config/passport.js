@@ -37,6 +37,7 @@ module.exports = function(passport) {
               newUser.password = newUser.generateHash(password);
               newUser.full_name = req.body.full_name;
               newUser.signed_up = true;
+              newUser.signup_expires = null;
 
               newUser.save(function(err) {
                 if (err) {
