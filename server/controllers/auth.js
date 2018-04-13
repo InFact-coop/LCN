@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const crypto = require('crypto');
 const smtpTransport = require('../config/nodemailer');
+const db_helpers = require('../helpers/db_helpers');
 
 const login_post = passport => {
   return passport.authenticate('login', {
@@ -41,9 +42,9 @@ const reset_password_get = (req, res) => {
         message: req.flash('resetPasswordMessage')
       });
     } else {
-      return res.status(400).send({
+      return res.status(400).render('error', {
         message:
-          'Password reset token is invalid or has expired. Please send another.'
+          'Password reset link is invalid or has expired. Please request another one.'
       });
     }
   });
@@ -175,7 +176,30 @@ const forgot_password_post = (req, res) => {
 };
 
 const signup_get = (req, res) => {
-  res.render('signup', { message: req.flash('signupMessage') });
+  if (!req.query.token) {
+    return res.status(400).render('error', {
+      message:
+        'To sign up to this service, please get in touch with LCN who will be able to provide an invitation email.'
+    });
+  }
+
+  db_helpers
+    .find_user({
+      signup_token: req.query.token,
+      signup_expires: {
+        $gt: Date.now()
+      }
+    })
+    .then(user => {
+      res.render('signup', { message: req.flash('signupMessage') });
+    })
+    .catch(err => {
+      console.log('sign up err', err);
+      return res.status(400).render('error', {
+        message:
+          'Sign up link is invalid or has expired. Please request another one.'
+      });
+    });
 };
 
 const logout_get = (req, res) => {

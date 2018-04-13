@@ -1,5 +1,15 @@
 const User = require('../models/user');
 
+const find_user = search_params => {
+  return new Promise((resolve, reject) => {
+    User.findOne(search_params).exec((err, user) => {
+      if (err) return reject(err);
+      if (!user) return reject('No user found');
+      return resolve(user);
+    });
+  });
+};
+
 const create_user_with_signup_token = ({ token, email, name }) => {
   return new Promise((resolve, reject) => {
     const user = new User();
@@ -37,4 +47,8 @@ const update_user_signup_token = ({ user, token }) => {
   });
 };
 
-module.exports = { create_user_with_signup_token, update_user_signup_token };
+module.exports = {
+  create_user_with_signup_token,
+  update_user_signup_token,
+  find_user
+};

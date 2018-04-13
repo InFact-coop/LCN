@@ -54,7 +54,7 @@ module.exports = app => {
       r.map(search_for_existing_user, r.keys(submitted_users_by_email))
     ).catch(err => {
       console.log('invite users err', err);
-      return res.status(400).send({
+      return res.status(400).render('error', {
         message:
           'Something went wrong inviting the users, please try again in a few minutes.'
       });
@@ -91,7 +91,7 @@ module.exports = app => {
     await Promise.all([...invite_new_users, ...invite_existing_users]).catch(
       err => {
         console.log('invite users err', err);
-        return res.status(400).send({
+        return res.status(400).render('error', {
           message:
             'Something went wrong inviting the users, please try again in a few minutes.'
         });

@@ -5,9 +5,10 @@ const send_invite_email = ({ user, token }) => {
     to: user.email,
     from: process.env.MAILER_EMAIL_ID,
     template: 'sign-up-email',
-    subject: "You've signed up",
+    subject: 'Invitation to LCN Feedback App',
     context: {
-      name: user.full_name.split(' ')[0]
+      name: user.full_name.split(' ')[0],
+      url: `http://localhost:4000/sign-up?token=${user.signup_token}`
     }
   };
 
