@@ -43,8 +43,8 @@ initModel =
     , volunteersTotalWeekly = Nothing
     , studentVolunteersWeekly = Nothing
     , lawyerVolunteersWeekly = Nothing
-    , vacanciesWeekly = 0
-    , mediaCoverageWeekly = 0
+    , vacanciesWeekly = Nothing
+    , mediaCoverageWeekly = Nothing
     }
 
 
@@ -272,14 +272,14 @@ update msg model =
         UpdateVacanciesWeekly number ->
             let
                 updatedModel =
-                    { model | vacanciesWeekly = Result.withDefault 0 (String.toInt number) }
+                    { model | vacanciesWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
                 submitEnabledToModel updatedModel ! []
 
         UpdateMediaCoverageWeekly number ->
             let
                 updatedModel =
-                    { model | mediaCoverageWeekly = Result.withDefault 0 (String.toInt number) }
+                    { model | mediaCoverageWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
                 submitEnabledToModel updatedModel ! []
 

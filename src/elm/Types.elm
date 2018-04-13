@@ -27,8 +27,8 @@ type alias Model =
     , volunteersTotalWeekly : Maybe Int
     , studentVolunteersWeekly : Maybe Int
     , lawyerVolunteersWeekly : Maybe Int
-    , vacanciesWeekly : Int
-    , mediaCoverageWeekly : Int
+    , vacanciesWeekly : Maybe Int
+    , mediaCoverageWeekly : Maybe Int
     , signpostedInternallyWeekly : Maybe Int
     , signpostedExternallyWeekly : Maybe Int
     , commentBody : String
