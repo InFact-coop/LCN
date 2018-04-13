@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
+const { send_signup_confirmation_email } = require('../helpers/email_helpers');
 
 module.exports = function(passport) {
   passport.serializeUser(function(user, done) {
@@ -29,7 +30,7 @@ module.exports = function(passport) {
           );
         }
         User.findOne({ email: email }).then(user => {
-          User.findOneAndUpdate(
+          return User.findOneAndUpdate(
             { email: email },
             {
               password: user.generateHash(password),
@@ -38,12 +39,16 @@ module.exports = function(passport) {
               signup_expires: null,
               signup_token: null
             },
-            { new: true },
-            (err, updated_user) => {
-              if (err) return done(err);
+            { new: true }
+          )
+            .catch(err => {
+              console.log('signup err', err);
+              return done(err);
+            })
+            .then(updated_user => {
+              send_signup_confirmation_email(user);
               return done(null, updated_user);
-            }
-          );
+            });
         });
       }
     )
