@@ -24,6 +24,11 @@ type alias Model =
     , peopleSeenWeekly : Maybe Int
     , peopleTurnedAwayWeekly : Maybe Int
     , newCasesWeekly : Maybe Int
+    , volunteersTotalWeekly : Maybe Int
+    , studentVolunteersWeekly : Maybe Int
+    , lawyerVolunteersWeekly : Maybe Int
+    , vacanciesWeekly : Int
+    , mediaCoverageWeekly : Int
     , signpostedInternallyWeekly : Maybe Int
     , signpostedExternallyWeekly : Maybe Int
     , commentBody : String
@@ -184,3 +189,8 @@ type Msg
     | PostNewUserDetails
     | PostUserDetailsStatus (Result Http.Error Bool)
     | GetUserDetailsStatus (Result Http.Error UserDetails)
+    | UpdateVolunteersTotalWeekly String
+    | UpdateStudentVolunteersWeekly String
+    | UpdateLawyerVolunteersWeekly String
+    | UpdateVacanciesWeekly String
+    | UpdateMediaCoverageWeekly String

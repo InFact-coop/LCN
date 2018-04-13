@@ -40,6 +40,11 @@ initModel =
     , submitEnabled = False
     , postUserDetailsStatus = NotAsked
     , getUserDetailsStatus = NotAsked
+    , volunteersTotalWeekly = Nothing
+    , studentVolunteersWeekly = Nothing
+    , lawyerVolunteersWeekly = Nothing
+    , vacanciesWeekly = 0
+    , mediaCoverageWeekly = 0
     }
 
 
@@ -242,6 +247,41 @@ update msg model =
 
         GetUserDetailsStatus (Err err) ->
             { model | getUserDetailsStatus = ResponseFailure, view = BeforeYouBegin } ! []
+
+        UpdateVolunteersTotalWeekly number ->
+            let
+                updatedModel =
+                    { model | volunteersTotalWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
+
+        UpdateStudentVolunteersWeekly number ->
+            let
+                updatedModel =
+                    { model | studentVolunteersWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
+
+        UpdateLawyerVolunteersWeekly number ->
+            let
+                updatedModel =
+                    { model | lawyerVolunteersWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
+
+        UpdateVacanciesWeekly number ->
+            let
+                updatedModel =
+                    { model | vacanciesWeekly = Result.withDefault 0 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
+
+        UpdateMediaCoverageWeekly number ->
+            let
+                updatedModel =
+                    { model | mediaCoverageWeekly = Result.withDefault 0 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
 
 
 submitEnabledToModel : Model -> Model
