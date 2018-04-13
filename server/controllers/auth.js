@@ -3,24 +3,64 @@ const crypto = require('crypto');
 const smtpTransport = require('../config/nodemailer');
 const db_helpers = require('../helpers/db_helpers');
 
+const signup_get = (req, res) => {
+  if (!req.query.token) {
+    return res.status(400).render('error', {
+      message:
+        'To sign up to this service, please get in touch with LCN who will be able to provide an invitation email.'
+    });
+  }
+
+  db_helpers
+    .find_user({
+      signup_token: req.query.token,
+      signup_expires: {
+        $gt: Date.now()
+      }
+    })
+    .then(user => {
+      res.render('signup', {
+        message: req.flash('signupMessage'),
+        token: req.query.token
+      });
+    })
+    .catch(err => {
+      console.log('sign up err', err);
+      return res.status(400).render('error', {
+        message:
+          'Sign up link is invalid or has expired. Please request another one.'
+      });
+    });
+};
+
+const signup_post = passport => (req, res, next) => {
+  console.log('in here');
+  const redirectURL = `/signup?token=${req.body.token}`;
+  passport.authenticate('signup', (err, user, info) => {
+    console.log('in auth');
+    if (err) {
+      return res.status(400).render('error', {
+        message:
+          'Something went wrong signing up, please try again in a few minutes'
+      });
+    }
+    if (!user) {
+      return res.redirect(redirectURL);
+    }
+    res.redirect('/');
+  })(req, res, next);
+};
+
+const login_get = (req, res) => {
+  res.render('login', { message: req.flash('loginMessage') });
+};
+
 const login_post = passport => {
   return passport.authenticate('login', {
     successRedirect: '/',
     failureRedirect: '/',
     failureFlash: true
   });
-};
-
-const signup_post = passport => {
-  return passport.authenticate('signup', {
-    successRedirect: '/',
-    failureRedirect: '/signup',
-    failureFlash: true
-  });
-};
-
-const login_get = (req, res) => {
-  res.render('login', { message: req.flash('loginMessage') });
 };
 
 const home_get = (req, res) => {
@@ -50,7 +90,7 @@ const reset_password_get = (req, res) => {
   });
 };
 
-const reset_password_post = (req, res, next) => {
+const reset_password_post = (req, res) => {
   const redirectURL = `/reset-password?token=${req.body.token}`;
   User.findOne({
     reset_password_token: req.body.token,
@@ -172,33 +212,6 @@ const forgot_password_post = (req, res) => {
       console.log('err', err);
       req.flash('forgotPasswordMessage', err);
       return res.redirect('/forgot-password');
-    });
-};
-
-const signup_get = (req, res) => {
-  if (!req.query.token) {
-    return res.status(400).render('error', {
-      message:
-        'To sign up to this service, please get in touch with LCN who will be able to provide an invitation email.'
-    });
-  }
-
-  db_helpers
-    .find_user({
-      signup_token: req.query.token,
-      signup_expires: {
-        $gt: Date.now()
-      }
-    })
-    .then(user => {
-      res.render('signup', { message: req.flash('signupMessage') });
-    })
-    .catch(err => {
-      console.log('sign up err', err);
-      return res.status(400).render('error', {
-        message:
-          'Sign up link is invalid or has expired. Please request another one.'
-      });
     });
 };
 
