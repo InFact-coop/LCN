@@ -21,7 +21,8 @@ const signup_get = (req, res) => {
     .then(user => {
       res.render('signup', {
         message: req.flash('signupMessage'),
-        token: req.query.token
+        token: req.query.token,
+        user: user
       });
     })
     .catch(err => {
@@ -34,20 +35,11 @@ const signup_get = (req, res) => {
 };
 
 const signup_post = passport => (req, res, next) => {
-  console.log('in here');
   const redirectURL = `/signup?token=${req.body.token}`;
-  passport.authenticate('signup', (err, user, info) => {
-    console.log('in auth');
-    if (err) {
-      return res.status(400).render('error', {
-        message:
-          'Something went wrong signing up, please try again in a few minutes'
-      });
-    }
-    if (!user) {
-      return res.redirect(redirectURL);
-    }
-    res.redirect('/');
+  return passport.authenticate('signup', {
+    successRedirect: '/',
+    failureRedirect: redirectURL,
+    failureFlash: true
   })(req, res, next);
 };
 
@@ -110,8 +102,8 @@ const reset_password_post = (req, res) => {
       return res.redirect(redirectURL);
     }
     user.password = user.generateHash(req.body.password);
-    user.reset_password_token = undefined;
-    user.reset_password_expires = undefined;
+    user.reset_password_token = null;
+    user.reset_password_expires = null;
     user.save(err => {
       if (err) {
         req.flash(

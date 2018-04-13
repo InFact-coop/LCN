@@ -3,8 +3,11 @@
     <form action="/signup" method="POST" class="flex items-center justify-between flex-column bg-white">
       {{> logo}}
       {{> flash-message}}
-      {{> full-name-input}}
-      {{> email-input}}
+      {{> full-name-input user}}
+      <div class="flex items-center w-100-ns w-90 bb bw1 mb4 pb2 b--orange">
+        <label class="fw5 f4 mr3" for="email">Email: </label>
+        <input id="email" type="email" class="b--none fw3 flex1 f4" name="email" value={{user.email}} required readonly>
+      </div>
       {{> new-password-input}}
       {{> confirm-password-input}}
       {{> token-input}}
