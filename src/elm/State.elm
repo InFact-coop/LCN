@@ -318,7 +318,20 @@ submitEnabledToModel model =
                             falseModel
 
                     Management ->
-                        ifThenElse (model.peopleSeenWeekly /= Nothing) trueModel falseModel
+                        ifThenElse
+                            (model.volunteersTotalWeekly
+                                /= Nothing
+                                && model.studentVolunteersWeekly
+                                /= Nothing
+                                && model.lawyerVolunteersWeekly
+                                /= Nothing
+                                && model.vacanciesWeekly
+                                /= Nothing
+                                && model.mediaCoverageWeekly
+                                /= Nothing
+                            )
+                            trueModel
+                            falseModel
 
                     _ ->
                         trueModel
