@@ -25,7 +25,7 @@ statsThisWeek model =
                 [ numericalInput model.peopleSeenWeekly True peopleSeenText "green" UpdatePeopleSeen
                 , numericalInput model.newCasesWeekly (model.role == CaseWorker) "Of these, how many cases were new (even with a returning client)?" "pink" UpdateNewCases
                 , numericalInput model.peopleTurnedAwayWeekly (model.role == Triage) "How many enquiries have you had to turn away without signposting anywhere?" "blue" UpdatePeopleTurnedAway
-                , numericalInput model.signpostedInternallyWeekly (model.role == Triage) "How many enquiries were signposted to one-off Law Centre advice? (include drop in or pro bono clinics)" "orange" UpdateSignpostedInternally
+                , numericalInput model.signpostedInternallyWeekly (model.role == Triage) "How many enquiries were signposted to one-off Law Centre advice? (include drop-in & pro-bono clinics)" "orange" UpdateSignpostedInternally
                 , numericalInput model.signpostedExternallyWeekly (model.role == Triage) "How many enquiries were referred to other agencies?" "pink" UpdateSignpostedExternally
                 , div [ classes [ "mb4", displayElement (model.role == Triage) ] ]
                     [ label [ for "agencyTypes", classes [ "mb4", bodyFont ] ] [ text "Tick the main types of agencies you referred to this week:" ]
@@ -57,16 +57,18 @@ numericalInput valueFromModel shouldDisplay labelContent thumbColour msg =
             [ classes [ "mb5", displayElement shouldDisplay ] ]
             [ label [ for <| removeSpaces labelContent, classes [ "mb4", bodyFont ] ]
                 [ text labelContent ]
-            , input
-                [ id <| removeSpaces labelContent
-                , type_ "range"
-                , Attr.min "0"
-                , Attr.max "50"
-                , step "1"
-                , value maybeValue
-                , classes [ "w-75 bg-white br-pill input-reset h-custom slider mt3", thumbColour ++ "-thumb" ]
-                , onInputValue msg
+            , div []
+                [ input
+                    [ id <| removeSpaces labelContent
+                    , type_ "range"
+                    , Attr.min "0"
+                    , Attr.max "50"
+                    , step "1"
+                    , value maybeValue
+                    , classes [ "w-75 bg-white br-pill input-reset h-custom slider mt3", thumbColour ++ "-thumb" ]
+                    , onInputValue msg
+                    ]
+                    []
+                , input [ type_ "number", value maybeValue, class "mt3 ml3 dib f5 ba br3 b--light-gray pv1 tc w2d5", onBlurValue msg ] []
                 ]
-                []
-            , input [ type_ "number", value maybeValue, class "mt3 ml3 dib f5 ba br3 b--light-gray pv1 tc w2d5", onBlurValue msg ] []
             ]
