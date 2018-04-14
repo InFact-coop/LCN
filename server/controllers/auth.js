@@ -177,7 +177,7 @@ const forgot_password_post = (req, res) => {
         subject: 'Password help has arrived!',
         context: {
           url:
-            'http://localhost:4000/reset-password?token=' +
+            'https://lawcentres.herokuapp.com/reset-password?token=' +
             updatedUser.reset_password_token,
           name: updatedUser.full_name.split(' ')[0]
         }
