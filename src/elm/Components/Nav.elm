@@ -1,6 +1,6 @@
 module Components.Nav exposing (navBar)
 
-import Components.StyleHelpers exposing (classes, navLinkFont, navLinkStyle)
+import Components.StyleHelpers exposing (classes, emptySpan, navLinkFont, navLinkStyle)
 import Helpers exposing (ifThenElse)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -14,6 +14,7 @@ navBar model =
         , div [ class "dn db-ns" ]
             [ a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/#add-comment" ] [ text "Add Comment" ]
             , a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/#list-comments" ] [ text "Comments" ]
+            , ifThenElse (model.isAdmin) (a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/invite-users" ] [ text "Invite users" ]) (emptySpan)
             , a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/logout" ] [ text "Log out" ]
             ]
         ]

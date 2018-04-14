@@ -70,9 +70,9 @@ classes classList =
         |> class
 
 
-emptyDiv : Html msg
-emptyDiv =
-    div [ class "dn" ] []
+emptySpan : Html msg
+emptySpan =
+    span [ class "dn" ] []
 
 
 displayElement : Bool -> String

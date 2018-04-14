@@ -1,7 +1,7 @@
 module Views.ListComments exposing (..)
 
 import Components.ChooseTopic exposing (chooseTopic)
-import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, displayElement, emptyDiv, headlineFont, textareaFont, topicButtonFont)
+import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, displayElement, emptySpan, headlineFont, textareaFont, topicButtonFont)
 import Data.Comment exposing (defaultComment, getCommentByCommentId, hasParentId)
 import Data.CommentType exposing (commentTypeColor, commentTypeColorLight, commentTypes)
 import Helpers exposing (ifThenElse, unionTypeToString)
@@ -95,7 +95,7 @@ singleComment model comment =
                 , span [] [ text " - " ]
                 , h1 [ classes [ "di", "fw3", "f3" ] ] [ text <| ifThenElse (comment.lawCentre /= NoCentre) ((unionTypeToString comment.lawCentre) ++ " Law Centre") ("Law Centres Network") ]
                 , ifThenElse (hasParentId comment)
-                    emptyDiv
+                    emptySpan
                     (h2 [ class "di fw3 f3 i" ] [ text <| " - In reply to " ++ ifThenElse (parentComment.name /= "") parentComment.name "anonymous" ])
                 ]
             , p [ classes [ "f4 lh-copy fw3", "mb3" ] ] [ text comment.commentBody ]
@@ -173,4 +173,4 @@ showParentComment model comment =
             parentComment model (getCommentByCommentId model commentId)
 
         Nothing ->
-            emptyDiv
+            emptySpan

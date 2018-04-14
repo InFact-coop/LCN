@@ -20,6 +20,7 @@ initModel =
     , lawCentre = NoCentre
     , lawArea = NoArea
     , role = NoRole
+    , isAdmin = False
     , weeklyCount = Nothing
     , peopleSeenWeekly = Nothing
     , peopleTurnedAwayWeekly = Nothing
@@ -217,10 +218,13 @@ update msg model =
                 { model | problems = List.filter (\x -> x /= string) model.problems } ! []
 
         ToggleAgency string checked ->
-            if checked && isNewEntry string model.agencies then
-                { model | agencies = model.agencies ++ [ string ] } ! []
-            else
-                { model | agencies = List.filter (\x -> x /= string) model.agencies } ! []
+            let
+                updatedModel =
+                    ifThenElse (checked && isNewEntry string model.agencies)
+                        { model | agencies = model.agencies ++ [ string ] }
+                        { model | agencies = List.filter (\x -> x /= string) model.agencies }
+            in
+                submitEnabledToModel updatedModel ! []
 
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
@@ -237,12 +241,23 @@ update msg model =
         PostNewUserDetails ->
             let
                 updatedModel =
-                    { model | postUserDetailsStatus = Loading, lawArea = ifThenElse (model.role == CaseWorker) model.lawArea NoArea }
+                    { model
+                        | postUserDetailsStatus = Loading
+                        , lawArea = ifThenElse (model.role == CaseWorker) model.lawArea NoArea
+                    }
             in
                 updatedModel ! [ postNewUserDetails updatedModel ]
 
-        GetUserDetailsStatus (Ok { name, lawCentre, lawArea, role }) ->
-            { model | name = name, lawCentre = lawCentre, lawArea = lawArea, role = role, getUserDetailsStatus = ResponseSuccess, view = ifThenElse (lawCentre == NoCentre || role == NoRole) BeforeYouBegin AddStats }
+        GetUserDetailsStatus (Ok { name, lawCentre, lawArea, role, admin }) ->
+            { model
+                | name = name
+                , lawCentre = lawCentre
+                , lawArea = lawArea
+                , role = role
+                , isAdmin = admin
+                , getUserDetailsStatus = ResponseSuccess
+                , view = ifThenElse (lawCentre == NoCentre || role == NoRole) BeforeYouBegin AddStats
+            }
                 ! []
 
         GetUserDetailsStatus (Err err) ->
@@ -312,7 +327,7 @@ submitEnabledToModel model =
                                 && (model.peopleTurnedAwayWeekly /= Nothing)
                                 && (model.signpostedInternallyWeekly /= Nothing)
                                 && (model.signpostedExternallyWeekly /= Nothing)
-                                && (not <| List.isEmpty model.problems)
+                                && (not <| List.isEmpty model.agencies)
                             )
                             trueModel
                             falseModel

@@ -53,4 +53,4 @@ bigColouredButton model colour label clickMsg =
 
 modalButton : String -> String -> Html Msg
 modalButton label linkTo =
-    a [ classes [ "dib", "link", "black", "pv2", "ph3", "ma2", "br4", "fw3", "f4", "ba", "b--light-gray", "bw1", "pointer" ], href linkTo, onClick ToggleStatsModal ] [ text label ]
+    a [ classes [ "dib", "link", "black", "pv3", "w-33-l", "w-60-m", "w-100", "mb3", "mh2-l", "br4", "fw3", "f4", "ba", "b--light-gray", "bw1", "pointer", "grow" ], href linkTo, onClick ToggleStatsModal ] [ text label ]

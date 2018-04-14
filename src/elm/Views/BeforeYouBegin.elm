@@ -20,7 +20,7 @@ beforeYouBegin model =
         [ classes [ "flex justify-center pa3-ns pv3", ifThenElse model.displayStatsModal "disableButton" "" ] ]
         [ section [ class "w-80-ns w-90" ]
             [ section [ class "mb4" ]
-                [ h1 [ classes [ "tl mb3", headlineFont ] ] [ text "Before you begin..." ]
+                [ h1 [ classes [ "tl mb3", headlineFont ] ] [ text "Thank you for signing up!" ]
                 , p [ class bodyFont ]
                     [ text introText ]
                 ]
