@@ -18,11 +18,11 @@ const signup_get = (req, res) => {
         $gt: Date.now()
       }
     })
-    .then(user => {
+    .then(({ full_name, email }) => {
       res.render('signup', {
         message: req.flash('signupMessage'),
         token: req.query.token,
-        user: user
+        user: { full_name, email }
       });
     })
     .catch(err => {
@@ -166,7 +166,7 @@ const forgot_password_post = (req, res) => {
           reset_password_token: token,
           reset_password_expires: Date.now() + 24 * 60 * 60 * 1000
         },
-        { upsert: true, new: true }
+        { new: true }
       );
     })
     .then(updatedUser => {
