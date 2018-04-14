@@ -188,7 +188,7 @@ const forgot_password_post = (req, res) => {
           if (!err) {
             req.flash(
               'loginMessage',
-              'Kindly check your email for further instructions'
+              'Please check your email for further instructions'
             );
             return res.redirect('/');
           } else {

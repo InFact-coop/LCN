@@ -54,7 +54,8 @@ router
           full_name: user.full_name,
           law_centre: user.law_centre,
           law_area: user.law_area,
-          job_role: user.job_role
+          job_role: user.job_role,
+          admin: user.admin
         });
       })
       .catch(err => {
