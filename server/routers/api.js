@@ -14,13 +14,11 @@ Airtable.configure({
 router.route('/post-comment').post((req, res) => {
   let newForm = req.body;
   newForm['Likes'] = helpers.randomIntegerInRange(0, 300);
-  console.log('newForm', newForm);
   base('Qual').create(newForm, (err, record) => {
     if (err) {
       console.log('ERR', err);
       return res.status(500).json({ success: false });
     }
-    console.log('SUCCESS', record);
     return res.json({ success: true });
   });
 });
@@ -56,7 +54,8 @@ router
           full_name: user.full_name,
           law_centre: user.law_centre,
           law_area: user.law_area,
-          job_role: user.job_role
+          job_role: user.job_role,
+          admin: user.admin
         });
       })
       .catch(err => {
@@ -69,13 +68,11 @@ router.route('/post-stats').post((req, res) => {
   let newForm = req.body;
   newForm['Date'] = helpers.getToday();
   let peopleSeen = 0;
-  console.log('STATS: ', newForm);
   base('Quant').create(newForm, (err, record) => {
     if (err) {
       console.log('Post Stats Error', err);
       return res.status(500).json({ postSuccess: false });
     }
-    console.log('POST SUCCESS', record);
     base('Quant')
       .select({
         fields: ['People seen weekly'],
@@ -94,7 +91,6 @@ router.route('/post-stats').post((req, res) => {
             console.error('Get Stats Error', err);
             return res.json({ postSuccess: true, getSuccess: false });
           }
-          console.log('Get Stats Success', peopleSeen);
           return res.json({ postSuccess: true, getSuccess: true, peopleSeen });
         }
       );
@@ -123,7 +119,6 @@ router.route('/get-comments').get((req, res) => {
         const commentsWithNumericalDate = comments.map(
           R.over(createdTimeLens, dateStringToNumber)
         );
-        console.log(commentsWithNumericalDate);
         return res.json(commentsWithNumericalDate);
       }
     );

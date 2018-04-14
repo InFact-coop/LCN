@@ -1,10 +1,50 @@
 const User = require('../models/user');
 const crypto = require('crypto');
 const smtpTransport = require('../config/nodemailer');
+const db_helpers = require('../helpers/db_helpers');
 
-const is_logged_in = (req, res, next) => {
-  if (req.isAuthenticated()) return next();
-  res.redirect('/login');
+const signup_get = (req, res) => {
+  if (!req.query.token) {
+    return res.status(400).render('error', {
+      message:
+        'To sign up to this service, please get in touch with LCN who will be able to provide an invitation email.'
+    });
+  }
+
+  db_helpers
+    .find_user({
+      signup_token: req.query.token,
+      signup_expires: {
+        $gt: Date.now()
+      }
+    })
+    .then(({ full_name, email }) => {
+      res.render('signup', {
+        message: req.flash('signupMessage'),
+        token: req.query.token,
+        user: { full_name, email }
+      });
+    })
+    .catch(err => {
+      console.log('sign up err', err);
+      return res.status(400).render('error', {
+        message:
+          'Sign up link is invalid or has expired. Please request another one.'
+      });
+    });
+};
+
+const signup_post = passport => (req, res, next) => {
+  const redirectURL = `/signup?token=${req.body.token}`;
+  return passport.authenticate('signup', {
+    successRedirect: '/',
+    failureRedirect: redirectURL,
+    failureFlash: true
+  })(req, res, next);
+};
+
+const login_get = (req, res) => {
+  res.render('login', { message: req.flash('loginMessage') });
 };
 
 const login_post = passport => {
@@ -13,18 +53,6 @@ const login_post = passport => {
     failureRedirect: '/',
     failureFlash: true
   });
-};
-
-const signup_post = passport => {
-  return passport.authenticate('signup', {
-    successRedirect: '/',
-    failureRedirect: '/signup',
-    failureFlash: true
-  });
-};
-
-const login_get = (req, res) => {
-  res.render('login', { message: req.flash('loginMessage') });
 };
 
 const home_get = (req, res) => {
@@ -46,15 +74,15 @@ const reset_password_get = (req, res) => {
         message: req.flash('resetPasswordMessage')
       });
     } else {
-      return res.status(400).send({
+      return res.status(400).render('error', {
         message:
-          'Password reset token is invalid or has expired. Please send another.'
+          'Password reset link is invalid or has expired. Please request another one.'
       });
     }
   });
 };
 
-const reset_password_post = (req, res, next) => {
+const reset_password_post = (req, res) => {
   const redirectURL = `/reset-password?token=${req.body.token}`;
   User.findOne({
     reset_password_token: req.body.token,
@@ -74,8 +102,8 @@ const reset_password_post = (req, res, next) => {
       return res.redirect(redirectURL);
     }
     user.password = user.generateHash(req.body.password);
-    user.reset_password_token = undefined;
-    user.reset_password_expires = undefined;
+    user.reset_password_token = null;
+    user.reset_password_expires = null;
     user.save(err => {
       if (err) {
         req.flash(
@@ -138,7 +166,7 @@ const forgot_password_post = (req, res) => {
           reset_password_token: token,
           reset_password_expires: Date.now() + 24 * 60 * 60 * 1000
         },
-        { upsert: true, new: true }
+        { new: true }
       );
     })
     .then(updatedUser => {
@@ -149,7 +177,7 @@ const forgot_password_post = (req, res) => {
         subject: 'Password help has arrived!',
         context: {
           url:
-            'http://localhost:4000/reset-password?token=' +
+            'https://lawcentres.herokuapp.com/reset-password?token=' +
             updatedUser.reset_password_token,
           name: updatedUser.full_name.split(' ')[0]
         }
@@ -160,7 +188,7 @@ const forgot_password_post = (req, res) => {
           if (!err) {
             req.flash(
               'loginMessage',
-              'Kindly check your email for further instructions'
+              'Please check your email for further instructions'
             );
             return res.redirect('/');
           } else {
@@ -179,10 +207,6 @@ const forgot_password_post = (req, res) => {
     });
 };
 
-const signup_get = (req, res) => {
-  res.render('signup', { message: req.flash('signupMessage') });
-};
-
 const logout_get = (req, res) => {
   req.logout();
   res.redirect('/');
@@ -197,7 +221,6 @@ module.exports = {
   forgot_password_post,
   signup_get,
   logout_get,
-  is_logged_in,
   login_post,
   signup_post
 };

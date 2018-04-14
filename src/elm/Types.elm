@@ -20,6 +20,7 @@ type alias Model =
     , lawCentre : LawCentre
     , lawArea : LawArea
     , role : Role
+    , isAdmin : Bool
     , weeklyCount : Maybe Int
     , peopleSeenWeekly : Maybe Int
     , peopleTurnedAwayWeekly : Maybe Int
@@ -154,6 +155,7 @@ type alias UserDetails =
     , lawCentre : LawCentre
     , lawArea : LawArea
     , role : Role
+    , admin : Bool
     }
 
 

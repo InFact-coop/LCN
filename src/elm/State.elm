@@ -20,6 +20,7 @@ initModel =
     , lawCentre = NoCentre
     , lawArea = NoArea
     , role = NoRole
+    , isAdmin = False
     , weeklyCount = Nothing
     , peopleSeenWeekly = Nothing
     , peopleTurnedAwayWeekly = Nothing
@@ -235,12 +236,23 @@ update msg model =
         PostNewUserDetails ->
             let
                 updatedModel =
-                    { model | postUserDetailsStatus = Loading, lawArea = ifThenElse (model.role == CaseWorker) model.lawArea NoArea }
+                    { model
+                        | postUserDetailsStatus = Loading
+                        , lawArea = ifThenElse (model.role == CaseWorker) model.lawArea NoArea
+                    }
             in
                 updatedModel ! [ postNewUserDetails updatedModel ]
 
-        GetUserDetailsStatus (Ok { name, lawCentre, lawArea, role }) ->
-            { model | name = name, lawCentre = lawCentre, lawArea = lawArea, role = role, getUserDetailsStatus = ResponseSuccess, view = ifThenElse (lawCentre == NoCentre || role == NoRole) BeforeYouBegin AddStats }
+        GetUserDetailsStatus (Ok { name, lawCentre, lawArea, role, admin }) ->
+            { model
+                | name = name
+                , lawCentre = lawCentre
+                , lawArea = lawArea
+                , role = role
+                , isAdmin = admin
+                , getUserDetailsStatus = ResponseSuccess
+                , view = ifThenElse (lawCentre == NoCentre || role == NoRole) BeforeYouBegin AddStats
+            }
                 ! []
 
         GetUserDetailsStatus (Err err) ->
