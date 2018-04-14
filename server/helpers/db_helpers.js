@@ -45,8 +45,19 @@ const update_user_signup_token = ({ user, token }) => {
   });
 };
 
+const search_for_existing_user = email => {
+  return new Promise((resolve, reject) => {
+    User.findOne({ email: email }, (err, user) => {
+      if (err) return reject(err);
+      if (!user) return resolve({ [email]: {} });
+      resolve({ [user.email]: user });
+    });
+  });
+};
+
 module.exports = {
   create_user_with_signup_token,
   update_user_signup_token,
-  find_user
+  find_user,
+  search_for_existing_user
 };
