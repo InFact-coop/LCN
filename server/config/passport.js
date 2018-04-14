@@ -69,14 +69,17 @@ module.exports = function(passport) {
             return done(
               null,
               false,
-              req.flash('loginMessage', 'No user found')
+              req.flash(
+                'loginMessage',
+                'We do not recognise that email address'
+              )
             );
           }
           if (!user.validPassword(password)) {
             return done(
               null,
               false,
-              req.flash('loginMessage', 'Oops! Wrong password.')
+              req.flash('loginMessage', 'Oops! That was the wrong password')
             );
           }
           return done(null, user);

@@ -1,82 +1,56 @@
-<div class="flex flex-column items-center">
-  <h1>Invite others (admin)</h1>
-  <p>As an admin, you're able to invite people to join the LCN app. Please enter their details below and click 'Submit' to invite them.</p>
+<div class="bg-white center">
+  <nav class="w-100 mw9 h4 bg-white flex-row justify-between items-center flex flex-row justify-between items-center center">
+    <a href="/" class="pointer"><img src="/assets/lcn-logo.png" class="h4"></a>
+    <div class="dn db-ns">
+      <a class="dib mh3 black f4 link pointer" href="/">Back to App</a>
+      <a class="dib mh3 black f4 link pointer" href="/logout">Log out</a>
+    </div>
+  </nav>
+</div>
 
-  <div class="flex flex-column pv4 mw6">
+<div class="flex flex-column mt4 mw7-ns center">
+  <h1 class="f3 fw6">Invite others (admin)</h1>
+  <p class="f4 lh-copy fw3">As an admin, you're able to invite people to join the LCN app. Please enter their details below and click 'Submit' to invite them.</p>
+
+  <div class="flex flex-column pv4">
     <div class="flex flex-row">
       <div class="w-third">
-        <h2>Name</h2>
+        <h2 class="f3 fw6">Name</h2>
       </div>
       <div class="w-two-thirds">
-        <h2>Email</h2>
+        <h2 class="f3 fw6 ml3">Email</h2>
       </div>
     </div>
-    <hr>
+
+    <hr class="ml0 mr0 w-100 mt2 mb3 b--black-10">
 
     <form class="" action="/invite-users" method="post">
 
-      <div class="flex flex-row">
-        <div class="w-third">
-          <input type="text" name="user1[name]" class="w-100">
-        </div>
-        <div class="w-two-thirds">
-          <input type="email" name="user1[email]" class="w-100">
-        </div>
-      </div>
-      <div class="flex flex-row">
-        <div class="w-third">
-          <input type="text" name="user2[name]" class="w-100">
-        </div>
-        <div class="w-two-thirds">
-          <input type="email" name="user2[email]" class="w-100">
-        </div>
-      </div>
-      <div class="flex flex-row">
-        <div class="w-third">
-          <input type="text" name="user3[name]" class="w-100">
-        </div>
-        <div class="w-two-thirds">
-          <input type="email" name="user3[email]" class="w-100">
-        </div>
-      </div>
-      <div class="flex flex-row">
-        <div class="w-third">
-          <input type="text" name="user4[name]" class="w-100">
-        </div>
-        <div class="w-two-thirds">
-          <input type="email" name="user4[email]" class="w-100">
-        </div>
-      </div>
-      <div class="flex flex-row">
-        <div class="w-third">
-          <input type="text" name="user5[name]" class="w-100">
-        </div>
-        <div class="w-two-thirds">
-          <input type="email" name="user5[email]" class="w-100">
-        </div>
-      </div>
+      {{> name-email-invite-inputs name="user1[name]" email="user1[email]"}}
+      {{> name-email-invite-inputs name="user2[name]" email="user2[email]"}}
+      {{> name-email-invite-inputs name="user3[name]" email="user3[email]"}}
+      {{> name-email-invite-inputs name="user4[name]" email="user4[email]"}}
+      {{> name-email-invite-inputs name="user5[name]" email="user5[email]"}}
 
       <button type="submit">Submit</button>
 
     </form>
-
-
-    {{#if results}}
-      <div class="">
-        <h1>Thanks!</h1>
-        <br>
-        <p>The following users have been invited</p>
-        <ul>
-          {{#each results.users_invited}}
-            <li>{{this.name}} - {{this.email}}</li>
-          {{/each}}
-        </ul>
-        <br>
-        <p>The other users submitted have either already signed up or already been sent a sign up link.</p>
-        <br>
-        <p>If you'd like to invite more users, please fill and submit the form again.</p>
-      </div>
-    {{/if}}
-
   </div>
+
+  {{#if results}}
+    <div class="">
+      <h1>Thanks!</h1>
+      <br>
+      <p>The following users have been invited</p>
+      <ul>
+        {{#each results.users_invited}}
+          <li>{{this.name}} - {{this.email}}</li>
+        {{/each}}
+      </ul>
+      <br>
+      <p>The other users submitted have either already signed up or already been sent a sign up link.</p>
+      <br>
+      <p>If you'd like to invite more users, please fill and submit the form again.</p>
+    </div>
+  {{/if}}
 </div>
