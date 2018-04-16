@@ -19,7 +19,7 @@ statsModal model =
     in
         section
             [ classes
-                [ "modal fixed f3 ph5-ns ph4 pb4 pt5 bg-white br2 w-70-ns w-90 z-2 center tc"
+                [ "modal fixed f3 ph5-ns ph4 pb4 pt5 bg-white br2 w-70-ns w-90 z-3 center tc"
                 , displayElement model.displayStatsModal
                 ]
             ]
@@ -70,7 +70,7 @@ modalBackground model =
             , "fixed"
             , "bg-black"
             , "o-70"
-            , "z-1"
+            , "z-2"
             , "absolute"
             , displayElement model.displayStatsModal
             ]
