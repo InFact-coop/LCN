@@ -67,6 +67,7 @@ type alias Comment =
     , lawArea : LawArea
     , createdAt : Time
     , showReplyInput : Bool
+    , likedByUser : Bool
     }
 
 

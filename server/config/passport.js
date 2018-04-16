@@ -37,7 +37,8 @@ module.exports = function(passport) {
               full_name: req.body.full_name,
               signed_up: true,
               signup_expires: null,
-              signup_token: null
+              signup_token: null,
+              comments_liked: []
             },
             { new: true }
           )

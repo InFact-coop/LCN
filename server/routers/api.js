@@ -13,7 +13,7 @@ Airtable.configure({
 
 router.route('/post-comment').post((req, res) => {
   let newForm = req.body;
-  newForm['Likes'] = helpers.randomIntegerInRange(0, 300);
+  newForm['Likes'] = 0;
   base('Qual').create(newForm, (err, record) => {
     if (err) {
       console.log('ERR', err);
