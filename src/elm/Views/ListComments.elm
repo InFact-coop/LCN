@@ -158,11 +158,12 @@ replyComponent parentComment =
             ]
             []
         , img
-            [ classes [ "h2", "w2", "pointer" ]
+            [ classes [ "h2", "w2", "pointer", "dn-ns" ]
             , src <| "./assets/send-" ++ (commentTypeColor parentComment.commentType) ++ ".svg"
             , onClick <| PostReply parentComment
             ]
             []
+        , button [ classes [ "bg-" ++ commentTypeColor parentComment.commentType, "dn-s", "white", "bn br2 pv2 ph3 f5" ] ] [ text "Send" ]
         ]
 
 
