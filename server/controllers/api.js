@@ -4,6 +4,14 @@ const base = Airtable.base(process.env.AIRTABLE_BASE);
 const fs = require('fs');
 const R = require('ramda');
 const helpers = require('../helpers');
+const {
+  retrieve_comment_likes,
+  upvote_comment
+} = require('../helpers/airtable_helpers');
+const {
+  update_user_comments_liked,
+  check_user_commented
+} = require('../helpers/db_helpers');
 
 Airtable.configure({
   endpointUrl: 'https://api.airtable.com',
@@ -22,9 +30,21 @@ const post_comment = (req, res) => {
   });
 };
 
-const post_upvote = (req, res) => {
-  console.log('req.body', req.body);
-  return res.json({ success: true });
+const post_upvote = async (req, res) => {
+  const commentId = req.body.comment_id;
+  try {
+    const likes = await retrieve_comment_likes(commentId);
+    const likesUpVoted = await upvote_comment(commentId, likes);
+    const updateUser = await update_user_comments_liked(req.user, commentId);
+    return res.json({
+      success: true,
+      commentId: commentId,
+      commentLikes: likesUpVoted
+    });
+  } catch (err) {
+    console.log('Error upvoting comment: ', err);
+    return res.status(500).json({ success: false });
+  }
 };
 
 const post_user_details = (req, res) => {
@@ -112,17 +132,30 @@ const get_comments = (req, res) => {
 
         fetchNextPage();
       },
-      function done(err) {
+      async function done(err) {
         if (err) {
           console.error('ERR', err);
           return res.status(500).json({ success: false });
         }
         const dateStringToNumber = str => new Date(str).getTime();
         const createdTimeLens = R.lensProp('createdTime');
-        const commentsWithNumericalDate = comments.map(
+        const datedComments = comments.map(
           R.over(createdTimeLens, dateStringToNumber)
         );
-        return res.json(commentsWithNumericalDate);
+        try {
+          const likedComments = await check_user_commented(req.user);
+          likedComments;
+          const commentResponse = datedComments.map(comment => {
+            comment.fields.likedByUser = likedComments.some(
+              commentLiked => commentLiked === comment.id
+            );
+            return comment;
+          });
+          res.json(commentResponse);
+        } catch (e) {
+          console.log(e);
+          return res.status(500).json({ success: false });
+        }
       }
     );
 };

@@ -50,6 +50,13 @@ type alias Model =
     }
 
 
+type alias UpvoteResponse =
+    { success : Bool
+    , commentId : String
+    , commentLikes : Int
+    }
+
+
 type RemoteData
     = NotAsked
     | Loading
@@ -181,7 +188,7 @@ type Msg
     | UpdateLawCentre LawCentre
     | UpdateRole Role
     | ReceiveCommentStatus (Result Http.Error Bool)
-    | ReceiveUpvoteStatus (Result Http.Error Bool)
+    | ReceiveUpvoteStatus (Result Http.Error UpvoteResponse)
     | ReceiveStats (Result Http.Error StatsResponse)
     | PostComment
     | PostStats

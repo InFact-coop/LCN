@@ -55,9 +55,35 @@ const search_for_existing_user = email => {
   });
 };
 
+const update_user_comments_liked = (user, commentId) => {
+  return new Promise((resolve, reject) => {
+    User.findByIdAndUpdate(
+      { _id: user._id },
+      {
+        $push: { comments_liked: commentId }
+      }
+    ).exec((err, user) => {
+      if (!user) return reject('No user found');
+      if (err) return reject(err);
+      resolve(true);
+    });
+  });
+};
+
+const check_user_commented = user => {
+  return new Promise((resolve, reject) => {
+    User.findOne({ _id: user._id }).exec((err, user) => {
+      if (!user) return reject('No user found');
+      if (err) return reject(err);
+      resolve(user.comments_liked);
+    });
+  });
+};
 module.exports = {
   create_user_with_signup_token,
   update_user_signup_token,
   find_user,
-  search_for_existing_user
+  search_for_existing_user,
+  update_user_comments_liked,
+  check_user_commented
 };

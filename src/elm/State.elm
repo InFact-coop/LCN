@@ -214,10 +214,14 @@ update msg model =
             model ! []
 
         ToggleProblem string checked ->
-            if checked && isNewEntry string model.problems then
-                { model | problems = model.problems ++ [ string ] } ! []
-            else
-                { model | problems = List.filter (\x -> x /= string) model.problems } ! []
+            let
+                updatedModel =
+                    if checked && isNewEntry string model.problems then
+                        { model | problems = model.problems ++ [ string ] }
+                    else
+                        { model | problems = List.filter (\x -> x /= string) model.problems }
+            in
+                submitEnabledToModel updatedModel ! []
 
         ToggleAgency string checked ->
             let
@@ -303,15 +307,30 @@ update msg model =
         UpvoteComment comment ->
             { model | postUpvoteStatus = Loading } ! [ postUpvote comment.id ]
 
-        ReceiveUpvoteStatus (Ok bool) ->
-            { model | postUpvoteStatus = ResponseSuccess } ! []
+        ReceiveUpvoteStatus (Ok upvote) ->
+            { model | postUpvoteStatus = ResponseSuccess, comments = List.map (updateCommentLikes upvote) model.comments } ! []
 
         ReceiveUpvoteStatus (Err err) ->
-            let
-                debugit =
-                    Debug.log "Error" err
-            in
-                { model | postUpvoteStatus = ResponseFailure } ! []
+            { model | postUpvoteStatus = ResponseFailure } ! []
+
+
+updateCommentLikes : UpvoteResponse -> Comment -> Comment
+updateCommentLikes upvote comment =
+    { comment
+        | likes =
+            ifThenElse (comment.id == upvote.commentId)
+                upvote.commentLikes
+                comment.likes
+        , likedByUser =
+            ifThenElse
+                (comment.id
+                    == upvote.commentId
+                    || comment.likedByUser
+                    == True
+                )
+                True
+                False
+    }
 
 
 submitEnabledToModel : Model -> Model
