@@ -25,8 +25,8 @@ view model =
             [ modalBackground model
             , statsModal model
             , commentModal model
-            , div [ class "fixed w-100 bg-white flex flex-row justify-center" ] [ navBar model ]
-            , div [ class "mt6 center pt3-ns" ] [ view ]
+            , div [ class "fixed w-100 bg-white flex flex-row justify-center z-1" ] [ navBar model ]
+            , div [ class "mt6 center pt3-ns mw8" ] [ view ]
             ]
 
 
@@ -34,7 +34,7 @@ modalBackground : Model -> Html Msg
 modalBackground model =
     div
         [ classes
-            [ "vh-100 w-100 bg-black o-70 z-1 absolute"
+            [ "vh-100 w-100 bg-black o-70 z-2 absolute"
             , displayElement (model.displayStatsModal || model.displayCommentModal)
             ]
         ]
