@@ -8,6 +8,7 @@ import Requests.GetUserDetails exposing (getUserDetails)
 import Requests.PostComment exposing (..)
 import Requests.PostNewUserDetails exposing (postNewUserDetails)
 import Requests.PostReply exposing (postReply)
+import Requests.PostUpvote exposing (postUpvote)
 import Requests.PostStats exposing (postStats)
 import Router exposing (getView, viewFromUrl)
 import Types exposing (..)
@@ -40,6 +41,7 @@ initModel =
     , agencies = []
     , submitEnabled = False
     , postUserDetailsStatus = NotAsked
+    , postUpvoteStatus = NotAsked
     , getUserDetailsStatus = NotAsked
     , volunteersTotalWeekly = Nothing
     , studentVolunteersWeekly = Nothing
@@ -297,6 +299,19 @@ update msg model =
                     { model | mediaCoverageWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
                 submitEnabledToModel updatedModel ! []
+
+        UpvoteComment comment ->
+            { model | postUpvoteStatus = Loading } ! [ postUpvote comment.id ]
+
+        ReceiveUpvoteStatus (Ok bool) ->
+            { model | postUpvoteStatus = ResponseSuccess } ! []
+
+        ReceiveUpvoteStatus (Err err) ->
+            let
+                debugit =
+                    Debug.log "Error" err
+            in
+                { model | postUpvoteStatus = ResponseFailure } ! []
 
 
 submitEnabledToModel : Model -> Model

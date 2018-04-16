@@ -137,7 +137,7 @@ commentActions comment =
             , onClick <| ToggleReplyComponent comment
             ]
             [ text "reply" ]
-        , img [ src <| "./assets/like-" ++ (commentTypeColor comment.commentType) ++ ".svg", classes [ "w2", "v-mid", "pointer", "ml3", "h2", "w-15" ] ] []
+        , img [ src <| "./assets/like-" ++ (commentTypeColor comment.commentType) ++ ".svg", classes [ "w2", "v-mid", "pointer", "ml3", "h2", "w-15" ], onClick <| UpvoteComment comment ] []
         , span [ classes [ commentTypeColor comment.commentType, "f4", "ml2" ] ] [ span [ classes [ "fw3", displayElement <| comment.likes /= 0 ] ] [ text <| toString comment.likes ], span [ class "dn di-ns fw3" ] [ text <| ifThenElse (comment.likes /= 0) " people like this" "Be the first person to like this!" ] ]
         ]
 

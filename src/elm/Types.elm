@@ -37,6 +37,7 @@ type alias Model =
     , comments : List Comment
     , commentStatus : RemoteData
     , postStatsStatus : RemoteData
+    , postUpvoteStatus : RemoteData
     , getUserDetailsStatus : RemoteData
     , postUserDetailsStatus : RemoteData
     , listStatsStatus : RemoteData
@@ -180,6 +181,7 @@ type Msg
     | UpdateLawCentre LawCentre
     | UpdateRole Role
     | ReceiveCommentStatus (Result Http.Error Bool)
+    | ReceiveUpvoteStatus (Result Http.Error Bool)
     | ReceiveStats (Result Http.Error StatsResponse)
     | PostComment
     | PostStats
@@ -197,3 +199,4 @@ type Msg
     | UpdateLawyerVolunteersWeekly String
     | UpdateVacanciesWeekly String
     | UpdateMediaCoverageWeekly String
+    | UpvoteComment Comment
