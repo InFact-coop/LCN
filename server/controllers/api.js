@@ -104,9 +104,9 @@ const post_stats = (req, res) => {
       .eachPage(
         function page(records, fetchNextPage) {
           records.forEach(record => {
-            peopleSeen += record.get('People seen weekly');
+            if (!record._rawJson.fields['People seen weekly']) return;
+            peopleSeen += record._rawJson.fields['People seen weekly'];
           });
-
           fetchNextPage();
         },
         function done(err) {
