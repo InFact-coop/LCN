@@ -11,7 +11,9 @@ var userSchema = mongoose.Schema({
   signup_token: { type: String, default: null },
   signup_expires: { type: Date, default: null },
   signed_up: { type: Boolean, default: false },
-  law_centre: { type: String }
+  law_centre: { type: String },
+  job_role: { type: String },
+  law_area: { type: String }
 });
 
 userSchema.methods.generateHash = function(password) {
