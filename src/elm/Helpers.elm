@@ -65,3 +65,30 @@ onInputValue tagger =
 onBlurValue : (String -> msg) -> Attribute msg
 onBlurValue tagger =
     on "blur" (Json.map tagger targetValue)
+
+
+labelToTuple : String -> ( String, String )
+labelToTuple label =
+    let
+        listLabelComponents =
+            ifThenElse (String.endsWith ")" label)
+                (String.dropRight 1 label)
+                label
+                |> String.split "("
+
+        labelComponent =
+            listLabelComponents |> List.head |> Maybe.withDefault ""
+
+        subLabelComponent =
+            ifThenElse (List.length listLabelComponents == 2)
+                ((listLabelComponents
+                    |> List.reverse
+                    |> List.head
+                    |> Maybe.withDefault ""
+                    |> String.cons '('
+                 )
+                    ++ ")"
+                )
+                ""
+    in
+        ( labelComponent, subLabelComponent )

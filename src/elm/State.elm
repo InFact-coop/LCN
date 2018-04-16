@@ -41,6 +41,11 @@ initModel =
     , submitEnabled = False
     , postUserDetailsStatus = NotAsked
     , getUserDetailsStatus = NotAsked
+    , volunteersTotalWeekly = Nothing
+    , studentVolunteersWeekly = Nothing
+    , lawyerVolunteersWeekly = Nothing
+    , vacanciesWeekly = Nothing
+    , mediaCoverageWeekly = Nothing
     }
 
 
@@ -258,6 +263,41 @@ update msg model =
         GetUserDetailsStatus (Err err) ->
             { model | getUserDetailsStatus = ResponseFailure, view = BeforeYouBegin } ! []
 
+        UpdateVolunteersTotalWeekly number ->
+            let
+                updatedModel =
+                    { model | volunteersTotalWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
+
+        UpdateStudentVolunteersWeekly number ->
+            let
+                updatedModel =
+                    { model | studentVolunteersWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
+
+        UpdateLawyerVolunteersWeekly number ->
+            let
+                updatedModel =
+                    { model | lawyerVolunteersWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
+
+        UpdateVacanciesWeekly number ->
+            let
+                updatedModel =
+                    { model | vacanciesWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
+
+        UpdateMediaCoverageWeekly number ->
+            let
+                updatedModel =
+                    { model | mediaCoverageWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+            in
+                submitEnabledToModel updatedModel ! []
+
 
 submitEnabledToModel : Model -> Model
 submitEnabledToModel model =
@@ -293,7 +333,20 @@ submitEnabledToModel model =
                             falseModel
 
                     Management ->
-                        ifThenElse (model.peopleSeenWeekly /= Nothing) trueModel falseModel
+                        ifThenElse
+                            (model.volunteersTotalWeekly
+                                /= Nothing
+                                && model.studentVolunteersWeekly
+                                /= Nothing
+                                && model.lawyerVolunteersWeekly
+                                /= Nothing
+                                && model.vacanciesWeekly
+                                /= Nothing
+                                && model.mediaCoverageWeekly
+                                /= Nothing
+                            )
+                            trueModel
+                            falseModel
 
                     _ ->
                         trueModel
