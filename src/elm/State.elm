@@ -371,9 +371,6 @@ submitEnabledToModel model =
                             trueModel
                             falseModel
 
-            Snapshot ->
-                falseModel
-
             AddComment ->
                 ifThenElse
                     (model.commentBody /= "")
