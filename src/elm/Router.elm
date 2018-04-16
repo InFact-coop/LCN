@@ -12,7 +12,6 @@ import Views.AddComment exposing (..)
 import Views.AddStats exposing (..)
 import Views.ListComments exposing (..)
 import Views.BeforeYouBegin exposing (..)
-import Views.Snapshot exposing (..)
 import Views.SplashScreen exposing (..)
 
 
@@ -26,8 +25,8 @@ view model =
             [ modalBackground model
             , statsModal model
             , commentModal model
-            , div [ class "w-100 bg-white flex flex-row justify-center" ] [ navBar model ]
-            , div [ class "mw8-ns center pt3-ns" ] [ view ]
+            , div [ class "fixed w-100 bg-white flex flex-row justify-center" ] [ navBar model ]
+            , div [ class "mt6 center pt3-ns" ] [ view ]
             ]
 
 
@@ -48,9 +47,6 @@ getCurrentView model =
         AddStats ->
             addStatsView model
 
-        Snapshot ->
-            snapshotView model
-
         AddComment ->
             addCommentView model
 
@@ -69,9 +65,6 @@ getView hash =
     case hash of
         "#numbers" ->
             AddStats
-
-        "#numbers-snapshot" ->
-            Snapshot
 
         "#add-comment" ->
             AddComment

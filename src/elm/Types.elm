@@ -8,7 +8,6 @@ import Time exposing (Time)
 type View
     = BeforeYouBegin
     | AddStats
-    | Snapshot
     | AddComment
     | ListComments
     | SplashScreen
