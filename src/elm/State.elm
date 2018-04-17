@@ -8,6 +8,7 @@ import Requests.GetUserDetails exposing (getUserDetails)
 import Requests.PostComment exposing (..)
 import Requests.PostNewUserDetails exposing (postNewUserDetails)
 import Requests.PostReply exposing (postReply)
+import Requests.PostUpvote exposing (postUpvote)
 import Requests.PostStats exposing (postStats)
 import Router exposing (getView, viewFromUrl)
 import Types exposing (..)
@@ -40,6 +41,7 @@ initModel =
     , agencies = []
     , submitEnabled = False
     , postUserDetailsStatus = NotAsked
+    , postUpvoteStatus = NotAsked
     , getUserDetailsStatus = NotAsked
     , volunteersTotalWeekly = Nothing
     , studentVolunteersWeekly = Nothing
@@ -212,10 +214,14 @@ update msg model =
             model ! []
 
         ToggleProblem string checked ->
-            if checked && isNewEntry string model.problems then
-                { model | problems = model.problems ++ [ string ] } ! []
-            else
-                { model | problems = List.filter (\x -> x /= string) model.problems } ! []
+            let
+                updatedModel =
+                    if checked && isNewEntry string model.problems then
+                        { model | problems = model.problems ++ [ string ] }
+                    else
+                        { model | problems = List.filter (\x -> x /= string) model.problems }
+            in
+                submitEnabledToModel updatedModel ! []
 
         ToggleAgency string checked ->
             let
@@ -297,6 +303,34 @@ update msg model =
                     { model | mediaCoverageWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
                 submitEnabledToModel updatedModel ! []
+
+        UpvoteComment comment ->
+            { model | postUpvoteStatus = Loading } ! [ postUpvote comment.id ]
+
+        ReceiveUpvoteStatus (Ok upvote) ->
+            { model | postUpvoteStatus = ResponseSuccess, comments = List.map (updateCommentLikes upvote) model.comments } ! []
+
+        ReceiveUpvoteStatus (Err err) ->
+            { model | postUpvoteStatus = ResponseFailure } ! []
+
+
+updateCommentLikes : UpvoteResponse -> Comment -> Comment
+updateCommentLikes upvote comment =
+    { comment
+        | likes =
+            ifThenElse (comment.id == upvote.commentId)
+                upvote.commentLikes
+                comment.likes
+        , likedByUser =
+            ifThenElse
+                (comment.id
+                    == upvote.commentId
+                    || comment.likedByUser
+                    == True
+                )
+                True
+                False
+    }
 
 
 submitEnabledToModel : Model -> Model

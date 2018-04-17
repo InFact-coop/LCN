@@ -23,7 +23,7 @@ statsThisWeek model =
                 ]
             , div []
                 [ numericalInput model.peopleSeenWeekly (model.role /= Management) peopleSeenText "green" UpdatePeopleSeen
-                , numericalInput model.newCasesWeekly (model.role == CaseWorker) "Of these, how many cases were new (even with a returning client)?" "pink" UpdateNewCases
+                , numericalInput model.newCasesWeekly (model.role == CaseWorker) "Of these, how many cases were new? (Include returning clients)" "pink" UpdateNewCases
                 , numericalInput model.peopleTurnedAwayWeekly (model.role == Triage) "How many enquiries have you had to turn away without signposting anywhere?" "blue" UpdatePeopleTurnedAway
                 , numericalInput model.signpostedInternallyWeekly (model.role == Triage) "How many enquiries were signposted to one-off Law Centre advice? (include drop-in & pro-bono clinics)" "orange" UpdateSignpostedInternally
                 , numericalInput model.signpostedExternallyWeekly (model.role == Triage) "How many enquiries were referred to other agencies?" "pink" UpdateSignpostedExternally

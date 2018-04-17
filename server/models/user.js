@@ -13,7 +13,8 @@ var userSchema = mongoose.Schema({
   signed_up: { type: Boolean, default: false },
   law_centre: { type: String },
   job_role: { type: String },
-  law_area: { type: String }
+  law_area: { type: String },
+  comments_liked: { type: [String] }
 });
 
 userSchema.methods.generateHash = function(password) {

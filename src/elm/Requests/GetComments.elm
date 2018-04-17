@@ -34,6 +34,7 @@ commentDecoder =
         |> optionalAt [ "fields", "Law area" ] (Json.Decode.map stringToLawArea string) NoArea
         |> required "createdTime" float
         |> hardcoded False
+        |> requiredAt [ "fields", "likedByUser" ] bool
 
 
 handleGetComments : Navigation.Location -> Cmd Msg

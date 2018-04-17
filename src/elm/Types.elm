@@ -36,6 +36,7 @@ type alias Model =
     , comments : List Comment
     , commentStatus : RemoteData
     , postStatsStatus : RemoteData
+    , postUpvoteStatus : RemoteData
     , getUserDetailsStatus : RemoteData
     , postUserDetailsStatus : RemoteData
     , listStatsStatus : RemoteData
@@ -45,6 +46,13 @@ type alias Model =
     , problems : List String
     , agencies : List String
     , submitEnabled : Bool
+    }
+
+
+type alias UpvoteResponse =
+    { success : Bool
+    , commentId : String
+    , commentLikes : Int
     }
 
 
@@ -66,6 +74,7 @@ type alias Comment =
     , lawArea : LawArea
     , createdAt : Time
     , showReplyInput : Bool
+    , likedByUser : Bool
     }
 
 
@@ -178,6 +187,7 @@ type Msg
     | UpdateLawCentre LawCentre
     | UpdateRole Role
     | ReceiveCommentStatus (Result Http.Error Bool)
+    | ReceiveUpvoteStatus (Result Http.Error UpvoteResponse)
     | ReceiveStats (Result Http.Error StatsResponse)
     | PostComment
     | PostStats
@@ -195,3 +205,4 @@ type Msg
     | UpdateLawyerVolunteersWeekly String
     | UpdateVacanciesWeekly String
     | UpdateMediaCoverageWeekly String
+    | UpvoteComment Comment
