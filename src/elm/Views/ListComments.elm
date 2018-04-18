@@ -206,7 +206,11 @@ replyComponent parentComment =
             , onClick <| PostReply parentComment
             ]
             []
-        , button [ classes [ "bg-" ++ commentTypeColor parentComment.commentType, "dn-s", "white", "bn br2 pv2 ph3 f5" ] ] [ text "Send" ]
+        , button
+            [ classes [ "bg-" ++ commentTypeColor parentComment.commentType, "dn-s", "white", "bn br2 pv2 ph3 f5" ]
+            , onClick <| PostReply parentComment
+            ]
+            [ text "Send" ]
         ]
 
 
