@@ -35,7 +35,7 @@ addStatsView model =
 introText : String
 introText =
     """
-    Please tells us a little about the cases you have seen this week. We are collecting this
+    Please tell us a little about your week. We are collecting this
     rough-and-ready information so LCN and each Law Centre have a better idea of current workloads and
     trends. This will help you see if your experience is similar to that in other Law Centres. It will
     also help LCN to speak out quickly and with better authority about the issues arising.
@@ -100,7 +100,6 @@ problemCheckboxesList model =
 
         ImmigrationAndAsylum ->
             [ problemCheckbox "Asylum"
-            , problemCheckbox "Non-Asylum Immigration"
             , problemCheckbox "Article 8"
             , problemCheckbox "Article 3 / Humanitarian Protection"
             , problemCheckbox "Domestic Violence"

@@ -5,7 +5,7 @@ const send_invite_email = ({ user, token }) => {
     to: user.email,
     from: process.env.MAILER_EMAIL_ID,
     template: 'sign-up-email',
-    subject: 'Invitation to LCN Feedback App',
+    subject: 'Invitation to LCN Feedback App - to be actioned within a week',
     context: {
       name: user.full_name.split(' ')[0],
       url: `https://lawcentres.herokuapp.com/signup?token=${user.signup_token}`
