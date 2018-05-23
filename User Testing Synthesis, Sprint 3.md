@@ -14,6 +14,7 @@ The first page users come to after logging in immediatey asks for personal infor
   **Proposal**: We would highlight/pre-select a role type by default to demonstrate to people the functionality of these buttons.
 
 * **Feedback**: Some managers also regularly do casework, so we might be missing a trick here.
+  
   **Proposal**: Make the "Role type" buttons multi-select. Include a clarification ("You can select more than one"). Combine the questions we ask on the next page.
 
 ## AddStats
