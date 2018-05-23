@@ -13,7 +13,7 @@ The first page users come to after logging in immediatey asks for personal infor
 * **Feedback**: It is not immediately obvious that the "Role type" buttons were clickable as they are all faded out.
 
   **Proposal**: We would highlight/pre-select a role type by default to demonstrate to people the functionality of these buttons.
-
+---
 * **Feedback**: Some managers also regularly do casework, so we might be missing a trick here.
   
   **Proposal**: Make the "Role type" buttons multi-select. Include a clarification ("You can select more than one"). Combine the questions we ask on the next page.
@@ -25,17 +25,17 @@ The first page users come to after logging in immediatey asks for personal infor
   **Proposal**: Change question input from sliders to versions of the number input we had before, but made in the brand colours of LCN.
   
   ![proposed sliders](https://user-images.githubusercontent.com/22657280/40374028-1f48e314-5de0-11e8-9573-83615cc0fa9c.png)
-
+---
 * **Feedback**: Some users felt negative on first view of this page because they worried they would be unable to recall the exact statistical information we were asking of them.
 
   **Feedback**: Users often skipped the intro text and as a result missed crucial information about what we were asking of them.
   
   **Proposal**: The intro text should be emphasized using different font weights to encourage people to actually read. We should reassure them we are asking for only **estimates** and **rough figures**.
-
+---
 * **Feedback**: Some instructions might benefit from further clarification.
 
   **Proposal**: Add more prompter text by each question, for example, "Click all that apply" underneath the checklist, to allow people with a range of technical proficiency to use the platform with ease.
-
+---
 * **Feedback**: It's possible that long-term users of the platform might find the unsorted checklist a bit of a pain to use.
 
   **Proposal**: Alphabetise!
@@ -78,18 +78,18 @@ The first page users come to after logging in immediatey asks for personal infor
 
 ### Lawyer/Caseworker (Welfare)
 
-* **Feedback**: Could add "Carers' allowance" to checklist
+* **Proposal**: We could add "Carers' allowance" to checklist
 
 ## AddStats (Modal/Thank You Screen)
 
 * **Feedback**: The wording of this section is fairly ambiguous. Most users described some confusion as to who was referred to by "we", and who was referred to by "your" (i.e. "With your help, we have seen 220 people this week").
 
   **Proposal**: Through conversation with you, we will rethink this page to both make it feel relevant and clear for each role type.
-
+---
 * **Feedback**: Though users recognised that at this point in the process we were giving them the option to bow out, there was a discussion on whether or not we want to put slightly less emphasis on this option.
 
   **Proposal**: We will discuss with our designer how we might tweak this aspect of the design to give people the option to log out whilst encouraging discovery of the "Comments" section.
-
+---
 * **Feedback**: One user felt uncomfortable that they were unable to revise their statistics if they wanted to.
 
   **Proposal**: Add an option to the fixed navigation bar to allow people to back and and revise their statistics. This has the added benefit of offering "Privacy by design", by giving people greater control over the data they give us.
@@ -99,7 +99,7 @@ The first page users come to after logging in immediatey asks for personal infor
 * **General Feedback**: Most of our users understood the potential of the comments section for creating a sense of organisational community among quite remote and disparate centres. There was a feeling that, if done right, it could replace some of the interactions that already happen naturally between members of the community.
 
   The proof will be in the uptake of the service. Value is only added to the user if it is used by other people. In certain use cases users could imagine the service working successfully by being an alternative avenue of traffic to already-clogged email inboxes. Alteration of this section of this site along the lines of user feedback to encourage usage is therefore crucial to the adoption of the comments section. Here are some suggestions:
-
+---
 * **Feedback**: With discrete categories like "Trend", "Success", "Annoyance", and "Trend", there will be inevitable edge cases. Some users felt the use of this was inflexible.
 
   **Proposal**: Lots of users recommended converting this system to "tags" in the LCN brand colours. Some of these could be predetermined, eg:
@@ -109,31 +109,31 @@ The first page users come to after logging in immediatey asks for personal infor
   * "Employment", "Immigration", "Welfare"... in another colour
   * and some could be custom, allowing more finegrained control, in another colour
     ![like so](https://user-images.githubusercontent.com/22657280/40421281-44fd3e86-5e83-11e8-9406-392bbe5b5794.png)
-
+---
 * **Feedback**: The term "_Ask Us_" might be a bit too generic.
 
   **Proposal**: Change "_Ask Us_" to "Ask LCN".
-
+---
 * **Feedback**: The amount that people write for each comment might vary wildly.
 
   **Proposal**: Set a max amount of characters for each comment.
-
+---
 * **Feedback**: One user found leaving the "Add comment" section without posting a bit unintuitive.
 
   **Proposal**: Add a "Cancel" button so that users are able to change their mind, and exit the view without submitting data.
   
   **Stretch Goal**: Bring the Add Comments view onto the main page as an overlay that appears when a "+" button is clicked.
-
+---
 * **Feedback**: The Comment/"Thank you" Screen feels unnecessary
 
   **Proposal**: Take it out, and signal that adding the comment is successful on the List Comment page.
   
   **Proposal**: Incorporate the "Add Comment" view into the main page
-
+---
 * **Feedback**: One user, who felt a lot of his colleagues had busy lives, imagined themselves using the comments section whilst in transit, on a train or bus.
 
   **Proposal**: Optimise this section of the platform for mobile use
-
+---
 * **Feedback**: Meaningful or thought-provoking comments might get lost in the feed as it currently is.
 
   **Proposal**: Have the option to sort comments in multiple ways:
