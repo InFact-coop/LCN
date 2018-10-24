@@ -64,11 +64,11 @@ numericalInput valueFromModel shouldDisplay labelContent thumbColour msg =
             toString <| unpackedValue - 1
     in
     label
-        [ for <| removeSpaces labelContent, classes [ "flex justify-between items-center tl bw1 bb b--light-silver bw1 bb pb2", "number-" ++ thumbColour, displayElement shouldDisplay ] ]
-        [ div [ class "w-70 h-100 flex flex-column justify-between" ]
-            [ div [ classes [ bodyFont  ] ]
+        [ for <| removeSpaces labelContent, classes [ "pointer flex justify-between items-center tl bw1 bb b--light-silver bw1 bb bt pv3", "number-" ++ thumbColour, displayElement shouldDisplay ] ]
+        [ div [ class "w-70 flex flex-column justify-between" ]
+            [ div [ classes [ bodyFont ] ]
                 [ text <| Tuple.first <| labelToTuple labelContent ]
-            , div [ class "f5 fw3 i" ] [ text <| Tuple.second <| labelToTuple labelContent ]
+            , div [ class "f5 fw3 i mt2" ] [ text <| Tuple.second <| labelToTuple labelContent ]
             ]
         , input [ id <| removeSpaces labelContent, type_ "number", value valueString, classes [ "w3 f2 ba b--light-gray pv1 tc mr3", "number-" ++ thumbColour ], Attr.min "0", onBlurValue msg ] []
         ]
