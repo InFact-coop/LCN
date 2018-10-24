@@ -8,6 +8,14 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
+.grid {
+  display: grid;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1.5rem;
+  grid-template-columns: auto auto;
+  grid-auto-rows: 1fr;
+}
+
 /* Remove blue border highlight on inputs */
 
 input:-webkit-autofill,
@@ -41,7 +49,27 @@ input::-webkit-inner-spin-button {
   pointer-events: none;
 }
 
-input[type='checkbox'] {
+.number-orange:focus,
+.number-orange:focus-within {
+  border-color: var(--orange);
+}
+
+.number-blue:focus,
+.number-blue:focus-within {
+  border-color: var(--blue);
+}
+
+.number-pink:focus,
+.number-pink:focus-within {
+  border-color: var(--pink);
+}
+
+.number-green:focus,
+.number-green:focus-within {
+  border-color: var(--green);
+}
+
+input[type="checkbox"] {
   -webkit-appearance: none;
   width: 30px;
   height: 30px;
@@ -49,7 +77,7 @@ input[type='checkbox'] {
   border-radius: 5px;
   border: 2px solid var(--light-gray);
 }
-input[type='checkbox']:checked {
+input[type="checkbox"]:checked {
   background: var(--pink);
 }
 
@@ -79,7 +107,7 @@ input[type='checkbox']:checked {
 /* Arrow */
 .pink-drop::after {
   color: var(--pink);
-  content: '\25BC';
+  content: "\25BC";
   position: absolute;
   top: 0;
   right: 0;
@@ -90,7 +118,7 @@ input[type='checkbox']:checked {
 
 .green-drop::after {
   color: var(--green);
-  content: '\25BC';
+  content: "\25BC";
   position: absolute;
   top: 0;
   right: 0;
