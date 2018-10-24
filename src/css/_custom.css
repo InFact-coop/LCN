@@ -41,7 +41,7 @@ input::-webkit-inner-spin-button {
   pointer-events: none;
 }
 
-input[type='checkbox'] {
+input[type="checkbox"] {
   -webkit-appearance: none;
   width: 30px;
   height: 30px;
@@ -49,7 +49,7 @@ input[type='checkbox'] {
   border-radius: 5px;
   border: 2px solid var(--light-gray);
 }
-input[type='checkbox']:checked {
+input[type="checkbox"]:checked {
   background: var(--pink);
 }
 
@@ -79,7 +79,7 @@ input[type='checkbox']:checked {
 /* Arrow */
 .pink-drop::after {
   color: var(--pink);
-  content: '\25BC';
+  content: "\25BC";
   position: absolute;
   top: 0;
   right: 0;
@@ -90,7 +90,7 @@ input[type='checkbox']:checked {
 
 .green-drop::after {
   color: var(--green);
-  content: '\25BC';
+  content: "\25BC";
   position: absolute;
   top: 0;
   right: 0;
