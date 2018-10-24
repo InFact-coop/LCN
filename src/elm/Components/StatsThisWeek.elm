@@ -22,7 +22,7 @@ statsThisWeek model =
             , h2 [ classes [ "ml2 fw3" ] ] [ text "(If you don't remember exactly, give us your best estimate)" ]
             ]
         , div []
-            [ numericalInput model.peopleSeenWeekly (List.member Management model.roles |> not) peopleSeenText "green" UpdatePeopleSeen
+            [ numericalInput model.peopleSeenWeekly (List.member Triage model.roles || List.member CaseWorker model.roles) peopleSeenText "green" UpdatePeopleSeen
             , numericalInput model.newCasesWeekly (List.member CaseWorker model.roles) "Of these, how many cases were new? (Include returning clients)" "pink" UpdateNewCases
             , numericalInput model.peopleTurnedAwayWeekly (List.member Triage model.roles) "How many enquiries have you had to turn away without signposting anywhere?" "blue" UpdatePeopleTurnedAway
             , numericalInput model.signpostedInternallyWeekly (List.member Triage model.roles) "How many enquiries were signposted to one-off Law Centre advice? (include drop-in & pro-bono clinics)" "orange" UpdateSignpostedInternally

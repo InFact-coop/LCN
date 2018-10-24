@@ -26,10 +26,56 @@ addStatsView model =
                     [ label [ for "lawArea", classes [ headlineFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
                     , div [ classes [ "mv4" ] ] (problemCheckboxesList model)
                     ]
-                , bigColouredButton model "green" "Submit" PostStats
+                , bigColouredButtonTest (validationPassed model) "green" "Submit" PostStats
                 ]
             ]
         ]
+
+
+validationPassed : Model -> Bool
+validationPassed model =
+    let
+        caseWorkerValidation =
+            (model.lawArea /= NoArea)
+                && (model.peopleSeenWeekly /= Nothing)
+                && (model.newCasesWeekly /= Nothing)
+                && (not <| List.isEmpty model.problems)
+
+        triageValidation =
+            (model.peopleSeenWeekly /= Nothing)
+                && (model.peopleTurnedAwayWeekly /= Nothing)
+                && (model.signpostedInternallyWeekly /= Nothing)
+                && (model.signpostedExternallyWeekly /= Nothing)
+                && (not <| List.isEmpty model.agencies)
+
+        managementValidation =
+            model.volunteersTotalWeekly
+                /= Nothing
+                && model.studentVolunteersWeekly
+                /= Nothing
+                && model.lawyerVolunteersWeekly
+                /= Nothing
+                && model.vacanciesWeekly
+                /= Nothing
+                && model.mediaCoverageWeekly
+                /= Nothing
+
+        roleWithValidation =
+            [ ( CaseWorker, caseWorkerValidation )
+            , ( Triage, triageValidation )
+            , ( Management, managementValidation )
+            ]
+    in
+    roleWithValidation
+        |> List.map
+            (\( role, validation ) ->
+                if List.member role model.roles then
+                    validation
+
+                else
+                    True
+            )
+        |> List.all (\validation -> validation == True)
 
 
 introText : String
