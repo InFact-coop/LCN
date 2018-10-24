@@ -1,4 +1,10 @@
-module Data.Comment exposing (defaultComment, getCommentByCommentId, hasParentId, toggleReplyComponent)
+module Data.Comment exposing
+    ( defaultComment
+    , getCommentByCommentId
+    , hasParentId
+    , toggleReplyComponent
+    , updateCommentLikes
+    )
 
 import Helpers exposing (ifThenElse)
 import Types exposing (..)
@@ -35,3 +41,22 @@ hasParentId comment =
 
         Nothing ->
             True
+
+
+updateCommentLikes : UpvoteResponse -> Comment -> Comment
+updateCommentLikes upvote comment =
+    { comment
+        | likes =
+            ifThenElse (comment.id == upvote.commentId)
+                upvote.commentLikes
+                comment.likes
+        , likedByUser =
+            ifThenElse
+                (comment.id
+                    == upvote.commentId
+                    || comment.likedByUser
+                    == True
+                )
+                True
+                False
+    }

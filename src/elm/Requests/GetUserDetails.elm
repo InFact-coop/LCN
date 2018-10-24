@@ -25,5 +25,5 @@ userDetailsDecoder =
         |> required "full_name" string
         |> optional "law_centre" (Json.Decode.map stringToLawCentre string) NoCentre
         |> optional "law_area" (Json.Decode.map stringToLawArea string) NoArea
-        |> optional "job_role" (Json.Decode.map stringToRole string) NoRole
+        |> optional "job_role" (Json.Decode.map (List.map stringToRole) (list string)) [ NoRole ]
         |> required "admin" bool

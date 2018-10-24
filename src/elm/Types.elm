@@ -32,7 +32,7 @@ type alias Model =
     , name : String
     , lawCentre : LawCentre
     , lawArea : LawArea
-    , role : Role
+    , role : List Role
     , isAdmin : Bool
     , weeklyCount : Maybe Int
     , peopleSeenWeekly : Maybe Int
@@ -181,7 +181,7 @@ type alias UserDetails =
     { name : String
     , lawCentre : LawCentre
     , lawArea : LawArea
-    , role : Role
+    , role : List Role
     , admin : Bool
     }
 

@@ -12,7 +12,7 @@ var userSchema = mongoose.Schema({
   signup_expires: { type: Date, default: null },
   signed_up: { type: Boolean, default: false },
   law_centre: { type: String },
-  job_role: { type: String },
+  job_role: { type: Array },
   law_area: { type: String },
   comments_liked: { type: [String] }
 });
