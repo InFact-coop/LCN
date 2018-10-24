@@ -1,4 +1,4 @@
-module Data.Comment exposing (..)
+module Data.Comment exposing (defaultComment, getCommentByCommentId, hasParentId, toggleReplyComponent)
 
 import Helpers exposing (ifThenElse)
 import Types exposing (..)

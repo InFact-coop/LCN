@@ -1,4 +1,4 @@
-module Views.SplashScreen exposing (..)
+module Views.SplashScreen exposing (splashScreen)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)

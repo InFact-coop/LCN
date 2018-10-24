@@ -1,11 +1,10 @@
-module Requests.PostNewUserDetails exposing (..)
+module Requests.PostNewUserDetails exposing (postNewUserDetails, userDetails, userDetailsRequest)
 
-import Http exposing (jsonBody, post)
-import Json.Encode exposing (..)
-import Json.Decode as Decode
-import Types exposing (..)
-import Types exposing (..)
 import Helpers exposing (..)
+import Http exposing (jsonBody, post)
+import Json.Decode as Decode
+import Json.Encode exposing (..)
+import Types exposing (..)
 
 
 postNewUserDetails : Model -> Cmd Msg

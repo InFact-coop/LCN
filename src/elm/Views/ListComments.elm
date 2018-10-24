@@ -1,4 +1,4 @@
-module Views.ListComments exposing (..)
+module Views.ListComments exposing (addCommentButton, commentActions, commentsHeader, commentsHeaderContent, likeText, listCommentsView, parentComment, replyComponent, showParentComment, singleComment, summary, summaryText)
 
 import Components.ChooseTopic exposing (chooseTopic)
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, displayElement, emptySpan, headlineFont, textareaFont, topicButtonFont)
@@ -19,7 +19,7 @@ listCommentsView model =
             , div [ class "mv4" ] <| chooseTopic model
             , div [] (commentsHeader model)
             , div []
-                ((addCommentButton model)
+                (addCommentButton model
                     :: (List.map (singleComment model) <|
                             List.sortBy (.createdAt >> negate) <|
                                 List.filter (\comment -> comment.commentType == model.commentType) model.comments
@@ -66,23 +66,23 @@ commentsHeaderContent model =
     case model.commentType of
         Success ->
             [ text "See what others have said about their "
-            , span [ classes [ (commentTypeColor Success), "b" ] ] [ text "successes" ]
+            , span [ classes [ commentTypeColor Success, "b" ] ] [ text "successes" ]
             ]
 
         Annoyance ->
             [ text "Check out others' "
-            , span [ classes [ (commentTypeColor Annoyance), "b" ] ] [ text "annoyances" ]
+            , span [ classes [ commentTypeColor Annoyance, "b" ] ] [ text "annoyances" ]
             ]
 
         Trend ->
             [ text "See what "
-            , span [ classes [ (commentTypeColor Trend), "b" ] ] [ text "trends " ]
+            , span [ classes [ commentTypeColor Trend, "b" ] ] [ text "trends " ]
             , text "others have spotted"
             ]
 
         AskUs ->
             [ text "Have a look through "
-            , span [ classes [ (commentTypeColor AskUs), "b" ] ] [ text "questions " ]
+            , span [ classes [ commentTypeColor AskUs, "b" ] ] [ text "questions " ]
             , text "others have asked"
             ]
 
@@ -96,24 +96,24 @@ singleComment model comment =
         parentComment =
             getCommentByCommentId model (Maybe.withDefault "" comment.parentId)
     in
-        div [ classes [ "center flex flex-column content-center bg-white br3 ph4 pt3 pb0 ma4" ] ]
-            [ showParentComment model comment
-            , div
-                [ classes
-                    [ "mb3"
-                    , commentTypeColor model.commentType
-                    ]
+    div [ classes [ "center flex flex-column content-center bg-white br3 ph4 pt3 pb0 ma4" ] ]
+        [ showParentComment model comment
+        , div
+            [ classes
+                [ "mb3"
+                , commentTypeColor model.commentType
                 ]
-                [ h1 [ classes [ "fw5", "f3", "b", "di" ] ] [ text <| ifThenElse (comment.name /= "") comment.name "Anonymous" ]
-                , span [] [ text " - " ]
-                , h1 [ classes [ "di", "fw3", "f3" ] ] [ text <| ifThenElse (comment.lawCentre /= NoCentre) ((unionTypeToString comment.lawCentre) ++ " Law Centre") ("Law Centres Network") ]
-                , ifThenElse (hasParentId comment)
-                    emptySpan
-                    (h2 [ class "di fw3 f3 i" ] [ text <| " - In reply to " ++ ifThenElse (parentComment.name /= "") parentComment.name "anonymous" ])
-                ]
-            , p [ classes [ "f4 lh-copy fw3", "mb3" ] ] [ text comment.commentBody ]
-            , ifThenElse comment.showReplyInput (replyComponent comment) (commentActions model comment)
             ]
+            [ h1 [ classes [ "fw5", "f3", "b", "di" ] ] [ text <| ifThenElse (comment.name /= "") comment.name "Anonymous" ]
+            , span [] [ text " - " ]
+            , h1 [ classes [ "di", "fw3", "f3" ] ] [ text <| ifThenElse (comment.lawCentre /= NoCentre) (unionTypeToString comment.lawCentre ++ " Law Centre") "Law Centres Network" ]
+            , ifThenElse (hasParentId comment)
+                emptySpan
+                (h2 [ class "di fw3 f3 i" ] [ text <| " - In reply to " ++ ifThenElse (parentComment.name /= "") parentComment.name "anonymous" ])
+            ]
+        , p [ classes [ "f4 lh-copy fw3", "mb3" ] ] [ text comment.commentBody ]
+        , ifThenElse comment.showReplyInput (replyComponent comment) (commentActions model comment)
+        ]
 
 
 parentComment : Model -> Comment -> Html Msg
@@ -121,7 +121,7 @@ parentComment model comment =
     div
         [ classes
             [ "center flex flex-column content-center br3 pl3 pr4 pv3 mh4 mv3 w-100 bl bw3 overflow-scroll maxh5"
-            , List.map ((flip (++)) (commentTypeColorLight model.commentType)) [ "bg-light-", "b--" ] |> List.intersperse " " |> List.foldr (++) ""
+            , List.map (flip (++) (commentTypeColorLight model.commentType)) [ "bg-light-", "b--" ] |> List.intersperse " " |> List.foldr (++) ""
             ]
         ]
         [ div
@@ -132,7 +132,7 @@ parentComment model comment =
             ]
             [ h1 [ classes [ "fw5", "f3", "di" ] ] [ text <| ifThenElse (comment.name /= "") comment.name "Anonymous" ]
             , span [] [ text " - " ]
-            , h2 [ class "di fw3 f3" ] [ text <| (unionTypeToString comment.lawCentre) ++ " Law Centre" ]
+            , h2 [ class "di fw3 f3" ] [ text <| unionTypeToString comment.lawCentre ++ " Law Centre" ]
             ]
         , p [ classes [ "f5 lh-copy fw3", "mb3" ] ] [ text comment.commentBody ]
         ]
@@ -146,20 +146,20 @@ commentActions model comment =
                 False
                 True
     in
-        div [ classes [ "flex", "content-center", "items-center", "h2", "mb3" ] ]
-            [ button
-                [ classes
-                    [ "pointer bn ph4 white f4 br2 mr3"
-                    , displayElement <| hasParentId comment && showReply
-                    , "bg-" ++ (commentTypeColor comment.commentType)
-                    ]
-                , onClick <| ToggleReplyComponent comment
+    div [ classes [ "flex", "content-center", "items-center", "h2", "mb3" ] ]
+        [ button
+            [ classes
+                [ "pointer bn ph4 white f4 br2 mr3"
+                , displayElement <| hasParentId comment && showReply
+                , "bg-" ++ commentTypeColor comment.commentType
                 ]
-                [ text "reply" ]
-            , img [ src <| "./assets/like-" ++ (commentTypeColor comment.commentType) ++ ".svg", classes [ "w2", "v-mid", "ml3", "h2", "w-15", ifThenElse comment.likedByUser "disableButton" "pointer" ], onClick <| UpvoteComment comment ] []
-            , span [ classes [ commentTypeColor comment.commentType, "f4", "ml2 fw3", "dn", "di-ns" ] ] [ text <| likeText comment ]
-            , span [ classes [ commentTypeColor comment.commentType, "f4", "ml2", "fw3", "dn-ns" ] ] [ text <| toString comment.likes ]
+            , onClick <| ToggleReplyComponent comment
             ]
+            [ text "reply" ]
+        , img [ src <| "./assets/like-" ++ commentTypeColor comment.commentType ++ ".svg", classes [ "w2", "v-mid", "ml3", "h2", "w-15", ifThenElse comment.likedByUser "disableButton" "pointer" ], onClick <| UpvoteComment comment ] []
+        , span [ classes [ commentTypeColor comment.commentType, "f4", "ml2 fw3", "dn", "di-ns" ] ] [ text <| likeText comment ]
+        , span [ classes [ commentTypeColor comment.commentType, "f4", "ml2", "fw3", "dn-ns" ] ] [ text <| toString comment.likes ]
+        ]
 
 
 likeText : Comment -> String
@@ -190,7 +190,7 @@ replyComponent parentComment =
     div [ classes [ "flex", "items-center", "bt", "bw1", "b--light-gray" ] ]
         [ img
             [ classes [ "w2", "h2" ]
-            , src <| "./assets/comment-" ++ (commentTypeColor parentComment.commentType) ++ ".svg"
+            , src <| "./assets/comment-" ++ commentTypeColor parentComment.commentType ++ ".svg"
             ]
             []
         , textarea
@@ -202,7 +202,7 @@ replyComponent parentComment =
             []
         , img
             [ classes [ "h2", "w2", "pointer", "dn-ns" ]
-            , src <| "./assets/send-" ++ (commentTypeColor parentComment.commentType) ++ ".svg"
+            , src <| "./assets/send-" ++ commentTypeColor parentComment.commentType ++ ".svg"
             , onClick <| PostReply parentComment
             ]
             []

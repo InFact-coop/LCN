@@ -13,7 +13,7 @@ navBar model =
         [ a [ href "/", class "pointer" ] [ img [ src "/assets/lcn-logo.png", class "h4" ] [] ]
         , div [ class "dn db-ns" ]
             [ a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/#list-comments" ] [ text "Comments" ]
-            , ifThenElse (model.isAdmin) (a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/invite-users" ] [ text "Invite users" ]) (emptySpan)
+            , ifThenElse model.isAdmin (a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/invite-users" ] [ text "Invite users" ]) emptySpan
             , a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/logout" ] [ text "Log out" ]
             ]
         ]

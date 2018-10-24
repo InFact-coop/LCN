@@ -1,4 +1,4 @@
-module Components.LawAreaCheckbox exposing (..)
+module Components.LawAreaCheckbox exposing (agencyCheckbox, onCheckboxInput, problemCheckbox)
 
 import Components.StyleHelpers exposing (checkboxFont, classes)
 import Html exposing (..)

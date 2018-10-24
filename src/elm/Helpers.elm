@@ -1,18 +1,19 @@
-module Helpers exposing (..)
+module Helpers exposing (ifThenElse, isNewEntry, labelToTuple, onBlurValue, onInputValue, prettifyNumber, removeSpaces, scrollToTop, unionTypeToString)
 
 import Dom.Scroll exposing (..)
+import Html exposing (..)
+import Html.Events exposing (..)
+import Json.Decode as Json
 import Regex exposing (..)
 import Task
 import Types exposing (..)
-import Json.Decode as Json
-import Html exposing (..)
-import Html.Events exposing (..)
 
 
 ifThenElse : Bool -> a -> a -> a
 ifThenElse conditional trueCase falseCase =
     if conditional then
         trueCase
+
     else
         falseCase
 
@@ -37,10 +38,11 @@ prettifyNumber number =
         numberString =
             toString number
     in
-        if String.length numberString > 3 then
-            String.dropRight 3 numberString ++ "," ++ String.right 3 numberString
-        else
-            numberString
+    if String.length numberString > 3 then
+        String.dropRight 3 numberString ++ "," ++ String.right 3 numberString
+
+    else
+        numberString
 
 
 isNewEntry : String -> List String -> Bool
@@ -91,4 +93,4 @@ labelToTuple label =
                 )
                 ""
     in
-        ( labelComponent, subLabelComponent )
+    ( labelComponent, subLabelComponent )

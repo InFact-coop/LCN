@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 const getToday = () => {
   let today = new Date();
@@ -29,10 +29,10 @@ const generate_random_token = () => {
   return new Promise((resolve, reject) => {
     crypto.randomBytes(20, (err, buffer) => {
       if (err) {
-        console.log('Error generating random token: ', err);
+        console.log("Error generating random token: ", err);
         return reject(err);
       }
-      const token = buffer.toString('hex');
+      const token = buffer.toString("hex");
       return resolve(token);
     });
   });
