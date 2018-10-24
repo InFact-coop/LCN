@@ -1,6 +1,5 @@
 module Components.Button exposing
     ( bigColouredButton
-    , bigColouredButtonTest
     , colouredButton
     , colouredButtonText
     , modalButton
@@ -48,24 +47,8 @@ colouredButtonText role =
             unionTypeToString role
 
 
-bigColouredButton : Model -> String -> String -> Msg -> Html Msg
-bigColouredButton model colour label clickMsg =
-    button
-        [ classes
-            [ "mr4 white"
-            , ifThenElse model.submitEnabled
-                ("bg-" ++ colour)
-                "bg-gray disableButton o-30"
-            , submitButtonStyle
-            , topicButtonFont
-            ]
-        , onClick clickMsg
-        ]
-        [ text label ]
-
-
-bigColouredButtonTest : Bool -> String -> String -> Msg -> Html Msg
-bigColouredButtonTest validationPassed colour label clickMsg =
+bigColouredButton : Bool -> String -> String -> Msg -> Html Msg
+bigColouredButton validationPassed colour label clickMsg =
     button
         [ classes
             [ "mr4 white"

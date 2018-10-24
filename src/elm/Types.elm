@@ -59,7 +59,6 @@ type alias Model =
     , displayCommentModal : Bool
     , problems : List String
     , agencies : List String
-    , submitEnabled : Bool
     }
 
 

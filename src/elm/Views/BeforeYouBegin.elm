@@ -64,14 +64,14 @@ beforeYouBegin model =
                             )
                         ]
                     ]
-                , bigColouredButtonTest (validationPassed model) "green" (ifThenElse (model.postUserDetailsStatus == Loading) "..." "Submit") PostNewUserDetails
+                , bigColouredButton (validate model) "green" (ifThenElse (model.postUserDetailsStatus == Loading) "..." "Submit") PostNewUserDetails
                 ]
             ]
         ]
 
 
-validationPassed : Model -> Bool
-validationPassed model =
+validate : Model -> Bool
+validate model =
     let
         defaultValidation =
             model.lawCentre

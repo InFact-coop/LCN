@@ -40,7 +40,6 @@ initModel =
     , displayCommentModal = False
     , problems = []
     , agencies = []
-    , submitEnabled = True
     , postUserDetailsStatus = NotAsked
     , postUpvoteStatus = NotAsked
     , getUserDetailsStatus = NotAsked
@@ -72,7 +71,6 @@ update msg model =
                 | view = getView location.hash
                 , displayStatsModal = False
                 , displayCommentModal = False
-                , submitEnabled = False
                 , peopleSeenWeekly = Nothing
                 , peopleTurnedAwayWeekly = Nothing
                 , newCasesWeekly = Nothing
@@ -315,89 +313,3 @@ update msg model =
 
         ReceiveUpvoteStatus (Err err) ->
             { model | postUpvoteStatus = ResponseFailure } ! []
-
-
-
--- submitEnabledToModel : Model -> Model
--- submitEnabledToModel model =
---     let
---         trueModel =
---             { model | submitEnabled = True }
---
---         falseModel =
---             { model | submitEnabled = False }
---     in
---     case model.view of
---         AddStats ->
---             case model.roles of
---                 CaseWorker ->
---                     ifThenElse
---                         ((model.lawArea /= NoArea)
---                             && (model.peopleSeenWeekly /= Nothing)
---                             && (model.newCasesWeekly /= Nothing)
---                             && (not <| List.isEmpty model.problems)
---                         )
---                         trueModel
---                         falseModel
---
---                 Triage ->
---                     ifThenElse
---                         ((model.peopleSeenWeekly /= Nothing)
---                             && (model.peopleTurnedAwayWeekly /= Nothing)
---                             && (model.signpostedInternallyWeekly /= Nothing)
---                             && (model.signpostedExternallyWeekly /= Nothing)
---                             && (not <| List.isEmpty model.agencies)
---                         )
---                         trueModel
---                         falseModel
---
---                 Management ->
---                     ifThenElse
---                         (model.volunteersTotalWeekly
---                             /= Nothing
---                             && model.studentVolunteersWeekly
---                             /= Nothing
---                             && model.lawyerVolunteersWeekly
---                             /= Nothing
---                             && model.vacanciesWeekly
---                             /= Nothing
---                             && model.mediaCoverageWeekly
---                             /= Nothing
---                         )
---                         trueModel
---                         falseModel
---
---                 _ ->
---                     trueModel
---
---         BeforeYouBegin ->
---             case model.roles of
---                 CaseWorker ->
---                     ifThenElse
---                         ((model.lawArea /= NoArea)
---                             && (model.lawCentre /= NoCentre)
---                         )
---                         trueModel
---                         falseModel
---
---                 _ ->
---                     ifThenElse
---                         (model.lawCentre
---                             /= NoCentre
---                             && model.roles
---                             /= NoRole
---                         )
---                         trueModel
---                         falseModel
---
---         AddComment ->
---             ifThenElse
---                 (model.commentBody /= "")
---                 trueModel
---                 falseModel
---
---         ListComments ->
---             falseModel
---
---         SplashScreen ->
---             falseModel

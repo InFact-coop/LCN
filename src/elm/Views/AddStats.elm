@@ -26,14 +26,14 @@ addStatsView model =
                     [ label [ for "lawArea", classes [ headlineFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
                     , div [ classes [ "mv4" ] ] (problemCheckboxesList model)
                     ]
-                , bigColouredButtonTest (validationPassed model) "green" "Submit" PostStats
+                , bigColouredButton (validate model) "green" "Submit" PostStats
                 ]
             ]
         ]
 
 
-validationPassed : Model -> Bool
-validationPassed model =
+validate : Model -> Bool
+validate model =
     let
         caseWorkerValidation =
             (model.lawArea /= NoArea)
