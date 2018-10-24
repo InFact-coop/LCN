@@ -1,4 +1,4 @@
-module Requests.GetComments exposing (..)
+module Requests.GetComments exposing (commentDecoder, getComments, getCommentsRequest, handleGetComments)
 
 import Data.CommentType exposing (stringToCommmentType)
 import Data.LawArea exposing (stringToLawArea)
@@ -6,9 +6,9 @@ import Data.LawCentre exposing (stringToLawCentre)
 import Http exposing (..)
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
-import Types exposing (..)
 import Navigation exposing (..)
 import Router exposing (getView)
+import Types exposing (..)
 
 
 getComments : Cmd Msg
@@ -43,9 +43,9 @@ handleGetComments location =
         currentView =
             getView location.hash
     in
-        case currentView of
-            ListComments ->
-                getComments
+    case currentView of
+        ListComments ->
+            getComments
 
-            _ ->
-                Cmd.none
+        _ ->
+            Cmd.none

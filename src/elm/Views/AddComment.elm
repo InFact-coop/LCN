@@ -1,4 +1,4 @@
-module Views.AddComment exposing (..)
+module Views.AddComment exposing (addCommentView, inputComment, submitButton, summary, summaryText, topicExplanation, topicHeading)
 
 import Components.ChooseTopic exposing (chooseTopic)
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont, submitButtonStyle, topicButtonFont)
@@ -77,25 +77,25 @@ topicHeading model =
     case model.commentType of
         Success ->
             [ text "Tell us about a "
-            , span [ classes [ (commentTypeColor Success), "b" ] ] [ text "success" ]
+            , span [ classes [ commentTypeColor Success, "b" ] ] [ text "success" ]
             , text " you've had"
             ]
 
         Annoyance ->
             [ text "Tell us about an "
-            , span [ classes [ (commentTypeColor Annoyance), "b" ] ] [ text "annoyance " ]
+            , span [ classes [ commentTypeColor Annoyance, "b" ] ] [ text "annoyance " ]
             , text "you've had"
             ]
 
         Trend ->
             [ text "What "
-            , span [ classes [ (commentTypeColor Trend), "b" ] ] [ text "trend(s) " ]
+            , span [ classes [ commentTypeColor Trend, "b" ] ] [ text "trend(s) " ]
             , text "are you seeing at the moment?"
             ]
 
         AskUs ->
             [ text "Ask us a "
-            , span [ classes [ (commentTypeColor AskUs), "b" ] ] [ text "question" ]
+            , span [ classes [ commentTypeColor AskUs, "b" ] ] [ text "question" ]
             , text "!"
             ]
 
@@ -110,8 +110,8 @@ submitButton model =
             [ topicButtonFont
             , submitButtonStyle
             , ifThenElse model.submitEnabled
-                ("bg-" ++ (commentTypeColor model.commentType))
-                ("bg-gray disableButton o-30")
+                ("bg-" ++ commentTypeColor model.commentType)
+                "bg-gray disableButton o-30"
             ]
         , onClick PostComment
         ]

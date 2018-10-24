@@ -1,4 +1,4 @@
-module Components.ChooseTopic exposing (..)
+module Components.ChooseTopic exposing (chooseTopic, topicButton)
 
 import Components.StyleHelpers exposing (..)
 import Data.CommentType exposing (commentTypeColor, commentTypes)
@@ -27,7 +27,7 @@ topicButton model commentType =
             [ "w5-ns white w-100 mb2"
             , topicButtonFont
             , buttonStyle
-            , "bg-" ++ (commentTypeColor (commentType))
+            , "bg-" ++ commentTypeColor commentType
             , ifThenElse (model.commentType == commentType) "grow" "o-30 shrink"
             ]
         , onClick <| UpdateCommentType commentType

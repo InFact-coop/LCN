@@ -1,4 +1,4 @@
-module Data.LawCentre exposing (..)
+module Data.LawCentre exposing (decoderLC, stringToLawCentre)
 
 import Json.Decode exposing (..)
 import Types exposing (..)

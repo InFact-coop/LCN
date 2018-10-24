@@ -1,12 +1,12 @@
-module Requests.PostStats exposing (..)
+module Requests.PostStats exposing (postStats, stats, statsRequest, statsResponseDecoder)
 
-import Http exposing (jsonBody, post)
-import Json.Encode exposing (..)
-import Json.Decode as Decode
-import Json.Encode.Extra exposing (maybe)
-import Json.Decode.Pipeline exposing (decode, required, optional)
-import Types exposing (..)
 import Helpers exposing (..)
+import Http exposing (jsonBody, post)
+import Json.Decode as Decode
+import Json.Decode.Pipeline exposing (decode, optional, required)
+import Json.Encode exposing (..)
+import Json.Encode.Extra exposing (maybe)
+import Types exposing (..)
 
 
 postStats : Model -> Cmd Msg

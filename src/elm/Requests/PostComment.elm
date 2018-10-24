@@ -1,4 +1,4 @@
-module Requests.PostComment exposing (..)
+module Requests.PostComment exposing (comment, commentRequest, postComment)
 
 import Helpers exposing (unionTypeToString)
 import Http exposing (jsonBody, post)

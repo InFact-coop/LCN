@@ -1,4 +1,4 @@
-module Requests.PostUpvote exposing (..)
+module Requests.PostUpvote exposing (postUpvote, upvote, upvoteRequest, upvoteResponseDecoder)
 
 import Http exposing (jsonBody, post)
 import Json.Decode as Decode

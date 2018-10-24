@@ -1,7 +1,7 @@
-module Components.StyleHelpers exposing (..)
+module Components.StyleHelpers exposing (bodyFont, buttonStyle, checkboxFont, classes, displayElement, emptySpan, headlineFont, inputFont, inputLabelFont, navLinkFont, navLinkStyle, roleButtonFont, submitButtonStyle, textareaFont, topicButtonFont)
 
-import Html.Attributes exposing (..)
 import Html exposing (..)
+import Html.Attributes exposing (..)
 
 
 headlineFont : String
@@ -79,5 +79,6 @@ displayElement : Bool -> String
 displayElement bool =
     if bool then
         ""
+
     else
         "dn"
