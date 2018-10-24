@@ -32,7 +32,7 @@ type alias Model =
     , name : String
     , lawCentre : LawCentre
     , lawArea : LawArea
-    , role : Role
+    , roles : List Role
     , isAdmin : Bool
     , weeklyCount : Maybe Int
     , peopleSeenWeekly : Maybe Int
@@ -59,7 +59,6 @@ type alias Model =
     , displayCommentModal : Bool
     , problems : List String
     , agencies : List String
-    , submitEnabled : Bool
     }
 
 
@@ -181,7 +180,7 @@ type alias UserDetails =
     { name : String
     , lawCentre : LawCentre
     , lawArea : LawArea
-    , role : Role
+    , roles : List Role
     , admin : Bool
     }
 
@@ -199,7 +198,7 @@ type Msg
     | UpdateSignpostedInternally String
     | UpdateSignpostedExternally String
     | UpdateLawCentre LawCentre
-    | UpdateRole Role
+    | UpdateRoles Role
     | ReceiveCommentStatus (Result Http.Error Bool)
     | ReceiveUpvoteStatus (Result Http.Error UpvoteResponse)
     | ReceiveStats (Result Http.Error StatsResponse)

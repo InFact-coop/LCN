@@ -22,14 +22,60 @@ addStatsView model =
                 ]
             , statsThisWeek model
             , section [ class "mb4" ]
-                [ div [ classes [ displayElement <| model.role == CaseWorker && model.lawArea /= NoArea ] ]
+                [ div [ classes [ displayElement <| List.member CaseWorker model.roles && model.lawArea /= NoArea ] ]
                     [ label [ for "lawArea", classes [ headlineFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
                     , div [ classes [ "mv4" ] ] (problemCheckboxesList model)
                     ]
-                , bigColouredButton model "green" "Submit" PostStats
+                , bigColouredButton (validate model) "green" "Submit" PostStats
                 ]
             ]
         ]
+
+
+validate : Model -> Bool
+validate model =
+    let
+        caseWorkerValidation =
+            (model.lawArea /= NoArea)
+                && (model.peopleSeenWeekly /= Nothing)
+                && (model.newCasesWeekly /= Nothing)
+                && (not <| List.isEmpty model.problems)
+
+        triageValidation =
+            (model.peopleSeenWeekly /= Nothing)
+                && (model.peopleTurnedAwayWeekly /= Nothing)
+                && (model.signpostedInternallyWeekly /= Nothing)
+                && (model.signpostedExternallyWeekly /= Nothing)
+                && (not <| List.isEmpty model.agencies)
+
+        managementValidation =
+            model.volunteersTotalWeekly
+                /= Nothing
+                && model.studentVolunteersWeekly
+                /= Nothing
+                && model.lawyerVolunteersWeekly
+                /= Nothing
+                && model.vacanciesWeekly
+                /= Nothing
+                && model.mediaCoverageWeekly
+                /= Nothing
+
+        roleWithValidation =
+            [ ( CaseWorker, caseWorkerValidation )
+            , ( Triage, triageValidation )
+            , ( Management, managementValidation )
+            ]
+    in
+    roleWithValidation
+        |> List.map
+            (\( role, validation ) ->
+                if List.member role model.roles then
+                    validation
+
+                else
+                    True
+            )
+        |> List.all (\validation -> validation == True)
 
 
 introText : String

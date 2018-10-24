@@ -1,6 +1,7 @@
-module State exposing (init, initModel, submitEnabledToModel, update, updateCommentLikes)
+module State exposing (init, initModel, update)
 
-import Data.Comment exposing (toggleReplyComponent)
+import Data.Comment exposing (toggleReplyComponent, updateCommentLikes)
+import Data.Role exposing (updateRoles)
 import Helpers exposing (ifThenElse, isNewEntry, scrollToTop)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments, handleGetComments)
@@ -20,7 +21,7 @@ initModel =
     , name = ""
     , lawCentre = NoCentre
     , lawArea = NoArea
-    , role = NoRole
+    , roles = [ NoRole ]
     , isAdmin = False
     , weeklyCount = Nothing
     , peopleSeenWeekly = Nothing
@@ -39,7 +40,6 @@ initModel =
     , displayCommentModal = False
     , problems = []
     , agencies = []
-    , submitEnabled = False
     , postUserDetailsStatus = NotAsked
     , postUpvoteStatus = NotAsked
     , getUserDetailsStatus = NotAsked
@@ -71,7 +71,6 @@ update msg model =
                 | view = getView location.hash
                 , displayStatsModal = False
                 , displayCommentModal = False
-                , submitEnabled = False
                 , peopleSeenWeekly = Nothing
                 , peopleTurnedAwayWeekly = Nothing
                 , newCasesWeekly = Nothing
@@ -88,14 +87,14 @@ update msg model =
                 updatedModel =
                     { model | lawArea = la }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdateName username ->
             let
                 updatedModel =
                     { model | name = username }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdateCommentType commentType ->
             { model | commentType = commentType } ! []
@@ -105,58 +104,58 @@ update msg model =
                 updatedModel =
                     { model | commentBody = commentBody }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdateLawCentre lc ->
             let
                 updatedModel =
                     { model | lawCentre = lc }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
-        UpdateRole role ->
+        UpdateRoles role ->
             let
                 updatedModel =
                     { model
-                        | role = role
+                        | roles = updateRoles model role
                     }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdatePeopleTurnedAway number ->
             let
                 updatedModel =
                     { model | peopleTurnedAwayWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdatePeopleSeen number ->
             let
                 updatedModel =
                     { model | peopleSeenWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdateNewCases number ->
             let
                 updatedModel =
                     { model | newCasesWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdateSignpostedInternally number ->
             let
                 updatedModel =
                     { model | signpostedInternallyWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdateSignpostedExternally number ->
             let
                 updatedModel =
                     { model | signpostedExternallyWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         PostComment ->
             { model | commentStatus = Loading } ! [ postComment model ]
@@ -223,7 +222,7 @@ update msg model =
                     else
                         { model | problems = List.filter (\x -> x /= string) model.problems }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         ToggleAgency string checked ->
             let
@@ -232,7 +231,7 @@ update msg model =
                         { model | agencies = model.agencies ++ [ string ] }
                         { model | agencies = List.filter (\x -> x /= string) model.agencies }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         ToggleReplyComponent comment ->
             { model | comments = toggleReplyComponent model comment } ! []
@@ -251,20 +250,20 @@ update msg model =
                 updatedModel =
                     { model
                         | postUserDetailsStatus = Loading
-                        , lawArea = ifThenElse (model.role == CaseWorker) model.lawArea NoArea
+                        , lawArea = ifThenElse (List.member CaseWorker model.roles) model.lawArea NoArea
                     }
             in
             updatedModel ! [ postNewUserDetails updatedModel ]
 
-        GetUserDetailsStatus (Ok { name, lawCentre, lawArea, role, admin }) ->
+        GetUserDetailsStatus (Ok { name, lawCentre, lawArea, roles, admin }) ->
             { model
                 | name = name
                 , lawCentre = lawCentre
                 , lawArea = lawArea
-                , role = role
+                , roles = roles
                 , isAdmin = admin
                 , getUserDetailsStatus = ResponseSuccess
-                , view = ifThenElse (lawCentre == NoCentre || role == NoRole) BeforeYouBegin AddStats
+                , view = ifThenElse (lawCentre == NoCentre || roles == [ NoRole ]) BeforeYouBegin AddStats
             }
                 ! []
 
@@ -276,35 +275,35 @@ update msg model =
                 updatedModel =
                     { model | volunteersTotalWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdateStudentVolunteersWeekly number ->
             let
                 updatedModel =
                     { model | studentVolunteersWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdateLawyerVolunteersWeekly number ->
             let
                 updatedModel =
                     { model | lawyerVolunteersWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdateVacanciesWeekly number ->
             let
                 updatedModel =
                     { model | vacanciesWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpdateMediaCoverageWeekly number ->
             let
                 updatedModel =
                     { model | mediaCoverageWeekly = Just <| Result.withDefault 0 (String.toInt number) }
             in
-            submitEnabledToModel updatedModel ! []
+            updatedModel ! []
 
         UpvoteComment comment ->
             { model | postUpvoteStatus = Loading } ! [ postUpvote comment.id ]
@@ -314,107 +313,3 @@ update msg model =
 
         ReceiveUpvoteStatus (Err err) ->
             { model | postUpvoteStatus = ResponseFailure } ! []
-
-
-updateCommentLikes : UpvoteResponse -> Comment -> Comment
-updateCommentLikes upvote comment =
-    { comment
-        | likes =
-            ifThenElse (comment.id == upvote.commentId)
-                upvote.commentLikes
-                comment.likes
-        , likedByUser =
-            ifThenElse
-                (comment.id
-                    == upvote.commentId
-                    || comment.likedByUser
-                    == True
-                )
-                True
-                False
-    }
-
-
-submitEnabledToModel : Model -> Model
-submitEnabledToModel model =
-    let
-        trueModel =
-            { model | submitEnabled = True }
-
-        falseModel =
-            { model | submitEnabled = False }
-    in
-    case model.view of
-        AddStats ->
-            case model.role of
-                CaseWorker ->
-                    ifThenElse
-                        ((model.lawArea /= NoArea)
-                            && (model.peopleSeenWeekly /= Nothing)
-                            && (model.newCasesWeekly /= Nothing)
-                            && (not <| List.isEmpty model.problems)
-                        )
-                        trueModel
-                        falseModel
-
-                Triage ->
-                    ifThenElse
-                        ((model.peopleSeenWeekly /= Nothing)
-                            && (model.peopleTurnedAwayWeekly /= Nothing)
-                            && (model.signpostedInternallyWeekly /= Nothing)
-                            && (model.signpostedExternallyWeekly /= Nothing)
-                            && (not <| List.isEmpty model.agencies)
-                        )
-                        trueModel
-                        falseModel
-
-                Management ->
-                    ifThenElse
-                        (model.volunteersTotalWeekly
-                            /= Nothing
-                            && model.studentVolunteersWeekly
-                            /= Nothing
-                            && model.lawyerVolunteersWeekly
-                            /= Nothing
-                            && model.vacanciesWeekly
-                            /= Nothing
-                            && model.mediaCoverageWeekly
-                            /= Nothing
-                        )
-                        trueModel
-                        falseModel
-
-                _ ->
-                    trueModel
-
-        BeforeYouBegin ->
-            case model.role of
-                CaseWorker ->
-                    ifThenElse
-                        ((model.lawArea /= NoArea)
-                            && (model.lawCentre /= NoCentre)
-                        )
-                        trueModel
-                        falseModel
-
-                _ ->
-                    ifThenElse
-                        (model.lawCentre
-                            /= NoCentre
-                            && model.role
-                            /= NoRole
-                        )
-                        trueModel
-                        falseModel
-
-        AddComment ->
-            ifThenElse
-                (model.commentBody /= "")
-                trueModel
-                falseModel
-
-        ListComments ->
-            falseModel
-
-        SplashScreen ->
-            falseModel

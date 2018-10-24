@@ -1,6 +1,18 @@
-module Components.Button exposing (bigColouredButton, colouredButton, colouredButtonText, modalButton)
+module Components.Button exposing
+    ( bigColouredButton
+    , colouredButton
+    , colouredButtonText
+    , modalButton
+    )
 
-import Components.StyleHelpers exposing (buttonStyle, classes, roleButtonFont, submitButtonStyle, topicButtonFont)
+import Components.StyleHelpers
+    exposing
+        ( buttonStyle
+        , classes
+        , roleButtonFont
+        , submitButtonStyle
+        , topicButtonFont
+        )
 import Helpers exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -17,7 +29,7 @@ colouredButton colour role =
             , roleButtonFont
             , buttonStyle
             ]
-        , onClick <| UpdateRole role
+        , onClick <| UpdateRoles role
         ]
         [ text <| colouredButtonText role ]
 
@@ -35,22 +47,27 @@ colouredButtonText role =
             unionTypeToString role
 
 
-bigColouredButton : Model -> String -> String -> Msg -> Html Msg
-bigColouredButton model colour label clickMsg =
+bigColouredButton : Bool -> String -> String -> Msg -> Html Msg
+bigColouredButton validationPassed colour label clickMsg =
     button
         [ classes
             [ "mr4 white"
-            , ifThenElse model.submitEnabled
+            , ifThenElse validationPassed
                 ("bg-" ++ colour)
                 "bg-gray disableButton o-30"
             , submitButtonStyle
             , topicButtonFont
             ]
-        , onClick clickMsg
+        , onClick <| ifThenElse validationPassed clickMsg NoOp
         ]
         [ text label ]
 
 
 modalButton : String -> String -> Html Msg
 modalButton label linkTo =
-    a [ classes [ "dib", "link", "black", "pv3", "w-33-l", "w-60-m", "w-100", "mb3", "mh2-l", "br4", "fw3", "f4", "ba", "b--light-gray", "bw1", "pointer", "grow" ], href linkTo, onClick ToggleStatsModal ] [ text label ]
+    a
+        [ class "dib link black pv3 w-33-l w-60-m w-100 mb3 mh2-l br4 fw3 f4 ba b--light-gray bw1 pointer grow"
+        , href linkTo
+        , onClick ToggleStatsModal
+        ]
+        [ text label ]
