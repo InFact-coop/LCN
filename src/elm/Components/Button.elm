@@ -17,7 +17,7 @@ colouredButton colour role =
             , roleButtonFont
             , buttonStyle
             ]
-        , onClick <| UpdateRole role
+        , onClick <| UpdateRoles role
         ]
         [ text <| colouredButtonText role ]
 

@@ -22,7 +22,7 @@ addStatsView model =
                 ]
             , statsThisWeek model
             , section [ class "mb4" ]
-                [ div [ classes [ displayElement <| List.member CaseWorker model.role && model.lawArea /= NoArea ] ]
+                [ div [ classes [ displayElement <| List.member CaseWorker model.roles && model.lawArea /= NoArea ] ]
                     [ label [ for "lawArea", classes [ headlineFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
                     , div [ classes [ "mv4" ] ] (problemCheckboxesList model)
                     ]

@@ -1,6 +1,7 @@
 module State exposing (init, initModel, update)
 
 import Data.Comment exposing (toggleReplyComponent, updateCommentLikes)
+import Data.Role exposing (updateRoles)
 import Helpers exposing (ifThenElse, isNewEntry, scrollToTop)
 import Navigation exposing (..)
 import Requests.GetComments exposing (getComments, handleGetComments)
@@ -20,7 +21,7 @@ initModel =
     , name = ""
     , lawCentre = NoCentre
     , lawArea = NoArea
-    , role = [ NoRole ]
+    , roles = [ NoRole ]
     , isAdmin = False
     , weeklyCount = Nothing
     , peopleSeenWeekly = Nothing
@@ -114,11 +115,11 @@ update msg model =
             in
             updatedModel ! []
 
-        UpdateRole role ->
+        UpdateRoles role ->
             let
                 updatedModel =
                     { model
-                        | role = model.role ++ [ role ]
+                        | roles = updateRoles model role
                     }
             in
             updatedModel ! []
@@ -251,20 +252,20 @@ update msg model =
                 updatedModel =
                     { model
                         | postUserDetailsStatus = Loading
-                        , lawArea = ifThenElse (List.member CaseWorker model.role) model.lawArea NoArea
+                        , lawArea = ifThenElse (List.member CaseWorker model.roles) model.lawArea NoArea
                     }
             in
             updatedModel ! [ postNewUserDetails updatedModel ]
 
-        GetUserDetailsStatus (Ok { name, lawCentre, lawArea, role, admin }) ->
+        GetUserDetailsStatus (Ok { name, lawCentre, lawArea, roles, admin }) ->
             { model
                 | name = name
                 , lawCentre = lawCentre
                 , lawArea = lawArea
-                , role = role
+                , roles = roles
                 , isAdmin = admin
                 , getUserDetailsStatus = ResponseSuccess
-                , view = ifThenElse (lawCentre == NoCentre || role == [ NoRole ]) BeforeYouBegin AddStats
+                , view = ifThenElse (lawCentre == NoCentre || roles == [ NoRole ]) BeforeYouBegin AddStats
             }
                 ! []
 
@@ -328,7 +329,7 @@ update msg model =
 --     in
 --     case model.view of
 --         AddStats ->
---             case model.role of
+--             case model.roles of
 --                 CaseWorker ->
 --                     ifThenElse
 --                         ((model.lawArea /= NoArea)
@@ -370,7 +371,7 @@ update msg model =
 --                     trueModel
 --
 --         BeforeYouBegin ->
---             case model.role of
+--             case model.roles of
 --                 CaseWorker ->
 --                     ifThenElse
 --                         ((model.lawArea /= NoArea)
@@ -383,7 +384,7 @@ update msg model =
 --                     ifThenElse
 --                         (model.lawCentre
 --                             /= NoCentre
---                             && model.role
+--                             && model.roles
 --                             /= NoRole
 --                         )
 --                         trueModel

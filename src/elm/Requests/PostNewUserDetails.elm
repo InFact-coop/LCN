@@ -22,6 +22,6 @@ userDetails : Model -> Value
 userDetails model =
     object
         [ ( "law_centre", string (unionTypeToString model.lawCentre) )
-        , ( "job_role", list (List.map (unionTypeToString >> string) model.role) )
+        , ( "job_role", list (List.map (unionTypeToString >> string) model.roles) )
         , ( "law_area", string (unionTypeToString model.lawArea) )
         ]

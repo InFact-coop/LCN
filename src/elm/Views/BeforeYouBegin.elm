@@ -47,7 +47,7 @@ beforeYouBegin model =
                 , h1 [ classes [ "tl mb3", headlineFont ] ]
                     [ text <| "What is your role at " ++ ifThenElse (model.lawCentre == NoCentre) "your " (unionTypeToString model.lawCentre) ++ "  Law Centre?" ]
                 , div [ class "mb4" ] (roleButtonsList model)
-                , div [ classes [ "mb4", displayElement <| List.member CaseWorker model.role ] ]
+                , div [ classes [ "mb4", displayElement <| List.member CaseWorker model.roles ] ]
                     [ div [ class "mb3" ] [ label [ for "lawArea", classes [ headlineFont, "tl" ] ] [ text "What is your main area of practice?" ] ]
                     , div [ class "bw1 ba b--light-gray new-select pink-drop w-40-l w-100 relative flex items-center justify-center" ]
                         [ select
@@ -81,7 +81,7 @@ roleButtonsList : Model -> List (Html Msg)
 roleButtonsList model =
     let
         chooseClass role =
-            if List.member role model.role then
+            if List.member role model.roles then
                 "grow"
 
             else
