@@ -1,4 +1,18 @@
-module Types exposing (..)
+module Types exposing
+    ( Comment
+    , CommentId
+    , CommentType(..)
+    , LawArea(..)
+    , LawCentre(..)
+    , Model
+    , Msg(..)
+    , RemoteData(..)
+    , Role(..)
+    , StatsResponse
+    , UpvoteResponse
+    , UserDetails
+    , View(..)
+    )
 
 import Http
 import Navigation

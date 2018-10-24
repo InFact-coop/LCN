@@ -7,21 +7,28 @@ AIRTABLE_API_KEY=
 AIRTABLE_BASE=
 AIRTABLE_BASE_DEV=
 AIRTABLE_BASE_TEST=
-AIRTABLE_TABLE=
+MAILER_EMAIL_PASSWORD=
+MAILER_EMAIL_ID=
+MAILER_SERVICE_PROVIDER=
+MONGODB_URI=
+MONGO_URI=
+SESSION_SECRET=
 ```
 
 To fill these out [check the airtable api docs](https://airtable.com/api) selecting the base you want to work with.
 
 run the following commands:
 
-* Install dependencies: `npm i`
+- Install dependencies: `npm i`
 
-* Run server tests: `npm run test`
+- Install elm dependencies `elm package install`
 
-* Run a live updating elm server (front end): `npm run dev-frontend`
+- Run server tests: `npm run test`
 
-* Run the backend with live updating: `npm run dev-backend`
+- Run a live updating elm server (front end): `npm run dev-frontend`
 
-* Build the front end: `npm run heroku-postbuild`
+- Run the backend with live updating: `npm run dev-backend`
 
-* Start the server: `npm start`
+- Build the front end: `npm run heroku-postbuild`
+
+- Start the server: `npm start`

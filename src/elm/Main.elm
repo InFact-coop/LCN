@@ -1,8 +1,8 @@
-module Main exposing (..)
+module Main exposing (main)
 
 import Navigation exposing (program)
-import State exposing (..)
 import Router exposing (..)
+import State exposing (..)
 import Types exposing (..)
 
 
