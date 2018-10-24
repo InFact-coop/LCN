@@ -1,14 +1,14 @@
-const r = require('ramda');
+const r = require("ramda");
 
-const User = require('../models/user');
+const User = require("../models/user");
 
-const { generate_random_token, parse_date } = require('../helpers');
-const { send_invite_email } = require('../helpers/email_helpers');
+const { generate_random_token, parse_date } = require("../helpers");
+const { send_invite_email } = require("../helpers/email_helpers");
 const {
   create_user_with_signup_token,
   update_user_signup_token,
   search_for_existing_user
-} = require('../helpers/db_helpers');
+} = require("../helpers/db_helpers");
 
 const invite_new_user = async ({ email, name }) => {
   const token = await generate_random_token();
@@ -23,13 +23,13 @@ const invite_existing_user = async user => {
 };
 
 const invite_users_get = async (req, res) => {
-  res.render('invite-users');
+  res.render("invite-users");
 };
 
 const invite_users_post = async (req, res) => {
   const submitted_users_by_email = r.reduce(
     (acc, user_obj) => {
-      return user_obj.email === ''
+      return user_obj.email === ""
         ? acc
         : { ...acc, [user_obj.email]: user_obj };
     },
@@ -40,15 +40,15 @@ const invite_users_post = async (req, res) => {
   const users_from_database = await Promise.all(
     r.map(search_for_existing_user, r.keys(submitted_users_by_email))
   ).catch(err => {
-    console.log('invite users err', err);
-    return res.status(400).render('error', {
+    console.log("invite users err", err);
+    return res.status(400).render("error", {
       message:
-        'Something went wrong inviting the users, please try again in a few minutes.'
+        "Something went wrong inviting the users, please try again in a few minutes."
     });
   });
 
   const already_signed_up_users = r.pipe(
-    r.filter(r.prop('signed_up')),
+    r.filter(r.prop("signed_up")),
     r.keys,
     r.map(email => submitted_users_by_email[email])
   )(r.mergeAll(users_from_database));
@@ -77,10 +77,10 @@ const invite_users_post = async (req, res) => {
 
   await Promise.all([...invite_new_users, ...invite_existing_users]).catch(
     err => {
-      console.log('invite users err', err);
-      return res.status(400).render('error', {
+      console.log("invite users err", err);
+      return res.status(400).render("error", {
         message:
-          'Something went wrong inviting the users, please try again in a few minutes.'
+          "Something went wrong inviting the users, please try again in a few minutes."
       });
     }
   );
@@ -102,7 +102,7 @@ const invite_users_post = async (req, res) => {
     };
   };
 
-  res.render('invite-users', { results: results() });
+  res.render("invite-users", { results: results() });
 };
 
 module.exports = {

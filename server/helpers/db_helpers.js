@@ -1,10 +1,10 @@
-const User = require('../models/user');
+const User = require("../models/user");
 
 const find_user = search_params => {
   return new Promise((resolve, reject) => {
     User.findOne(search_params).exec((err, user) => {
       if (err) return reject(err);
-      if (!user) return reject('No user found');
+      if (!user) return reject("No user found");
       return resolve(user);
     });
   });
@@ -63,7 +63,7 @@ const update_user_comments_liked = (user, commentId) => {
         $push: { comments_liked: commentId }
       }
     ).exec((err, user) => {
-      if (!user) return reject('No user found');
+      if (!user) return reject("No user found");
       if (err) return reject(err);
       resolve(true);
     });
@@ -73,7 +73,7 @@ const update_user_comments_liked = (user, commentId) => {
 const check_user_commented = user => {
   return new Promise((resolve, reject) => {
     User.findOne({ _id: user._id }).exec((err, user) => {
-      if (!user) return reject('No user found');
+      if (!user) return reject("No user found");
       if (err) return reject(err);
       resolve(user.comments_liked);
     });
