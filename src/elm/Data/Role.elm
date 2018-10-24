@@ -1,5 +1,6 @@
 module Data.Role exposing (stringToRole, updateRoles)
 
+import Helpers exposing (..)
 import Types exposing (..)
 
 
@@ -29,6 +30,7 @@ updateRoles model newRole =
 
     else if List.member newRole model.roles then
         List.filter (\existingRole -> existingRole /= newRole) model.roles
+            |> (\roles -> ifThenElse (List.isEmpty roles) [ NoRole ] roles)
 
     else
         model.roles ++ [ newRole ]

@@ -64,10 +64,43 @@ beforeYouBegin model =
                             )
                         ]
                     ]
-                , bigColouredButton model "green" (ifThenElse (model.postUserDetailsStatus == Loading) "..." "Submit") PostNewUserDetails
+                , bigColouredButtonTest (validationPassed model) "green" (ifThenElse (model.postUserDetailsStatus == Loading) "..." "Submit") PostNewUserDetails
                 ]
             ]
         ]
+
+
+validationPassed : Model -> Bool
+validationPassed model =
+    let
+        defaultValidation =
+            model.lawCentre
+                /= NoCentre
+                && model.roles
+                /= [ NoRole ]
+
+        caseWorkerValidation =
+            (model.lawArea /= NoArea)
+                && (model.lawCentre /= NoCentre)
+
+        roleWithValidation =
+            [ ( CaseWorker, caseWorkerValidation )
+            , ( NoRole, defaultValidation )
+            ]
+    in
+    roleWithValidation
+        |> List.map
+            (\( role, validation ) ->
+                if role == NoRole then
+                    validation
+
+                else if List.member role model.roles then
+                    validation
+
+                else
+                    True
+            )
+        |> List.all (\validation -> validation == True)
 
 
 introText : String
