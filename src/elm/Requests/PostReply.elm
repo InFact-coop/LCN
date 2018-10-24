@@ -1,4 +1,4 @@
-module Requests.PostReply exposing (..)
+module Requests.PostReply exposing (comment, postReply, replyRequest)
 
 import Helpers exposing (unionTypeToString)
 import Http exposing (jsonBody, post)

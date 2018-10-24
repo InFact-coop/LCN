@@ -1,8 +1,8 @@
-module Router exposing (..)
+module Router exposing (getCurrentView, getView, modalBackground, view, viewFromUrl)
 
+import Components.CommentModal exposing (commentModal)
 import Components.Nav exposing (navBar)
 import Components.StatsModal exposing (statsModal)
-import Components.CommentModal exposing (commentModal)
 import Components.StyleHelpers exposing (classes, displayElement)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -10,8 +10,8 @@ import Navigation exposing (..)
 import Types exposing (..)
 import Views.AddComment exposing (..)
 import Views.AddStats exposing (..)
-import Views.ListComments exposing (..)
 import Views.BeforeYouBegin exposing (..)
+import Views.ListComments exposing (..)
 import Views.SplashScreen exposing (..)
 
 
@@ -21,13 +21,13 @@ view model =
         view =
             getCurrentView model
     in
-        div [ class "w-100 fixed overflow-y-scroll top-0 bottom-0 bg-light-blue m0-auto cover", id "container" ]
-            [ modalBackground model
-            , statsModal model
-            , commentModal model
-            , div [ class "fixed w-100 bg-white flex flex-row justify-center z-1" ] [ navBar model ]
-            , div [ class "mt6 center pt3-ns mw8" ] [ view ]
-            ]
+    div [ class "w-100 fixed overflow-y-scroll top-0 bottom-0 bg-light-blue m0-auto cover", id "container" ]
+        [ modalBackground model
+        , statsModal model
+        , commentModal model
+        , div [ class "fixed w-100 bg-white flex flex-row justify-center z-1" ] [ navBar model ]
+        , div [ class "mt6 center pt3-ns mw8" ] [ view ]
+        ]
 
 
 modalBackground : Model -> Html Msg
@@ -88,4 +88,4 @@ viewFromUrl location model =
         view =
             getView location.hash
     in
-        { model | view = view }
+    { model | view = view }

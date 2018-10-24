@@ -1,7 +1,7 @@
-module Components.LawCentre exposing (..)
+module Components.LawCentre exposing (lawCentreList, lawCentreOption)
 
 import Components.StyleHelpers exposing (classes)
-import Helpers exposing (unionTypeToString, ifThenElse)
+import Helpers exposing (ifThenElse, unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Types exposing (..)
@@ -23,4 +23,48 @@ lawCentreOption lc =
 
 lawCentreList : List LawCentre
 lawCentreList =
-    [ NoCentre, AvonAndBristol, Birmingham, Brent, Bury, CambridgeHouse, Camden, Bradford, Coventry, Croydon, Cumbria, Derbyshire, Ealing, Gloucester, Manchester, Hackney, HammersmithAndFulham, Haringey, Harrow, Hillingdon, IsleOfWight, Islington, KingstonAndRichmond, Kirklees, Lambeth, NorthernIreland, WesternAreaNorthernIreland, Luton, Merseyside, MertonAndSutton, Newcastle, NorthKensington, Nottingham, Paddington, Plumstead, Rochdale, Sheffield, Southwark, Springfield, Surrey, TowerHamlets, Vauxhall, Wandsworth, Wiltshire ]
+    [ NoCentre
+    , AvonAndBristol
+    , Birmingham
+    , Brent
+    , Bury
+    , CambridgeHouse
+    , Camden
+    , Bradford
+    , Coventry
+    , Croydon
+    , Cumbria
+    , Derbyshire
+    , Ealing
+    , Gloucester
+    , Manchester
+    , Hackney
+    , HammersmithAndFulham
+    , Haringey
+    , Harrow
+    , Hillingdon
+    , IsleOfWight
+    , Islington
+    , KingstonAndRichmond
+    , Kirklees
+    , Lambeth
+    , NorthernIreland
+    , WesternAreaNorthernIreland
+    , Luton
+    , Merseyside
+    , MertonAndSutton
+    , Newcastle
+    , NorthKensington
+    , Nottingham
+    , Paddington
+    , Plumstead
+    , Rochdale
+    , Sheffield
+    , Southwark
+    , Springfield
+    , Surrey
+    , TowerHamlets
+    , Vauxhall
+    , Wandsworth
+    , Wiltshire
+    ]

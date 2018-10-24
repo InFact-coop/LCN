@@ -1,7 +1,7 @@
-module Views.AddStats exposing (..)
+module Views.AddStats exposing (addStatsView, introText, problemCheckboxesList)
 
 import Components.Button exposing (..)
-import Components.LawAreaCheckbox exposing (problemCheckbox, agencyCheckbox)
+import Components.LawAreaCheckbox exposing (agencyCheckbox, problemCheckbox)
 import Components.StatsThisWeek exposing (statsThisWeek)
 import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, headlineFont)
 import Helpers exposing (ifThenElse)
@@ -46,42 +46,42 @@ problemCheckboxesList : Model -> List (Html Msg)
 problemCheckboxesList model =
     case model.lawArea of
         WelfareAndBenefits ->
-            [ problemCheckbox "Entitlement"
+            [ problemCheckbox "Council Tax Reduction"
+            , problemCheckbox "DLA"
+            , problemCheckbox "ESA"
+            , problemCheckbox "Entitlement"
+            , problemCheckbox "JSA"
             , problemCheckbox "Overpayment"
+            , problemCheckbox "PIP"
+            , problemCheckbox "Pension Credit"
             , problemCheckbox "Right to Reside"
             , problemCheckbox "Sanctions"
-            , problemCheckbox "Universal Credit"
-            , problemCheckbox "PIP"
-            , problemCheckbox "ESA"
-            , problemCheckbox "DLA"
-            , problemCheckbox "JSA"
-            , problemCheckbox "Council Tax Reduction"
             , problemCheckbox "Tax Credit"
-            , problemCheckbox "Pension Credit"
+            , problemCheckbox "Universal Credit"
             , problemCheckbox "Other"
             ]
 
         Employment ->
-            [ problemCheckbox "Working Time"
-            , problemCheckbox "Withheld Wages / Notice / Holiday Pay"
-            , problemCheckbox "Redundancy Payments"
-            , problemCheckbox "Discrimination"
-            , problemCheckbox "Breach of Contract"
-            , problemCheckbox "Unfair Dismissal"
+            [ problemCheckbox "Breach of Contract"
             , problemCheckbox "Disciplinary / Grievance"
+            , problemCheckbox "Discrimination"
+            , problemCheckbox "Redundancy Payments"
+            , problemCheckbox "Unfair Dismissal"
             , problemCheckbox "Whistleblowing"
+            , problemCheckbox "Withheld Wages / Notice / Holiday Pay"
+            , problemCheckbox "Working Time"
             , problemCheckbox "Other"
             ]
 
         Debt ->
             [ problemCheckbox "Council Tax Arrears / Bailiffs"
-            , problemCheckbox "Utilities"
-            , problemCheckbox "Rent Arrears"
-            , problemCheckbox "Mortgage (Arrears or Interest Only)"
             , problemCheckbox "Court Fines"
-            , problemCheckbox "Secured or Student Loans"
             , problemCheckbox "Credit Card Debt"
+            , problemCheckbox "Mortgage (Arrears or Interest Only)"
             , problemCheckbox "Overpaid Benefits Clawback"
+            , problemCheckbox "Rent Arrears"
+            , problemCheckbox "Secured or Student Loans"
+            , problemCheckbox "Utilities"
             , problemCheckbox "Other"
             ]
 
@@ -99,14 +99,14 @@ problemCheckboxesList model =
             ]
 
         ImmigrationAndAsylum ->
-            [ problemCheckbox "Asylum"
+            [ problemCheckbox "Article 3 / Humanitarian Protection"
             , problemCheckbox "Article 8"
-            , problemCheckbox "Article 3 / Humanitarian Protection"
+            , problemCheckbox "Asylum"
+            , problemCheckbox "Children / UASC"
             , problemCheckbox "Domestic Violence"
             , problemCheckbox "Family Reunion"
             , problemCheckbox "NRPF"
             , problemCheckbox "Trafficking"
-            , problemCheckbox "Children / UASC"
             , problemCheckbox "Other"
             ]
 
@@ -125,8 +125,8 @@ problemCheckboxesList model =
             , problemCheckbox "Assessments for Care / Support"
             , problemCheckbox "Best Interest Decision Making"
             , problemCheckbox "Care / Support Planning"
-            , problemCheckbox "Care at Home"
             , problemCheckbox "Care Home Placement / Supported Living"
+            , problemCheckbox "Care at Home"
             , problemCheckbox "Carers Assessment / Services"
             , problemCheckbox "Children's Act Assessment / Services"
             , problemCheckbox "Payments (Charging, Personal Budget, Direct Payments)"
@@ -135,9 +135,9 @@ problemCheckboxesList model =
             ]
 
         PublicLaw ->
-            [ problemCheckbox "Social Welfare"
-            , problemCheckbox "Human Rights"
+            [ problemCheckbox "Human Rights"
             , problemCheckbox "Migrant Support"
+            , problemCheckbox "Social Welfare"
             , problemCheckbox "Other"
             ]
 

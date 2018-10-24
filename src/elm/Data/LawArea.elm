@@ -1,4 +1,4 @@
-module Data.LawArea exposing (..)
+module Data.LawArea exposing (decoderLawArea, stringToLawArea)
 
 import Json.Decode exposing (Decoder)
 import Types exposing (..)

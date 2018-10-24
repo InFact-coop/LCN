@@ -1,4 +1,4 @@
-module Data.Role exposing (..)
+module Data.Role exposing (stringToRole)
 
 import Types exposing (..)
 

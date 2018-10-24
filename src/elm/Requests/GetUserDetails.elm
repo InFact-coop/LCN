@@ -1,4 +1,4 @@
-module Requests.GetUserDetails exposing (..)
+module Requests.GetUserDetails exposing (getUserDetails, getUserDetailsRequest, userDetailsDecoder)
 
 import Data.LawArea exposing (stringToLawArea)
 import Data.LawCentre exposing (stringToLawCentre)

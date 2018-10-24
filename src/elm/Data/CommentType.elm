@@ -1,4 +1,4 @@
-module Data.CommentType exposing (..)
+module Data.CommentType exposing (commentTypeColor, commentTypeColorLight, commentTypes, stringToCommmentType)
 
 import Types exposing (..)
 

@@ -1,4 +1,4 @@
-module Components.LawArea exposing (..)
+module Components.LawArea exposing (lawAreaList, lawAreaOption)
 
 import Components.StyleHelpers exposing (classes)
 import Helpers exposing (ifThenElse, unionTypeToString)

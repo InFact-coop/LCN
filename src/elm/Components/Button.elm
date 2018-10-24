@@ -1,4 +1,4 @@
-module Components.Button exposing (..)
+module Components.Button exposing (bigColouredButton, colouredButton, colouredButtonText, modalButton)
 
 import Components.StyleHelpers exposing (buttonStyle, classes, roleButtonFont, submitButtonStyle, topicButtonFont)
 import Helpers exposing (..)
@@ -42,7 +42,7 @@ bigColouredButton model colour label clickMsg =
             [ "mr4 white"
             , ifThenElse model.submitEnabled
                 ("bg-" ++ colour)
-                ("bg-gray disableButton o-30")
+                "bg-gray disableButton o-30"
             , submitButtonStyle
             , topicButtonFont
             ]
