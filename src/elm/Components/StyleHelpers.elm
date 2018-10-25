@@ -16,7 +16,7 @@ bodyFont =
 
 promptFont : String
 promptFont =
-    "f5 fw3 i"
+    "f5 fw3"
 
 
 checkboxFont : String

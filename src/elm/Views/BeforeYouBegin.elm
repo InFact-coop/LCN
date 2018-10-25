@@ -9,7 +9,7 @@ module Views.BeforeYouBegin exposing
 import Components.Button exposing (..)
 import Components.LawArea exposing (lawAreaList, lawAreaOption)
 import Components.LawCentre exposing (lawCentreList, lawCentreOption)
-import Components.StyleHelpers exposing (bodyFont, classes, displayElement, headlineFont)
+import Components.StyleHelpers exposing (bodyFont, classes, displayElement, headlineFont, promptFont)
 import Data.LawArea exposing (decoderLawArea)
 import Data.LawCentre exposing (decoderLC)
 import Helpers exposing (ifThenElse, unionTypeToString)
@@ -46,6 +46,7 @@ beforeYouBegin model =
                     ]
                 , h1 [ classes [ "tl mb3", headlineFont ] ]
                     [ text <| "What is your role at " ++ ifThenElse (model.lawCentre == NoCentre) "your " (unionTypeToString model.lawCentre) ++ "  Law Centre?" ]
+                , h2 [ classes [ promptFont, "mb4" ] ] [ text "(Click all that apply)" ]
                 , div [ class "mb4" ] (roleButtonsList model)
                 , div [ classes [ "mb4", displayElement <| List.member CaseWorker model.roles ] ]
                     [ div [ class "mb3" ] [ label [ for "lawArea", classes [ headlineFont, "tl" ] ] [ text "What is your main area of practice?" ] ]
