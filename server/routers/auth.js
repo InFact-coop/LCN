@@ -8,6 +8,7 @@ const {
   signup_get,
   logout_get,
   login_post,
+  onboarding_get,
   signup_post
 } = require("../controllers/auth");
 
@@ -15,6 +16,7 @@ const { is_logged_in } = require("./route_middleware");
 
 module.exports = (app, passport) => {
   app.get("/login", login_get);
+  app.get("/onboarding", onboarding_get);
   app.get("/", is_logged_in, home_get);
   app.post("/login", login_post(passport));
   app.get("/signup", signup_get);
