@@ -1,4 +1,12 @@
-module Views.AddComment exposing (addCommentView, inputComment, submitButton, summary, summaryText, topicExplanation, topicHeading)
+module Views.AddComment exposing
+    ( addCommentView
+    , inputComment
+    , submitButton
+    , summary
+    , summaryText
+    , topicExplanation
+    , topicHeading
+    )
 
 import Components.ChooseTopic exposing (chooseTopic)
 import Components.StyleHelpers exposing (bodyFont, buttonStyle, classes, headlineFont, submitButtonStyle, topicButtonFont)
@@ -105,14 +113,18 @@ topicHeading model =
 
 submitButton : Model -> Html Msg
 submitButton model =
+    let
+        validate =
+            model.commentBody /= ""
+    in
     button
         [ classes
             [ topicButtonFont
             , submitButtonStyle
-            , ifThenElse model.submitEnabled
+            , ifThenElse validate
                 ("bg-" ++ commentTypeColor model.commentType)
                 "bg-gray disableButton o-30"
             ]
-        , onClick PostComment
+        , onClick <| ifThenElse validate PostComment NoOp
         ]
         [ text "Submit" ]

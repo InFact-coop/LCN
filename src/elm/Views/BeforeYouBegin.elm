@@ -1,4 +1,10 @@
-module Views.BeforeYouBegin exposing (beforeYouBegin, introText, roleButtonsList, targetValueDecoderLC, targetValueDecoderLawArea)
+module Views.BeforeYouBegin exposing
+    ( beforeYouBegin
+    , introText
+    , roleButtonsList
+    , targetValueDecoderLC
+    , targetValueDecoderLawArea
+    )
 
 import Components.Button exposing (..)
 import Components.LawArea exposing (lawAreaList, lawAreaOption)
@@ -41,7 +47,7 @@ beforeYouBegin model =
                 , h1 [ classes [ "tl mb3", headlineFont ] ]
                     [ text <| "What is your role at " ++ ifThenElse (model.lawCentre == NoCentre) "your " (unionTypeToString model.lawCentre) ++ "  Law Centre?" ]
                 , div [ class "mb4" ] (roleButtonsList model)
-                , div [ classes [ "mb4", displayElement <| model.role == CaseWorker ] ]
+                , div [ classes [ "mb4", displayElement <| List.member CaseWorker model.roles ] ]
                     [ div [ class "mb3" ] [ label [ for "lawArea", classes [ headlineFont, "tl" ] ] [ text "What is your main area of practice?" ] ]
                     , div [ class "bw1 ba b--light-gray new-select pink-drop w-40-l w-100 relative flex items-center justify-center" ]
                         [ select
@@ -58,10 +64,43 @@ beforeYouBegin model =
                             )
                         ]
                     ]
-                , bigColouredButton model "green" (ifThenElse (model.postUserDetailsStatus == Loading) "..." "Submit") PostNewUserDetails
+                , bigColouredButton (validate model) "green" (ifThenElse (model.postUserDetailsStatus == Loading) "..." "Submit") PostNewUserDetails
                 ]
             ]
         ]
+
+
+validate : Model -> Bool
+validate model =
+    let
+        defaultValidation =
+            model.lawCentre
+                /= NoCentre
+                && model.roles
+                /= [ NoRole ]
+
+        caseWorkerValidation =
+            (model.lawArea /= NoArea)
+                && (model.lawCentre /= NoCentre)
+
+        roleWithValidation =
+            [ ( CaseWorker, caseWorkerValidation )
+            , ( NoRole, defaultValidation )
+            ]
+    in
+    roleWithValidation
+        |> List.map
+            (\( role, validation ) ->
+                if role == NoRole then
+                    validation
+
+                else if List.member role model.roles then
+                    validation
+
+                else
+                    True
+            )
+        |> List.all (\validation -> validation == True)
 
 
 introText : String
@@ -73,30 +112,18 @@ introText =
 
 roleButtonsList : Model -> List (Html Msg)
 roleButtonsList model =
-    case model.role of
-        CaseWorker ->
-            [ colouredButton "pink grow" CaseWorker
-            , colouredButton "orange o-30 shrink" Triage
-            , colouredButton "green o-30 shrink" Management
-            ]
+    let
+        chooseClass role =
+            if List.member role model.roles then
+                "grow"
 
-        Management ->
-            [ colouredButton "pink o-30 shrink" CaseWorker
-            , colouredButton "orange o-30 shrink" Triage
-            , colouredButton "green grow" Management
-            ]
-
-        Triage ->
-            [ colouredButton "pink o-30 shrink" CaseWorker
-            , colouredButton "orange grow" Triage
-            , colouredButton "green o-30 shrink" Management
-            ]
-
-        NoRole ->
-            [ colouredButton "pink o-30 shrink" CaseWorker
-            , colouredButton "orange o-30 shrink" Triage
-            , colouredButton "green o-30 shrink" Management
-            ]
+            else
+                "o-30 shrink"
+    in
+    [ colouredButton ("pink " ++ chooseClass CaseWorker) CaseWorker
+    , colouredButton ("orange " ++ chooseClass Triage) Triage
+    , colouredButton ("green " ++ chooseClass Management) Management
+    ]
 
 
 targetValueDecoderLawArea : Decoder LawArea

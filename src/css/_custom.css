@@ -13,7 +13,7 @@ body {
   grid-column-gap: var(--spacing-large);
   grid-row-gap: var(--spacing-large);
   grid-template-columns: auto auto;
-  grid-auto-rows: 1fr;
+  grid-auto-rows: max-content;
 }
 
 /* Remove blue border highlight on inputs */
