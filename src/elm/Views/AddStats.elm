@@ -78,6 +78,7 @@ validate model =
         |> List.all (\validation -> validation == True)
 
 
+
 introText : String
 introText =
     """
