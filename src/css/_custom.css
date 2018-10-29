@@ -18,7 +18,7 @@ body {
 }
 
 .transition-half-s {
-    transition: 0.5s;
+  transition: 0.5s;
 }
 
 /* Flickity Styling */
@@ -61,6 +61,15 @@ body {
 .flickity-page-dots .dot:nth-child(4).is-selected {
   background: var(--orange);
 }
+
+.grid {
+  display: grid;
+  grid-column-gap: var(--spacing-large);
+  grid-row-gap: var(--spacing-large);
+  grid-template-columns: auto auto;
+  grid-auto-rows: max-content;
+}
+
 /* Remove blue border highlight on inputs */
 
 input:-webkit-autofill,
@@ -92,6 +101,26 @@ input::-webkit-inner-spin-button {
 
 .disableButton {
   pointer-events: none;
+}
+
+.number-orange:focus,
+.number-orange:focus-within {
+  border-color: var(--orange);
+}
+
+.number-blue:focus,
+.number-blue:focus-within {
+  border-color: var(--blue);
+}
+
+.number-pink:focus,
+.number-pink:focus-within {
+  border-color: var(--pink);
+}
+
+.number-green:focus,
+.number-green:focus-within {
+  border-color: var(--green);
 }
 
 input[type="checkbox"] {

@@ -9,7 +9,7 @@
     "test:watch": "NODE_ENV=test mocha ./tests/* --watch",
     "elm-watch-debug": "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js --debug'",
     "elm-watch": "chokidar '**/*.elm' -c 'elm make src/elm/Main.elm --output=public/elm.js'",
-    "just-frontend": "elm-live src/elm/Main.elm --debug --output=public/elm.js --dir=public --open --pushstate & npm run css-watch",
+    "just-frontend": "elm live src/elm/Main.elm --debug --output=public/elm.js --dir=public --open --pushstate & npm run css-watch",
     "css-watch": "postcss ./src/css/index.css --output ./public/style.min.css --watch --config ./postcss.config.js",
     "dev-frontend": "npm run elm-watch-debug & npm run css-watch",
     "dev-backend": "NODE_ENV=development nodemon ./server/start",

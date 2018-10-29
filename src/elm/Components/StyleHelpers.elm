@@ -1,4 +1,4 @@
-module Components.StyleHelpers exposing (bodyFont, buttonStyle, checkboxFont, classes, displayElement, emptySpan, headlineFont, inputFont, inputLabelFont, navLinkFont, navLinkStyle, roleButtonFont, submitButtonStyle, textareaFont, topicButtonFont)
+module Components.StyleHelpers exposing (bodyFont, buttonStyle, checkboxFont, classes, displayElement, emptySpan, headlineFont, inputFont, inputLabelFont, navLinkFont, navLinkStyle, promptFont, roleButtonFont, submitButtonStyle, textareaFont, topicButtonFont)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -13,6 +13,11 @@ headlineFont =
 bodyFont : String
 bodyFont =
     "f4 lh-copy fw3"
+
+
+promptFont : String
+promptFont =
+    "f5 fw3"
 
 
 checkboxFont : String
