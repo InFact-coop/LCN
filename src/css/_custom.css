@@ -18,7 +18,7 @@ body {
 }
 
 .transition-half-s {
-  transition: 0.5s;
+    transition: 0.5s;
 }
 
 /* Flickity Styling */

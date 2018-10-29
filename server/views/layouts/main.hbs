@@ -23,13 +23,16 @@
     var carousel = document.getElementById("js-carousel")
     var flkty = new Flickity(carousel);
     var splash = document.getElementById("js-splash")
+    var login = document.getElementById("js-login-button")
     var backgroundColours = ["green", "blue", "pink", "orange"]
 
     flkty.on("change", function () {
       backgroundColours.forEach(function (colour) {
         splash.classList.remove("bg-" + colour)
+        login.classList.remove("bg-" + colour)
       })
       splash.classList.add("bg-" + backgroundColours[flkty.selectedIndex])
+      login.classList.add("bg-" + backgroundColours[flkty.selectedIndex])
     })
   </script>
 </body>
