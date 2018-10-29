@@ -7,14 +7,11 @@ import Html.Attributes exposing (..)
 headlineFont : String
 headlineFont =
     "f3 fw6"
-<<<<<<< Updated upstream
-=======
 
 
 promptFont : String
 promptFont =
     "f5 fw3"
->>>>>>> Stashed changes
 
 
 bodyFont : String
