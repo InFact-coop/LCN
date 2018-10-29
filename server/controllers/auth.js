@@ -61,6 +61,10 @@ const home_get = (req, res) => {
   });
 };
 
+const onboarding_get = (req, res) => {
+  res.render("onboarding", {});
+};
+
 const reset_password_get = (req, res) => {
   User.findOne({
     reset_password_token: req.query.token,
@@ -222,5 +226,6 @@ module.exports = {
   signup_get,
   logout_get,
   login_post,
-  signup_post
+  signup_post,
+  onboarding_get
 };
