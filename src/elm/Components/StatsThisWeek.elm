@@ -1,7 +1,7 @@
 module Components.StatsThisWeek exposing (numericalInput, statsThisWeek)
 
 import Components.LawAreaCheckbox exposing (agencyCheckbox, problemCheckbox)
-import Components.StyleHelpers exposing (bodyFont, classes, displayElement, headlineFont)
+import Components.StyleHelpers exposing (bodyFont, classes, displayElement, headlineFont, promptFont)
 import Helpers exposing (ifThenElse, labelToTuple, onBlurValue, onInputValue, removeSpaces, unionTypeToString)
 import Html exposing (..)
 import Html.Attributes as Attr exposing (..)
@@ -33,7 +33,8 @@ statsThisWeek model =
             , numericalInput model.vacanciesWeekly (List.member Management model.roles) "How many vacancies do you have at the moment?" "orange" UpdateVacanciesWeekly
             , numericalInput model.mediaCoverageWeekly (List.member Management model.roles) ("Has " ++ unionTypeToString model.lawCentre ++ " Law Centre had any media coverage this week?") "pink" UpdateMediaCoverageWeekly
             , div [ classes [ "mb4", displayElement (List.member Triage model.roles) ] ]
-                [ label [ for "agencyTypes", classes [ "mb4", bodyFont ] ] [ text "Tick the main types of agencies you referred to this week:" ]
+                [ label [ for "agencyTypes", classes [ "mb1", headlineFont ] ] [ text "Tick the main types of agencies you referred to this week:" ]
+                , h2 [ classes [ promptFont, "mb3" ] ] [ text "(Please select all that apply)" ]
                 , div [ class "mt2" ]
                     [ agencyCheckbox "Local advice agency"
                     , agencyCheckbox "Local non-advice support agency"

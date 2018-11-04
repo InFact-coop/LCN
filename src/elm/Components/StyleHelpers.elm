@@ -1,4 +1,4 @@
-module Components.StyleHelpers exposing (bodyFont, buttonStyle, checkboxFont, classes, displayElement, emptySpan, headlineFont, inputFont, inputLabelFont, navLinkFont, navLinkStyle, roleButtonFont, submitButtonStyle, textareaFont, topicButtonFont)
+module Components.StyleHelpers exposing (bodyFont, buttonStyle, checkboxFont, classes, displayElement, emptySpan, headlineFont, inputFont, inputLabelFont, navLinkFont, navLinkStyle, promptFont, roleButtonFont, submitButtonStyle, textareaFont, topicButtonFont)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
