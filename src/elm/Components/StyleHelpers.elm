@@ -7,12 +7,6 @@ import Html.Attributes exposing (..)
 headlineFont : String
 headlineFont =
     "f3 fw6"
-    
-
-
-promptFont : String
-promptFont =
-    "f5 fw3"
 
 
 bodyFont : String
