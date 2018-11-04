@@ -1,4 +1,4 @@
-module State exposing (init, initModel, update)
+module State exposing (init, initModel, subscriptions, update, updateCommentLikes)
 
 import Data.Comment exposing (toggleReplyComponent, updateCommentLikes)
 import Data.Role exposing (updateRoles)
@@ -125,35 +125,35 @@ update msg model =
         UpdatePeopleTurnedAway number ->
             let
                 updatedModel =
-                    { model | peopleTurnedAwayWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+                    { model | peopleTurnedAwayWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdatePeopleSeen number ->
             let
                 updatedModel =
-                    { model | peopleSeenWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+                    { model | peopleSeenWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateNewCases number ->
             let
                 updatedModel =
-                    { model | newCasesWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+                    { model | newCasesWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateSignpostedInternally number ->
             let
                 updatedModel =
-                    { model | signpostedInternallyWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+                    { model | signpostedInternallyWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateSignpostedExternally number ->
             let
                 updatedModel =
-                    { model | signpostedExternallyWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+                    { model | signpostedExternallyWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
@@ -273,35 +273,35 @@ update msg model =
         UpdateVolunteersTotalWeekly number ->
             let
                 updatedModel =
-                    { model | volunteersTotalWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+                    { model | volunteersTotalWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateStudentVolunteersWeekly number ->
             let
                 updatedModel =
-                    { model | studentVolunteersWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+                    { model | studentVolunteersWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateLawyerVolunteersWeekly number ->
             let
                 updatedModel =
-                    { model | lawyerVolunteersWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+                    { model | lawyerVolunteersWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateVacanciesWeekly number ->
             let
                 updatedModel =
-                    { model | vacanciesWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+                    { model | vacanciesWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateMediaCoverageWeekly number ->
             let
                 updatedModel =
-                    { model | mediaCoverageWeekly = Just <| Result.withDefault 0 (String.toInt number) }
+                    { model | mediaCoverageWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
@@ -313,3 +313,28 @@ update msg model =
 
         ReceiveUpvoteStatus (Err err) ->
             { model | postUpvoteStatus = ResponseFailure } ! []
+
+
+updateCommentLikes : UpvoteResponse -> Comment -> Comment
+updateCommentLikes upvote comment =
+    { comment
+        | likes =
+            ifThenElse (comment.id == upvote.commentId)
+                upvote.commentLikes
+                comment.likes
+        , likedByUser =
+            ifThenElse
+                (comment.id
+                    == upvote.commentId
+                    || comment.likedByUser
+                    == True
+                )
+                True
+                False
+    }
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.batch
+        []

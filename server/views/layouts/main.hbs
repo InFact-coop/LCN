@@ -1,17 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>LCN</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="icon" href="assets/favicon.ico">
-  <link rel="stylesheet" href="style.min.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+  <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600,700" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.min.css">
 </head>
+
 <body class="bg-light-blue">
 
-{{{ body }}}
+  {{{ body }}}
 
+  <script>
+    var carousel = document.getElementById("js-carousel")
+    var flkty = new Flickity(carousel);
+    var splash = document.getElementById("js-splash")
+    var login = document.getElementById("js-login-button")
+    var backgroundColours = ["green", "blue", "pink", "orange"]
+
+    flkty.on("change", function () {
+      backgroundColours.forEach(function (colour) {
+        splash.classList.remove("bg-" + colour)
+        login.classList.remove("bg-" + colour)
+      })
+      splash.classList.add("bg-" + backgroundColours[flkty.selectedIndex])
+      login.classList.add("bg-" + backgroundColours[flkty.selectedIndex])
+    })
+  </script>
 </body>
+
 </html>

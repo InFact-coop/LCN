@@ -7,6 +7,7 @@ import Html.Attributes exposing (..)
 headlineFont : String
 headlineFont =
     "f3 fw6"
+    
 
 
 promptFont : String
@@ -17,6 +18,11 @@ promptFont =
 bodyFont : String
 bodyFont =
     "f4 lh-copy fw3"
+
+
+promptFont : String
+promptFont =
+    "f5 fw3"
 
 
 checkboxFont : String
