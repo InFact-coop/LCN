@@ -29,6 +29,7 @@ initModel =
     , newCasesWeekly = Nothing
     , signpostedExternallyWeekly = Nothing
     , signpostedInternallyWeekly = Nothing
+    , internalAppointmentsWeekly = Nothing
     , commentBody = ""
     , commentType = Success
     , comments = []
@@ -147,6 +148,13 @@ update msg model =
             let
                 updatedModel =
                     { model | signpostedInternallyWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
+            in
+            updatedModel ! []
+
+        UpdateInternalAppointments number ->
+            let
+                updatedModel =
+                    { model | internalAppointmentsWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
@@ -269,13 +277,6 @@ update msg model =
 
         GetUserDetailsStatus (Err err) ->
             { model | getUserDetailsStatus = ResponseFailure, view = BeforeYouBegin } ! []
-
-        UpdateVolunteersTotalWeekly number ->
-            let
-                updatedModel =
-                    { model | volunteersTotalWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
-            in
-            updatedModel ! []
 
         UpdateStudentVolunteersWeekly number ->
             let

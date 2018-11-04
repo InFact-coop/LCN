@@ -23,15 +23,15 @@ statsThisWeek model =
             ]
         , div [ class "grid mb4" ]
             [ numericalInput model.peopleSeenWeekly (List.member Triage model.roles || List.member CaseWorker model.roles) peopleSeenText "green" UpdatePeopleSeen
-            , numericalInput model.newCasesWeekly (List.member CaseWorker model.roles) "Of these, how many cases were new? (Include returning clients)" "blue" UpdateNewCases
+            , numericalInput model.newCasesWeekly (List.member CaseWorker model.roles) "Of these, how many cases, including those of returning clients, were new?" "blue" UpdateNewCases
             , numericalInput model.peopleTurnedAwayWeekly (List.member Triage model.roles) "How many enquiries have you had to turn away without signposting anywhere?" "pink" UpdatePeopleTurnedAway
-            , numericalInput model.signpostedInternallyWeekly (List.member Triage model.roles) "How many enquiries were signposted to one-off Law Centre advice? (include drop-in & pro-bono clinics)" "orange" UpdateSignpostedInternally
+            , numericalInput model.signpostedInternallyWeekly (List.member Triage model.roles) "How many enquiries were signposted to one-off advice at the Law Centre (e.g. advice line, drop-in or pro bono clinics, where available)?" "orange" UpdateSignpostedInternally
             , numericalInput model.signpostedExternallyWeekly (List.member Triage model.roles) "How many enquiries were referred to other agencies?" "green" UpdateSignpostedExternally
-            , numericalInput model.volunteersTotalWeekly (List.member Management model.roles) "How many volunteers have you had this week in total? (Please count both new and existing volunteers)" "blue" UpdateVolunteersTotalWeekly
-            , numericalInput model.studentVolunteersWeekly (List.member Management model.roles) "How many of these were student volunteers?" "pink" UpdateStudentVolunteersWeekly
-            , numericalInput model.lawyerVolunteersWeekly (List.member Management model.roles) "How many of these were lawyer volunteers" "orange" UpdateLawyerVolunteersWeekly
-            , numericalInput model.vacanciesWeekly (List.member Management model.roles) "How many vacancies do you have at the moment?" "green" UpdateVacanciesWeekly
-            , numericalInput model.mediaCoverageWeekly (List.member Management model.roles) ("Has " ++ unionTypeToString model.lawCentre ++ " Law Centre had any media coverage this week?") "blue" UpdateMediaCoverageWeekly
+            , numericalInput model.signpostedExternallyWeekly (List.member Triage model.roles) "How many enquiries were taken on by your Law Centre/given an appointment?" "green" UpdateInternalAppointments
+            , numericalInput model.studentVolunteersWeekly (List.member Management model.roles) "How many student law volunteers have you had this week?" "pink" UpdateStudentVolunteersWeekly
+            , numericalInput model.lawyerVolunteersWeekly (List.member Management model.roles) "How many lawyer volunteers have you had this week?" "orange" UpdateLawyerVolunteersWeekly
+            , numericalInput model.vacanciesWeekly (List.member Management model.roles) "How many staff vacancies do you have at the moment?" "green" UpdateVacanciesWeekly
+            , numericalInput model.mediaCoverageWeekly (List.member Management model.roles) ("How many media stories has " ++ unionTypeToString model.lawCentre ++ "Law Centre had this week, if any?") "blue" UpdateMediaCoverageWeekly
             ]
         , div [ classes [ "mb4", displayElement (List.member Triage model.roles) ] ]
             [ label [ for "agencyTypes", classes [ "mb4", headlineFont ] ] [ text "Tick the main types of agencies you referred to this week:" ]
@@ -63,7 +63,7 @@ numericalInput valueFromModel shouldDisplay labelContent thumbColour msg =
             toString <| unpackedValue - 1
     in
     label
-        [ for <| removeSpaces labelContent, classes [ "pointer flex justify-between items-center tl bw1 bb b--light-silver bw1 bb bt pv3", "number-" ++ thumbColour, displayElement shouldDisplay ] ]
+        [ for <| removeSpaces labelContent, classes [ "pointer justify-between items-center tl bw1 bb b--light-silver bw1 bb bt pv3", "number-" ++ thumbColour, ifThenElse shouldDisplay "flex" "dn" ] ]
         [ div [ class "w-70 flex flex-column justify-between" ]
             [ div [ classes [ bodyFont ] ]
                 [ text <| Tuple.first <| labelToTuple labelContent ]
