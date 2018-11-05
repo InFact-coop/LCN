@@ -3,7 +3,7 @@ module Views.AddStats exposing (addStatsView, introText, problemCheckboxesList)
 import Components.Button exposing (..)
 import Components.LawAreaCheckbox exposing (agencyCheckbox, problemCheckbox)
 import Components.StatsThisWeek exposing (statsThisWeek)
-import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, headlineFont)
+import Components.StyleHelpers exposing (promptFont, bodyFont, checkboxFont, classes, displayElement, headlineFont)
 import Helpers exposing (ifThenElse)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -23,8 +23,9 @@ addStatsView model =
             , statsThisWeek model
             , section [ class "mb4" ]
                 [ div [ classes [ displayElement <| List.member CaseWorker model.roles && model.lawArea /= NoArea ] ]
-                    [ label [ for "lawArea", classes [ headlineFont ] ] [ text "What were the main kinds of problems you have seen this week?" ]
-                    , div [ classes [ "mv4" ] ] (problemCheckboxesList model)
+                    [ label [ for "lawArea", classes [ headlineFont, "mb1" ] ] [ text "What were the main kinds of problems you have seen this week?" ]
+                    , h2 [ classes [ promptFont, "mb3" ] ] [ text "(Please select one option from the dropdown)" ]
+                    , div [ classes [ "mb4" ] ] (problemCheckboxesList model)
                     ]
                 , bigColouredButton (validate model) "green" "Submit" PostStats
                 ]

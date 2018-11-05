@@ -31,8 +31,9 @@ beforeYouBegin model =
                     [ text introText ]
                 ]
             , section [ class "mb4" ]
-                [ h1 [ classes [ "tl mb3", headlineFont ] ]
+                [ h1 [ classes [ "tl mb1", headlineFont ] ]
                     [ text "Which Law Centre do you work for?" ]
+                , h2 [ classes [ promptFont, "mb3" ] ] [ text "(Please select one option from the dropdown)" ]
                 , div [ class "mb4 bw1 ba b--light-gray new-select w-40-l w-100 relative flex items-center justify-center green-drop" ]
                     [ select
                         [ classes
@@ -44,12 +45,13 @@ beforeYouBegin model =
                         ]
                         (List.map lawCentreOption lawCentreList)
                     ]
-                , h1 [ classes [ "tl mb3", headlineFont ] ]
+                , h1 [ classes [ "tl mb1", headlineFont ] ]
                     [ text <| "What is your role at " ++ ifThenElse (model.lawCentre == NoCentre) "your " (unionTypeToString model.lawCentre) ++ "  Law Centre?" ]
-                , h2 [ classes [ promptFont, "mb4" ] ] [ text "(Click all that apply)" ]
+                , h2 [ classes [ promptFont, "mb3" ] ] [ text "(Please select all that apply)" ]
                 , div [ class "mb4" ] (roleButtonsList model)
                 , div [ classes [ "mb4", displayElement <| List.member CaseWorker model.roles ] ]
-                    [ div [ class "mb3" ] [ label [ for "lawArea", classes [ headlineFont, "tl" ] ] [ text "What is your main area of practice?" ] ]
+                    [ h1 [ class "mb1" ] [ label [ for "lawArea", classes [ headlineFont, "tl" ] ] [ text "What is your main area of practice?" ] ]
+                    , h2 [ classes [ promptFont, "mb3" ] ] [ text "(Please select one option from the dropdown)" ]
                     , div [ class "bw1 ba b--light-gray new-select pink-drop w-40-l w-100 relative flex items-center justify-center" ]
                         [ select
                             [ classes
