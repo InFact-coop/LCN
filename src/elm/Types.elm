@@ -45,6 +45,7 @@ type alias Model =
     , mediaCoverageWeekly : Maybe Int
     , signpostedInternallyWeekly : Maybe Int
     , signpostedExternallyWeekly : Maybe Int
+    , internalAppointmentsWeekly : Maybe Int
     , commentBody : String
     , commentType : CommentType
     , comments : List Comment
@@ -197,6 +198,7 @@ type Msg
     | UpdateNewCases String
     | UpdateSignpostedInternally String
     | UpdateSignpostedExternally String
+    | UpdateInternalAppointments String
     | UpdateLawCentre LawCentre
     | UpdateRoles Role
     | ReceiveCommentStatus (Result Http.Error Bool)
@@ -213,7 +215,6 @@ type Msg
     | PostNewUserDetails
     | PostUserDetailsStatus (Result Http.Error Bool)
     | GetUserDetailsStatus (Result Http.Error UserDetails)
-    | UpdateVolunteersTotalWeekly String
     | UpdateStudentVolunteersWeekly String
     | UpdateLawyerVolunteersWeekly String
     | UpdateVacanciesWeekly String

@@ -18,7 +18,7 @@ addStatsView model =
             [ section [ class "mb4" ]
                 [ h1 [ classes [ "tl mb3", headlineFont ] ] [ text "Introduction" ]
                 , p [ class bodyFont ]
-                    [ text introText ]
+                    introText
                 ]
             , statsThisWeek model
             , section [ class "mb4" ]
@@ -79,22 +79,17 @@ validate model =
         |> List.all (\validation -> validation == True)
 
 
-
-introText : String
+introText : List (Html Msg)
 introText =
-    """
-    Please tell us a little about your week. We are collecting this
-    rough-and-ready information so LCN and each Law Centre have a better idea of current workloads and
-    trends. This will help you see if your experience is similar to that in other Law Centres. It will
-    also help LCN to speak out quickly and with better authority about the issues arising.
-    """
+    [ text "Please ", span [ class "fw5" ] [ text "tell us a little about your week " ], text "since the last time you checked in." ]
 
 
 problemCheckboxesList : Model -> List (Html Msg)
 problemCheckboxesList model =
     case model.lawArea of
         WelfareAndBenefits ->
-            [ problemCheckbox "Council Tax Reduction"
+            [ problemCheckbox "Carers' Allowance"
+            , problemCheckbox "Council Tax Reduction"
             , problemCheckbox "DLA"
             , problemCheckbox "ESA"
             , problemCheckbox "Entitlement"
@@ -111,6 +106,7 @@ problemCheckboxesList model =
 
         Employment ->
             [ problemCheckbox "Breach of Contract"
+            , problemCheckbox "Constructive Dismissal"
             , problemCheckbox "Disciplinary / Grievance"
             , problemCheckbox "Discrimination"
             , problemCheckbox "Redundancy Payments"

@@ -43,6 +43,7 @@ stats model =
         , ( "People turned away weekly", maybe int model.peopleTurnedAwayWeekly )
         , ( "New cases weekly", maybe int model.newCasesWeekly )
         , ( "People signposted internally weekly", maybe int model.signpostedInternallyWeekly )
+        , ( "People with internal appointments weekly", maybe int model.internalAppointmentsWeekly )
         , ( "People referred to other agencies weekly", maybe int model.signpostedExternallyWeekly )
         , ( "Problems encountered", list (List.map (\problem -> string problem) model.problems) )
         , ( "Types of agencies referred to", list (List.map (\agency -> string agency) model.agencies) )

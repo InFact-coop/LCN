@@ -7,7 +7,7 @@ const {
   get_user_details,
   post_stats,
   get_comments
-} = require("../controllers/api.js");
+} = require("../controllers/api");
 
 router.route("/post-comment").post(post_comment);
 router.route("/upvote").post(post_upvote);
