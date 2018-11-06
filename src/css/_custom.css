@@ -66,8 +66,14 @@ body {
   display: grid;
   grid-column-gap: var(--spacing-large);
   grid-row-gap: var(--spacing-large);
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
   grid-auto-rows: max-content;
+}
+
+@media (--breakpoint-not-small) {
+  .grid {
+    grid-template-columns: auto auto;
+  }
 }
 
 /* Remove blue border highlight on inputs */

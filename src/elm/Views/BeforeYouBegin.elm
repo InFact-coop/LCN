@@ -28,7 +28,7 @@ beforeYouBegin model =
             [ section [ class "mb4" ]
                 [ h1 [ classes [ "tl mb3", headlineFont ] ] [ text "Thank you for signing up!" ]
                 , p [ class bodyFont ]
-                    [ text introText ]
+                    introText
                 ]
             , section [ class "mb4" ]
                 [ h1 [ classes [ "tl mb1", headlineFont ] ]
@@ -106,11 +106,9 @@ validate model =
         |> List.all (\validation -> validation == True)
 
 
-introText : String
+introText : List (Html Msg)
 introText =
-    """
-    We’d just like to take a few details as to what you do at LCN. Don’t worry, we won’t ask for this information again.
-    """
+    [ text "We’d just like to ", span [ class "fw5" ] [ text "take a few details" ], text " as to what you do at LCN. Don’t worry, we ", span [ class "fw5" ] [ text "won’t ask for this information again" ], text "." ]
 
 
 roleButtonsList : Model -> List (Html Msg)

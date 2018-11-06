@@ -19,7 +19,7 @@ statsThisWeek model =
     section [ class "mb4 mt4" ]
         [ div [ class "flex flex-row mb4 items-baseline" ]
             [ h1 [ classes [ headlineFont ] ] [ text "Your Week" ]
-            , h2 [ classes [ "ml2", promptFont ] ] [ text "(If you don't remember exactly, give us your best estimate)" ]
+            , h2 [ classes [ "ml2 db", promptFont ] ] [ text "If you can't remember the ", span [ class "fw5" ] [ text "exact number" ], text ", your ", span [ class "fw5" ] [ text "best estimate" ], text " would do here." ]
             ]
         , div [ class "grid mb4" ]
             [ numericalInput model.peopleSeenWeekly (List.member Triage model.roles || List.member CaseWorker model.roles) peopleSeenText "green" UpdatePeopleSeen

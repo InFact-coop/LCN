@@ -32,17 +32,24 @@ listCommentsView model =
 summary : List (Html Msg)
 summary =
     [ h1 [ classes [ headlineFont ] ] [ text "Check out what others have said" ]
-    , p [ classes [ bodyFont, "mt2" ] ] [ text summaryText ]
+    , p [ classes [ bodyFont, "mt2" ] ] summaryText
     ]
 
 
-summaryText : String
+summaryText : List (Html Msg)
 summaryText =
-    """
-    Here are the issues that Law Centres are seeing now, as shared by you! They are grouped by
-    categories and the latest appear first. Feel free to reply to colleagues or simply 'like' their
-    posts if they ring true. LCN responses to questions and requests are under the last heading.
-    """
+    [ text "Here are the issues that Law Centres are seeing now, as "
+    , span [ class "fw5" ] [ text "shared by you" ]
+    , text ". They are grouped by categories and the latest appear first. Feel free to "
+    , span [ class "fw5" ] [ text "reply to colleagues " ]
+    , text "or simply "
+    , span [ class "fw5" ] [ text "\"like\"  " ]
+    , text "their posts if they ring true. LCN "
+    , span [ class "fw5" ] [ text "responds to questions & requests " ]
+    , text " under the "
+    , span [ class "fw5" ] [ text "\"Ask Us\" " ]
+    , text "heading."
+    ]
 
 
 addCommentButton : Model -> Html Msg
