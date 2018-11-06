@@ -72,6 +72,7 @@ type alias UpvoteResponse =
 
 type RemoteData
     = NotAsked
+    | UserConfirmation
     | Loading
     | ResponseFailure
     | ResponseSuccess
@@ -206,6 +207,7 @@ type Msg
     | ReceiveStats (Result Http.Error StatsResponse)
     | PostComment
     | PostStats
+    | ConfirmStats
     | ToggleStatsModal
     | ReceiveComments (Result Http.Error (List Comment))
     | ToggleReplyComponent Comment
@@ -220,3 +222,4 @@ type Msg
     | UpdateVacanciesWeekly String
     | UpdateMediaCoverageWeekly String
     | UpvoteComment Comment
+    | ChangeView View

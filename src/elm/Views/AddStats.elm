@@ -3,11 +3,33 @@ module Views.AddStats exposing (addStatsView, introText, problemCheckboxesList)
 import Components.Button exposing (..)
 import Components.LawAreaCheckbox exposing (agencyCheckbox, problemCheckbox)
 import Components.StatsThisWeek exposing (statsThisWeek)
-import Components.StyleHelpers exposing (promptFont, bodyFont, checkboxFont, classes, displayElement, headlineFont)
+import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, headlineFont, promptFont)
 import Helpers exposing (ifThenElse)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Types exposing (..)
+
+
+submitButton : Model -> Html Msg
+submitButton model =
+    case model.postStatsStatus of
+        UserConfirmation ->
+            bigColouredButton (validate model) "orange" "Are you sure?" PostStats
+
+        Loading ->
+            bigColouredButton (validate model)
+                "gray"
+                "..."
+                NoOp
+
+        ResponseFailure ->
+            bigColouredButton (validate model)
+                "red"
+                "Didn't work. Try again?"
+                PostStats
+
+        _ ->
+            bigColouredButton (validate model) "green" "Submit" ConfirmStats
 
 
 addStatsView : Model -> Html Msg
@@ -27,7 +49,8 @@ addStatsView model =
                     , h2 [ classes [ promptFont, "mb3" ] ] [ text "(Please select one option from the dropdown)" ]
                     , div [ classes [ "mb4" ] ] (problemCheckboxesList model)
                     ]
-                , bigColouredButton (validate model) "green" "Submit" PostStats
+                , submitButton
+                    model
                 ]
             ]
         ]

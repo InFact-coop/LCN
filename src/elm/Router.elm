@@ -34,7 +34,7 @@ modalBackground : Model -> Html Msg
 modalBackground model =
     div
         [ classes
-            [ "vh-100 w-100 bg-black o-70 z-2 absolute"
+            [ "vh-100 w-100 bg-black o-70 z-2 fixed"
             , displayElement (model.displayStatsModal || model.displayCommentModal)
             ]
         ]
