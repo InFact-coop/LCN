@@ -31,7 +31,7 @@ statsThisWeek model =
             , numericalInput model.studentVolunteersWeekly (List.member Management model.roles) "How many student law volunteers have you had this week?" "pink" UpdateStudentVolunteersWeekly
             , numericalInput model.lawyerVolunteersWeekly (List.member Management model.roles) "How many lawyer volunteers have you had this week?" "orange" UpdateLawyerVolunteersWeekly
             , numericalInput model.vacanciesWeekly (List.member Management model.roles) "How many staff vacancies do you have at the moment?" "green" UpdateVacanciesWeekly
-            , numericalInput model.mediaCoverageWeekly (List.member Management model.roles) ("How many media stories has " ++ unionTypeToString model.lawCentre ++ "Law Centre had this week, if any?") "blue" UpdateMediaCoverageWeekly
+            , numericalInput model.mediaCoverageWeekly (List.member Management model.roles) ("How many media stories has " ++ unionTypeToString model.lawCentre ++ " Law Centre had this week, if any?") "blue" UpdateMediaCoverageWeekly
             ]
         , div [ classes [ "mb4", displayElement (List.member Triage model.roles) ] ]
             [ label [ for "agencyTypes", classes [ "mb4", headlineFont ] ] [ text "Tick the main types of agencies you referred to this week:" ]
@@ -71,5 +71,5 @@ numericalInput valueFromModel shouldDisplay labelContent thumbColour msg =
                 [ classes [ promptFont, "mt2" ] ]
                 [ text <| Tuple.second <| labelToTuple labelContent ]
             ]
-        , input [ id <| removeSpaces labelContent, type_ "number", value valueString, classes [ "w3 f2 ba b--light-gray pv1 tc mr3", "number-" ++ thumbColour ], Attr.min "0", onBlurValue msg ] []
+        , input [ id <| removeSpaces labelContent, type_ "number", value valueString, classes [ "w3 f2 ba b--light-gray pv1 tc mr3", "number-" ++ thumbColour ], Attr.min "0", onInputValue msg ] []
         ]
