@@ -27,7 +27,7 @@ statsThisWeek model =
             , numericalInput model.peopleTurnedAwayWeekly (List.member Triage model.roles) "How many enquiries have you had to turn away without signposting anywhere?" "pink" UpdatePeopleTurnedAway
             , numericalInput model.signpostedInternallyWeekly (List.member Triage model.roles) "How many enquiries were signposted to one-off advice at the Law Centre (e.g. advice line, drop-in or pro bono clinics, where available?)" "orange" UpdateSignpostedInternally
             , numericalInput model.signpostedExternallyWeekly (List.member Triage model.roles) "How many enquiries were referred to other agencies?" "green" UpdateSignpostedExternally
-            , numericalInput model.signpostedExternallyWeekly (List.member Triage model.roles) "How many enquiries were taken on by your Law Centre/given an appointment?" "green" UpdateInternalAppointments
+            , numericalInput model.internalAppointmentsWeekly (List.member Triage model.roles) "How many enquiries were taken on by your Law Centre/given an appointment?" "green" UpdateInternalAppointments
             , numericalInput model.studentVolunteersWeekly (List.member Management model.roles) "How many student law volunteers have you had this week?" "pink" UpdateStudentVolunteersWeekly
             , numericalInput model.lawyerVolunteersWeekly (List.member Management model.roles) "How many lawyer volunteers have you had this week?" "orange" UpdateLawyerVolunteersWeekly
             , numericalInput model.vacanciesWeekly (List.member Management model.roles) "How many staff vacancies do you have at the moment?" "green" UpdateVacanciesWeekly
