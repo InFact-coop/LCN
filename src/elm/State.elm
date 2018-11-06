@@ -12,7 +12,7 @@ import Requests.PostNewUserDetails exposing (postNewUserDetails)
 import Requests.PostReply exposing (postReply)
 import Requests.PostStats exposing (postStats)
 import Requests.PostUpvote exposing (postUpvote)
-import Router exposing (getView, viewFromUrl)
+import Router exposing (getHash, getView, viewFromUrl)
 import Task exposing (perform)
 import Time exposing (..)
 import Types exposing (..)
@@ -84,7 +84,16 @@ update msg model =
                 ! [ scrollToTop, handleGetComments location ]
 
         ChangeView view ->
-            { model | view = view } ! []
+            { model
+                | displayStatsModal = False
+                , displayCommentModal = False
+                , peopleSeenWeekly = Nothing
+                , peopleTurnedAwayWeekly = Nothing
+                , newCasesWeekly = Nothing
+                , signpostedInternallyWeekly = Nothing
+                , signpostedExternallyWeekly = Nothing
+            }
+                ! [ newUrl <| getHash view ]
 
         NoOp ->
             model ! []
