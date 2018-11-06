@@ -1,6 +1,5 @@
-module Components.StatsModal exposing (modalBackground, statsModal)
+module Components.StatsModal exposing (statsModal)
 
-import Components.Button exposing (modalButton)
 import Components.StyleHelpers exposing (classes, displayElement)
 import Helpers exposing (prettifyNumber)
 import Html exposing (..)
@@ -51,29 +50,5 @@ statsModal model =
                     [ text <| prettifyNumber model.peopleSeenWeeklyAll ++ " people" ]
                 , text " this week!"
                 ]
-            , h1 [ classes [ "f2" ] ]
-                [ text "What would you like to do now?" ]
-            , section
-                [ classes [ "action-buttons", "mt4-ns", "mt3" ] ]
-                [ modalButton "See Comments" "#list-comments"
-                , modalButton "Log out" "#logout"
-                ]
             ]
         ]
-
-
-modalBackground : Model -> Html Msg
-modalBackground model =
-    div
-        [ classes
-            [ "w-100"
-            , "h-100"
-            , "fixed"
-            , "bg-black"
-            , "o-70"
-            , "z-2"
-            , "absolute"
-            , displayElement model.displayStatsModal
-            ]
-        ]
-        []

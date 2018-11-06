@@ -4,6 +4,7 @@ import Data.Comment exposing (toggleReplyComponent, updateCommentLikes)
 import Data.Role exposing (updateRoles)
 import Helpers exposing (ifThenElse, isNewEntry, scrollToTop)
 import Navigation exposing (..)
+import Process exposing (sleep)
 import Requests.GetComments exposing (getComments, handleGetComments)
 import Requests.GetUserDetails exposing (getUserDetails)
 import Requests.PostComment exposing (..)
@@ -12,6 +13,8 @@ import Requests.PostReply exposing (postReply)
 import Requests.PostStats exposing (postStats)
 import Requests.PostUpvote exposing (postUpvote)
 import Router exposing (getView, viewFromUrl)
+import Task exposing (perform)
+import Time exposing (..)
 import Types exposing (..)
 
 
@@ -79,6 +82,9 @@ update msg model =
                 , signpostedExternallyWeekly = Nothing
             }
                 ! [ scrollToTop, handleGetComments location ]
+
+        ChangeView view ->
+            { model | view = view } ! []
 
         NoOp ->
             model ! []
@@ -171,6 +177,9 @@ update msg model =
         PostStats ->
             { model | postStatsStatus = Loading, listStatsStatus = Loading } ! [ postStats model ]
 
+        ConfirmStats ->
+            { model | postStatsStatus = UserConfirmation, listStatsStatus = UserConfirmation } ! []
+
         ReceiveCommentStatus (Ok bool) ->
             let
                 displayModal =
@@ -194,13 +203,13 @@ update msg model =
                     , peopleSeenWeeklyAll = response.peopleSeen
                     , displayStatsModal = True
                 }
-                    ! [ scrollToTop ]
+                    ! [ scrollToTop, delay (Time.second * 3) (ChangeView ListComments) ]
 
             else
                 { model
                     | postStatsStatus = ResponseSuccess
                     , listStatsStatus = ResponseFailure
-                    , displayStatsModal = True
+                    , displayStatsModal = False
                 }
                     ! [ scrollToTop ]
 
@@ -314,6 +323,12 @@ update msg model =
 
         ReceiveUpvoteStatus (Err err) ->
             { model | postUpvoteStatus = ResponseFailure } ! []
+
+
+delay : Time -> Msg -> Cmd Msg
+delay time msg =
+    sleep time
+        |> perform (\_ -> msg)
 
 
 updateCommentLikes : UpvoteResponse -> Comment -> Comment
