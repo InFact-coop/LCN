@@ -1,4 +1,4 @@
-module Router exposing (getCurrentView, getView, modalBackground, view, viewFromUrl)
+module Router exposing (getCurrentView, getHash, getView, modalBackground, view, viewFromUrl)
 
 import Components.CommentModal exposing (commentModal)
 import Components.Nav exposing (navBar)
@@ -79,7 +79,26 @@ getView hash =
             SplashScreen
 
         _ ->
-            SplashScreen
+            ListComments
+
+
+getHash : View -> String
+getHash view =
+    case view of
+        AddStats ->
+            "#numbers"
+
+        AddComment ->
+            "#add-comment"
+
+        ListComments ->
+            "#list-comments"
+
+        BeforeYouBegin ->
+            "#before-you-begin"
+
+        SplashScreen ->
+            "#splash-screen"
 
 
 viewFromUrl : Navigation.Location -> Model -> Model
