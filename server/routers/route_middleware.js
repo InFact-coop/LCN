@@ -1,6 +1,6 @@
 const is_logged_in = (req, res, next) => {
   if (req.isAuthenticated()) return next();
-  res.redirect("/onboarding");
+  res.redirect("/login");
 };
 
 const is_admin = (req, res, next) => {

@@ -46,7 +46,7 @@ addStatsView model =
             , section [ class "mb4" ]
                 [ div [ classes [ displayElement <| List.member CaseWorker model.roles && model.lawArea /= NoArea ] ]
                     [ label [ for "lawArea", classes [ headlineFont, "mb1" ] ] [ text "What were the main kinds of problems you have seen this week?" ]
-                    , h2 [ classes [ promptFont, "mb3" ] ] [ text "(Please select one option from the dropdown)" ]
+                    , h2 [ classes [ promptFont, "mb3 mt1" ] ] [ text "(Please select one option from the dropdown)" ]
                     , div [ classes [ "mb4" ] ] (problemCheckboxesList model)
                     ]
                 , submitButton
@@ -69,13 +69,12 @@ validate model =
             (model.peopleSeenWeekly /= Nothing)
                 && (model.peopleTurnedAwayWeekly /= Nothing)
                 && (model.signpostedInternallyWeekly /= Nothing)
+                && (model.internalAppointmentsWeekly /= Nothing)
                 && (model.signpostedExternallyWeekly /= Nothing)
                 && (not <| List.isEmpty model.agencies)
 
         managementValidation =
-            model.volunteersTotalWeekly
-                /= Nothing
-                && model.studentVolunteersWeekly
+            model.studentVolunteersWeekly
                 /= Nothing
                 && model.lawyerVolunteersWeekly
                 /= Nothing
