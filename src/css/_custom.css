@@ -12,6 +12,10 @@ body {
   left: 55%;
 }
 
+.w-48 {
+  width: 48%;
+}
+
 .top-50 {
   top: 50%;
   transform: translateY(-50%);

@@ -8,6 +8,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Navigation exposing (..)
 import Types exposing (..)
+import Views.About exposing (..)
 import Views.AddComment exposing (..)
 import Views.AddStats exposing (..)
 import Views.BeforeYouBegin exposing (..)
@@ -47,6 +48,9 @@ getCurrentView model =
         AddStats ->
             addStatsView model
 
+        About ->
+            about model
+
         AddComment ->
             addCommentView model
 
@@ -65,6 +69,9 @@ getView hash =
     case hash of
         "#numbers" ->
             AddStats
+
+        "#about" ->
+            About
 
         "#add-comment" ->
             AddComment
@@ -87,6 +94,9 @@ getHash view =
     case view of
         AddStats ->
             "#numbers"
+
+        About ->
+            "#about"
 
         AddComment ->
             "#add-comment"
