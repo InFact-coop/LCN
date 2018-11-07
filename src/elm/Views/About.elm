@@ -14,7 +14,7 @@ about model =
         [ classes [ "flex justify-center pa3-ns pv3", ifThenElse model.displayStatsModal "disableButton" "" ] ]
         [ section [ class "w-80-ns w-90" ]
             [ section [ class "w-90 center" ]
-                [ section [ class "mb4" ]
+                [ section [ class "mb5" ]
                     [ h1 [ classes [ "tl mb3 f2 b" ] ] [ text "Thank you for signing up!" ]
                     ]
                 , section [ class "mb4 f3" ]
@@ -29,7 +29,7 @@ about model =
                         [ text "As with most things, the more data we collect, the more useful it will be!" ]
                     ]
                 ]
-            , section [ class "grid" ]
+            , section [ class "flex flex-wrap justify-between" ]
                 [ card "/assets/map-green.svg" "Get a local, regional and national picture of what Law Centres are dealing with"
                 , card "/assets/network-blue.svg" "See how typical some problems are across Law Centres, without needing to email or ring around"
                 , card "/assets/casework-pink.svg" "Help you make the case for your Law Centre's work, and funding it, with your council"
