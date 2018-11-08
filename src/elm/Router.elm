@@ -89,7 +89,7 @@ getView hash =
             SplashScreen
 
         _ ->
-            ListComments
+            SplashScreen
 
 
 getHash : View -> String
