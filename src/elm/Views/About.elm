@@ -17,7 +17,7 @@ about model =
                 [ section [ class "mb5" ]
                     [ h1 [ classes [ "tl mb3 f2 b" ] ] [ text "Thank you for signing up!" ]
                     ]
-                , section [ class "mb4 f3" ]
+                , section [ class "mb5 f3" ]
                     [ p
                         [ classes [ "tl mb3" ] ]
                         [ text "Snapshot is the Law Centre Network app for capturing the kinds of cases we see, and the amount of work we do on them, and pooling them to give an overall picture." ]
@@ -29,7 +29,7 @@ about model =
                         [ text "As with most things, the more data we collect, the more useful it will be!" ]
                     ]
                 ]
-            , section [ class "flex flex-wrap justify-between" ]
+            , section [ class "flex flex-wrap-ns justify-between-ns flex-column flex-row-ns" ]
                 [ card "/assets/map-green.svg" "Get a local, regional and national picture of what Law Centres are dealing with"
                 , card "/assets/network-blue.svg" "See how typical some problems are across Law Centres, without needing to email or ring around"
                 , card "/assets/casework-pink.svg" "Help you make the case for your Law Centre's work, and funding it, with your council"

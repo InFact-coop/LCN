@@ -61,7 +61,7 @@ navLinkFont =
 
 navLinkStyle : String
 navLinkStyle =
-    "link pointer"
+    "link pointer nav pb2"
 
 
 buttonStyle : String

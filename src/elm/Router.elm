@@ -21,12 +21,15 @@ view model =
     let
         view =
             getCurrentView model
+
+        activeLink =
+            "/" ++ getHash model.view
     in
     div [ class "w-100 fixed overflow-y-scroll top-0 bottom-0 bg-light-blue m0-auto cover", id "container" ]
         [ modalBackground model
         , statsModal model
         , commentModal model
-        , div [ class "fixed w-100 bg-white flex flex-row justify-center z-1" ] [ navBar model ]
+        , div [ class "fixed w-100 bg-white flex flex-row justify-center z-1" ] [ navBar model activeLink ]
         , div [ class "mt6 center pt3-ns mw8" ] [ view ]
         ]
 
