@@ -27,11 +27,17 @@ view model =
     in
     div [ class "w-100 fixed overflow-y-scroll top-0 bottom-0 bg-light-blue m0-auto cover", id "container" ]
         [ modalBackground model
+        , helpButton
         , statsModal model
         , commentModal model
         , div [ class "fixed w-100 bg-white flex flex-row justify-center z-1" ] [ navBar model activeLink ]
         , div [ class "mt6 center pt3-ns mw8" ] [ view ]
         ]
+
+
+helpButton : Html Msg
+helpButton =
+    button [ class "bn shadow-4 br-100 h4 w4 fixed right-2 top-8 pointer", style [ ( "background", "url(./assets/help_icon.svg) no-repeat center center white" ) ] ] []
 
 
 modalBackground : Model -> Html Msg

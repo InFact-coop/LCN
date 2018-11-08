@@ -12,6 +12,10 @@ body {
   left: 55%;
 }
 
+.top-8 {
+  top: 8rem;
+}
+
 .w-45d5 {
   width: 45.5%;
 }
@@ -295,6 +299,9 @@ input[type="checkbox"]:checked {
   .w-45d5-ns {
     width: 45.5%;
   }
+  .top-8-ns {
+    top: 8rem;
+  }
 }
 
 @media (--breakpoint-large) {
@@ -312,10 +319,16 @@ input[type="checkbox"]:checked {
   .w-45d5-l {
     width: 45.5%;
   }
+  .top-8-l {
+    top: 8rem;
+  }
 }
 
 @media (--breakpoint-medium) {
   .w-45d5-m {
     width: 45.5%;
+  }
+  .top-8-m {
+    top: 8rem;
   }
 }
