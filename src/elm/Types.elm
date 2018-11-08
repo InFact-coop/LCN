@@ -25,6 +25,7 @@ type View
     | AddComment
     | ListComments
     | SplashScreen
+    | About
 
 
 type alias Model =

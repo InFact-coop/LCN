@@ -7,13 +7,28 @@ import Html.Attributes exposing (..)
 import Types exposing (..)
 
 
-navBar : Model -> Html Msg
-navBar model =
+navBar : Model -> String -> Html Msg
+navBar model activeLink =
     nav [ classes [ "w-100 mw9 h4 bg-white flex-row justify-between items-center", ifThenElse (model.view /= SplashScreen) "flex flex-row justify-between items-center" "dn" ] ]
         [ a [ href "/", class "pointer pa3" ] [ img [ src "/assets/lcn-logo.png", class "h3" ] [] ]
         , div [ class "dn db-ns" ]
-            [ a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/#list-comments" ] [ text "Comments" ]
-            , ifThenElse model.isAdmin (a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/invite-users" ] [ text "Invite users" ]) emptySpan
-            , a [ classes [ "dib mh3", navLinkFont, navLinkStyle ], href "/logout" ] [ text "Log out" ]
+            [ link "/#about" "About" activeLink
+            , link "/#list-comments" "Comments" activeLink
+            , ifThenElse model.isAdmin (link "/invite-users" "Invite users" activeLink) emptySpan
+            , link "/logout" "Log out" activeLink
             ]
         ]
+
+
+link : String -> String -> String -> Html Msg
+link hrefContent textContent activeLink =
+    a
+        [ classes
+            [ "dib mh3"
+            , navLinkFont
+            , navLinkStyle
+            , ifThenElse (hrefContent == activeLink) "active" ""
+            ]
+        , href hrefContent
+        ]
+        [ text textContent ]

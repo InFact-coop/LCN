@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="56px" viewBox="0 0 44 56" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>time</title>
+    <desc>Created with Sketch.</desc>
+    <g id="LCN-onboarding" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="help_from-page" transform="translate(-1309.000000, -144.000000)" stroke="#111111" stroke-width="2">
+            <g id="Group-2" transform="translate(1216.000000, 142.000000)">
+                <g id="time" transform="translate(111.951753, 29.107989) rotate(-38.000000) translate(-111.951753, -29.107989) translate(81.951753, 15.607989)">
+                    <path d="M0.704743716,26.0614661 C6.08546339,12.3487291 16.536,2.69473333e-11 32,2.69473333e-11 C43.285,2.69473333e-11 53.129,6.972 57.561,16.59" id="Path"></path>
+                    <polyline id="Path" stroke-linecap="square" points="59.242 4.045 57.561 16.59 45.765 15.01"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

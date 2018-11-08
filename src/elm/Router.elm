@@ -8,6 +8,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Navigation exposing (..)
 import Types exposing (..)
+import Views.About exposing (..)
 import Views.AddComment exposing (..)
 import Views.AddStats exposing (..)
 import Views.BeforeYouBegin exposing (..)
@@ -20,14 +21,23 @@ view model =
     let
         view =
             getCurrentView model
+
+        activeLink =
+            "/" ++ getHash model.view
     in
     div [ class "w-100 fixed overflow-y-scroll top-0 bottom-0 bg-light-blue m0-auto cover", id "container" ]
         [ modalBackground model
+        , helpButton
         , statsModal model
         , commentModal model
-        , div [ class "fixed w-100 bg-white flex flex-row justify-center z-1" ] [ navBar model ]
+        , div [ class "fixed w-100 bg-white flex flex-row justify-center z-1" ] [ navBar model activeLink ]
         , div [ class "mt6 center pt3-ns mw8" ] [ view ]
         ]
+
+
+helpButton : Html Msg
+helpButton =
+    button [ class "bn shadow-4 br-100 h4 w4 fixed right-2 top-8 pointer", style [ ( "background", "url(./assets/help_icon.svg) no-repeat center center white" ) ] ] []
 
 
 modalBackground : Model -> Html Msg
@@ -46,6 +56,9 @@ getCurrentView model =
     case model.view of
         AddStats ->
             addStatsView model
+
+        About ->
+            about model
 
         AddComment ->
             addCommentView model
@@ -66,6 +79,9 @@ getView hash =
         "#numbers" ->
             AddStats
 
+        "#about" ->
+            About
+
         "#add-comment" ->
             AddComment
 
@@ -79,7 +95,7 @@ getView hash =
             SplashScreen
 
         _ ->
-            ListComments
+            SplashScreen
 
 
 getHash : View -> String
@@ -87,6 +103,9 @@ getHash view =
     case view of
         AddStats ->
             "#numbers"
+
+        About ->
+            "#about"
 
         AddComment ->
             "#add-comment"
