@@ -57,6 +57,7 @@ bigColouredButton validationPassed colour label clickMsg =
                 "bg-gray disableButton o-30"
             , submitButtonStyle
             , topicButtonFont
+            , ifThenElse (clickMsg /= NoOp) "pointer" ""
             ]
         , onClick <| ifThenElse validationPassed clickMsg NoOp
         ]

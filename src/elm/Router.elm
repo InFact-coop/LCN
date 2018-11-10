@@ -1,11 +1,14 @@
 module Router exposing (getCurrentView, getHash, getView, modalBackground, view, viewFromUrl)
 
 import Components.CommentModal exposing (commentModal)
+import Components.HelpModal exposing (helpModal)
 import Components.Nav exposing (navBar)
 import Components.StatsModal exposing (statsModal)
-import Components.StyleHelpers exposing (classes, displayElement)
+import Components.StyleHelpers exposing (classes, displayElement, emptySpan)
+import Helpers exposing (ifThenElse)
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Navigation exposing (..)
 import Types exposing (..)
 import Views.About exposing (..)
@@ -27,7 +30,8 @@ view model =
     in
     div [ class "w-100 fixed overflow-y-scroll top-0 bottom-0 bg-light-blue m0-auto cover", id "container" ]
         [ modalBackground model
-        , helpButton
+        , ifThenElse (model.view == SplashScreen) emptySpan (helpButton model)
+        , helpModal model
         , statsModal model
         , commentModal model
         , div [ class "fixed w-100 bg-white flex flex-row justify-center z-1" ] [ navBar model activeLink ]
@@ -35,9 +39,29 @@ view model =
         ]
 
 
-helpButton : Html Msg
-helpButton =
-    button [ class "bn shadow-4 br-100 h4 w4 fixed right-2 top-8 pointer", style [ ( "background", "url(./assets/help_icon.svg) no-repeat center center white" ) ] ] []
+helpButton : Model -> Html Msg
+helpButton model =
+    div [ class "fixed right-2 top-8 flex flex-column items-end w-11" ]
+        [ div [ class "flex items-start justify-end w-100 mb1" ]
+            [ ifThenElse model.displayHelpInfo (img [ src "./assets/help_arrow.svg", class "mr2 mt3" ] []) emptySpan
+            , button
+                [ class "bn grow shadow-4 br-100 h3 w3 pointer"
+                , style [ ( "background", "url(./assets/help_icon.svg) no-repeat center center white" ) ]
+                , onClick ToggleHelpModal
+                ]
+                []
+            ]
+        , ifThenElse model.displayHelpInfo
+            (div [ class "shadow-4 bg-white pa3 tc fw3 o-6-hover", onClick ToggleHelpInfo ]
+                [ text "You can always click here if you want to "
+                , span [ class "fw5" ] [ text "learn more" ]
+                , text " about Data Tool or need "
+                , span [ class "fw5" ] [ text "help" ]
+                , text " using the app!"
+                ]
+            )
+            emptySpan
+        ]
 
 
 modalBackground : Model -> Html Msg
@@ -45,7 +69,7 @@ modalBackground model =
     div
         [ classes
             [ "vh-100 w-100 bg-black o-70 z-2 fixed"
-            , displayElement (model.displayStatsModal || model.displayCommentModal)
+            , displayElement (model.displayStatsModal || model.displayCommentModal || model.displayHelpModal )
             ]
         ]
         []

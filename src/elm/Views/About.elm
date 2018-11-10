@@ -20,7 +20,7 @@ about model =
                 , section [ class "mb5 f3" ]
                     [ p
                         [ classes [ "tl mb3" ] ]
-                        [ text "Snapshot is the Law Centre Network app for capturing the kinds of cases we see, and the amount of work we do on them, and pooling them to give an overall picture." ]
+                        [ text "Data Tool is the Law Centre Network app for capturing the kinds of cases we see, and the amount of work we do on them, and pooling them to give an overall picture." ]
                     , p
                         [ classes [ "tl mb3" ] ]
                         [ text "This will also help Law Centres talk about what we do in a more impactful way: giving an idea of the problems we see and how common they are, all on a current basis." ]

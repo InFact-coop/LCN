@@ -103,7 +103,7 @@ validate model =
 
 introText : List (Html Msg)
 introText =
-    [ text "Please ", span [ class "fw5" ] [ text "tell us a little about your week " ], text "since the last time you checked in." ]
+    [ text "Please ", span [ class "fw5" ] [ text "tell us a little about your week " ], text "since the last time you checked in. You can ", span [ class "fw5" ] [ text "type"], text ", ", span [ class "fw5" ] [text "use the spinner buttons" ], text ", or ", span [ class "fw5"] [ text " use the arrows on your keyboard " ], text "to provide your answer." ]
 
 
 problemCheckboxesList : Model -> List (Html Msg)

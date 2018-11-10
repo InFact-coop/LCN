@@ -82,6 +82,38 @@ body {
   grid-auto-rows: max-content;
 }
 
+.help-icon-above {
+  transform: translate(-50%, -4.9rem);
+  left: 50%;
+}
+
+.w-11 {
+  width: 11rem;
+}
+
+.w-1d5 {
+  width: 1.5rem;
+}
+.h-1d5 {
+  height: 1.5rem;
+}
+
+.top-1d5 {
+  top: 1.5rem;
+}
+
+.content-box {
+  box-sizing: content-box;
+}
+
+.right-1d5 {
+  right: 1.5rem;
+}
+
+.o-6-hover:hover {
+  opacity: 0.6;
+}
+
 /* Remove blue border highlight on inputs */
 
 input:-webkit-autofill,
@@ -93,8 +125,7 @@ input:-webkit-autofill:active {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+  opacity: 1;
 }
 
 /*  Modal Centering */
