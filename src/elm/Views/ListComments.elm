@@ -19,7 +19,7 @@ listCommentsView model =
             , div [ class "mv4" ] <| chooseTopic model
             , div [] (commentsHeader model)
             , div []
-                (addCommentButton model
+                (status model
                     :: (List.map (singleComment model) <|
                             List.sortBy (.createdAt >> negate) <|
                                 List.filter (\comment -> comment.commentType == model.commentType) model.comments
@@ -34,6 +34,30 @@ summary =
     [ h1 [ classes [ headlineFont ] ] [ text "Check out what others have said" ]
     , p [ classes [ bodyFont, "mt2" ] ] summaryText
     ]
+
+
+status : Model -> Html Msg
+status model =
+    case model.listCommentsStatus of
+        Loading ->
+            statusBar "Loading..."
+
+        ResponseFailure ->
+            statusBar "Sorry, there was a problem on our end! Please try again."
+
+        ResponseSuccess ->
+            addCommentButton model
+
+        _ ->
+            emptySpan
+
+
+statusBar : String -> Html Msg
+statusBar textContent =
+    div [ class "center flex flex-column content-center bg-white br3 ph4 pt3 pb0 ma4" ]
+        [ p [ class "f4 lh-copy tc fw3 mb3" ]
+            [ text textContent ]
+        ]
 
 
 summaryText : List (Html Msg)

@@ -36,12 +36,15 @@ initModel =
     , commentBody = ""
     , commentType = Success
     , comments = []
-    , commentStatus = NotAsked
+    , postCommentStatus = NotAsked
     , postStatsStatus = NotAsked
     , listStatsStatus = NotAsked
+    , listCommentsStatus = NotAsked
     , peopleSeenWeeklyAll = 0
     , displayStatsModal = False
     , displayCommentModal = False
+    , displayHelpModal = False
+    , displayHelpInfo = False
     , problems = []
     , agencies = []
     , postUserDetailsStatus = NotAsked
@@ -71,8 +74,12 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         UrlChange location ->
+            let
+                view =
+                    getView location.hash
+            in
             { model
-                | view = getView location.hash
+                | view = view
                 , displayStatsModal = False
                 , displayCommentModal = False
                 , peopleSeenWeekly = Nothing
@@ -80,8 +87,10 @@ update msg model =
                 , newCasesWeekly = Nothing
                 , signpostedInternallyWeekly = Nothing
                 , signpostedExternallyWeekly = Nothing
+                , displayHelpModal = False
+                , displayHelpInfo = view == BeforeYouBegin
             }
-                ! [ scrollToTop, handleGetComments location ]
+                ! [ scrollToTop, ifThenElse (view == ListComments) (msgToCmd GetComments) Cmd.none ]
 
         ChangeView view ->
             { model
@@ -95,8 +104,14 @@ update msg model =
             }
                 ! [ newUrl <| getHash view ]
 
+        ToggleHelpModal ->
+            { model | displayHelpModal = not model.displayHelpModal } ! []
+
         NoOp ->
             model ! []
+
+        ToggleHelpInfo ->
+            { model | displayHelpInfo = not model.displayHelpInfo } ! []
 
         UpdateLawArea la ->
             let
@@ -181,7 +196,7 @@ update msg model =
             updatedModel ! []
 
         PostComment ->
-            { model | commentStatus = Loading } ! [ postComment model ]
+            { model | postCommentStatus = Loading } ! [ postComment model ]
 
         PostStats ->
             { model | postStatsStatus = Loading, listStatsStatus = Loading } ! [ postStats model ]
@@ -195,14 +210,14 @@ update msg model =
                     ifThenElse (model.view == AddComment) True False
             in
             { model
-                | commentStatus = ResponseSuccess
+                | postCommentStatus = ResponseSuccess
                 , displayCommentModal = displayModal
                 , commentBody = ""
             }
                 ! [ getComments, scrollToTop ]
 
         ReceiveCommentStatus (Err err) ->
-            { model | commentStatus = ResponseFailure } ! [ getComments, scrollToTop ]
+            { model | postCommentStatus = ResponseFailure } ! [ getComments, scrollToTop ]
 
         ReceiveStats (Ok response) ->
             if response.getSuccess then
@@ -233,11 +248,21 @@ update msg model =
         ToggleStatsModal ->
             { model | displayStatsModal = False } ! []
 
-        ReceiveComments (Ok comments) ->
-            { model | comments = comments } ! []
+        GetComments ->
+            { model | listCommentsStatus = Loading } ! [ getComments ]
 
         ReceiveComments (Err err) ->
-            model ! []
+            { model
+                | listCommentsStatus = ResponseFailure
+            }
+                ! []
+
+        ReceiveComments (Ok comments) ->
+            { model
+                | comments = comments
+                , listCommentsStatus = ResponseSuccess
+            }
+                ! []
 
         ToggleProblem string checked ->
             let
@@ -338,6 +363,12 @@ delay : Time -> Msg -> Cmd Msg
 delay time msg =
     sleep time
         |> perform (\_ -> msg)
+
+
+msgToCmd : Msg -> Cmd Msg
+msgToCmd msg =
+    Task.succeed msg
+        |> Task.perform identity
 
 
 updateCommentLikes : UpvoteResponse -> Comment -> Comment

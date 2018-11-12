@@ -46,7 +46,7 @@ inputFont =
 
 submitButtonStyle : String
 submitButtonStyle =
-    "pointer bn br2 pv3 ph3 w5 white"
+    "bn br2 pv3 ph3 w5 white"
 
 
 textareaFont : String

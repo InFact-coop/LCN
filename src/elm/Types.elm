@@ -50,17 +50,20 @@ type alias Model =
     , commentBody : String
     , commentType : CommentType
     , comments : List Comment
-    , commentStatus : RemoteData
+    , postCommentStatus : RemoteData
     , postStatsStatus : RemoteData
     , postUpvoteStatus : RemoteData
     , getUserDetailsStatus : RemoteData
     , postUserDetailsStatus : RemoteData
     , listStatsStatus : RemoteData
+    , listCommentsStatus : RemoteData
     , peopleSeenWeeklyAll : Int
     , displayStatsModal : Bool
     , displayCommentModal : Bool
     , problems : List String
     , agencies : List String
+    , displayHelpModal : Bool
+    , displayHelpInfo : Bool
     }
 
 
@@ -224,3 +227,6 @@ type Msg
     | UpdateMediaCoverageWeekly String
     | UpvoteComment Comment
     | ChangeView View
+    | ToggleHelpInfo
+    | ToggleHelpModal               
+    | GetComments
