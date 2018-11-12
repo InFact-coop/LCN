@@ -33,6 +33,7 @@ stats model =
     object
         [ ( "Name", string model.name )
         , ( "Law Centre", string (unionTypeToString model.lawCentre) )
+        , ( "Job roles", list (List.map (\role -> string <| unionTypeToString role) model.roles) )
         , ( "Law area", string (unionTypeToString model.lawArea) )
         , ( "People seen weekly", maybe int model.peopleSeenWeekly )
         , ( "New cases weekly", maybe int model.newCasesWeekly )
