@@ -29,10 +29,17 @@
     flkty.on("change", function () {
       backgroundColours.forEach(function (colour) {
         splash.classList.remove("bg-" + colour)
-        login.classList.remove("bg-" + colour)
+        login.classList.remove("bg-" + colour, "o-20", "pointer", "grow", "disableButton")
       })
+
       splash.classList.add("bg-" + backgroundColours[flkty.selectedIndex])
       login.classList.add("bg-" + backgroundColours[flkty.selectedIndex])
+      console.log("flkty.selectedIndex", flkty.selectedIndex)
+      if (flkty.selectedIndex === 3) {
+        login.classList.add("grow", "pointer")
+      } else {
+        login.classList.add("o-20", "disableButton")
+      }
     })
   </script>
 </body>
