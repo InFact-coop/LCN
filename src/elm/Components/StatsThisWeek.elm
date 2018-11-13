@@ -47,20 +47,17 @@ statsThisWeek model =
         ]
 
 
-numericalInput : Maybe Int -> RemoteData -> Bool -> String -> String -> (String -> Msg) -> Html Msg
+numericalInput : Int -> RemoteData -> Bool -> String -> String -> (String -> Msg) -> Html Msg
 numericalInput valueFromModel formStatus shouldDisplay labelContent thumbColour msg =
     let
-        unpackedValue =
-            Maybe.withDefault 0 valueFromModel
-
         valueString =
-            toString unpackedValue
+            toString valueFromModel
 
         incrementedValue =
-            toString <| unpackedValue + 1
+            toString <| valueFromModel + 1
 
         decrementedValue =
-            toString <| unpackedValue - 1
+            toString <| valueFromModel - 1
 
         editableAnswer =
             input [ id <| removeSpaces labelContent, type_ "number", value valueString, classes [ "w3 f2 ba b--light-gray pv1 tc mr3", "number-" ++ thumbColour ], Attr.min "0", onInputValue msg ] []

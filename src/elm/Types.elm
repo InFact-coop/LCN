@@ -35,18 +35,18 @@ type alias Model =
     , lawArea : LawArea
     , roles : List Role
     , isAdmin : Bool
-    , weeklyCount : Maybe Int
-    , peopleSeenWeekly : Maybe Int
-    , peopleTurnedAwayWeekly : Maybe Int
-    , newCasesWeekly : Maybe Int
-    , volunteersTotalWeekly : Maybe Int
-    , studentVolunteersWeekly : Maybe Int
-    , lawyerVolunteersWeekly : Maybe Int
-    , vacanciesWeekly : Maybe Int
-    , mediaCoverageWeekly : Maybe Int
-    , signpostedInternallyWeekly : Maybe Int
-    , signpostedExternallyWeekly : Maybe Int
-    , internalAppointmentsWeekly : Maybe Int
+    , weeklyCount : Int
+    , peopleSeenWeekly : Int
+    , peopleTurnedAwayWeekly : Int
+    , newCasesWeekly : Int
+    , volunteersTotalWeekly : Int
+    , studentVolunteersWeekly : Int
+    , lawyerVolunteersWeekly : Int
+    , vacanciesWeekly : Int
+    , mediaCoverageWeekly : Int
+    , signpostedInternallyWeekly : Int
+    , signpostedExternallyWeekly : Int
+    , internalAppointmentsWeekly : Int
     , commentBody : String
     , commentType : CommentType
     , comments : List Comment

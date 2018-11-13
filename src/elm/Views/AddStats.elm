@@ -14,27 +14,27 @@ submitButton : Model -> Html Msg
 submitButton model =
     case model.postStatsStatus of
         UserConfirmation ->
-            bigColouredButton (validate model) "green" "Confirm" PostStats
+            bigColouredButton True "green" "Confirm" PostStats
 
         Loading ->
-            bigColouredButton (validate model)
+            bigColouredButton True
                 "gray"
                 "..."
                 NoOp
 
         ResponseFailure ->
-            bigColouredButton (validate model)
+            bigColouredButton True
                 "red"
                 "Didn't work. Try again?"
                 PostStats
 
         _ ->
-            bigColouredButton (validate model) "green" "Submit" ConfirmStats
+            bigColouredButton True "green" "Submit" ConfirmStats
 
 
 editButton : Model -> Html Msg
 editButton model =
-    bigColouredButton (validate model) "orange" "Go back" EditStats
+    bigColouredButton True "orange" "Go back" EditStats
 
 
 callsToAction : Model -> Html Msg
@@ -67,51 +67,6 @@ addStatsView model =
                 ]
             ]
         ]
-
-
-validate : Model -> Bool
-validate model =
-    let
-        caseWorkerValidation =
-            (model.lawArea /= NoArea)
-                && (model.peopleSeenWeekly /= Nothing)
-                && (model.newCasesWeekly /= Nothing)
-                && (not <| List.isEmpty model.problems)
-
-        triageValidation =
-            (model.peopleSeenWeekly /= Nothing)
-                && (model.peopleTurnedAwayWeekly /= Nothing)
-                && (model.signpostedInternallyWeekly /= Nothing)
-                && (model.internalAppointmentsWeekly /= Nothing)
-                && (model.signpostedExternallyWeekly /= Nothing)
-                && (not <| List.isEmpty model.agencies)
-
-        managementValidation =
-            model.studentVolunteersWeekly
-                /= Nothing
-                && model.lawyerVolunteersWeekly
-                /= Nothing
-                && model.vacanciesWeekly
-                /= Nothing
-                && model.mediaCoverageWeekly
-                /= Nothing
-
-        roleWithValidation =
-            [ ( CaseWorker, caseWorkerValidation )
-            , ( Triage, triageValidation )
-            , ( Management, managementValidation )
-            ]
-    in
-    roleWithValidation
-        |> List.map
-            (\( role, validation ) ->
-                if List.member role model.roles then
-                    validation
-
-                else
-                    True
-            )
-        |> List.all (\validation -> validation == True)
 
 
 introText : List (Html Msg)
