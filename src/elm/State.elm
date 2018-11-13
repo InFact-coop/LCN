@@ -244,7 +244,7 @@ update msg model =
             { model
                 | postStatsStatus = ResponseFailure
                 , listStatsStatus = ResponseFailure
-                , displayStatsModal = True
+                , displayStatsModal = False
             }
                 ! []
 
