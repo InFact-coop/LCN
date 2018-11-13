@@ -92,6 +92,9 @@ update msg model =
             }
                 ! [ scrollToTop, ifThenElse (view == ListComments) (msgToCmd GetComments) Cmd.none ]
 
+        EditStats ->
+            { model | postStatsStatus = NotAsked } ! []
+
         ChangeView view ->
             { model
                 | displayStatsModal = False

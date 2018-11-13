@@ -3,7 +3,7 @@ module Views.AddStats exposing (addStatsView, introText, problemCheckboxesList)
 import Components.Button exposing (..)
 import Components.LawAreaCheckbox exposing (agencyCheckbox, problemCheckbox)
 import Components.StatsThisWeek exposing (statsThisWeek)
-import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, headlineFont, promptFont)
+import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes, displayElement, emptySpan, headlineFont, promptFont)
 import Helpers exposing (ifThenElse)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -14,7 +14,7 @@ submitButton : Model -> Html Msg
 submitButton model =
     case model.postStatsStatus of
         UserConfirmation ->
-            bigColouredButton (validate model) "orange" "Are you sure?" PostStats
+            bigColouredButton (validate model) "green" "Confirm" PostStats
 
         Loading ->
             bigColouredButton (validate model)
@@ -30,6 +30,19 @@ submitButton model =
 
         _ ->
             bigColouredButton (validate model) "green" "Submit" ConfirmStats
+
+
+editButton : Model -> Html Msg
+editButton model =
+    bigColouredButton (validate model) "orange" "Go back" EditStats
+
+
+callsToAction : Model -> Html Msg
+callsToAction model =
+    div []
+        [ submitButton model
+        , ifThenElse (model.postStatsStatus == UserConfirmation) (editButton model) emptySpan
+        ]
 
 
 addStatsView : Model -> Html Msg
@@ -49,7 +62,7 @@ addStatsView model =
                     , h2 [ classes [ promptFont, "mb3 mt1" ] ] [ text "(Please select one option from the dropdown)" ]
                     , div [ classes [ "mb4" ] ] (problemCheckboxesList model)
                     ]
-                , submitButton
+                , callsToAction
                     model
                 ]
             ]
@@ -103,7 +116,7 @@ validate model =
 
 introText : List (Html Msg)
 introText =
-    [ text "Please ", span [ class "fw5" ] [ text "tell us a little about your week " ], text "since the last time you checked in. You can ", span [ class "fw5" ] [ text "type"], text ", ", span [ class "fw5" ] [text "use the spinner buttons" ], text ", or ", span [ class "fw5"] [ text " use the arrows on your keyboard " ], text "to provide your answer." ]
+    [ text "Please ", span [ class "fw5" ] [ text "tell us a little about your week " ], text "since the last time you checked in. You can ", span [ class "fw5" ] [ text "type" ], text ", ", span [ class "fw5" ] [ text "use the spinner buttons" ], text ", or ", span [ class "fw5" ] [ text " use the arrows on your keyboard " ], text "to provide your answer." ]
 
 
 problemCheckboxesList : Model -> List (Html Msg)

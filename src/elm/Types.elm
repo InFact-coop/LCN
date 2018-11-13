@@ -228,5 +228,6 @@ type Msg
     | UpvoteComment Comment
     | ChangeView View
     | ToggleHelpInfo
-    | ToggleHelpModal               
+    | ToggleHelpModal
     | GetComments
+    | EditStats
