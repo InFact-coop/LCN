@@ -81,7 +81,6 @@ update msg model =
             in
             { model
                 | view = view
-                , displayStatsModal = False
                 , displayCommentModal = False
                 , clientMattersWeekly = 0
                 , enquiriesWeekly = 0
@@ -96,19 +95,6 @@ update msg model =
 
         EditStats ->
             { model | postStatsStatus = NotAsked } ! []
-
-        ChangeView view ->
-            { model
-                | displayStatsModal = False
-                , displayCommentModal = False
-                , clientMattersWeekly = 0
-                , enquiriesWeekly = 0
-                , peopleTurnedAwayWeekly = 0
-                , newCasesWeekly = 0
-                , signpostedInternallyWeekly = 0
-                , signpostedExternallyWeekly = 0
-            }
-                ! [ newUrl <| getHash view ]
 
         ToggleHelpModal ->
             { model | displayHelpModal = not model.displayHelpModal } ! []
@@ -240,7 +226,7 @@ update msg model =
                     , peopleSeenWeeklyAll = response.peopleSeen
                     , displayStatsModal = True
                 }
-                    ! [ scrollToTop, delay (Time.second * 3) (ChangeView ListComments) ]
+                    ! [ scrollToTop, newUrl "/#list-comments", delay (Time.second * 3) ToggleStatsModal ]
 
             else
                 { model
@@ -248,7 +234,7 @@ update msg model =
                     , listStatsStatus = ResponseFailure
                     , displayStatsModal = True
                 }
-                    ! [ scrollToTop, delay (Time.second * 3) (ChangeView ListComments) ]
+                    ! [ scrollToTop, newUrl "/#list-comments", delay (Time.second * 3) ToggleStatsModal ]
 
         ReceiveStats (Err response) ->
             { model

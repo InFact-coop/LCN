@@ -228,7 +228,6 @@ type Msg
     | UpdateVacanciesWeekly String
     | UpdateMediaCoverageWeekly String
     | UpvoteComment Comment
-    | ChangeView View
     | ToggleHelpInfo
     | ToggleHelpModal
     | GetComments
