@@ -25,11 +25,14 @@ submitButton model =
         ResponseFailure ->
             bigColouredButton True
                 "red"
-                "Didn't work. Try again?"
+                "Try again"
                 PostStats
 
-        _ ->
+        NotAsked ->
             bigColouredButton True "green" "Submit" ConfirmStats
+
+        ResponseSuccess ->
+            emptySpan
 
 
 editButton : Model -> Html Msg
@@ -40,8 +43,8 @@ editButton model =
 callsToAction : Model -> Html Msg
 callsToAction model =
     div []
-        [ submitButton model
-        , ifThenElse (model.postStatsStatus == UserConfirmation) (editButton model) emptySpan
+        [ ifThenElse (model.postStatsStatus == UserConfirmation) (editButton model) emptySpan
+        , submitButton model
         ]
 
 
@@ -58,8 +61,8 @@ addStatsView model =
             , statsThisWeek model
             , section [ class "mb4" ]
                 [ div [ classes [ displayElement <| List.member CaseWorker model.roles && model.lawArea /= NoArea ] ]
-                    [ label [ for "lawArea", classes [ headlineFont, "mb1" ] ] [ text "What were the main kinds of problems you have seen this week?" ]
-                    , h2 [ classes [ promptFont, "mb3 mt1" ] ] [ text "(Please select one option from the dropdown)" ]
+                    [ label [ for "lawArea", classes [ headlineFont, "mb1" ] ] [ text <| ifThenElse (model.postStatsStatus == ResponseSuccess || model.postStatsStatus == UserConfirmation) "The main types of agencies you referred to this week:" "Tick the main types of agencies you referred to this week:" ]
+                    , h2 [ classes [ promptFont, "mb3 mt1", displayElement (model.postStatsStatus /= ResponseSuccess && model.postStatsStatus /= UserConfirmation) ] ] [ text "(Please select one option from the dropdown)" ]
                     , div [ classes [ "mb4" ] ] (problemCheckboxesList model)
                     ]
                 , callsToAction
@@ -78,101 +81,101 @@ problemCheckboxesList : Model -> List (Html Msg)
 problemCheckboxesList model =
     case model.lawArea of
         WelfareAndBenefits ->
-            [ problemCheckbox "Carers' Allowance"
-            , problemCheckbox "Council Tax Reduction"
-            , problemCheckbox "DLA"
-            , problemCheckbox "ESA"
-            , problemCheckbox "Entitlement"
-            , problemCheckbox "JSA"
-            , problemCheckbox "Overpayment"
-            , problemCheckbox "PIP"
-            , problemCheckbox "Pension Credit"
-            , problemCheckbox "Right to Reside"
-            , problemCheckbox "Sanctions"
-            , problemCheckbox "Tax Credit"
-            , problemCheckbox "Universal Credit"
-            , problemCheckbox "Other"
+            [ problemCheckbox "Carers' Allowance" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Council Tax Reduction" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "DLA" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "ESA" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Entitlement" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "JSA" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Overpayment" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "PIP" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Pension Credit" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Right to Reside" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Sanctions" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Tax Credit" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Universal Credit" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Other" (model.postStatsStatus == UserConfirmation)
             ]
 
         Employment ->
-            [ problemCheckbox "Breach of Contract"
-            , problemCheckbox "Constructive Dismissal"
-            , problemCheckbox "Disciplinary / Grievance"
-            , problemCheckbox "Discrimination"
-            , problemCheckbox "Redundancy Payments"
-            , problemCheckbox "Unfair Dismissal"
-            , problemCheckbox "Whistleblowing"
-            , problemCheckbox "Withheld Wages / Notice / Holiday Pay"
-            , problemCheckbox "Working Time"
-            , problemCheckbox "Other"
+            [ problemCheckbox "Breach of Contract" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Constructive Dismissal" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Disciplinary / Grievance" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Discrimination" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Redundancy Payments" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Unfair Dismissal" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Whistleblowing" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Withheld Wages / Notice / Holiday Pay" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Working Time" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Other" (model.postStatsStatus == UserConfirmation)
             ]
 
         Debt ->
-            [ problemCheckbox "Council Tax Arrears / Bailiffs"
-            , problemCheckbox "Court Fines"
-            , problemCheckbox "Credit Card Debt"
-            , problemCheckbox "Mortgage (Arrears or Interest Only)"
-            , problemCheckbox "Overpaid Benefits Clawback"
-            , problemCheckbox "Rent Arrears"
-            , problemCheckbox "Secured or Student Loans"
-            , problemCheckbox "Utilities"
-            , problemCheckbox "Other"
+            [ problemCheckbox "Council Tax Arrears / Bailiffs" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Court Fines" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Credit Card Debt" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Mortgage (Arrears or Interest Only)" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Overpaid Benefits Clawback" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Rent Arrears" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Secured or Student Loans" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Utilities" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Other" (model.postStatsStatus == UserConfirmation)
             ]
 
         Housing ->
-            [ problemCheckbox "Allocations"
-            , problemCheckbox "Committals"
-            , problemCheckbox "Disrepair"
-            , problemCheckbox "Duty Scheme"
-            , problemCheckbox "Eviction"
-            , problemCheckbox "Homelessness"
-            , problemCheckbox "Homelessness Review"
-            , problemCheckbox "Injunction"
-            , problemCheckbox "Possession"
-            , problemCheckbox "Other"
+            [ problemCheckbox "Allocations" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Committals" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Disrepair" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Duty Scheme" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Eviction" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Homelessness" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Homelessness Review" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Injunction" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Possession" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Other" (model.postStatsStatus == UserConfirmation)
             ]
 
         ImmigrationAndAsylum ->
-            [ problemCheckbox "Article 3 / Humanitarian Protection"
-            , problemCheckbox "Article 8"
-            , problemCheckbox "Asylum"
-            , problemCheckbox "Children / UASC"
-            , problemCheckbox "Domestic Violence"
-            , problemCheckbox "Family Reunion"
-            , problemCheckbox "NRPF"
-            , problemCheckbox "Trafficking"
-            , problemCheckbox "Other"
+            [ problemCheckbox "Article 3 / Humanitarian Protection" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Article 8" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Asylum" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Children / UASC" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Domestic Violence" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Family Reunion" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "NRPF" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Trafficking" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Other" (model.postStatsStatus == UserConfirmation)
             ]
 
         Family ->
-            [ problemCheckbox "Care Proceedings"
-            , problemCheckbox "Child Abduction"
-            , problemCheckbox "Child Arrangement Orders"
-            , problemCheckbox "Divorce"
-            , problemCheckbox "Domestic Violence"
-            , problemCheckbox "Financial Matters"
-            , problemCheckbox "Other"
+            [ problemCheckbox "Care Proceedings" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Child Abduction" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Child Arrangement Orders" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Divorce" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Domestic Violence" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Financial Matters" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Other" (model.postStatsStatus == UserConfirmation)
             ]
 
         CommunityCare ->
-            [ problemCheckbox "Aids and Adaptations"
-            , problemCheckbox "Assessments for Care / Support"
-            , problemCheckbox "Best Interest Decision Making"
-            , problemCheckbox "Care / Support Planning"
-            , problemCheckbox "Care Home Placement / Supported Living"
-            , problemCheckbox "Care at Home"
-            , problemCheckbox "Carers Assessment / Services"
-            , problemCheckbox "Children's Act Assessment / Services"
-            , problemCheckbox "Payments (Charging, Personal Budget, Direct Payments)"
-            , problemCheckbox "Service Reorganisation / Closure"
-            , problemCheckbox "Other"
+            [ problemCheckbox "Aids and Adaptations" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Assessments for Care / Support" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Best Interest Decision Making" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Care / Support Planning" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Care Home Placement / Supported Living" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Care at Home" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Carers Assessment / Services" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Children's Act Assessment / Services" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Payments (Charging, Personal Budget, Direct Payments)" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Service Reorganisation / Closure" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Other" (model.postStatsStatus == UserConfirmation)
             ]
 
         PublicLaw ->
-            [ problemCheckbox "Human Rights"
-            , problemCheckbox "Migrant Support"
-            , problemCheckbox "Social Welfare"
-            , problemCheckbox "Other"
+            [ problemCheckbox "Human Rights" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Migrant Support" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Social Welfare" (model.postStatsStatus == UserConfirmation)
+            , problemCheckbox "Other" (model.postStatsStatus == UserConfirmation)
             ]
 
         NoArea ->
