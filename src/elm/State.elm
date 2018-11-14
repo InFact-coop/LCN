@@ -246,9 +246,9 @@ update msg model =
                 { model
                     | postStatsStatus = ResponseSuccess
                     , listStatsStatus = ResponseFailure
-                    , displayStatsModal = False
+                    , displayStatsModal = True
                 }
-                    ! [ scrollToTop ]
+                    ! [ scrollToTop, delay (Time.second * 3) (ChangeView ListComments) ]
 
         ReceiveStats (Err response) ->
             { model

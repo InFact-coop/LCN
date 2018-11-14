@@ -31,12 +31,12 @@ statsThisWeek model =
         , div [ classes [ "mb4", displayElement (List.member Triage model.roles) ] ]
             [ label [ for "agencyTypes", classes [ "mb4", headlineFont ] ] [ text <| ifThenElse (model.postStatsStatus == ResponseSuccess || model.postStatsStatus == UserConfirmation) "The main types of agencies you referred to this week:" "Tick the main types of agencies you referred to this week:" ]
             , div [ class "mt2" ]
-                [ agencyCheckbox "Local advice agency" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess) model.agencies
-                , agencyCheckbox "Local non-advice support agency" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess) model.agencies
-                , agencyCheckbox "National agency/helpline" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess) model.agencies
-                , agencyCheckbox "Local MPs" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess) model.agencies
-                , agencyCheckbox "Local councillors" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess) model.agencies
-                , agencyCheckbox "Other" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess) model.agencies
+                [ agencyCheckbox "Local advice agency" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess || model.postStatsStatus == Loading) model.agencies
+                , agencyCheckbox "Local non-advice support agency" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess || model.postStatsStatus == Loading) model.agencies
+                , agencyCheckbox "National agency/helpline" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess || model.postStatsStatus == Loading) model.agencies
+                , agencyCheckbox "Local MPs" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess || model.postStatsStatus == Loading) model.agencies
+                , agencyCheckbox "Local councillors" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess || model.postStatsStatus == Loading) model.agencies
+                , agencyCheckbox "Other" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess || model.postStatsStatus == Loading) model.agencies
                 ]
             ]
         ]
