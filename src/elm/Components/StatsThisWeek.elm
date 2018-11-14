@@ -12,8 +12,8 @@ statsThisWeek : Model -> Html Msg
 statsThisWeek model =
     section [ class "mb4 mt4" ]
         [ div [ class "flex flex-row mb4 items-baseline" ]
-            [ h1 [ classes [ headlineFont ] ] [ text <| ifThenElse (model.postStatsStatus == ResponseSuccess || model.postStatsStatus == UserConfirmation) "Your Answers for this Week:" "Your Week" ]
-            , h2 [ classes [ "ml2", promptFont, displayElement <| model.postStatsStatus /= ResponseSuccess && model.postStatsStatus /= UserConfirmation ] ] [ text "If you can't remember the ", span [ class "fw5" ] [ text "exact number" ], text ", your ", span [ class "fw5" ] [ text "best estimate" ], text " would do here." ]
+            [ h1 [ classes [ headlineFont ] ] [ text <| ifThenElse (model.postStatsStatus == ResponseSuccess || model.postStatsStatus == UserConfirmation || model.postStatsStatus == Loading) "Your Answers for this Week:" "Your Week" ]
+            , h2 [ classes [ "ml2", promptFont, displayElement <| model.postStatsStatus /= ResponseSuccess && model.postStatsStatus /= UserConfirmation && model.postStatsStatus /= Loading ] ] [ text "If you can't remember the ", span [ class "fw5" ] [ text "exact number" ], text ", your ", span [ class "fw5" ] [ text "best estimate" ], text " would do here." ]
             ]
         , div [ class "grid mb4" ]
             [ numericalInput model.clientMattersWeekly model.postStatsStatus (List.member CaseWorker model.roles) "How many client matters have you seen this week in total?" "green" UpdateClientMatters
@@ -29,7 +29,7 @@ statsThisWeek model =
             , numericalInput model.mediaCoverageWeekly model.postStatsStatus (List.member Management model.roles) ("How many media stories has " ++ unionTypeToString model.lawCentre ++ " Law Centre had this week, if any?") "blue" UpdateMediaCoverageWeekly
             ]
         , div [ classes [ "mb4", displayElement (List.member Triage model.roles) ] ]
-            [ label [ for "agencyTypes", classes [ "mb4", headlineFont ] ] [ text <| ifThenElse (model.postStatsStatus == ResponseSuccess || model.postStatsStatus == UserConfirmation) "The main types of agencies you referred to this week:" "Tick the main types of agencies you referred to this week:" ]
+            [ label [ for "agencyTypes", classes [ "mb4", headlineFont ] ] [ text <| ifThenElse (model.postStatsStatus == ResponseSuccess || model.postStatsStatus == UserConfirmation || model.postStatsStatus == Loading) "The main types of agencies you referred to this week:" "Tick the main types of agencies you referred to this week:" ]
             , div [ class "mt2" ]
                 [ agencyCheckbox "Local advice agency" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess || model.postStatsStatus == Loading) model.agencies
                 , agencyCheckbox "Local non-advice support agency" (model.postStatsStatus == UserConfirmation || model.postStatsStatus == ResponseSuccess || model.postStatsStatus == Loading) model.agencies

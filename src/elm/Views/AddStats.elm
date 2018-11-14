@@ -23,16 +23,22 @@ submitButton model =
                 NoOp
 
         ResponseFailure ->
-            bigColouredButton True
-                "red"
-                "Didn't work. Try again?"
-                PostStats
+            div [ class "flex flex-column items-center" ]
+                [ div [ class "f3 fw5 red mb3" ] [ text "Oops, something didn't work" ]
+                , bigColouredButton True
+                    "red"
+                    "Try again"
+                    PostStats
+                ]
 
         NotAsked ->
             bigColouredButton True "green" "Submit" ConfirmStats
 
         ResponseSuccess ->
-            div [ class "f4 fw3 gray i" ] [ text "You have successfully sent your stats. See you next week!" ]
+            div [ class "flex flex-column items-center" ]
+                [ div [ class "f3 fw5 green mb3" ] [ text "You have successfully sent your stats." ]
+                , div [ class "f3 fw5 green b" ] [ text "See you next week!" ]
+                ]
 
 
 editButton : Model -> Html Msg
@@ -42,7 +48,7 @@ editButton model =
 
 callsToAction : Model -> Html Msg
 callsToAction model =
-    div []
+    div [ class "flex justify-center" ]
         [ ifThenElse (model.postStatsStatus == UserConfirmation) (editButton model) emptySpan
         , submitButton model
         ]
@@ -62,7 +68,7 @@ addStatsView model =
             , section [ class "mb4" ]
                 [ div [ classes [ displayElement <| List.member CaseWorker model.roles && model.lawArea /= NoArea ] ]
                     [ div [ class "mb3" ]
-                        [ label [ for "lawArea", classes [ headlineFont, "mb1" ] ] [ text <| ifThenElse (model.postStatsStatus == ResponseSuccess || model.postStatsStatus == UserConfirmation) "The main kinds of problems you've seen this week:" "Tick the main kinds of problems you've seen this week:" ]
+                        [ label [ for "lawArea", classes [ headlineFont, "mb1" ] ] [ text <| ifThenElse (model.postStatsStatus == ResponseSuccess || model.postStatsStatus == UserConfirmation || model.postStatsStatus == Loading) "The main kinds of problems you've seen this week:" "Tick the main kinds of problems you've seen this week:" ]
                         , h2 [ classes [ promptFont, "mt1", displayElement (model.postStatsStatus == NotAsked || model.postStatsStatus == ResponseFailure) ] ] [ text "(Please tick all that apply)" ]
                         ]
                     , div [ classes [ "mb4" ] ] (problemCheckboxesList model)
