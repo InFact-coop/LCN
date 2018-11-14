@@ -27,12 +27,13 @@ initModel =
     , roles = [ NoRole ]
     , isAdmin = False
     , weeklyCount = 0
-    , peopleSeenWeekly = 0
     , peopleTurnedAwayWeekly = 0
     , newCasesWeekly = 0
     , signpostedExternallyWeekly = 0
     , signpostedInternallyWeekly = 0
     , internalAppointmentsWeekly = 0
+    , enquiriesWeekly = 0
+    , clientMattersWeekly = 0
     , commentBody = ""
     , commentType = Success
     , comments = []
@@ -82,7 +83,8 @@ update msg model =
                 | view = view
                 , displayStatsModal = False
                 , displayCommentModal = False
-                , peopleSeenWeekly = 0
+                , clientMattersWeekly = 0
+                , enquiriesWeekly = 0
                 , peopleTurnedAwayWeekly = 0
                 , newCasesWeekly = 0
                 , signpostedInternallyWeekly = 0
@@ -99,7 +101,8 @@ update msg model =
             { model
                 | displayStatsModal = False
                 , displayCommentModal = False
-                , peopleSeenWeekly = 0
+                , clientMattersWeekly = 0
+                , enquiriesWeekly = 0
                 , peopleTurnedAwayWeekly = 0
                 , newCasesWeekly = 0
                 , signpostedInternallyWeekly = 0
@@ -163,10 +166,17 @@ update msg model =
             in
             updatedModel ! []
 
-        UpdatePeopleSeen number ->
+        UpdateEnquiries number ->
             let
                 updatedModel =
-                    { model | peopleSeenWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
+                    { model | enquiriesWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
+            in
+            updatedModel ! []
+
+        UpdateClientMatters number ->
+            let
+                updatedModel =
+                    { model | clientMattersWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 

@@ -36,7 +36,8 @@ type alias Model =
     , roles : List Role
     , isAdmin : Bool
     , weeklyCount : Int
-    , peopleSeenWeekly : Int
+    , clientMattersWeekly : Int
+    , enquiriesWeekly : Int
     , peopleTurnedAwayWeekly : Int
     , newCasesWeekly : Int
     , volunteersTotalWeekly : Int
@@ -198,7 +199,8 @@ type Msg
     | UpdateName String
     | UpdateLawArea LawArea
     | UpdateCommentBody String
-    | UpdatePeopleSeen String
+    | UpdateClientMatters String
+    | UpdateEnquiries String
     | UpdatePeopleTurnedAway String
     | UpdateNewCases String
     | UpdateSignpostedInternally String
