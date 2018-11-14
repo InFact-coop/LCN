@@ -67,5 +67,6 @@ stats model =
     object <|
         [ ( "Name", string model.name )
         , ( "Law Centre", string (unionTypeToString model.lawCentre) )
+        , ( "Job roles", list (List.map (\role -> string <| unionTypeToString role) model.roles) )
         ]
             ++ rolesListToStats model
