@@ -6,7 +6,11 @@ const R = require("ramda");
 const helpers = require("../helpers");
 const {
   retrieve_comment_likes,
-  upvote_comment
+  upvote_comment,
+  get_all_records,
+  prune_records,
+  aggregate_records,
+  return_if
 } = require("../helpers/airtable_helpers");
 const {
   update_user_comments_liked,
@@ -90,34 +94,29 @@ const get_user_details = (req, res) => {
 const post_stats = (req, res) => {
   let newForm = req.body;
   newForm["Date"] = helpers.getToday();
-  let peopleSeen = 0;
-  base("Quant").create(newForm, (err, record) => {
+  const lawArea = newForm["Law area"] || null;
+  const roles = newForm["Job roles"];
+
+  const fetchResponse = async err => {
     if (err) {
       console.log("Post Stats Error", err);
       return res.status(500).json({ postSuccess: false });
     }
-    base("Quant")
-      .select({
-        fields: ["People seen weekly"],
-        filterByFormula: `AND(DATETIME_DIFF(NOW(), {Date}, 'weeks') <= 1)`
-      })
-      .eachPage(
-        function page(records, fetchNextPage) {
-          records.forEach(record => {
-            if (!record._rawJson.fields["People seen weekly"]) return;
-            peopleSeen += record._rawJson.fields["People seen weekly"];
-          });
-          fetchNextPage();
-        },
-        function done(err) {
-          if (err) {
-            console.error("Get Stats Error", err);
-            return res.json({ postSuccess: true, getSuccess: false });
-          }
-          return res.json({ postSuccess: true, getSuccess: true, peopleSeen });
-        }
-      );
-  });
+    try {
+      const records = await get_all_records;
+      const statsResponse = R.pipe(
+        prune_records(roles, lawArea),
+        aggregate_records
+      )(records);
+
+      return res.json({ postSuccess: true, getSuccess: true, statsResponse });
+    } catch (e) {
+      console.error("Retrieve Stats Error:", e);
+      return res.json({ postSuccess: true, getSuccess: false });
+    }
+  };
+
+  base("Quant").create(newForm, fetchResponse);
 };
 
 const get_comments = (req, res) => {
