@@ -19,7 +19,19 @@ statsResponseDecoder =
     decode StatsResponse
         |> required "postSuccess" Decode.bool
         |> required "getSuccess" Decode.bool
-        |> optional "peopleSeen" Decode.int 0
+        |> required "statsResponse" statsDataDecoder
+
+
+statsDataDecoder : Decode.Decoder StatsData
+statsDataDecoder =
+    decode StatsData
+        |> optional "clientMatters" (Decode.map Just Decode.int) Nothing
+        |> optional "clientMattersByArea" (Decode.map Just Decode.int) Nothing
+        |> optional "enquiries" (Decode.map Just Decode.int) Nothing
+        |> optional "vacancies" (Decode.map Just Decode.int) Nothing
+        |> optional "mediaCoverage" (Decode.map Just Decode.int) Nothing
+        |> optional "lawyerVolunteers" (Decode.map Just Decode.int) Nothing
+        |> optional "studentVolunteers" (Decode.map Just Decode.int) Nothing
 
 
 statsRequest : Model -> Http.Request StatsResponse

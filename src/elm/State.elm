@@ -18,6 +18,18 @@ import Time exposing (..)
 import Types exposing (..)
 
 
+initStatsResponse : StatsData
+initStatsResponse =
+    { clientMatters = Nothing
+    , clientMattersByArea = Nothing
+    , enquiries = Nothing
+    , vacancies = Nothing
+    , mediaCoverage = Nothing
+    , lawyerVolunteers = Nothing
+    , studentVolunteers = Nothing
+    }
+
+
 initModel : Model
 initModel =
     { view = SplashScreen
@@ -41,7 +53,6 @@ initModel =
     , postStatsStatus = NotAsked
     , listStatsStatus = NotAsked
     , listCommentsStatus = NotAsked
-    , peopleSeenWeeklyAll = 0
     , displayStatsModal = False
     , displayCommentModal = False
     , displayHelpModal = False
@@ -56,6 +67,7 @@ initModel =
     , lawyerVolunteersWeekly = 0
     , vacanciesWeekly = 0
     , mediaCoverageWeekly = 0
+    , statsResponse = initStatsResponse
     }
 
 
@@ -223,7 +235,7 @@ update msg model =
                 { model
                     | postStatsStatus = ResponseSuccess
                     , listStatsStatus = ResponseSuccess
-                    , peopleSeenWeeklyAll = response.peopleSeen
+                    , statsResponse = response.statsResponse
                     , displayStatsModal = True
                 }
                     ! [ scrollToTop, newUrl "/#list-comments", delay (Time.second * 3) ToggleStatsModal ]
