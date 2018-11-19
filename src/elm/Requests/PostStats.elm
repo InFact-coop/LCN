@@ -5,7 +5,6 @@ import Http exposing (jsonBody, post)
 import Json.Decode as Decode
 import Json.Decode.Pipeline exposing (decode, optional, required)
 import Json.Encode exposing (..)
-import Json.Encode.Extra exposing (maybe)
 import Types exposing (..)
 
 
@@ -28,22 +27,46 @@ statsRequest model =
     post "/api/v1/post-stats" (jsonBody <| stats model) statsResponseDecoder
 
 
+roleToStats : Model -> Role -> List ( String, Value )
+roleToStats model role =
+    case role of
+        CaseWorker ->
+            [ ( "Law area", string (unionTypeToString model.lawArea) )
+            , ( "Client matters weekly", int model.clientMattersWeekly )
+            , ( "New cases weekly", int model.newCasesWeekly )
+            , ( "Problems encountered", list (List.map (\problem -> string problem) model.problems) )
+            ]
+
+        Management ->
+            [ ( "Student volunteers weekly", int model.studentVolunteersWeekly )
+            , ( "Lawyer volunteers weekly", int model.lawyerVolunteersWeekly )
+            , ( "Vacancies weekly", int model.vacanciesWeekly )
+            , ( "Media coverage weekly", int model.mediaCoverageWeekly )
+            ]
+
+        Triage ->
+            [ ( "Enquiries weekly", int model.enquiriesWeekly )
+            , ( "People signposted internally weekly", int model.signpostedInternallyWeekly )
+            , ( "People referred to other agencies weekly", int model.signpostedExternallyWeekly )
+            , ( "People turned away weekly", int model.peopleTurnedAwayWeekly )
+            , ( "People with internal appointments weekly", int model.internalAppointmentsWeekly )
+            , ( "Types of agencies referred to", list (List.map (\agency -> string agency) model.agencies) )
+            ]
+
+        NoRole ->
+            []
+
+
+rolesListToStats : Model -> List ( String, Value )
+rolesListToStats model =
+    List.map (\role -> roleToStats model role) model.roles |> List.concat
+
+
 stats : Model -> Value
 stats model =
-    object
+    object <|
         [ ( "Name", string model.name )
         , ( "Law Centre", string (unionTypeToString model.lawCentre) )
-        , ( "Law area", string (unionTypeToString model.lawArea) )
-        , ( "People seen weekly", maybe int model.peopleSeenWeekly )
-        , ( "New cases weekly", maybe int model.newCasesWeekly )
-        , ( "People signposted internally weekly", maybe int model.signpostedInternallyWeekly )
-        , ( "People referred to other agencies weekly", maybe int model.signpostedExternallyWeekly )
-        , ( "People with internal appointments weekly", maybe int model.internalAppointmentsWeekly )
-        , ( "People turned away weekly", maybe int model.peopleTurnedAwayWeekly )
-        , ( "Student volunteers weekly", maybe int model.studentVolunteersWeekly )
-        , ( "Lawyer volunteers weekly", maybe int model.lawyerVolunteersWeekly )
-        , ( "Vacancies weekly", maybe int model.vacanciesWeekly )
-        , ( "Media coverage weekly", maybe int model.mediaCoverageWeekly )
-        , ( "Problems encountered", list (List.map (\problem -> string problem) model.problems) )
-        , ( "Types of agencies referred to", list (List.map (\agency -> string agency) model.agencies) )
+        , ( "Job roles", list (List.map (\role -> string <| unionTypeToString role) model.roles) )
         ]
+            ++ rolesListToStats model

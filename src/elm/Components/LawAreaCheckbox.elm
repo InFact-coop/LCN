@@ -1,6 +1,7 @@
 module Components.LawAreaCheckbox exposing (agencyCheckbox, onCheckboxInput, problemCheckbox)
 
-import Components.StyleHelpers exposing (checkboxFont, classes)
+import Components.StyleHelpers exposing (bodyFont, checkboxFont, classes)
+import Helpers exposing (ifThenElse)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -8,19 +9,19 @@ import Json.Decode as Decode
 import Types exposing (..)
 
 
-problemCheckbox : String -> Html Msg
-problemCheckbox content =
-    div [ classes [ "mb2 flex flex-row items-center" ] ]
-        [ input [ type_ "checkbox", id content, value content, classes [ "mr3", "pointer" ], onCheckboxInput ToggleProblem ] []
-        , label [ for content, classes [ checkboxFont, "pointer" ] ] [ text content ]
+problemCheckbox : String -> Bool -> List String -> Html Msg
+problemCheckbox content isDisabled checkedProblems =
+    div [ classes [ "mb2 flex-row items-center", ifThenElse isDisabled "ml4" "", ifThenElse (List.member content checkedProblems || not isDisabled) "flex" "dn" ] ]
+        [ input [ type_ "checkbox", id content, value content, classes [ "mr3", ifThenElse isDisabled "disableButton" "pointer", ifThenElse (List.member content checkedProblems && isDisabled) "dn" "" ], onCheckboxInput ToggleProblem ] []
+        , label [ for content, classes [ ifThenElse isDisabled bodyFont checkboxFont, ifThenElse isDisabled "disableButton" "pointer" ] ] [ text content ]
         ]
 
 
-agencyCheckbox : String -> Html Msg
-agencyCheckbox content =
-    div [ classes [ "mb2 flex flex-row items-center" ] ]
-        [ input [ type_ "checkbox", id content, value content, classes [ "mr3", "pointer" ], onCheckboxInput ToggleAgency ] []
-        , label [ for content, classes [ checkboxFont, "pointer" ] ] [ text content ]
+agencyCheckbox : String -> Bool -> List String -> Html Msg
+agencyCheckbox content isDisabled checkedAgencies =
+    div [ classes [ "mb2 flex-row items-center", ifThenElse isDisabled "ml4" "", ifThenElse (List.member content checkedAgencies || not isDisabled) "flex" "dn" ] ]
+        [ input [ type_ "checkbox", id content, value content, classes [ "mr3", ifThenElse isDisabled "disableButton dn" "pointer", ifThenElse isDisabled "dn" "" ], onCheckboxInput ToggleAgency ] []
+        , label [ for content, classes [ ifThenElse isDisabled bodyFont checkboxFont, ifThenElse isDisabled "disableButton" "pointer" ] ] [ text content ]
         ]
 
 

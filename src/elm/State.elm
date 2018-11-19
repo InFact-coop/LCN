@@ -26,13 +26,14 @@ initModel =
     , lawArea = NoArea
     , roles = [ NoRole ]
     , isAdmin = False
-    , weeklyCount = Nothing
-    , peopleSeenWeekly = Nothing
-    , peopleTurnedAwayWeekly = Nothing
-    , newCasesWeekly = Nothing
-    , signpostedExternallyWeekly = Nothing
-    , signpostedInternallyWeekly = Nothing
-    , internalAppointmentsWeekly = Nothing
+    , weeklyCount = 0
+    , peopleTurnedAwayWeekly = 0
+    , newCasesWeekly = 0
+    , signpostedExternallyWeekly = 0
+    , signpostedInternallyWeekly = 0
+    , internalAppointmentsWeekly = 0
+    , enquiriesWeekly = 0
+    , clientMattersWeekly = 0
     , commentBody = ""
     , commentType = Success
     , comments = []
@@ -50,11 +51,11 @@ initModel =
     , postUserDetailsStatus = NotAsked
     , postUpvoteStatus = NotAsked
     , getUserDetailsStatus = NotAsked
-    , volunteersTotalWeekly = Nothing
-    , studentVolunteersWeekly = Nothing
-    , lawyerVolunteersWeekly = Nothing
-    , vacanciesWeekly = Nothing
-    , mediaCoverageWeekly = Nothing
+    , volunteersTotalWeekly = 0
+    , studentVolunteersWeekly = 0
+    , lawyerVolunteersWeekly = 0
+    , vacanciesWeekly = 0
+    , mediaCoverageWeekly = 0
     }
 
 
@@ -80,29 +81,20 @@ update msg model =
             in
             { model
                 | view = view
-                , displayStatsModal = False
                 , displayCommentModal = False
-                , peopleSeenWeekly = Nothing
-                , peopleTurnedAwayWeekly = Nothing
-                , newCasesWeekly = Nothing
-                , signpostedInternallyWeekly = Nothing
-                , signpostedExternallyWeekly = Nothing
+                , clientMattersWeekly = 0
+                , enquiriesWeekly = 0
+                , peopleTurnedAwayWeekly = 0
+                , newCasesWeekly = 0
+                , signpostedInternallyWeekly = 0
+                , signpostedExternallyWeekly = 0
                 , displayHelpModal = False
                 , displayHelpInfo = view == BeforeYouBegin
             }
                 ! [ scrollToTop, ifThenElse (view == ListComments) (msgToCmd GetComments) Cmd.none ]
 
-        ChangeView view ->
-            { model
-                | displayStatsModal = False
-                , displayCommentModal = False
-                , peopleSeenWeekly = Nothing
-                , peopleTurnedAwayWeekly = Nothing
-                , newCasesWeekly = Nothing
-                , signpostedInternallyWeekly = Nothing
-                , signpostedExternallyWeekly = Nothing
-            }
-                ! [ newUrl <| getHash view ]
+        EditStats ->
+            { model | postStatsStatus = NotAsked } ! []
 
         ToggleHelpModal ->
             { model | displayHelpModal = not model.displayHelpModal } ! []
@@ -156,42 +148,49 @@ update msg model =
         UpdatePeopleTurnedAway number ->
             let
                 updatedModel =
-                    { model | peopleTurnedAwayWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
+                    { model | peopleTurnedAwayWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
-        UpdatePeopleSeen number ->
+        UpdateEnquiries number ->
             let
                 updatedModel =
-                    { model | peopleSeenWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
+                    { model | enquiriesWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
+            in
+            updatedModel ! []
+
+        UpdateClientMatters number ->
+            let
+                updatedModel =
+                    { model | clientMattersWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateNewCases number ->
             let
                 updatedModel =
-                    { model | newCasesWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
+                    { model | newCasesWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateSignpostedInternally number ->
             let
                 updatedModel =
-                    { model | signpostedInternallyWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
+                    { model | signpostedInternallyWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateInternalAppointments number ->
             let
                 updatedModel =
-                    { model | internalAppointmentsWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
+                    { model | internalAppointmentsWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateSignpostedExternally number ->
             let
                 updatedModel =
-                    { model | signpostedExternallyWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
+                    { model | signpostedExternallyWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
@@ -227,21 +226,21 @@ update msg model =
                     , peopleSeenWeeklyAll = response.peopleSeen
                     , displayStatsModal = True
                 }
-                    ! [ scrollToTop, delay (Time.second * 3) (ChangeView ListComments) ]
+                    ! [ scrollToTop, newUrl "/#list-comments", delay (Time.second * 3) ToggleStatsModal ]
 
             else
                 { model
                     | postStatsStatus = ResponseSuccess
                     , listStatsStatus = ResponseFailure
-                    , displayStatsModal = False
+                    , displayStatsModal = True
                 }
-                    ! [ scrollToTop ]
+                    ! [ scrollToTop, newUrl "/#list-comments", delay (Time.second * 3) ToggleStatsModal ]
 
         ReceiveStats (Err response) ->
             { model
                 | postStatsStatus = ResponseFailure
                 , listStatsStatus = ResponseFailure
-                , displayStatsModal = True
+                , displayStatsModal = False
             }
                 ! []
 
@@ -324,28 +323,28 @@ update msg model =
         UpdateStudentVolunteersWeekly number ->
             let
                 updatedModel =
-                    { model | studentVolunteersWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
+                    { model | studentVolunteersWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateLawyerVolunteersWeekly number ->
             let
                 updatedModel =
-                    { model | lawyerVolunteersWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
+                    { model | lawyerVolunteersWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateVacanciesWeekly number ->
             let
                 updatedModel =
-                    { model | vacanciesWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
+                    { model | vacanciesWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
         UpdateMediaCoverageWeekly number ->
             let
                 updatedModel =
-                    { model | mediaCoverageWeekly = Just <| max (Result.withDefault 0 (String.toInt number)) 0 }
+                    { model | mediaCoverageWeekly = max (Result.withDefault 0 (String.toInt number)) 0 }
             in
             updatedModel ! []
 
