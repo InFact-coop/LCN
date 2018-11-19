@@ -34,15 +34,8 @@ body {
 }
 
 /* Flickity Styling */
-.flickity-prev-next-button.previous {
+.flickity-prev-next-button {
   display: none;
-}
-
-.flickity-prev-next-button.next {
-  right: -3.5rem;
-  border: 1px solid white;
-  border-radius: 100%;
-  background: transparent;
 }
 
 .flickity-button-icon {
