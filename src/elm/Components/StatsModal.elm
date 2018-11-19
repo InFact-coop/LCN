@@ -1,10 +1,71 @@
 module Components.StatsModal exposing (statsModal)
 
-import Components.StyleHelpers exposing (classes, displayElement)
-import Helpers exposing (prettifyNumber)
+import Components.StyleHelpers exposing (classes, displayElement, emptySpan)
+import Helpers exposing (ifThenElse, prettifyNumber, unionTypeToString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Types exposing (..)
+
+
+caseWorkerStat : StatsData -> LawArea -> Html Msg
+caseWorkerStat statsData lawArea =
+    div []
+        [ h2 [ classes [ "f2", "fw3", "mt3", "mb4" ] ]
+            [ text "seen "
+            , span [ class "pink b" ] [ text <| (prettifyNumber <| Maybe.withDefault 0 <| statsData.clientMattersByArea) ++ " " ++ unionTypeToString lawArea ++ " cases " ]
+            , text "(and "
+            , span [ class "pink b" ] [ text <| (prettifyNumber <| Maybe.withDefault 0 <| statsData.clientMatters) ++ " cases " ]
+            , text "altogether)"
+            ]
+        ]
+
+
+managementStat : StatsData -> Html Msg
+managementStat statsData =
+    let
+        lawyerVolunteers =
+            statsData.lawyerVolunteers |> Maybe.withDefault 0
+
+        studentVolunteers =
+            statsData.studentVolunteers |> Maybe.withDefault 0
+    in
+    div []
+        [ h2 [ classes [ "f2", "fw3", "mt3", "mb4" ] ]
+            [ text "involved "
+            , span [ class "pink b" ] [ text <| (prettifyNumber <| lawyerVolunteers + studentVolunteers) ++ " " ++ " volunteers" ]
+            ]
+        , h2 [ classes [ "f2", "fw3", "mt3", "mb4" ] ]
+            [ text "advertised "
+            , span [ class "pink b" ] [ text <| (prettifyNumber <| Maybe.withDefault 0 <| statsData.vacancies) ++ " job opportunities" ]
+            ]
+        , h2 [ classes [ "f2", "fw3", "mt3", "mb4" ] ]
+            [ text "been covered in "
+            , span [ class "pink b" ] [ text <| (prettifyNumber <| Maybe.withDefault 0 <| statsData.mediaCoverage) ++ " stories " ]
+            , text "in the media"
+            ]
+        ]
+
+
+triageStat : StatsData -> Html Msg
+triageStat statsData =
+    div []
+        [ h2 [ classes [ "f2", "fw3", "mt3", "mb4" ] ]
+            [ text "responded to "
+            , span [ class "pink b" ] [ text <| (prettifyNumber <| Maybe.withDefault 0 <| statsData.enquiries) ++ " enquiries " ]
+            ]
+        ]
+
+
+statsResponseView : Model -> Html Msg
+statsResponseView model =
+    div []
+        [ h2 [ classes [ "f2", "fw5", "mt3" ] ]
+            [ text "With your help," ]
+        , h2 [ classes [ "f2", "fw5", "mb4" ] ] [ text "this week Law Centres have..." ]
+        , ifThenElse (List.member CaseWorker model.roles) (caseWorkerStat model.statsResponse model.lawArea) emptySpan
+        , ifThenElse (List.member Triage model.roles) (triageStat model.statsResponse) emptySpan
+        , ifThenElse (List.member Management model.roles) (managementStat model.statsResponse) emptySpan
+        ]
 
 
 statsModal : Model -> Html Msg
@@ -35,20 +96,7 @@ statsModal model =
             ]
             []
         , section [ classes [ "success" ] ]
-            [ h1 [ classes [ "f2", "mb4", "mt3" ] ] [ text <| "Thank you" ++ name ++ "!" ]
-            , h2 [ classes [ "f2", "fw3", "mt3" ] ]
-                [ text "With your help," ]
-            , h2 [ classes [ "f2", "fw3", "mt3", "mb4" ] ]
-                [ text "we've seen "
-                , span
-                    [ classes
-                        [ "pink"
-                        , "b"
-                        , displayElement <| model.listStatsStatus == ResponseSuccess
-                        ]
-                    ]
-                    [ text <| prettifyNumber model.peopleSeenWeeklyAll ++ " people" ]
-                , text " this week!"
-                ]
+            [ h1 [ classes [ "f2", "mb4", "mt3", "b" ] ] [ text <| "Thank you" ++ name ++ "!" ]
+            , statsResponseView model
             ]
         ]

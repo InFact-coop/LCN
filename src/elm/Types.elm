@@ -8,6 +8,7 @@ module Types exposing
     , Msg(..)
     , RemoteData(..)
     , Role(..)
+    , StatsData
     , StatsResponse
     , UpvoteResponse
     , UserDetails
@@ -50,6 +51,7 @@ type alias Model =
     , internalAppointmentsWeekly : Int
     , commentBody : String
     , commentType : CommentType
+    , statsResponse : StatsData
     , comments : List Comment
     , postCommentStatus : RemoteData
     , postStatsStatus : RemoteData
@@ -58,7 +60,6 @@ type alias Model =
     , postUserDetailsStatus : RemoteData
     , listStatsStatus : RemoteData
     , listCommentsStatus : RemoteData
-    , peopleSeenWeeklyAll : Int
     , displayStatsModal : Bool
     , displayCommentModal : Bool
     , problems : List String
@@ -179,7 +180,18 @@ type CommentType
 type alias StatsResponse =
     { postSuccess : Bool
     , getSuccess : Bool
-    , peopleSeen : Int
+    , statsResponse : StatsData
+    }
+
+
+type alias StatsData =
+    { clientMatters : Maybe Int
+    , clientMattersByArea : Maybe Int
+    , enquiries : Maybe Int
+    , vacancies : Maybe Int
+    , mediaCoverage : Maybe Int
+    , lawyerVolunteers : Maybe Int
+    , studentVolunteers : Maybe Int
     }
 
 
