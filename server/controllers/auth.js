@@ -50,7 +50,7 @@ const login_get = (req, res) => {
 const login_post = passport => {
   return passport.authenticate("login", {
     successRedirect: "/",
-    failureRedirect: "/",
+    failureRedirect: "/login",
     failureFlash: true
   });
 };
