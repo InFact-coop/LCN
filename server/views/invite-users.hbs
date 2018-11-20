@@ -1,6 +1,6 @@
 <div class="bg-white center">
   <nav class="w-100 mw9 h4 bg-white flex-row justify-between items-center flex flex-row justify-between items-center center">
-    <a href="/" class="pointer"><img src="/assets/lcn-logo.png" class="h4"></a>
+    <a href="/" class="pointer pa3"><img src="/assets/lcn-logo.png" class="h3"></a>
     <div class="dn db-ns">
       <a class="dib mh3 black f4 link pointer" href="/">Back to App</a>
       <a class="dib mh3 black f4 link pointer" href="/logout">Log out</a>
@@ -10,29 +10,28 @@
 
 <div class="flex flex-column mt4 mw7-ns center">
   <h1 class="f3 fw6">Invite others (admin)</h1>
-  <p class="f4 lh-copy fw3">As an admin, you're able to invite people to join the LCN app. Please enter their details below and click 'Submit' to invite them.</p>
+  <p class="f4 lh-copy fw3">As an admin, you're able to invite people to join the LCN app. Please enter their details below
+    and click 'Submit' to invite them.</p>
 
   {{#if results}}
-    <div class="bl b--green bw1 mt3 pl2">
-      <h1 class="f4 fw6 mb2">Thanks!</h1>
+  <div class="bl b--green bw1 mt3 pl2">
+    <h1 class="f4 fw6 mb2">Thanks!</h1>
 
-      {{#if results.users_invited}}
-        <p class="f5 lh-copy fw3 mb2">The following users have been invited:</p>
-        <ul>
-          {{#each results.users_invited}}
-            <li class="f5 lh-copy fw3 mb2 ml2 i">{{this.name}} - {{this.email}}</li>
-          {{/each}}
-        </ul>
-      {{/if}}
+    {{#if results.users_invited}}
+    <p class="f5 lh-copy fw3 mb2">The following users have been invited:</p>
+    <ul>
+      {{#each results.users_invited}}
+      <li class="f5 lh-copy fw3 mb2 ml2 i">{{this.name}} - {{this.email}}</li>
+      {{/each}}
+    </ul>
+    {{/if}} {{#if results.already_signed_up_users}}
+    <p class="f5 lh-copy fw3">The other users submitted have either already signed up or already been sent a sign up link.</p>
+    {{else if results.users_already_invited}}
+    <p class="f5 lh-copy fw3">The other users submitted have either already signed up or already been sent a sign up link.</p>
+    {{/if}}
 
-      {{#if results.already_signed_up_users}}
-        <p class="f5 lh-copy fw3">The other users submitted have either already signed up or already been sent a sign up link.</p>
-      {{else if results.users_already_invited}}
-        <p class="f5 lh-copy fw3">The other users submitted have either already signed up or already been sent a sign up link.</p>
-      {{/if}}
-
-      <p class="f5 lh-copy fw3">If you'd like to invite more users, please fill and submit the form again.</p>
-    </div>
+    <p class="f5 lh-copy fw3">If you'd like to invite more users, please fill and submit the form again.</p>
+  </div>
   {{/if}}
 
   <div class="flex flex-column pv4">
@@ -49,11 +48,9 @@
 
     <form class="" action="/invite-users" method="post">
 
-      {{> name-email-invite-inputs name="user1[name]" email="user1[email]"}}
-      {{> name-email-invite-inputs name="user2[name]" email="user2[email]"}}
-      {{> name-email-invite-inputs name="user3[name]" email="user3[email]"}}
-      {{> name-email-invite-inputs name="user4[name]" email="user4[email]"}}
-      {{> name-email-invite-inputs name="user5[name]" email="user5[email]"}}
+      {{> name-email-invite-inputs name="user1[name]" email="user1[email]"}} {{> name-email-invite-inputs name="user2[name]" email="user2[email]"}}
+      {{> name-email-invite-inputs name="user3[name]" email="user3[email]"}} {{> name-email-invite-inputs name="user4[name]"
+      email="user4[email]"}} {{> name-email-invite-inputs name="user5[name]" email="user5[email]"}}
 
       <button type="submit" class="mr4 white bg-green pointer bn br2 pv3 ph3 w5 white f3 fw3 mt4">Submit</button>
 

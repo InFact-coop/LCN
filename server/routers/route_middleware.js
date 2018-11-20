@@ -1,7 +1,9 @@
 const is_logged_in = (req, res, next) => {
+  const onboardingURL = `/onboarding?token=${req.query.token}`;
+
   if (req.isAuthenticated()) return next();
-  if (req.query.token) res.redirect(`/onboarding?token=${req.query.token}`);
-  res.redirect("/onboarding");
+  if (req.query.token) return res.redirect(onboardingURL);
+  return res.redirect("/onboarding");
 };
 
 const is_admin = (req, res, next) => {

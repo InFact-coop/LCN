@@ -138,7 +138,7 @@ const reset_password_post = (req, res) => {
           console.log("422 ERROR SENDING SUCCESS MAIL: ", err);
         }
         req.flash("loginMessage", "Password successfully reset. Please login");
-        return res.redirect("/");
+        return res.redirect("/login");
       });
     });
   });
@@ -200,7 +200,7 @@ const forgot_password_post = (req, res) => {
               "loginMessage",
               "Please check your email for further instructions"
             );
-            return res.redirect("/");
+            return res.redirect("/login");
           } else {
             console.log("Error sending reset email: ", err);
             return reject(
