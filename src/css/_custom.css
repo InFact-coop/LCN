@@ -171,10 +171,14 @@ input[type="checkbox"] {
   border-radius: 5px;
   border: 2px solid var(--light-gray);
 }
-input[type="checkbox"]:checked {
-  background: var(--pink);
+
+.checked-orange:checked {
+  background: var(--orange);
 }
 
+.checked-pink:checked {
+  background: var(--pink);
+}
 /* Custom Select */
 .override-select {
   -webkit-appearance: none;

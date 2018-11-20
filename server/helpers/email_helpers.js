@@ -1,6 +1,6 @@
 const smtpTransport = require("../config/nodemailer");
 
-const send_invite_email = ({ user, token }) => {
+const send_invite_email = ({ user }) => {
   const data = {
     to: user.email,
     from: process.env.MAILER_EMAIL_ID,

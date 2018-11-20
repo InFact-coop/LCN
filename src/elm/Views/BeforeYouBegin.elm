@@ -67,10 +67,23 @@ beforeYouBegin model =
                             )
                         ]
                     ]
-                , bigColouredButton (validate model) "green" (ifThenElse (model.postUserDetailsStatus == Loading) "..." "Submit") PostNewUserDetails
+                , submitButton model
                 ]
             ]
         ]
+
+
+submitButton : Model -> Html Msg
+submitButton model =
+    case model.postStatsStatus of
+        Loading ->
+            bigColouredButton True
+                "gray"
+                "..."
+                NoOp
+
+        _ ->
+            bigColouredButton (validate model) "green" "Submit" PostNewUserDetails
 
 
 validate : Model -> Bool
