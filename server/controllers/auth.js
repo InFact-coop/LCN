@@ -62,7 +62,11 @@ const home_get = (req, res) => {
 };
 
 const onboarding_get = (req, res) => {
-  res.render("onboarding", {});
+  res.render("onboarding", {
+    url: req.query.token
+      ? `https://lawcentres.herokuapp.com/signup?token=${req.query.token}`
+      : null
+  });
 };
 
 const reset_password_get = (req, res) => {

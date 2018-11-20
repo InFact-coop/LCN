@@ -8,7 +8,7 @@ const send_invite_email = ({ user, token }) => {
     subject: "Invitation to LCN Feedback App - to be actioned within a week",
     context: {
       name: user.full_name.split(" ")[0],
-      url: `https://lawcentres.herokuapp.com/signup?token=${user.signup_token}`
+      url: `https://lawcentres.herokuapp.com/?token=${user.signup_token}`
     }
   };
 
