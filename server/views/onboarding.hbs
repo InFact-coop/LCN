@@ -23,10 +23,14 @@
         <h1 class="f2 b mb3">Welcome to LCN's Data Tool!</h1>
         <p class="mb3">Data Tool is the Law Centre Network platform for capturing the kinds of cases we see, and the amount
           of work we do on them, and pooling them to give an overall picture.</p>
-        <p class="mb3">This will also help Law Centres talk about what we do in a more impactful way: giving an idea of
-          the problems we see and how common they are, all on a current basis.</p>
+        <p class="mb3">This will also help Law Centres talk about what we do in a more impactful way: giving an idea of the
+          problems we see and how common they are, all on a current basis.</p>
         <p class="mb4">As with most things, the more data we collect, the more useful it will be!</p>
+        {{#if url}}
+        <a id="js-login-button" class="transition-half-s link white dib bn br2 pv3 ph4 bg-green" href={{url}}>Get started!</a>
+        {{else}}
         <a id="js-login-button" class="transition-half-s link white dib bn br2 pv3 ph4 bg-green" href="/login">Login</a>
+        {{/if}}
       </div>
     </section>
     <section id="js-splash" class="w-third bg-green transition-half-s vh-100">

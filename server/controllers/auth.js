@@ -62,7 +62,13 @@ const home_get = (req, res) => {
 };
 
 const onboarding_get = (req, res) => {
-  res.render("onboarding", {});
+  const url = req.query.token
+    ? `https://lawcentres.herokuapp.com/signup?token=${req.query.token}`
+    : null;
+
+  res.render("onboarding", {
+    url
+  });
 };
 
 const reset_password_get = (req, res) => {
@@ -132,7 +138,7 @@ const reset_password_post = (req, res) => {
           console.log("422 ERROR SENDING SUCCESS MAIL: ", err);
         }
         req.flash("loginMessage", "Password successfully reset. Please login");
-        return res.redirect("/");
+        return res.redirect("/login");
       });
     });
   });
@@ -194,7 +200,7 @@ const forgot_password_post = (req, res) => {
               "loginMessage",
               "Please check your email for further instructions"
             );
-            return res.redirect("/");
+            return res.redirect("/login");
           } else {
             console.log("Error sending reset email: ", err);
             return reject(
