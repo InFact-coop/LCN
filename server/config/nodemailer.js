@@ -1,7 +1,5 @@
 const hbs = require("nodemailer-express-handlebars");
 const nodemailerSendgrid = require("nodemailer-sendgrid");
-const email = process.env.MAILER_EMAIL_ID;
-const pass = process.env.MAILER_EMAIL_PASSWORD;
 const nodemailer = require("nodemailer");
 const path = require("path");
 
